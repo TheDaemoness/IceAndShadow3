@@ -5,6 +5,10 @@ __A brutal post-endgame dimension mod for Minecraft 1.12.__
 
 This is a rewrite of the rewrite of the original Ice and Shadow mod to both rework its content and be a bit more future-proof for a change.
 
+Adds a new cold, dark, and highly hostile dimension to Minecraft.
+Its entry requirements and offerings make it a potential long-term destination after finishing most of vanilla Minecraft's progression.
+Indefinite survival is possible, though survival on Nyx comes with unique challenges.
+
 ## Dependencies
 
 * Minecraft 1.12.2
@@ -12,10 +16,7 @@ This is a rewrite of the rewrite of the original Ice and Shadow mod to both rewo
 
 ## Getting Started
 
-1. Find an area in the Overworld cold enough for snow to fall.
-2. Wait until a night of a new moon, at which point dimensional rifts will sometimes spawn on the surface.
-3. Kill the Disturbed Wanderers that spawn.
-4. Refer to their dropped notes for more information.
+__NYI.__
 
 ## Versioning
 
@@ -36,8 +37,4 @@ IaS3 uses a four-number semantic versioning scheme. Each field of the version ma
 	* Are backward-compatible configuration file changes.
 	* Do not affect compatibility (e.g., balance changes, most bugfixes).
 
-If the major or revision numbers are zero, that particular build of IaS3 should be considered unstable.
-
-### Alt Version
-
-A few locations in IaS3 also use an alternate scheme, which is `Revision-Major.Minor` and may have `-unstable` tacked onto the end.
+If the major or revision numbers are zero, that particular build of IaS3 should be considered unstable, and major version breakages may happen on minor versions.
