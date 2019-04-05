@@ -9,5 +9,5 @@ public class DispatchInit {
 	static void initRegistries() {}
 	static void initLate(Side side) {}
 	static void fillRegister(RegistryEvent.Register r) {}
-	public static void addCommands(FMLServerStartingEvent event) {}
+	static void addCommands(FMLServerStartingEvent event) {}
 }
