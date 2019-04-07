@@ -4,4 +4,4 @@ The following package contains various wrappers+adapters for keeping Minecraft's
 
 This is where most "A" and "C" classes are declared.
 
-Breakages between versions are most likely (ideally, only) going to happen here.
+This package is the ONLY place where Minecraft classes may be referenced/used directly.

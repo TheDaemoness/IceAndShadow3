@@ -8,8 +8,9 @@ import net.minecraft.server.MinecraftServer;
  * Fairly incomplete; will be extended when need be.
  */
 public class CServerCmdSender {
-	public MinecraftServer server;
-	public ICommandSender sender;
+	final MinecraftServer server;
+	final ICommandSender sender;
+	
 	public CServerCmdSender(MinecraftServer server, ICommandSender sender) {
 		this.server = server;
 		this.sender = sender;
