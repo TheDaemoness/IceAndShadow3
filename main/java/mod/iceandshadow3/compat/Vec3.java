@@ -1,6 +1,5 @@
 package mod.iceandshadow3.compat;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 
@@ -79,6 +78,10 @@ public class Vec3 implements Cloneable, Comparable<Vec3> {
 	}
 	public double dot(Vec3 b) {
 		return toDouble(x*b.x + (long)y*b.y + z*b.z);
+	}
+	
+	public BlockPos toBlockPos() {
+		return new BlockPos(xBlock(), yBlock(), zBlock());
 	}
 	
 	@Override

@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.RegistryBuilder;
 
@@ -59,10 +60,22 @@ public class IceAndShadow3 {
 
     private static Logger beaver;
     
-    @EventHandler
-    public void onConfigChangedEvent(OnConfigChangedEvent event) {
-        if (event.getModID().equals(MODID)) Config.sync();
-    }
+	@SubscribeEvent
+	public void onConfigChangedEvent(OnConfigChangedEvent event) {
+		if (event.getModID().equals(MODID)) Config.sync();
+	}
+
+	@SubscribeEvent
+	public void registerRegistry(RegistryEvent.NewRegistry event) {
+		DispatchInit.initRegistries();
+	}
+
+	@SubscribeEvent
+	public void register(RegistryEvent.Register event) {
+		DispatchInit.fillRegister(event);
+		DispatchSynergy.fillRegister(event);
+	}
+    
 	@EventHandler
     public void init1(FMLPreInitializationEvent event) {
 		Config.sync();
@@ -72,16 +85,8 @@ public class IceAndShadow3 {
         	event.getModMetadata().version = (BRANCH != null) ? BRANCH : V_STRING;
         } else event.getModMetadata().version = V_STRING;
         DispatchInit.initEarly(event.getSide());
+        MinecraftForge.EVENT_BUS.register(this);
     }
-	@EventHandler
-	public void registerRegistry(RegistryEvent.NewRegistry event) {
-		DispatchInit.initRegistries();
-	}
-	@EventHandler
-	public void register(RegistryEvent.Register event) {
-		DispatchInit.fillRegister(event);
-		DispatchSynergy.fillRegister(event);
-	}
     @EventHandler
     public void init2(FMLInitializationEvent event) {
         DispatchInit.initLate(event.getSide());
