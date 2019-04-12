@@ -1,6 +1,7 @@
 package mod.iceandshadow3.basics;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ public class Damage {
 	public float onDamage(CRefEntity victim) {
 		float damagetotal = 0f;
 		for(Map.Entry<EDamageType, Float> dmg : damages.entrySet()) {
-			damagetotal += dmg.getKey().onHarm(victim, dmg.getValue());
+			damagetotal += dmg.getKey().onHarm.apply(victim, dmg.getValue());
 		}
 		return damagetotal;
 	}

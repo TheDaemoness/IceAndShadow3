@@ -34,7 +34,7 @@ public class Config {
 		public void setDimId(int realid) {dimid = realid;}
     }
 
-    @Comment("Nyx-specific Options")
+    @Name("Nyx Options")
     public static NyxConfig nyx = new NyxConfig();
     
     public static void sync() {

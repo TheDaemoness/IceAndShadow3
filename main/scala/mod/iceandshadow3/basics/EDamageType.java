@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics;
 
-import java.util.concurrent.Callable;
+import java.util.function.BiFunction;
 
 import javax.annotation.Nullable;
 
@@ -15,18 +15,8 @@ public enum EDamageType {
 	TOXIN(null),
 	EXOUSIA(null);
 	
-	private EDamageType(@Nullable Object o) {
-		
-	}
-	
-	///Modify the damage taken by an entity and apply on-hit effects.
-	public float onHarm(CRefEntity victim, float amount) {
-		//TODO: Resistance calculations.
-		return amount;
-	}
-	
-	///Handle additional effects that should trigger upon a successful kill using a certain type.
-	public void onKill(CRefEntity victim, float percent) {
-		//TODO: Autotyped method stub.
+	BiFunction<CRefEntity, Float, Float> onHarm;
+	private EDamageType(@Nullable BiFunction<CRefEntity, Float, Float> fn) {
+		onHarm = fn;
 	}
 }
