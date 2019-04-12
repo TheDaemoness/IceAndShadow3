@@ -1,6 +1,5 @@
 package mod.iceandshadow3.compat;
 
-import mod.iceandshadow3.basics.Damage;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -93,7 +92,7 @@ public class CRefBlock extends BCRefWorld implements IEffectSource {
 		return new TextComponentString(impl.getBS().getBlock().getLocalizedName());
 	}
 	@Override
-	public Damage getAttack() {
+	public mod.iceandshadow3.basics.Damage getAttack() {
 		return null;
 	}
 }

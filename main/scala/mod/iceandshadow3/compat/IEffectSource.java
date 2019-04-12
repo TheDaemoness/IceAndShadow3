@@ -9,5 +9,5 @@ import net.minecraft.util.text.ITextComponent;
 
 public interface IEffectSource extends ILocalizable {
 	public default @Nullable Entity getEffectSourceEntity() {return null;}
-	public @Nullable Damage getAttack();
+	public @Nullable mod.iceandshadow3.basics.Damage getAttack();
 }

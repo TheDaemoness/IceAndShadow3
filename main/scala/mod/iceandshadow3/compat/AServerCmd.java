@@ -22,7 +22,7 @@ public class AServerCmd implements ICommand {
 			retval += "\nias-"+cmd.getName();
 			if(use != null) retval += " "+use; 
 		}
-		return retval.stripLeading();
+		return retval.substring(1);
 	}
 	AServerCmd(IServerCmd cmd) {
 		this.cmd = cmd;

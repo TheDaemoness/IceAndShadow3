@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.config.Config.*;
 
-@net.minecraftforge.common.config.Config(modid = IceAndShadow3.MODID)
+@net.minecraftforge.common.config.Config(modid = ModInfo.MODID)
 public class Config {
     @Name("Death System")
 	@Comment({"Use an alternate death system on IaS dimensions.","Disable if using a grave mod."})
@@ -38,6 +38,6 @@ public class Config {
     public static NyxConfig nyx = new NyxConfig();
     
     public static void sync() {
-    	ConfigManager.sync(IceAndShadow3.MODID, Type.INSTANCE);
+    	ConfigManager.sync(ModInfo.MODID, Type.INSTANCE);
     }
 }
