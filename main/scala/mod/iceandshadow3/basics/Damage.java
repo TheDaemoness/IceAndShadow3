@@ -27,6 +27,9 @@ public class Damage {
 	public IEffectSource getSource() {
 		return source;
 	}
+	public EDamageShape getShape() {
+		return shape;
+	}
 	
 	/**
 	 * Applies on-damage effects and calculates damage taken.

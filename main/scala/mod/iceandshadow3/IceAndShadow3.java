@@ -56,6 +56,12 @@ public class IceAndShadow3 {
         Init$.MODULE$.initEarly(event.getSide());
         MinecraftForge.EVENT_BUS.register(this);
     }
+	
+	@SubscribeEvent
+	public void register(RegistryEvent.Register event) {
+		//Stub.
+	}
+	
     @EventHandler
     public void init2(FMLInitializationEvent event) {
         Init$.MODULE$.initMid(event.getSide());

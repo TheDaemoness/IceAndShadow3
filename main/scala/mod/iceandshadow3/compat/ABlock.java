@@ -3,8 +3,10 @@ package mod.iceandshadow3.compat;
 import java.util.List;
 
 import mod.iceandshadow3.basics.BlockLogic;
+import mod.iceandshadow3.basics.IBlockLogicProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -12,16 +14,28 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.IShearable;
 
-public class ABlock extends Block implements BlockLogic.IProvider, IShearable {
+public class ABlock extends Block implements IBlockLogicProvider, IShearable {
+	
 	protected final BlockLogic bl;
-	public ABlock(BlockLogic blocklogic) {
-		super(blocklogic.getMateria().mcmat);
+	
+	//Critical that all BlockLogic adapters have a BlockLogic, int/Integer constructor.
+	ABlock(BlockLogic blocklogic, int variantbias) {
+		super(((BBlockLogic)blocklogic).materia.mcmat);
 		bl = blocklogic;
-		this.blockHardness = bl.getMateria().getBaseHardness();
-		this.blockResistance = bl.getMateria().getBaseBlastResist();
-		this.lightOpacity = bl.getMateria().getBaseOpacity();
-		this.lightValue = bl.getMateria().getBaseLuma();
-		this.translucent = ! bl.getMateria().isOpaque();
+		final BMateria mat = ((BBlockLogic)blocklogic).materia;
+		this.blockHardness = mat.getBaseHardness();
+		this.blockResistance = mat.getBaseBlastResist();
+		this.lightOpacity = mat.getBaseOpacity();
+		this.lightValue = mat.getBaseLuma();
+		this.translucent = !mat.isOpaque();
+		if(!bl.isTechnical()) SCreativeTab.add(this);
+	}
+	public int getVariantId(IBlockState bs) {
+		return 0;
+	}
+	@Override
+	public int maxVariants() {
+		return 1;
 	}
 	
 	@Override
@@ -31,7 +45,7 @@ public class ABlock extends Block implements BlockLogic.IProvider, IShearable {
 
 	@Override
 	public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) {
-		return bl.getMateria().isToolClassEffective(HarvestMethod.SHEAR);
+		return bl.isToolClassEffective(HarvestMethod.SHEAR);
 	}
 
 	@Override
@@ -40,3 +54,4 @@ public class ABlock extends Block implements BlockLogic.IProvider, IShearable {
 		return null;
 	}
 }
+
