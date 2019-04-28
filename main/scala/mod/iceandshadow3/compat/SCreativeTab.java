@@ -1,29 +1,22 @@
 package mod.iceandshadow3.compat;
 
-import mod.iceandshadow3.ModInfo;
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
+import mod.iceandshadow3.IceAndShadow3;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraftforge.registries.ObjectHolder;
 
 class SCreativeTab {
-	private static class Tab extends CreativeTabs {
-		@ObjectHolder(ModInfo.MODID+":strange_talisman")
+	private static class Tab extends ItemGroup {
+		//@ObjectHolder(ModInfo.MODID+":strange_talisman")
 		private static final Item talisman = null;
 		
-		public Tab() {super(ModInfo.MODID);}
+		public Tab() {super(IceAndShadow3.MODID);}
 
 		@Override
-		public ItemStack getTabIconItem() {
+		public ItemStack createIcon() {
 			return new ItemStack(talisman);
 		}
 	}
-	private static final CreativeTabs tab = new SCreativeTab.Tab();
-	static final void add(Item it) {
-		it.setCreativeTab(tab);
-	}
-	static final void add(Block bl) {
-		bl.setCreativeTab(tab);
-	}
+	public static final ItemGroup GROUP = new SCreativeTab.Tab();
 }

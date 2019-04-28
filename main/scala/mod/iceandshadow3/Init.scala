@@ -2,16 +2,18 @@ package mod.iceandshadow3
 
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent
-import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent
+import net.minecraft.server.MinecraftServer
+import net.minecraftforge.fml.InterModComms
 
 object Init {
-	def initEarly(arg: Side): Unit = {}
-	def initRegistries(arg: RegistryEvent.NewRegistry): Unit = {}
+	def initEarly(): Unit = {} //TODO: Domain construction.
+	def initCommon(): Unit = {}
+	def initClient(): Unit = {}
+	def imcSend(): Unit = {}
+	def initRegistries(): Unit = {} //TODO: RegistryBuilder
 	//def register(arg: RegistryEvent.Register[]): Unit = {} //Going to want several of these.
-	def initMid(arg: Side): Unit = {}
-	def msg(arg: IMCMessage): Unit = {}
-	def initLate(arg: Side): Unit = {}
-	def serverStarting(arg: FMLServerStartingEvent): Unit = {}
+	def imcRecv(arg: java.util.stream.Stream[InterModComms.IMCMessage]): Unit = {}
+	def serverStarting(server: MinecraftServer): Unit = {}
 }

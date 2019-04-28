@@ -7,7 +7,7 @@ import mod.iceandshadow3.compat.HarvestMethod
 
 class BlockLogic(mat: BMateria) extends BBlockLogic(mat) {
 	def isToolClassEffective(method: HarvestMethod): Boolean =
-		mat.isToolClassEffective(method)
+		this.getMateria().isToolClassEffective(method)
 }
 trait IBlockLogicProvider {
 	def getBlockLogic(): BlockLogic

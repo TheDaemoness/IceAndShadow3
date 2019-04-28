@@ -1,14 +1,10 @@
 package mod.iceandshadow3.basics;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import mod.iceandshadow3.compat.ADamageSource;
 import mod.iceandshadow3.compat.CRefEntity;
 import mod.iceandshadow3.compat.IEffectSource;
-import mod.iceandshadow3.compat.ILocalizable;
 
 public class Damage {
 	protected EnumMap<EDamageType, Float> damages = new EnumMap<>(EDamageType.class);

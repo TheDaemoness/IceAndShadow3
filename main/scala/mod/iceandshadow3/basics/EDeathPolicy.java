@@ -1,6 +1,5 @@
 package mod.iceandshadow3.basics;
 
-import mod.iceandshadow3.Config;
 import mod.iceandshadow3.util.SMath;
 
 public enum EDeathPolicy {

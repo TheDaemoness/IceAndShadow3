@@ -1,86 +1,66 @@
 package mod.iceandshadow3;
 
-import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SaveInspectionHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.registries.RegistryBuilder;
-
-import java.io.File;
-
-import org.apache.logging.log4j.Logger;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ConfigTracker;
+import net.minecraftforge.fml.event.lifecycle.*;
+import net.minecraftforge.fml.event.server.*;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ModInfo.MODID,
-	name = ModInfo.NAME,
-	version = ModInfo.V_STRING,
-	acceptedMinecraftVersions = ModInfo.MCVER_RANGE,
-	acceptableSaveVersions = ModInfo.V_RANGE_SAVE,
-	acceptableRemoteVersions = ModInfo.V_RANGE_REMOTE,
-	updateJSON = "https://raw.githubusercontent.com/TheDaemoness/IceAndShadow3/master/update.json",
-	dependencies = ""
-	)
+import java.util.stream.Collectors;
+
+@Mod(IceAndShadow3.MODID)
 public class IceAndShadow3 {
+	private static final Logger BEAVER = LogManager.getLogger();
+	// The value here should match an entry in the META-INF/mods.toml file
+	public static final String MODID = "iceandshadow3";
 
-    private static Logger beaver;
-    
-	@SubscribeEvent
-	public void onConfigChangedEvent(OnConfigChangedEvent event) {
-		if (ModInfo.MODID.equals(event.getModID())) Config.sync();
+	public IceAndShadow3() {
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		bus.addListener(this::initRegistries);
+		bus.addListener(this::initCommon);
+		bus.addListener(this::initClient);
+		bus.addListener(this::enqueueIMC);
+		bus.addListener(this::processIMC);
+		bus.addListener(this::onServerStarting);
+
+		MinecraftForge.EVENT_BUS.register(this);
+		
+		Init$.MODULE$.initEarly();
 	}
 
-	@SubscribeEvent
-	public void registerRegistry(RegistryEvent.NewRegistry event) {
-		Init$.MODULE$.initRegistries(event);
-	}
-    
-	@EventHandler
-    public void init1(FMLPreInitializationEvent event) {
-		Config.sync();
-        beaver = event.getModLog();
-        if(ModInfo.UNSTABLE) {
-        	beaver.warn("This copy of IaS3 is a development version, and may be unstable. YOU HAVE BEEN WARNED!");
-        	event.getModMetadata().version = (ModInfo.BRANCH != null) ? ModInfo.BRANCH : ModInfo.V_STRING;
-        } else event.getModMetadata().version = ModInfo.V_STRING;
-        Init$.MODULE$.initEarly(event.getSide());
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-	
-	@SubscribeEvent
-	public void register(RegistryEvent.Register event) {
-		//Stub.
+	private void initRegistries(final RegistryEvent.NewRegistry event) {
+		Init$.MODULE$.initRegistries();
 	}
 	
-    @EventHandler
-    public void init2(FMLInitializationEvent event) {
-        Init$.MODULE$.initMid(event.getSide());
-    }
-    @EventHandler
-    public void messageForYouSir(IMCEvent event) {
-    	for(IMCMessage msg : event.getMessages()) {
-    		Init$.MODULE$.msg(msg);
-    	}
-    }
-    @EventHandler
-    public void init3(FMLPostInitializationEvent event) {
-        Init$.MODULE$.initLate(event.getSide());
-    }
-	@EventHandler
-	public void serverLoad(FMLServerStartingEvent event) {
-		Init$.MODULE$.serverStarting(event);
+	private void initCommon(final FMLCommonSetupEvent event) {
+		Init$.MODULE$.initCommon();
 	}
-    
-    public static Logger logger() {return beaver;}
+
+	private void initClient(final FMLClientSetupEvent event) {
+		Init$.MODULE$.initClient();
+	}
+
+	private void enqueueIMC(final InterModEnqueueEvent event) {
+		Init$.MODULE$.imcSend();
+	}
+
+	private void processIMC(final InterModProcessEvent event) {
+		Init$.MODULE$.imcRecv(event.getIMCStream());
+	}
+	
+	private void onServerStarting(FMLServerStartingEvent event) {
+		Init$.MODULE$.serverStarting(event.getServer());
+	}
+
+	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+	public static class RegistryEvents {
+	}
+	
+	public static Logger logger() {return BEAVER;}
 }
-

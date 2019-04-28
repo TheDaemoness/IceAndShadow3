@@ -6,7 +6,8 @@ import net.minecraft.item.Item;
 public class AItem extends Item {
 	final ItemLogic il;
 	AItem(ItemLogic itemlogic) {
+		super(SLogicToProperties.convert(itemlogic));
 		il = itemlogic;
-		if(!il.isTechnical()) SCreativeTab.add(this);
+		//TODO: Creativetab.
 	}
 }

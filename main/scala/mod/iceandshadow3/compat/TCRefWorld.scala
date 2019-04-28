@@ -15,6 +15,4 @@ trait TCRefWorld {
 
   def isServerSide(): Boolean = !getWorld.isRemote
 
-  def getDimension(): CDimension =
-    CDimension.get(getWorld.provider.getDimension)
 }

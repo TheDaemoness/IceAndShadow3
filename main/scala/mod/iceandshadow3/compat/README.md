@@ -4,7 +4,5 @@ The following package contains various wrappers+adapters for keeping Minecraft's
 
 This is where most "A" and "C" classes are declared.
 
-This package is the ONLY place where Minecraft classes may be referenced/used directly.
-
 ## Block Requirements
 It's very important that all blocks have a `BlockLogic, int` constructor, as this gets called in `SBlockFactory`.

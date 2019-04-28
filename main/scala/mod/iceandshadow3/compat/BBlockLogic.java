@@ -1,6 +1,7 @@
 package mod.iceandshadow3.compat;
 
 import mod.iceandshadow3.basics.CommonLogic;
+import mod.iceandshadow3.basics.IMateria;
 
 public abstract class BBlockLogic extends CommonLogic {
 	final BMateria materia;
@@ -8,5 +9,6 @@ public abstract class BBlockLogic extends CommonLogic {
 		materia = mat;
 	}
 	
-	protected boolean isOfMateria(BMateria b) {return b == materia;}
+	protected IMateria getMateria() {return materia;}
+	public boolean isOfMateria(IMateria b) {return b == materia;}
 }

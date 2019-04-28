@@ -2,9 +2,16 @@
 
 Contains `IceAndShadow3`.
 
-Otherwise, exclusively contains pure-static classes which are immediately relevant to the overall initialization/configuration of IaS3.
+Otherwise, contains types and pure-static classes/singletons that are immediately relevant to the overall initialization/configuration of IaS3.
 
-Despite Scala offering the option to do otherwise, the Scala files mostly follow the one-public-class-per-file rule.
+## Type Usage Restrictions
+Certain types/interfaces/objects of certain types/enumerations may not be used outside of certain packages. Below is the list of such restrictions.
+
+Classes in `net.minecraft` or any subpackage may only be used in `mod.iceandshadow3.compat`.
+
+Classes in `net.minecraftforge` or any subpackage may only be used in `mod.iceandshadow3.forge`.
+
+These restrictions do not apply to the `mod.iceandshadow3` package itself.
 
 ## Type Name Prefixes
 Two adjacent capital letters at the start of a class/file name are indicative of a type name prefix.

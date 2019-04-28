@@ -4,7 +4,6 @@ import java.util.function.BiFunction;
 
 import javax.annotation.Nullable;
 
-import mod.iceandshadow3.compat.ADamageSource;
 import mod.iceandshadow3.compat.CRefEntity;
 
 public enum EDamageType {
