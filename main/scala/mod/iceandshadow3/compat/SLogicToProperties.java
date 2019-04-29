@@ -11,11 +11,13 @@ public class SLogicToProperties {
 		Block.Properties retval = Block.Properties.create(mat.mcmat);
 		retval.hardnessAndResistance(mat.getBaseHardness(), mat.getBaseBlastResist());
 		retval.lightValue(mat.getBaseLuma());
+		//TODO: There's more.
 		return retval;
 	}
 	static Item.Properties convert(ItemLogic log) {
 		Item.Properties retval = new Item.Properties();
 		retval.maxStackSize(log.stackLimit());
+		//TODO: There's more.
 		return retval;
 	}
 }

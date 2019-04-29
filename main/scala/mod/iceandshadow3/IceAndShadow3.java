@@ -1,5 +1,7 @@
 package mod.iceandshadow3;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -9,6 +11,7 @@ import net.minecraftforge.fml.config.ConfigTracker;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -60,6 +63,14 @@ public class IceAndShadow3 {
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
+		@SubscribeEvent
+		public static void registerBlocks(final RegistryEvent.Register<Block> reg) {
+			Init$.MODULE$.registerBlocks(reg.getRegistry());
+		}
+		@SubscribeEvent
+		public static void registerItems(final RegistryEvent.Register<Item> reg) {
+			Init$.MODULE$.registerItems(reg.getRegistry());
+		}
 	}
 	
 	public static Logger logger() {return BEAVER;}

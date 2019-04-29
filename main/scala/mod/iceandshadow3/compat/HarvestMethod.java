@@ -17,10 +17,10 @@ public class HarvestMethod {
 	}
 	
 	protected String name;
-	protected HarvestMethod(String string) {
+	private HarvestMethod(String string) {
 		this(string, string);
 	}
-	protected HarvestMethod(String name, @Nullable String classname) {
+	private HarvestMethod(String name, @Nullable String classname) {
 		this.name = name;
 		if(classname != null) lookups.putIfAbsent(classname, this);
 	}

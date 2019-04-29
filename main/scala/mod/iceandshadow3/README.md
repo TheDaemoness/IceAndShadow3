@@ -7,9 +7,10 @@ Otherwise, contains types and pure-static classes/singletons that are immediatel
 ## Type Usage Restrictions
 Certain types/interfaces/objects of certain types/enumerations may not be used outside of certain packages. Below is the list of such restrictions.
 
-Classes in `net.minecraft` or any subpackage may only be used in `mod.iceandshadow3.compat`.
-
-Classes in `net.minecraftforge` or any subpackage may only be used in `mod.iceandshadow3.forge`.
+Classes in `net.minecraft`, `net.minecraftforge` or any subpackage of the prior may only be used in:
+* `mod.iceandshadow3`
+* `mod.iceandshadow3.compat`
+* `mod.iceandshadow3.forge`
 
 These restrictions do not apply to the `mod.iceandshadow3` package itself.
 
@@ -45,11 +46,14 @@ Scala: a sealed class with a companion object that contains case objects that su
 ### 'I' - Interface
 Java: an `interface`.
 
-Scala: a `trait` that contains only `def`s.
+Scala: a `trait` that contains only public `def`s.
 
 ### "S" - Singleton/Static
-If a Java file, a class whose only purpose is to group together static methods.
+Java: a singleton OR a class whose only purpose is to group together static methods.
 
-If a Scala file, an `object`.
+Scala: an `object`.
 
 Not present on any of the classes in `mod.iceandshadow3` in specific, where it would be redundant.
+
+### "T" - Trait
+Always written in Scala. A trait that does NOT fit the criteria for the `I` prefix.
