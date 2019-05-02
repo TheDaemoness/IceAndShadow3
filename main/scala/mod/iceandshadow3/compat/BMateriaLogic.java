@@ -1,11 +1,12 @@
 package mod.iceandshadow3.compat;
 
-import mod.iceandshadow3.basics.CommonLogic;
+import mod.iceandshadow3.BDomain;
 import mod.iceandshadow3.basics.IMateria;
 
-public abstract class BBlockLogic extends CommonLogic {
+public abstract class BMateriaLogic extends BLogic {
 	final BMateria materia;
-	protected BBlockLogic(BMateria mat) {
+	protected BMateriaLogic(BDomain b, String name, BMateria mat) {
+		super(b, name);
 		materia = mat;
 	}
 	

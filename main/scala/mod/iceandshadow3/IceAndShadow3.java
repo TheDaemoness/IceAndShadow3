@@ -15,6 +15,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import mod.iceandshadow3.compat.CRegistryBlock;
+import mod.iceandshadow3.compat.CRegistryItem;
+
 import java.util.stream.Collectors;
 
 @Mod(IceAndShadow3.MODID)
@@ -34,42 +37,41 @@ public class IceAndShadow3 {
 
 		MinecraftForge.EVENT_BUS.register(this);
 		
-		Init$.MODULE$.initEarly();
+		Domains.initEarly();
 	}
 
 	private void initRegistries(final RegistryEvent.NewRegistry event) {
-		Init$.MODULE$.initRegistries();
+		ModSynergy$.MODULE$.makeRegistries();
 	}
 	
 	private void initCommon(final FMLCommonSetupEvent event) {
-		Init$.MODULE$.initCommon();
+		Domains.initLate();
 	}
 
 	private void initClient(final FMLClientSetupEvent event) {
-		Init$.MODULE$.initClient();
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
-		Init$.MODULE$.imcSend();
+		ModSynergy$.MODULE$.imcSend();
 	}
 
 	private void processIMC(final InterModProcessEvent event) {
-		Init$.MODULE$.imcRecv(event.getIMCStream());
+		ModSynergy$.MODULE$.imcRecv(event.getIMCStream());
 	}
 	
 	private void onServerStarting(FMLServerStartingEvent event) {
-		Init$.MODULE$.serverStarting(event.getServer());
+		
 	}
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> reg) {
-			Init$.MODULE$.registerBlocks(reg.getRegistry());
+			Domains.registerBlocks(new CRegistryBlock(reg.getRegistry()));
 		}
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
-			Init$.MODULE$.registerItems(reg.getRegistry());
+			Domains.registerItems(new CRegistryItem(reg.getRegistry()));
 		}
 	}
 	

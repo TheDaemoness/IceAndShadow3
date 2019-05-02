@@ -12,10 +12,8 @@ Classes in `net.minecraft`, `net.minecraftforge` or any subpackage of the prior 
 * `mod.iceandshadow3.compat`
 * `mod.iceandshadow3.forge`
 
-These restrictions do not apply to the `mod.iceandshadow3` package itself.
-
 ## Type Name Prefixes
-Two adjacent capital letters at the start of a class/file name are indicative of a type name prefix.
+Two or more adjacent capital letters at the start of a class/file name are indicative of a type name prefix.
 
 ### "A" - Adapter
 Always written in Java. Takes IaS3 objects (or their data) and exposes a Minecraft-compatible interface to them.
@@ -46,7 +44,7 @@ Scala: a sealed class with a companion object that contains case objects that su
 ### 'I' - Interface
 Java: an `interface`.
 
-Scala: a `trait` that contains only public `def`s.
+Scala: a `trait` that contains only public non-final `def`s.
 
 ### "S" - Singleton/Static
 Java: a singleton OR a class whose only purpose is to group together static methods.

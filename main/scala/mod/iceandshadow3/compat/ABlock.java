@@ -2,8 +2,9 @@ package mod.iceandshadow3.compat;
 
 import java.util.List;
 
-import mod.iceandshadow3.basics.BlockLogic;
-import mod.iceandshadow3.basics.IBlockLogicProvider;
+import mod.iceandshadow3.IceAndShadow3;
+import mod.iceandshadow3.basics.BLogicBlock;
+import mod.iceandshadow3.basics.ILogicProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -11,26 +12,23 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.common.IShearable;
 
-public class ABlock extends Block implements IBlockLogicProvider, IShearable {
+public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShearable {
 	
-	protected final BlockLogic bl;
+	protected final BLogicBlock bl;
 	
 	//Critical that all BlockLogic adapters have a BlockLogic, int/Integer constructor.
-	ABlock(BlockLogic blocklogic, int variantbias) {
-		super(SLogicToProperties.convert(blocklogic));
+	ABlock(BLogicBlock blocklogic, int variant) {
+		super(SConverter.toProperties(blocklogic));
 		bl = blocklogic;
+		this.setRegistryName(IceAndShadow3.MODID, bl.getName(variant));
 		//TODO: Creative tab.
 	}
 	public int getVariantId(IBlockState bs) {
 		return 0;
 	}
-	@Override
-	public int maxVariants() {
-		return 1;
-	}
 	
 	@Override
-	public BlockLogic getBlockLogic() {
+	public BLogicBlock getLogic() {
 		return bl;
 	}
 
