@@ -15,8 +15,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import mod.iceandshadow3.compat.CRegistryBlock;
-import mod.iceandshadow3.compat.CRegistryItem;
+import mod.iceandshadow3.compat.block.CRegistryBlock;
+import mod.iceandshadow3.compat.item.CRegistryItem;
 
 import java.util.stream.Collectors;
 

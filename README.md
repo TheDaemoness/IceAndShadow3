@@ -1,5 +1,7 @@
 _Here be Navistra-scaled dragons. This mod is heavily WIP and should be considered entirely unfit for purpose until version 0.1.0.0, and mostly incomplete until version 1.0.0.0_
 
+_Until then, this every 0.0.x version should be considered backward-incompatible, and every 0.0.0.x version forwards-incompatible._
+
 # Ice and Shadow III
 __A brutal post-endgame dimension mod for Minecraft 1.13 + Forge.__
 
@@ -19,24 +21,3 @@ The contents of this repository should be placed in the `src` folder in your For
 
 IaS3 is written partially in Java 8, partially in Scala 2.12.
 To build properly, you will need to add `apply plugin: 'scala'` to your `build.gradle` add a dependency on a scala standard library, and otherwise fiddle.
-
-## Versioning
-
-IaS3 uses a four-number semantic versioning scheme. Each field of the version marks changes that are one of the following:
-
-1. Revision
-	* Result in major incompatibilities with older save files.
-	* Are API changes which are NOT backward compatible (i.e. removal of deprecated APIs, Minecraft-related breakage).
-2. Major Version
-	* Result in new clients not being compatible with older servers (e.g. content removals/replacements).
-	* Affect world generation.
-	* Result in save file incompatibilities that do not entirely prevent loading.
-3. Minor Version
-	* Result in new servers not being compatible with older clients (e.g. content additions).
-	* Are backward-incompatible configuration file changes.
-	* Are API changes which are backward compatible.
-4. Patch Version
-	* Are backward-compatible configuration file changes.
-	* Do not affect compatibility (e.g., balance changes, most bugfixes).
-
-If the major or revision numbers are zero, that particular build of IaS3 should be considered unstable, and major version breakages may happen on minor versions.

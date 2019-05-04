@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.util
 
 class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) {
 	def add(x: Int, y: Int, z: Int): Vec3M = {
@@ -16,16 +16,16 @@ class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) {
 	}
 
 	def add(b: Vec3): Vec3M = {
-		x += b.x
-		y += b.y
-		z += b.z
+		x += b.xRaw
+		y += b.yRaw
+		z += b.zRaw
 		this
 	}
 
 	def sub(b: Vec3): Vec3M = {
-		x -= b.x
-		y -= b.y
-		z -= b.z
+		x -= b.xRaw
+		y -= b.yRaw
+		z -= b.zRaw
 		this
 	}
 

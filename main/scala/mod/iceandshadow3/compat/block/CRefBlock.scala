@@ -1,14 +1,14 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.compat.block
 
-import net.minecraft.block.material.EnumPushReaction
 import net.minecraft.block.state.IBlockState
-import net.minecraft.entity.Entity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
+import mod.iceandshadow3.util.Vec3
+import mod.iceandshadow3.compat.TEffectSource
+import mod.iceandshadow3.compat.TCRefWorld
 
 sealed abstract class Impl protected(val pos: BlockPos) {
 	def getBS(): IBlockState
@@ -34,7 +34,7 @@ object CRefBlock {
 	}
 }
 
-class CRefBlock(private val impl: Impl) extends TCRefWorld with IEffectSource {
+class CRefBlock(private val impl: Impl) extends TCRefWorld with TEffectSource {
 	
 	protected override def getWorld(): World = impl.getWorld
 	

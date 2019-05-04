@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat;
+package mod.iceandshadow3.compat.entity;
 
 import mod.iceandshadow3.basics.Damage;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,12 +12,20 @@ import net.minecraft.util.text.TextComponentTranslation;
  */
 public class ADamageSource extends DamageSource {
 	
+	public static float resistPhysical(float damage, float armor, float toughness) {
+		return Math.max(0, damage - armor)/(1+toughness+armor/2);
+	}
+	
 	final Damage damage;
 	
-	ADamageSource(final Damage dmg) {
+	public ADamageSource(final Damage dmg) {
 		super("ias3damage");
 		this.setDamageIsAbsolute().setDamageBypassesArmor();
 		damage = dmg;
+		mod.iceandshadow3.basics.DamageForm f = damage.getForm();
+		if(f.isProjectile()) this.setProjectile();
+		if(f.isBlast()) this.setExplosion();
+		if(f.isMystic()) this.setMagicDamage();
 	}
 
 	@Override

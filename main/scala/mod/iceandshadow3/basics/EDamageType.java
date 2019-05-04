@@ -4,7 +4,7 @@ import java.util.function.BiFunction;
 
 import javax.annotation.Nullable;
 
-import mod.iceandshadow3.compat.CRefEntity;
+import mod.iceandshadow3.compat.entity.CRefEntity;
 
 public enum EDamageType {
 	PHYSICAL(null),

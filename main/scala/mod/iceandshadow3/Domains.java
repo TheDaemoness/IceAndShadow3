@@ -3,8 +3,8 @@ package mod.iceandshadow3;
 import java.util.LinkedList;
 import java.util.List;
 
-import mod.iceandshadow3.compat.CRegistryBlock;
-import mod.iceandshadow3.compat.CRegistryItem;
+import mod.iceandshadow3.compat.block.CRegistryBlock;
+import mod.iceandshadow3.compat.item.CRegistryItem;
 import mod.iceandshadow3.world.nyx.DomainNyx$;
 
 /**

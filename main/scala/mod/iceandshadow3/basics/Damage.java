@@ -3,16 +3,16 @@ package mod.iceandshadow3.basics;
 import java.util.EnumMap;
 import java.util.Map;
 
-import mod.iceandshadow3.compat.CRefEntity;
-import mod.iceandshadow3.compat.IEffectSource;
+import mod.iceandshadow3.compat.TEffectSource;
+import mod.iceandshadow3.compat.entity.CRefEntity;
 
 public class Damage {
 	protected EnumMap<EDamageType, Float> damages = new EnumMap<>(EDamageType.class);
-	protected final EDamageShape shape;
-	protected final IEffectSource source;
+	protected final DamageForm form;
+	protected final TEffectSource source;
 	
-	Damage(IEffectSource attacker, EDamageShape attackShape) {
-		shape = attackShape;
+	Damage(TEffectSource attacker, DamageForm attackForm) {
+		form = attackForm;
 		source = attacker;
 	}
 
@@ -20,11 +20,11 @@ public class Damage {
 		damages.compute(type, (k, v) -> (v != null) ? v+amount : amount);
 	}
 
-	public IEffectSource getSource() {
+	public TEffectSource getSource() {
 		return source;
 	}
-	public EDamageShape getShape() {
-		return shape;
+	public DamageForm getForm() {
+		return form;
 	}
 	
 	/**

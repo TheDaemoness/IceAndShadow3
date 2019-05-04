@@ -1,9 +1,10 @@
-package mod.iceandshadow3.compat;
+package mod.iceandshadow3.compat.block;
 
 import java.util.List;
 
 import mod.iceandshadow3.IceAndShadow3;
 import mod.iceandshadow3.basics.BLogicBlock;
+import mod.iceandshadow3.basics.HarvestMethod;
 import mod.iceandshadow3.basics.ILogicProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -16,9 +17,8 @@ public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShear
 	
 	protected final BLogicBlock bl;
 	
-	//Critical that all BlockLogic adapters have a BlockLogic, int/Integer constructor.
-	ABlock(BLogicBlock blocklogic, int variant) {
-		super(SConverter.toProperties(blocklogic));
+	public ABlock(BLogicBlock blocklogic, int variant) {
+		super(((BCompatLogicBlock)blocklogic).toProperties());
 		bl = blocklogic;
 		this.setRegistryName(IceAndShadow3.MODID, bl.getName(variant));
 		//TODO: Creative tab.

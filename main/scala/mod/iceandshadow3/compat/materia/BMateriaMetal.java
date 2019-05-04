@@ -1,14 +1,11 @@
-package mod.iceandshadow3.compat.mat;
+package mod.iceandshadow3.compat.materia;
 
-import mod.iceandshadow3.compat.BMateria;
-import mod.iceandshadow3.compat.HarvestMethod;
+import mod.iceandshadow3.basics.HarvestMethod;
+import mod.iceandshadow3.compat.wrapper.BMateria;
 import net.minecraft.block.material.Material;
 
 public abstract class BMateriaMetal extends BMateria {
 
-	protected BMateriaMetal(Material m) {
-		super(m);
-	}
 	protected BMateriaMetal() {
 		super(Material.IRON);
 	}

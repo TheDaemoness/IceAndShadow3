@@ -1,7 +1,7 @@
 package mod.iceandshadow3
 
-import mod.iceandshadow3.compat.CRegistryBlock
-import mod.iceandshadow3.compat.CRegistryItem
+import mod.iceandshadow3.compat.block.CRegistryBlock
+import mod.iceandshadow3.compat.item.CRegistryItem
 import mod.iceandshadow3.basics.EDeathPolicy
 import mod.iceandshadow3.compat.CRarity
 

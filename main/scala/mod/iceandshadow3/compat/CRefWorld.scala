@@ -1,6 +1,6 @@
 package mod.iceandshadow3.compat
 
-import net.minecraft.world.World;
+import net.minecraft.world.World
 
 class CRefWorld(private[compat] val world: World) extends TCRefWorld {
 	

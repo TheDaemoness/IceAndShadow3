@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat;
+package mod.iceandshadow3.compat.item;
 
 import mod.iceandshadow3.IceAndShadow3;
 import mod.iceandshadow3.basics.BLogicItem;
@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 
 public class AItem extends Item implements ILogicProvider<BLogicItem> {
 	final BLogicItem il;
-	AItem(BLogicItem itemlogic, int variant) {
-		super(SConverter.toProperties(itemlogic));
+	public AItem(BLogicItem itemlogic, int variant) {
+		super(((BCompatLogicItem)itemlogic).toProperties());
 		il = itemlogic;
 		this.setRegistryName(IceAndShadow3.MODID, il.getName(variant));
 	}

@@ -1,28 +1,25 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.util
 
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.ChunkPos
-import net.minecraft.entity.Entity
 import net.minecraft.util.math.BlockPos
-
 import Vec3._
 
 object Vec3 {
-	protected[compat] val SUB_BITS: Long = 16
+	protected[util] val SUB_BITS: Int = 16
 	protected val CHUNK_BITS: Long = 4
-	protected val SUB_MULT: Long = 1 << SUB_BITS
-	protected val CHUNK_MULT: Long = 1 << CHUNK_BITS
+	protected val SUB_MULT: Long = 1L << SUB_BITS
+	protected val CHUNK_MULT: Long = 1L << CHUNK_BITS
 	protected val SUB_MASK: Long = SUB_MULT - 1
 	protected val CHUNK_MASK: Long = CHUNK_MULT - 1
 
-	protected[compat] def toLong(value: Double): Long = {
+	protected[util] def toLong(value: Double): Long = {
 		val whole: Long = value.toLong
 		(whole << SUB_BITS) + ((value - whole) * SUB_MULT).toLong
 	}
 
 	protected def toBlockCoord(value: Long): Long = value >> SUB_BITS
 	protected def toSubCoord(value: Long): Int = (value & SUB_MASK).toInt
-	protected[compat] def toDouble(value: Long): Double =
+	protected def toDouble(value: Long): Double =
 		toBlockCoord(value) + toSubCoord(value).toDouble / SUB_MULT
 
 	// Unit vectors.
@@ -37,18 +34,20 @@ object Vec3 {
 /**
 * An immutable fixed-precision 3d vector class.
 */
-class Vec3 protected (
-	protected[compat] var x: Long,
-	protected[compat] var y: Int,
-	protected[compat] var z: Long
+class Vec3 (
+	protected var x: Long,
+	protected var y: Int,
+	protected var z: Long
 ) extends Comparable[Vec3] with Cloneable {
-	protected def this(x: Long, y: Int, z: Long, shift: Long) = {
+	def this(x: Long, y: Int, z: Long, shift: Int) = {
 		this(x << shift, y << shift, z << shift)
 	}
-	def this(x: Int, y: Int, z: Int) = this(x, y, z, SUB_BITS)
-	def this(p: BlockPos) = this(p.getX(), p.getY(), p.getZ(), SUB_BITS)
-	def this(e: Entity) = this(toLong(e.posX), toLong(e.posY).toInt, toLong(e.posZ), 0)
+	def this(x: Int, y: Short, z: Int) = this(x, y, z, SUB_BITS)
+	def this(x: Double, y: Double, z: Double) = this(toLong(x), toLong(y).toInt, toLong(z))
 
+	def xRaw() = x
+	def yRaw() = y
+	def zRaw() = z
 	def xBlock(): Long = toBlockCoord(x)
 	def yBlock(): Int = toBlockCoord(y).toInt
 	def zBlock(): Long = toBlockCoord(z)

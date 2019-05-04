@@ -2,8 +2,8 @@ package mod.iceandshadow3.world.nyx
 
 import mod.iceandshadow3.BDomain
 import mod.iceandshadow3.compat.CRarity
-import mod.iceandshadow3.compat.CRegistryBlock
-import mod.iceandshadow3.compat.CRegistryItem
+import mod.iceandshadow3.compat.block.CRegistryBlock
+import mod.iceandshadow3.compat.item.CRegistryItem
 
 object DomainNyx extends BDomain("nyx") {
 	override protected[iceandshadow3] def register(reg: CRegistryBlock): Unit = {
