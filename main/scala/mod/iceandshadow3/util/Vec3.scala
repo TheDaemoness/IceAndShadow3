@@ -42,7 +42,10 @@ class Vec3 (
 	def this(x: Long, y: Int, z: Long, shift: Int) = {
 		this(x << shift, y << shift, z << shift)
 	}
-	def this(x: Int, y: Short, z: Int) = this(x, y, z, SUB_BITS)
+	def this(x: Int, y:Int, z: Int, xShift: Double, yShift: Double, zShift: Double) = this(
+		(x << SUB_BITS) + toLong(xShift),
+		(y << SUB_BITS) + toLong(yShift).toInt,
+		(z << SUB_BITS) + toLong(zShift))
 	def this(x: Double, y: Double, z: Double) = this(toLong(x), toLong(y).toInt, toLong(z))
 
 	def xRaw() = x

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.compat.block;
 
-import mod.iceandshadow3.BDomain;
+import mod.iceandshadow3.world.BDomain;
 import mod.iceandshadow3.basics.IMateria;
 import mod.iceandshadow3.compat.BLogic;
 import net.minecraft.block.Block;

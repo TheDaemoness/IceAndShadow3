@@ -12,7 +12,7 @@ import net.minecraft.util.text.TextComponentTranslation;
  */
 public class ADamageSource extends DamageSource {
 	
-	public static float resistPhysical(float damage, float armor, float toughness) {
+	public static float resistCalc(float damage, float armor, float toughness) {
 		return Math.max(0, damage - armor)/(1+toughness+armor/2);
 	}
 	

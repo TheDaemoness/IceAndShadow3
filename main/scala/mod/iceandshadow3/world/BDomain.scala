@@ -1,9 +1,10 @@
-package mod.iceandshadow3
+package mod.iceandshadow3.world
 
 import mod.iceandshadow3.compat.block.CRegistryBlock
 import mod.iceandshadow3.compat.item.CRegistryItem
 import mod.iceandshadow3.basics.EDeathPolicy
 import mod.iceandshadow3.compat.CRarity
+import mod.iceandshadow3.Domains
 
 /** A collection of lore-related blocks/items/mobs/etc.
  */

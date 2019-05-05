@@ -1,13 +1,16 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.basics.Damage
-import net.minecraft.entity.Entity
-import net.minecraft.util.text.ITextComponent
+import mod.iceandshadow3.compat.ISpatial
 import mod.iceandshadow3.compat.TEffectSource
 import mod.iceandshadow3.compat.TCRefWorld
+import mod.iceandshadow3.util.Vec3
+
+import net.minecraft.entity.Entity
+import net.minecraft.util.text.ITextComponent
 
 //TODO: Manually generated class stub.
-class CRefEntity(private[compat] val entity: Entity) extends TCRefWorld with TEffectSource {
+class CRefEntity(private[compat] val entity: Entity) extends TCRefWorld with TEffectSource with ISpatial {
 	
 	override def getNameTextComponent(): ITextComponent = entity.getDisplayName();
 
@@ -21,4 +24,5 @@ class CRefEntity(private[compat] val entity: Entity) extends TCRefWorld with TEf
 	def damage(attack: Damage): Unit = 
 		entity.attackEntityFrom(new ADamageSource(attack), attack.onDamage(this));
 
+	override def position = new Vec3(entity.posX, entity.posY, entity.posZ)
 }

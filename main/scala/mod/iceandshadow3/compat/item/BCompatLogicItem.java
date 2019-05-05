@@ -1,6 +1,6 @@
 package mod.iceandshadow3.compat.item;
 
-import mod.iceandshadow3.BDomain;
+import mod.iceandshadow3.world.BDomain;
 import mod.iceandshadow3.compat.BLogic;
 import mod.iceandshadow3.compat.SCreativeTab$;
 import net.minecraft.item.Item;

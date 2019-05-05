@@ -9,7 +9,8 @@ public class HarvestMethod {
 		SHOVEL = new HarvestMethod("shovel"), //Let's not have a spade repeat.
 		AXE = new HarvestMethod("axe"),
 		BLADE = new HarvestMethod("sword"),
-		SHEAR = new HarvestMethod("shear", null);
+		SHEAR = new HarvestMethod("shear", null),
+		EXPLOSION = new HarvestMethod("explosion", null);
 	public static HarvestMethod get(String name) {
 		HarvestMethod retval = lookups.get(name);
 		if(retval == null) retval = new HarvestMethod(name);

@@ -5,6 +5,8 @@ import java.util.List;
 
 import mod.iceandshadow3.compat.block.CRegistryBlock;
 import mod.iceandshadow3.compat.item.CRegistryItem;
+
+import mod.iceandshadow3.world.BDomain;
 import mod.iceandshadow3.world.nyx.DomainNyx$;
 
 /**
@@ -14,12 +16,16 @@ import mod.iceandshadow3.world.nyx.DomainNyx$;
 public class Domains {
 	private static final List<BDomain> domains = new LinkedList<>();
 	public static final DomainNyx$ NYX = DomainNyx$.MODULE$;
+	private static boolean seal = false;
 	
-	static final void addDomain(BDomain domain) {
-		domains.add(domain);
+	public static final void addDomain(BDomain domain) {
+		if(!seal) {
+			domains.add(domain);
+		} else throw new IllegalStateException("Domain \""+domain.name()+"\" initialized too late.");
 	}
 	static final void initEarly() {
 		for(BDomain domain : domains) domain.initEarly();
+		seal = true;
 	}
 	static final void registerBlocks(CRegistryBlock reg) {
 		for(BDomain domain : domains) domain.register(reg);

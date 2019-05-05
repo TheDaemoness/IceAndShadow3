@@ -7,6 +7,7 @@ import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import mod.iceandshadow3.util.Vec3
+import mod.iceandshadow3.compat.ISpatial
 import mod.iceandshadow3.compat.TEffectSource
 import mod.iceandshadow3.compat.TCRefWorld
 
@@ -16,7 +17,7 @@ sealed abstract class Impl protected(val pos: BlockPos) {
 	def getWorld(): World
 }
 object CRefBlock {
-	private class ImplChunk(val chunk: Chunk, position: BlockPos)
+	private class ImplChunk(chunk: Chunk, position: BlockPos)
 			extends Impl(position) {
 		def getBS(): IBlockState = chunk.getBlockState(pos)
 		def getIBA(): IBlockReader = chunk.getWorld
@@ -34,7 +35,7 @@ object CRefBlock {
 	}
 }
 
-class CRefBlock(private val impl: Impl) extends TCRefWorld with TEffectSource {
+class CRefBlock(private val impl: Impl) extends TCRefWorld with TEffectSource with ISpatial {
 	
 	protected override def getWorld(): World = impl.getWorld
 	
@@ -68,5 +69,7 @@ class CRefBlock(private val impl: Impl) extends TCRefWorld with TEffectSource {
 		impl.getBS.getBlock.getNameTextComponent
 
 	override def getAttack(): mod.iceandshadow3.basics.Damage = null
+	
+	override def position = new Vec3(impl.pos.getX(), impl.pos.getY(), impl.pos.getZ(), 0.5, 0.5, 0.5)
 
 }
