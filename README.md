@@ -24,4 +24,4 @@ To build properly, you will need to add `apply plugin: 'scala'` to your `build.g
 
 ## License
 
-Ice and Shadow III's original files (as in, those not directly derived from Minecraft assets) are licensed under the Mozilla Public License version 2, where possible.
+Ice and Shadow III's original files (as in, assets not derived from Minecraft assets and that do not reference any net.minecraft classes) are licensed under the Mozilla Public License version 2, where possible.
