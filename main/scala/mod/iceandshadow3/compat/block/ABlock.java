@@ -18,7 +18,7 @@ public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShear
 	protected final BLogicBlock bl;
 	
 	public ABlock(BLogicBlock blocklogic, int variant) {
-		super(((BCompatLogicBlock)blocklogic).toProperties());
+		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
 		bl = blocklogic;
 		this.setRegistryName(IceAndShadow3.MODID, bl.getName(variant));
 		//TODO: Creative tab.

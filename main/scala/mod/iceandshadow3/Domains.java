@@ -7,7 +7,10 @@ import mod.iceandshadow3.compat.block.CRegistryBlock;
 import mod.iceandshadow3.compat.item.CRegistryItem;
 
 import mod.iceandshadow3.world.BDomain;
+import mod.iceandshadow3.world.DomainAlien$;
 import mod.iceandshadow3.world.nyx.DomainNyx$;
+import mod.iceandshadow3.world.gaia.DomainGaia$;
+
 
 /**
  * Class exists for the sole reason of not having to type $.MODULE$ so many times.
@@ -15,7 +18,9 @@ import mod.iceandshadow3.world.nyx.DomainNyx$;
  */
 public class Domains {
 	private static final List<BDomain> domains = new LinkedList<>();
+	public static final DomainAlien$ ALIEN = DomainAlien$.MODULE$;
 	public static final DomainNyx$ NYX = DomainNyx$.MODULE$;
+	public static final DomainGaia$ GAIA = DomainGaia$.MODULE$;
 	private static boolean seal = false;
 	
 	public static final void addDomain(BDomain domain) {

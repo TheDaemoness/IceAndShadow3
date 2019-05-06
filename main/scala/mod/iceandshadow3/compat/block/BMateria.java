@@ -9,4 +9,9 @@ public abstract class BMateria implements IMateria {
 	protected BMateria(Material material) {
 		mcmat = material;
 	}
+	
+	@Override
+	public int getBaseOpacity() {
+		return mcmat.isOpaque() ? 0xff : 0;
+	}
 }

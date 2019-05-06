@@ -5,7 +5,7 @@ import mod.iceandshadow3.compat.BLogic
 
 trait TLogic {
 	def countVariants(): Int = 1
-	def isTechnical(): Boolean = false
+	def isTechnical(variant: Int): Boolean = false
 	def getTier(variant: Int): Int = 1
 	def getDomain(): BDomain
 	protected def getBaseName(): String

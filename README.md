@@ -21,3 +21,7 @@ The contents of this repository should be placed in the `src` folder in your For
 
 IaS3 is written partially in Java 8, partially in Scala 2.12.
 To build properly, you will need to add `apply plugin: 'scala'` to your `build.gradle` add a dependency on a scala standard library, and otherwise fiddle.
+
+## License
+
+Ice and Shadow III's original files (as in, those not directly derived from Minecraft assets) are licensed under the Mozilla Public License version 2, where possible.

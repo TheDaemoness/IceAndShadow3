@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 public class AItem extends Item implements ILogicProvider<BLogicItem> {
 	final BLogicItem il;
 	public AItem(BLogicItem itemlogic, int variant) {
-		super(((BCompatLogicItem)itemlogic).toProperties());
+		super(((BCompatLogicItem)itemlogic).toItemProperties(variant));
 		il = itemlogic;
 		this.setRegistryName(IceAndShadow3.MODID, il.getName(variant));
 	}
