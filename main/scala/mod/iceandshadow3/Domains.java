@@ -16,7 +16,7 @@ import mod.iceandshadow3.world.gaia.DomainGaia$;
  * Class exists for the sole reason of not having to type $.MODULE$ so many times.
  * That and triggering singleton constructors.
  */
-public class Domains {
+public final class Domains {
 	private static final List<BDomain> domains = new LinkedList<>();
 	public static final DomainAlien$ ALIEN = DomainAlien$.MODULE$;
 	public static final DomainNyx$ NYX = DomainNyx$.MODULE$;
@@ -26,7 +26,9 @@ public class Domains {
 	public static final void addDomain(BDomain domain) {
 		if(!seal) {
 			domains.add(domain);
-		} else throw new IllegalStateException("Domain \""+domain.name()+"\" initialized too late.");
+		} else {
+			IceAndShadow3.bug("Domain " + domain.name() + " initialized too late.");
+		}
 	}
 	static final void initEarly() {
 		for(BDomain domain : domains) domain.initEarly();

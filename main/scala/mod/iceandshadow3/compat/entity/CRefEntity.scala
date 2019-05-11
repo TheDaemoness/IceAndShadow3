@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.text.ITextComponent
 
 //TODO: Manually generated class stub.
-class CRefEntity(private[compat] val entity: Entity) extends TCRefWorld with TEffectSource with ISpatial {
+class CRefEntity(protected[compat] val entity: Entity) extends TCRefWorld with TEffectSource with ISpatial {
 	
 	override def getNameTextComponent(): ITextComponent = entity.getDisplayName();
 
