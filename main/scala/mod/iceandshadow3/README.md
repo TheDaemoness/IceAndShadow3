@@ -5,12 +5,9 @@ Contains `IceAndShadow3`.
 Otherwise, contains types and pure-static classes/singletons that are immediately relevant to the overall initialization/configuration of IaS3.
 
 ## Type Usage Restrictions
-Certain types/interfaces/objects of certain types/enumerations may not be used outside of certain packages. Below is the list of such restrictions.
+Unless a package's README specifies otherwise, types from subpackages of `net.minecraft` and `net.minecraftforge` may not be directly referenced, nor may instances of those types be accessed by classes within that package.
 
-Classes in `net.minecraft`, `net.minecraftforge` or any subpackage of the prior may only be used in:
-* `mod.iceandshadow3`
-* `mod.iceandshadow3.compat`
-* `mod.iceandshadow3.forge`
+Classes in this package specifically (not including subpackages) are exempt from this rule by necessity.
 
 ## Type Name Prefixes
 Two or more adjacent capital letters at the start of a class/file name are indicative of a type name prefix.
