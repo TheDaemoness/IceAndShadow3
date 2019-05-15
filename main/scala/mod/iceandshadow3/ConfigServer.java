@@ -1,6 +1,7 @@
 package mod.iceandshadow3;
 
 import mod.iceandshadow3.config.ConfigReflective;
+import mod.iceandshadow3.data.DatumBool;
 
 public class ConfigServer extends ConfigReflective {
 	@Override public String name() {return "server";}
@@ -8,5 +9,5 @@ public class ConfigServer extends ConfigReflective {
 	@Override public int versionMinor() {return 0;}
 	
 	@Entry(comment="Greatly increases IaS3's difficulty.")
-	public Boolean brutal_mode = false;
+	public DatumBool brutal_mode = new DatumBool(false);
 }

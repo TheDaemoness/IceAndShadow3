@@ -8,7 +8,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ConfigTracker;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -19,11 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import mod.iceandshadow3.compat.block.CRegistryBlock;
 import mod.iceandshadow3.compat.item.CRegistryItem;
-import mod.iceandshadow3.config.BConfig;
 import mod.iceandshadow3.config.ConfigManager;
-
-import java.io.File;
-import java.util.stream.Collectors;
 
 @Mod(IceAndShadow3.MODID)
 public class IceAndShadow3 {

@@ -1,6 +1,7 @@
 package mod.iceandshadow3.config;
 
 import mod.iceandshadow3.IceAndShadow3;
+import mod.iceandshadow3.data.ILineSerializable;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,6 +9,10 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
+/** Base class of IaS3 config classes, where each config option is a runtime-annotated public field.
+ * This class is designed to trivialize adding a new config option to IaS3, at the expense of not being able to enforce contracts.
+ * These fields, despite not being final, should not be modified directly.
+ */
 public abstract class ConfigReflective extends BConfig {
 	@Retention(RetentionPolicy.RUNTIME)
 	protected static @interface Entry {
@@ -28,13 +33,27 @@ public abstract class ConfigReflective extends BConfig {
 		return opts;
 	}
 	
-	private Field getField(String option) {
+	private static class ConfigEntry {
+		public ILineSerializable entry;
+		public Entry metadata;
+		ConfigEntry(ILineSerializable e, Entry m) {
+			entry = e;
+			metadata = m;
+		}
+	}
+	
+	private ConfigEntry getField(String option) {
 		if(opts.contains(option)) {
 			try {
-				Field retval = this.getClass().getField(option);
-				if(retval.getAnnotation(Entry.class) != null) return retval;
-			} catch (NoSuchFieldException | SecurityException e) {
-				IceAndShadow3.bug(e.getMessage() + " while accessing config field reflectively.");
+				Field field = this.getClass().getField(option);
+				final Object entry = field.get(this);
+				final Entry metadata = field.getAnnotation(Entry.class); 
+				if(metadata != null) {
+					//Don't try to dodge class cast issues because that's a bug in IaS3 if it happens.
+					return new ConfigEntry((ILineSerializable)entry, metadata);
+				}
+			} catch (NoSuchFieldException | SecurityException | IllegalAccessException | ClassCastException e) {
+				IceAndShadow3.bug(e.getMessage() + " while accessing config field reflectively. Was @Entry misapplied?");
 				e.printStackTrace();
 			}
 		}
@@ -43,32 +62,23 @@ public abstract class ConfigReflective extends BConfig {
 	
 	@Override
 	final public boolean set(String option, String value) throws IllegalArgumentException, BadConfigException {
-		final Field f = getField(option);
-		Object result = SConfigValueTranslator.read(f.getType(), value);
-		if(result == null) return true;
-		if(f.getAnnotation(Entry.class).needsRestart() && isSealed()) return false;
+		final ConfigEntry cfge = getField(option);
+		if(cfge.metadata.needsRestart() && isSealed()) return false;
 		try {
-			f.set(this, result);
-		} catch (IllegalAccessException e) {
-			IceAndShadow3.bug(e.getMessage() + " - @Entry applied to inaccessible config field: "+option);
-			throw new IllegalArgumentException();
+			cfge.entry.fromLine(value);
+		} catch (IllegalArgumentException e) {
+			throw new BadConfigException(e.getMessage());
 		}
 		return true;
 	}
 
 	@Override
 	final public String get(String option) throws IllegalArgumentException {
-		try {
-			return SConfigValueTranslator.write(getField(option).get(this));
-		} catch (IllegalAccessException e) {
-			IceAndShadow3.bug(e.getMessage() + " - @Entry applied to inaccessible config field: "+option);
-			throw new IllegalArgumentException();
-		}
+		return getField(option).entry.toLine();
 	}
 
 	@Override
 	final public String getComment(String option) throws IllegalArgumentException {
-		final Field f = getField(option);
-		return f.getAnnotation(Entry.class).comment();
+		return getField(option).metadata.comment();
 	}
 }

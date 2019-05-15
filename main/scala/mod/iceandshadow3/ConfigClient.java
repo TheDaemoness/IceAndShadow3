@@ -1,6 +1,7 @@
 package mod.iceandshadow3;
 
 import mod.iceandshadow3.config.ConfigReflective;
+import mod.iceandshadow3.data.DatumBool;
 
 public class ConfigClient extends ConfigReflective {
 	@Override public String name() {return "client";}
@@ -8,5 +9,5 @@ public class ConfigClient extends ConfigReflective {
 	@Override public int versionMinor() {return 0;}
 	
 	@Entry(comment="Reduces particle effects even when it would result in a gameplay disadvantage.")
-	public Boolean low_particles = false;
+	public DatumBool low_particles = new DatumBool(false);
 }
