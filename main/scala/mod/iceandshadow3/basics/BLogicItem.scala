@@ -3,7 +3,7 @@ package mod.iceandshadow3.basics
 import mod.iceandshadow3.compat.CNbtTree
 import mod.iceandshadow3.compat.entity.CRefPlayer
 import mod.iceandshadow3.compat.item._
-import mod.iceandshadow3.util.L3
+import mod.iceandshadow3.util.{EmptySet, L3}
 
 sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogicItem(dom, name)  {
 	dom.add(this)
@@ -14,6 +14,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogi
 	def isShiny(variant: Int, tags: CNbtTree, stack: CRefItem) = false
 	
 	def onUse(variant: Int, state: BStateData, stack: CRefItem, user: CRefPlayer, mainhand: Boolean): L3 = L3.NULL
+
+	def propertyOverrides(): java.util.Set[BItemProperty] = new EmptySet[BItemProperty]
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String) extends BLogicItem(dom, name) {
