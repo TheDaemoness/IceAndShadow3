@@ -57,7 +57,7 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 			val lis = new Scanner(configFile);
 			if (!lis.hasNextLine()) {
 				IceAndShadow3.logger().warn("Config file is empty. Will overwrite.")
-				true
+				return true
 			}
 			var file_minor_version: Int = 0
 			var file_major_version: Int = 0
@@ -94,7 +94,7 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 					" is of an older minor version than this mod supports. Will update.")
 			}
 			var line: Int = 1
-			while (lis.hasNextLine()) {
+			while (lis.hasNextLine) {
 				var orig: String = lis.nextLine()
 				val commentstart: Int = orig.indexOf('#')
 				if (commentstart != -1) {
@@ -111,7 +111,7 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 				} catch {
 					case e: BadConfigException =>
 						IceAndShadow3.logger().error(
-						"Line #\" "+ line + "\" in \"" + filename() + "\" is invalid: "+e.getMessage()+". Ignoring.");
+						"Line #\" "+ line + "\" in \"" + filename() + "\" is invalid: "+e.getMessage+". Ignoring.");
 					case e: IllegalArgumentException =>
 						IceAndShadow3.logger().error(
 						"Line #\" "+ line + "\" in \"" + filename() + "\" references an unknown option \""+option+". Ignoring.");

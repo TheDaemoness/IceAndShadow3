@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 public class Exec implements ExecutorService {
 	public class Future<T> extends FutureTask<T> {
 		protected Throwable e = null;
-		public Future(Callable arg0) {
+		public Future(Callable<T> arg0) {
 			super(arg0);
 		}
 		public Future(Runnable arg0, T arg1) {
@@ -39,17 +39,17 @@ public class Exec implements ExecutorService {
 	private static final Exec instance = new Exec();
 	/*public*/ static Exec get() {return instance;}
 
-	public static Exec.Future push(Callable r) {
-		final Exec.Future f = instance.new Future(r);
+	public static <T> Exec.Future<T> push(Callable<T> r) {
+		final Exec.Future<T> f = instance.new Future<>(r);
 		instance.execute(f);
 		return f;
 	}
-	public static <T> Exec.Future push(Runnable r, T arg) {
-		final Exec.Future f = instance.new Future(r, arg);
+	public static <T> Exec.Future<T> push(Runnable r, T arg) {
+		final Exec.Future<T> f = instance.new Future<T>(r, arg);
 		instance.execute(f);
 		return f;
 	}
-	public static Exec.Future push(Runnable r) {return push(r, null);}
+	public static Exec.Future<Object> push(Runnable r) {return push(r, null);}
 	
 	private ExecutorService executor;
 	protected Exec() {

@@ -15,6 +15,6 @@ The `S` prefix should not be used in subpackges, as almost everything will be a 
 If a file name ends in a plural word, expect to find a `sealed class` inside.
 
 * `Mat` - Scala object that extends BMateria or one of its children.
-* `LB` - Scala object that extends BLogicBlock
-* `LM` - Scala object that extends BLogicMob
-* `LI` - Scala object that extends BLogicItem
+* `LB` - Scala class that extends BLogicBlock
+* `LM` - Scala class that extends BLogicMob
+* `LI` - Scala class that extends BLogicItem

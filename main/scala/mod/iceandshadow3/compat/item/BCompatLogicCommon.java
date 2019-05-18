@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.item;
 
 import mod.iceandshadow3.compat.BLogic;
 import mod.iceandshadow3.compat.SCreativeTab$;
-import mod.iceandshadow3.world.BDomain;
+import mod.iceandshadow3.basics.BDomain;
 import net.minecraft.item.Item;
 
 public abstract class BCompatLogicCommon extends BLogic {

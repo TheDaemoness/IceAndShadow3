@@ -1,7 +1,6 @@
 package mod.iceandshadow3.util
 
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockPos
 import Vec3._
 
 object Vec3 {

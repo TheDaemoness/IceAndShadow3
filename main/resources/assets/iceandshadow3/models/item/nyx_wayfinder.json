@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "iceandshadow3:nyx_totem_cursed"
+        "layer0": "iceandshadow3:nyx_wayfinder"
     }
 }
 

@@ -1,10 +1,10 @@
 package mod.iceandshadow3.compat.item;
 
-import mod.iceandshadow3.world.BDomain;
+import mod.iceandshadow3.basics.BDomain;
 import net.minecraft.item.Item;
 
 public abstract class BCompatLogicItem extends BCompatLogicCommon {
-	public int damageLimit(int variant) {return 0;}
+	public abstract int damageLimit(int variant);
 			
 	public BCompatLogicItem(BDomain domain, String name) {
 		super(domain, name);

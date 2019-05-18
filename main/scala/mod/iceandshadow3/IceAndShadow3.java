@@ -90,7 +90,9 @@ public class IceAndShadow3 {
 	}
 	
 	public static Logger logger() {return BEAVER;}
-	public static void bug(Object... args) {BEAVER.log(BUG_LEVEL,args);}
+	public static void bug(Object what, Object... args) {
+		BEAVER.log(BUG_LEVEL,what.getClass().getTypeName(),": ",args);
+	}
 	
 	@OnlyIn(Dist.CLIENT)
 	public ConfigClient configClient() {return cfgClient.get();}

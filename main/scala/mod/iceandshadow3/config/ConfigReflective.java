@@ -53,7 +53,7 @@ public abstract class ConfigReflective extends BConfig {
 					return new ConfigEntry((ILineSerializable)entry, metadata);
 				}
 			} catch (NoSuchFieldException | SecurityException | IllegalAccessException | ClassCastException e) {
-				IceAndShadow3.bug(e.getMessage() + " while accessing config field reflectively. Was @Entry misapplied?");
+				IceAndShadow3.bug(this, e.getMessage() + " while accessing config field reflectively. Was @Entry misapplied?");
 				e.printStackTrace();
 			}
 		}

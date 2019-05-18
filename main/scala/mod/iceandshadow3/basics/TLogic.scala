@@ -1,13 +1,14 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.world.BDomain
 import mod.iceandshadow3.compat.BLogic
 
 trait TLogic {
+	type StateDataType <: BStateData
 	def countVariants(): Int = 1
 	def isTechnical(variant: Int): Boolean = false
 	def getTier(variant: Int): Int = 1
 	def getDomain(): BDomain
+	def getDefaultStateData(variant: Int): StateDataType
 	protected def getBaseName(): String
 	protected def getVariantName(variant: Int): String = null
 	
@@ -16,8 +17,4 @@ trait TLogic {
 		val varname = getVariantName(variant)
 		if(varname == null) getName() else getName()+'_'+varname
 	}
-}
-
-trait ILogicProvider[LogicType <: BLogic] {
-	def getLogic(): LogicType
 }

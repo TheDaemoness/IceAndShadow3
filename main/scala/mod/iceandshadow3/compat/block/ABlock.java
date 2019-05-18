@@ -16,12 +16,13 @@ import net.minecraftforge.common.IShearable;
 public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShearable {
 	
 	protected final BLogicBlock bl;
+	protected final int variant;
 	
 	public ABlock(BLogicBlock blocklogic, int variant) {
 		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
 		bl = blocklogic;
 		this.setRegistryName(IceAndShadow3.MODID, bl.getName(variant));
-		//TODO: Creative tab.
+		this.variant = variant;
 	}
 	public int getVariantId(IBlockState bs) {
 		return 0;
@@ -36,6 +37,10 @@ public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShear
 	public List<ItemStack> onSheared(ItemStack item, IWorld world, BlockPos pos, int fortune) {
 		bl.isToolClassEffective(HarvestMethod.SHEAR);
 		return null;
+	}
+	@Override
+	public int getVariant() {
+		return variant;
 	}
 }
 

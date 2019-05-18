@@ -6,7 +6,7 @@ import java.util.List;
 import mod.iceandshadow3.compat.block.CRegistryBlock;
 import mod.iceandshadow3.compat.item.CRegistryItem;
 
-import mod.iceandshadow3.world.BDomain;
+import mod.iceandshadow3.basics.BDomain;
 import mod.iceandshadow3.world.DomainAlien$;
 import mod.iceandshadow3.world.nyx.DomainNyx$;
 import mod.iceandshadow3.world.gaia.DomainGaia$;
