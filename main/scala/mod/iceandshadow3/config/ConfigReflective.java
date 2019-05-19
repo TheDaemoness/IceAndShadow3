@@ -1,7 +1,7 @@
 package mod.iceandshadow3.config;
 
-import mod.iceandshadow3.IceAndShadow3;
-import mod.iceandshadow3.data.ILineSerializable;
+import mod.iceandshadow3.IaS3;
+import mod.iceandshadow3.data.ITextLineRW;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,9 +9,10 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-/** Base class of IaS3 config classes, where each config option is a runtime-annotated public field.
+/** Base class of IaS3's JAVA-ONLY CONFIG CLASSES, where each config option is a runtime-annotated public field.
  * This class is designed to trivialize adding a new config option to IaS3, at the expense of not being able to enforce contracts.
  * These fields, despite not being final, should not be modified directly.
+ * This class uses Java reflection, and subtypes of it should ONLY be written in Java.
  */
 public abstract class ConfigReflective extends BConfig {
 	@Retention(RetentionPolicy.RUNTIME)
@@ -25,7 +26,7 @@ public abstract class ConfigReflective extends BConfig {
 		for(Field f : this.getClass().getFields()) {
 			if(f.getAnnotation(Entry.class) != null) opts.add(f.getName());
 		}
-		IceAndShadow3.logger().debug(this.getClass().getName()+" has "+opts.size()+" config option(s).");
+		IaS3.logger().debug(this.getClass().getName()+" has "+opts.size()+" config option(s).");
 	}
 
 	@Override
@@ -34,9 +35,9 @@ public abstract class ConfigReflective extends BConfig {
 	}
 	
 	private static class ConfigEntry {
-		public ILineSerializable entry;
+		public ITextLineRW entry;
 		public Entry metadata;
-		ConfigEntry(ILineSerializable e, Entry m) {
+		ConfigEntry(ITextLineRW e, Entry m) {
 			entry = e;
 			metadata = m;
 		}
@@ -50,10 +51,10 @@ public abstract class ConfigReflective extends BConfig {
 				final Entry metadata = field.getAnnotation(Entry.class); 
 				if(metadata != null) {
 					//Don't try to dodge class cast issues because that's a bug in IaS3 if it happens.
-					return new ConfigEntry((ILineSerializable)entry, metadata);
+					return new ConfigEntry((ITextLineRW)entry, metadata);
 				}
 			} catch (NoSuchFieldException | SecurityException | IllegalAccessException | ClassCastException e) {
-				IceAndShadow3.bug(this, e.getMessage() + " while accessing config field reflectively. Was @Entry misapplied?");
+				IaS3.bug(this, e.getMessage() + " while accessing config field reflectively. Was @Entry misapplied?");
 				e.printStackTrace();
 			}
 		}

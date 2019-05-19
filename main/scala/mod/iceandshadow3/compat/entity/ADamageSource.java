@@ -16,7 +16,7 @@ public class ADamageSource extends DamageSource {
 		return Math.max(0, damage - armor)/(1+toughness+armor/2);
 	}
 	
-	final Damage damage;
+	private final Damage damage;
 	
 	public ADamageSource(final Damage dmg) {
 		super("ias3damage");
@@ -27,6 +27,8 @@ public class ADamageSource extends DamageSource {
 		if(f.isBlast()) this.setExplosion();
 		if(f.isMystic()) this.setMagicDamage();
 	}
+
+	public Damage getIaSDamage() {return damage;}
 
 	@Override
 	public ITextComponent getDeathMessage(EntityLivingBase elb) {

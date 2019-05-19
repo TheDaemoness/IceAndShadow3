@@ -1,5 +1,7 @@
 package mod.iceandshadow3.compat
 
+import java.util
+
 import mod.iceandshadow3.basics.TLogic
 import java.util.ArrayList
 

@@ -1,13 +1,9 @@
 package mod.iceandshadow3.util
 
-import mod.iceandshadow3.data.DatumInt64
-import mod.iceandshadow3.data.DatumInt32
-import mod.iceandshadow3.data.DataTreeMap
-import mod.iceandshadow3.data.IDataTreeSerializable
-import mod.iceandshadow3.data.ILineSerializable
+import mod.iceandshadow3.data.{DataTreeMap, DatumInt32, DatumInt64, IDataTreeRW, ITextLineRW}
 import mod.iceandshadow3.data.SDataTreeConversions._
 
-class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ILineSerializable with IDataTreeSerializable[DataTreeMap] {
+class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ITextLineRW with IDataTreeRW[DataTreeMap] {
 	def add(x: Int, y: Int, z: Int): Vec3M = {
 		this.x += x << Vec3.SUB_BITS
 		this.y += y.toShort << Vec3.SUB_BITS
@@ -37,7 +33,6 @@ class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ILineSeri
 	}
 
 	def mult(multiplier: Double): Vec3M = {
-		//TODO: I bet there are neater ways of doing this.
 		x = (x.toDouble*multiplier).toLong
 		y = (y.toDouble*multiplier).toInt
 		z = (z.toDouble*multiplier).toLong
@@ -45,18 +40,18 @@ class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ILineSeri
 	}
 
 /// Converts the vector to its normal equivalent (magnitude = 1).
-	def norm(): Vec3M = mult(1 / mag())
+	def norm(): Vec3M = mult(1 / mag)
 
 	def inv(): Vec3M = mult(-1)
 	
 	override def fromLine(line: String): Unit = {
-		val scanner = new java.util.Scanner(line);
+		val scanner = new java.util.Scanner(line)
 		this.x = scanner.nextLong
 		this.y = scanner.nextInt
 		this.z = scanner.nextLong
 	}
 	
-	override def toLine(): String = "$x $y $z"
+	override def toLine: String = "$x $y $z"
 	
 	def fromDataTree(tree: DataTreeMap): Boolean = {
 		try {
@@ -64,10 +59,10 @@ class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ILineSeri
 			this.y = SCaster.cast[DatumInt32](tree.get("y")).get.get.asInstanceOf[Int]
 			this.z = SCaster.cast[DatumInt64](tree.get("z")).get.get
 		} catch {
-			case e: NoSuchElementException => false
+			case e: NoSuchElementException => return false
 		}
 		true
 	}
-	def getDataTree(): mod.iceandshadow3.data.DataTreeMap = 
+	def newDataTree(): mod.iceandshadow3.data.DataTreeMap =
 		new DataTreeMap().add("x", x).add("y", y).add("z", z)
 }

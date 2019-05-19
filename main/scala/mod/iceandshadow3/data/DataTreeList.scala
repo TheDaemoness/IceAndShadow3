@@ -1,7 +1,8 @@
 package mod.iceandshadow3.data
 
-import mod.iceandshadow3.IceAndShadow3
+import mod.iceandshadow3.IaS3
 import net.minecraft.nbt._
+
 import scala.collection.JavaConverters._
 
 class DataTreeList[Element <: BDataTree[_]] extends BDataTreeBranch[java.util.List[Element], Int](new java.util.ArrayList) {
@@ -10,7 +11,7 @@ class DataTreeList[Element <: BDataTree[_]] extends BDataTreeBranch[java.util.Li
 		for ((elem, i) <- datum.asScala zip (0 until list.size)) try {
 			elem.fromNBT(list.get(i))
 		} catch {
-			case e: Exception => IceAndShadow3.logger().error("NBT format mismatch: "+e.getMessage)
+			case e: Exception => IaS3.logger().error("NBT format mismatch: "+e.getMessage)
 			//TODO: More information?
 		}
 		true //TODO: Report false on something blowing up.
@@ -20,7 +21,7 @@ class DataTreeList[Element <: BDataTree[_]] extends BDataTreeBranch[java.util.Li
 		for(elem <- list.asScala) retval.add(elem.toNBT())
 		retval
 	}
-	override protected def copyFrom(list: java.util.List[Element]) =
+	override protected def copyFrom(list: java.util.List[Element]): Unit =
 		datum = new java.util.ArrayList(list)
 	override def get(key: Int) = if(key < datum.size()) Some(datum.get(key)) else None
 	

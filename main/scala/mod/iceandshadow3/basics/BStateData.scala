@@ -1,13 +1,15 @@
-package mod.iceandshadow3.basics;
+package mod.iceandshadow3.basics
 
 import mod.iceandshadow3.data._
 
-abstract class BStateData extends IDataTreeSerializable[DataTreeMap] {
+/** Class for storing data that normally gets loaded from/written to NBT.
+	*/
+abstract class BStateData extends IDataTreeRW[DataTreeMap] {
 	val needsWrite = true
 	private val dataTree = new DataTreeMap
 	def fromDataTree(tree: DataTreeMap): Boolean = tree == dataTree
- 	def getDataTree(): DataTreeMap = dataTree
-	def register(key: String, field: IDataTreeSerializable[_ <: BDataTree[_]]): Unit = {
+ 	def newDataTree(): DataTreeMap = dataTree
+	def register(key: String, field: IDataTreeRW[_ <: BDataTree[_]]): Unit = {
 		dataTree.add(key, field)
 	}
 }

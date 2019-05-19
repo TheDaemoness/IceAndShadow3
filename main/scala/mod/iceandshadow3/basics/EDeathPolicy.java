@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics;
 
-import mod.iceandshadow3.util.SMath;
+import mod.iceandshadow3.util.SMath$;
 
 public enum EDeathPolicy {
 	ERASE_LOW(Effect.ERASE), 
@@ -24,13 +24,13 @@ public enum EDeathPolicy {
 	public final Effect effect;
 	public static final EDeathPolicy DEFAULT = LOSE_HIGH;
 	
-	private EDeathPolicy(Effect e) {
+	EDeathPolicy(Effect e) {
 		effect = e;
 	}
 	
 	EDeathPolicy modify(int mod) {
 		final EDeathPolicy[] values = EDeathPolicy.values();
-		int newval = SMath.bound(0, this.ordinal()+mod, values.length-1);
+		int newval = SMath$.MODULE$.bound(0, this.ordinal()+mod, values.length-1);
 		return values[newval];
 	}
 	public EDeathPolicy weaken() {

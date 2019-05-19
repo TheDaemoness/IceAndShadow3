@@ -12,8 +12,7 @@ import mod.iceandshadow3.world.nyx.DomainNyx$;
 import mod.iceandshadow3.world.gaia.DomainGaia$;
 
 
-/**
- * Class exists for the sole reason of not having to type $.MODULE$ so many times.
+/** Class exists for the sole reason of not having to type $.MODULE$ so many times.
  * That and triggering singleton constructors.
  */
 public final class Domains {
@@ -27,7 +26,7 @@ public final class Domains {
 		if(!seal) {
 			domains.add(domain);
 		} else {
-			IceAndShadow3.bug("Domain " + domain.name() + " initialized too late.");
+			IaS3.bug(domain,"Domain initialized too late.");
 		}
 	}
 	static final void initEarly() {

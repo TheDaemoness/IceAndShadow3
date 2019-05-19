@@ -1,7 +1,24 @@
 # Understanding IaS3's Codebase
 
+IaS3's codebase can be difficult to understand. This can be attributed to a few things:
+* The mod is written in two languages, one of which has a reputation for being complex.
+* The mod isn't written in the most idiomatic Java or Scala.
+* The mod is a library mod and content mod rolled into one.
+* The mod has some fairly involved inheritance trees but no class diagram.
+* ~~The lead developer is nuts.~~
+
+If you just want to see how X block/item/entity works,
+then what you're looking for is almost certainly in a subpackage of `mod.iceandshadow3.world`.
+It should be easy to find from there.
+
+For everyone else, it's recommended to have a look a the READMEs in each package.
+
 ## Type Usage Restrictions
-Unless a package's README specifies otherwise, anything originating from one of the following packages (or subpackages thereof):
+This is important to understand why parts of the codebase are fairly convoluted
+(e.g. all extensions of `mod.iceandshadow3.basics.TLogic`).
+
+Unless a package's README specifies otherwise, anything originating from one of the following packages
+(or subpackages thereof):
 * `net.minecraft`
 * `net.minecraftforge`
 * `com.mojang`
@@ -14,12 +31,18 @@ Unless a package's README specifies otherwise, anything originating from one of 
 * Static members/enum constants belonging to a prohibited class may not be called/accessed.
 * Reflection may not be used to bypass the above restrictions.
 
-This restriction is the cause for a lot of added complexity in IaS3's codebase, however it's also necessary to avoid breakage (which DOES happen between Minecraft versions) spreading uncontrollably to the rest of IaS3's codebase.
+Where possible (and where it'd be remotely sane to do),
+these restrictions should be enforced using package-level access.
+
+This restriction is the cause for a lot of added complexity in IaS3's codebase,
+however it's also necessary to avoid breakage (which as any seasoned modder will tell you happens BIGTIME between Minecraft versions) spreading uncontrollably to the rest of IaS3's codebase.
 
 Exceptions are on a package-by-package basis.
+Subpackages of `mod.iceandshadow3` where you will definitely NOT find such exceptions are `basics`, `util`, and `world`.
 
 ## Type Name Prefixes
 Two or more adjacent capital letters at the start of a class/file name are indicative of a type name prefix.
+If necessary, abbreviations that would otherwise be capitalized will be camelcased to ensure this (e.g. NBT -> Nbt).
 
 ### "A" - Adapter
 Always written in Java. Takes IaS3 objects (or their data) and exposes a Minecraft-compatible (or Forge-compatible) interface to them.
@@ -29,9 +52,8 @@ Used for Blocks, Items, Entities, and virtually everything that needs to go in a
 Should be defined exclusively in `mod.iceandshadow3.compat`.
 
 ### "B" - Base
-Java: an abstract class.
-
-Scala: a non-sealed abstract class.
+A class intended to be subtyped. Usually abstract, *never* a leaf in the inheritance tree
+(`sealed` without any other classes in the same file extending it, or `final`).
 
 ### "C" - Compatibility/Condom
 Always written in Scala. Takes Minecraft objects (or their data) and exposes an IaS3-controlled interface to them.
@@ -48,7 +70,7 @@ Java: a `public enum`. Woop.
 Scala: a sealed class with a companion object that contains case objects that subtype the sealed class.
 
 ### 'I' - Interface
-Java: an `interface`.
+Java: an `interface`. Note that IaS3's Java portions are in Java 8.
 
 Scala: a `trait` that contains only public non-final `def`s.
 
@@ -60,4 +82,4 @@ Scala: a non-package non-companion `object`.
 Not present on any of the classes in `mod.iceandshadow3` in specific, where it would be redundant.
 
 ### "T" - Trait
-Always written in Scala. A trait that does NOT fit the criteria for the `I` prefix.
+Always written in Scala. A trait that does NOT fit the criteria for the `I` prefix. Often a mixin.

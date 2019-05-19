@@ -1,7 +1,6 @@
 package mod.iceandshadow3.util;
 
-/**
- * Utility functions for using the bits (esp. the sign bit) on an integer for
+/** Utility functions for using the bits (esp. the sign bit) on an integer for
  * something else.
  */
 public class SIntBits {
@@ -20,11 +19,11 @@ public class SIntBits {
 	// The following are common and simple-enough operations, but they're annoying
 	// to type out.
 
-	public static boolean flag(int value) {
+	public static boolean signBit(int value) {
 		return value < 0;
 	}
 
 	public static int value(int value) {
-		return Math.abs(value + (flag(value) ? 1 : 0));
+		return Math.abs(value + (signBit(value) ? 1 : 0));
 	}
 }

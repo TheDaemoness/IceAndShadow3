@@ -9,6 +9,6 @@ import net.minecraft.world.World
 trait TCRefWorld {
   protected def getWorld(): World
 
-  def isServerSide(): Boolean = !getWorld.isRemote
+  def isServerSide: Boolean = !getWorld().isRemote
 
 }

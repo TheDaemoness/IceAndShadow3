@@ -10,6 +10,4 @@ object SCaster {
 	} catch {
 		case c: ClassCastException => None
 	}
-	
-	def option[T <: AnyRef](what: T): Option[T] = if(what == null) None else Some(what)
 }

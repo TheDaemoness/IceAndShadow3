@@ -26,8 +26,10 @@ object CRefBlock {
 
 	private class ImplStupid(val notaworld: IBlockReader, position: BlockPos)
 			extends Impl(position) {
-		val maybeaworld: World =
-			if ((notaworld.isInstanceOf[World])) notaworld.asInstanceOf[World] else null
+		val maybeaworld: World = notaworld match {
+			case world: World => world
+			case _ => null
+		}
 
 		def getBS(): IBlockState = notaworld.getBlockState(pos)
 		def getIBA(): IBlockReader = notaworld
@@ -37,14 +39,14 @@ object CRefBlock {
 
 class CRefBlock(private val impl: Impl) extends TCRefWorld with TEffectSource with ISpatial {
 	
-	protected override def getWorld(): World = impl.getWorld
+	protected override def getWorld(): World = impl.getWorld()
 	
 	def this(w: World, v: Vec3) {
 		this(new CRefBlock.ImplChunk(
-		w.getChunk(v.xChunk(), v.zChunk()),
-		new BlockPos(v.xBlock().toInt,
-								 Math.min(v.yBlock(), 255).toShort,
-								 v.zBlock().toInt)))
+		w.getChunk(v.xChunk, v.zChunk),
+		new BlockPos(v.xBlock.toInt,
+								 Math.min(v.yBlock, 255).toShort,
+								 v.zBlock.toInt)))
 	}
 
 	def this(w: World, p: BlockPos) = {
@@ -55,21 +57,21 @@ class CRefBlock(private val impl: Impl) extends TCRefWorld with TEffectSource wi
 		this(new CRefBlock.ImplStupid(notaworld, bp))
 	}
 
-	def getHardness(): Float = {
-		val w: World = impl.getWorld
+	def getHardness: Float = {
+		val w: World = impl.getWorld()
 		if (w == null) java.lang.Float.NaN
-		impl.getBS.getBlockHardness(w, impl.pos)
+		impl.getBS().getBlockHardness(w, impl.pos)
 	}
 
-	def getOpacity(): Int = impl.getBS.getOpacity(impl.getIBA, impl.pos)
+	def getOpacity: Int = impl.getBS().getOpacity(impl.getIBA(), impl.pos)
 
-	def getLuma(): Int = impl.getBS.getLightValue(impl.getWorld, impl.pos)
+	def getLuma: Int = impl.getBS().getLightValue(impl.getWorld(), impl.pos)
 	
-	override def getNameTextComponent(): ITextComponent =
-		impl.getBS.getBlock.getNameTextComponent
+	override def getNameTextComponent: ITextComponent =
+		impl.getBS().getBlock.getNameTextComponent
 
 	override def getAttack(): mod.iceandshadow3.basics.Damage = null
 	
-	override def position = new Vec3(impl.pos.getX(), impl.pos.getY(), impl.pos.getZ(), 0.5, 0.5, 0.5)
+	override def position = new Vec3(impl.pos.getX, impl.pos.getY, impl.pos.getZ, 0.5, 0.5, 0.5)
 
 }

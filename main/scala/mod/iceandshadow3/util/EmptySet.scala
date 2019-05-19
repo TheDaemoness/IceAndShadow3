@@ -22,8 +22,7 @@ class EmptySet[E <: Object] extends java.util.Set[E] with Iterable[E] {
 	def toArray[T](ts: Array[T]): Array[T] = ts //Shuts up the IDEA linter while still compiling.
 	def toArray[T](ts: Array[T with Object]): Array[T with Object] = ts
 	override def equals(o: Any): Boolean = o match {
-			case es: java.util.Set[E] => es.isEmpty
-			case _ => false
+		case es: java.util.Set[E] => es.isEmpty
+		case _ => false
 	}
-
 }

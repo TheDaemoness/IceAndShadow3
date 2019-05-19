@@ -3,6 +3,7 @@ package mod.iceandshadow3;
 import mod.iceandshadow3.config.ConfigReflective;
 import mod.iceandshadow3.data.DatumBool;
 
+//IMPORTANT: DO NOT TRANSLATE TO SCALA!
 public class ConfigServer extends ConfigReflective {
 	@Override public String name() {return "server";}
 	@Override public int versionMajor() {return 1;}

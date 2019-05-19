@@ -20,9 +20,11 @@ import mod.iceandshadow3.compat.block.CRegistryBlock;
 import mod.iceandshadow3.compat.item.CRegistryItem;
 import mod.iceandshadow3.config.ConfigManager;
 
-@Mod(IceAndShadow3.MODID)
-public class IceAndShadow3 {
-	/// The value here should match an entry in the META-INF/mods.toml file
+/** The mod class for Ice and Shadow III. If you're looking for main, this is roughly it.
+ */
+@Mod(IaS3.MODID)
+public class IaS3 {
+	/// The value here should match the entry in the META-INF/mods.toml file
 	public static final String MODID = "iceandshadow3";
 	public static final int VER_CFG_FMT = 1;
 	private static final Logger BEAVER = LogManager.getLogger();
@@ -31,7 +33,7 @@ public class IceAndShadow3 {
 	private ConfigManager<ConfigClient> cfgClient;
 	private ConfigManager<ConfigServer> cfgServer;
 
-	public IceAndShadow3() {
+	public IaS3() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		bus.addListener(this::initRegistries);
 		bus.addListener(this::initCommon);

@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.block;
 
 import java.util.List;
 
-import mod.iceandshadow3.IceAndShadow3;
+import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicBlock;
 import mod.iceandshadow3.basics.HarvestMethod;
 import mod.iceandshadow3.basics.ILogicProvider;
@@ -21,7 +21,7 @@ public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShear
 	public ABlock(BLogicBlock blocklogic, int variant) {
 		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
 		bl = blocklogic;
-		this.setRegistryName(IceAndShadow3.MODID, bl.getName(variant));
+		this.setRegistryName(IaS3.MODID, bl.getName(variant));
 		this.variant = variant;
 	}
 	public int getVariantId(IBlockState bs) {

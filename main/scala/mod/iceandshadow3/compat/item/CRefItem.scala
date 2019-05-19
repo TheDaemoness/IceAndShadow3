@@ -19,14 +19,14 @@ class CRefItem(private[compat] var is: ItemStack, private[compat] val owner: Ent
 	
 	/** Reduce stack size or damage the item by the specified amount.
 	 */
-	def consume(count: Int = 1) = {
+	def consume(count: Int = 1): Unit = {
 		if(is.isDamageable) {
 			val rng = SRandom.getRNG(owner)
-			if (is.attemptDamageItem(count, rng, cast[EntityPlayerMP](owner).getOrElse(null))) {
+			if (is.attemptDamageItem(count, rng, cast[EntityPlayerMP](owner).orNull)) {
 				if(owner != null) {
 					owner.renderBrokenItemStack(is)
 					cast[EntityPlayer](owner).foreach {
-						_.addStat(net.minecraft.stats.StatList.ITEM_BROKEN.get(is.getItem()))
+						_.addStat(net.minecraft.stats.StatList.ITEM_BROKEN.get(is.getItem))
 					}
 				}
 				is.shrink(1)

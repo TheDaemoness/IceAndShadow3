@@ -11,7 +11,7 @@ import net.minecraft.block.Block
 class CRegistryBlock(reg: IForgeRegistry[Block]) extends CRegistry[Block, BLogicBlock](reg) {
 	def add(logic: BLogicBlock): BLogicBlock = {
 		logic.secrets = new SecretsLogic[BLogicBlock,Block](logic)
-		for(variant <- 0 to logic.countVariants()-1) register(logic, new ABlock(logic, variant))
+		for(variant <- 0 until logic.countVariants) register(logic, new ABlock(logic, variant))
 		logic
 	}
 }

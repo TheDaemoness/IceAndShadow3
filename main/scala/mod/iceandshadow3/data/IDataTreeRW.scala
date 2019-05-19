@@ -1,7 +1,7 @@
 package mod.iceandshadow3.data
 
-trait IDataTreeSerializable[DataTreeType <: BDataTree[_]] {
-	def getDataTree(): DataTreeType
+trait IDataTreeRW[DataTreeType <: BDataTree[_]] {
+	def newDataTree(): DataTreeType
 	def fromDataTree(tree: DataTreeType): Boolean
 	def fromAnyDataTree(tree: BDataTree[_]): Boolean = fromDataTree(tree.asInstanceOf[DataTreeType])
 }

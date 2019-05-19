@@ -30,8 +30,7 @@ object Vec3 {
 	val W: Vec3 = new Vec3(-1, 0, 0)
 }
 
-/**
-* An immutable fixed-precision 3d vector class.
+/** An immutable fixed-precision 3d vector class.
 */
 class Vec3 (
 	protected var x: Long,
@@ -47,40 +46,39 @@ class Vec3 (
 		(z << SUB_BITS) + toLong(zShift))
 	def this(x: Double, y: Double, z: Double) = this(toLong(x), toLong(y).toInt, toLong(z))
 
-	def xRaw() = x
-	def yRaw() = y
-	def zRaw() = z
-	def xBlock(): Long = toBlockCoord(x)
-	def yBlock(): Int = toBlockCoord(y).toInt
-	def zBlock(): Long = toBlockCoord(z)
-	def xChunk(): Int = (toBlockCoord(x) >> CHUNK_BITS).toInt
-	def zChunk(): Int = (toBlockCoord(z) >> CHUNK_BITS).toInt
-	def xSubChunk(): Byte = (toBlockCoord(x) & CHUNK_MASK).toByte
-	def zSubChunk(): Byte = (toBlockCoord(z) & CHUNK_MASK).toByte
-	def xSubBlock(): Int = toSubCoord(x)
-	def ySubBlock(): Int = toSubCoord(y)
-	def zSubBlock(): Int = toSubCoord(z)
-	def xDouble(): Double = toDouble(x)
-	def yDouble(): Double = toDouble(y)
-	def zDouble(): Double = toDouble(z)
+	//TODO: Tuples could stand to be used a lot more here, depending how well they play with Java.
+	def xRaw: Long = x
+	def yRaw: Int = y
+	def zRaw: Long = z
+	def xBlock: Long = toBlockCoord(x)
+	def yBlock: Int = toBlockCoord(y).toInt
+	def zBlock: Long = toBlockCoord(z)
+	def xChunk: Int = (toBlockCoord(x) >> CHUNK_BITS).toInt
+	def zChunk: Int = (toBlockCoord(z) >> CHUNK_BITS).toInt
+	def xSubChunk: Byte = (toBlockCoord(x) & CHUNK_MASK).toByte
+	def zSubChunk: Byte = (toBlockCoord(z) & CHUNK_MASK).toByte
+	def xSubBlock: Int = toSubCoord(x)
+	def ySubBlock: Int = toSubCoord(y)
+	def zSubBlock: Int = toSubCoord(z)
+	def xDouble: Double = toDouble(x)
+	def yDouble: Double = toDouble(y)
+	def zDouble: Double = toDouble(z)
 
 /// Returns a mutable copy of this vector.
-	def copy(): Vec3M = new Vec3M(x, y, z)
-	def mag(): Double = Math.sqrt(x * x + y.toLong * y + z * z)
-	def magH(): Double = Math.sqrt(x * x + z * z)
+	def copy: Vec3M = new Vec3M(x, y, z)
+	def mag: Double = Math.sqrt(x * x + y.toLong * y + z * z)
+	def magH: Double = Math.sqrt(x * x + z * z)
 
 	def dot(b: Vec3): Double = toDouble(x * b.x + y.toLong * b.y + z * b.z)
-	def toBlockPos(): BlockPos = new BlockPos(xBlock(), yBlock(), zBlock())
+	def toBlockPos: BlockPos = new BlockPos(xBlock, yBlock, zBlock)
 
-	override def equals(o: Any): Boolean = {
-		if (o.isInstanceOf[Vec3]) {
-			val b: Vec3 = o.asInstanceOf[Vec3]
-			y == b.y && x == b.x && z == b.z
-		} else false
+	override def equals(o: Any): Boolean = o match {
+		case b: Vec3 => y == b.y && x == b.x && z == b.z
+		case _ => false
 	}
 
-	override def toString(): String = s"<$xDouble,$yDouble,$zDouble()>"
+	override def toString: String = s"<$xDouble,$yDouble,$zDouble>"
 
-	override def compareTo(b: Vec3): Int = java.lang.Double.compare(mag(), b.mag())
+	override def compareTo(b: Vec3): Int = java.lang.Double.compare(mag, b.mag)
 }
 

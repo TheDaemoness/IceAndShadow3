@@ -1,6 +1,6 @@
 package mod.iceandshadow3.compat.item;
 
-import mod.iceandshadow3.IceAndShadow3;
+import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicItem;
 import mod.iceandshadow3.basics.BItemProperty;
 import mod.iceandshadow3.basics.BStateData;
@@ -35,7 +35,7 @@ public class AItem extends Item implements ILogicStateProvider<BLogicItem, ItemS
 	public AItem(BLogicItem itemlogic, int variant) {
 		super(itemlogic.toItemProperties(variant));
 		il = itemlogic;
-		this.setRegistryName(IceAndShadow3.MODID, il.getName(variant));
+		this.setRegistryName(IaS3.MODID, il.getName(variant));
 		this.variant = variant;
 		for(BItemProperty bpo : il.propertyOverrides()) {
 			this.addPropertyOverride(new ResourceLocation(bpo.name()), new IItemPropertyGetter() {

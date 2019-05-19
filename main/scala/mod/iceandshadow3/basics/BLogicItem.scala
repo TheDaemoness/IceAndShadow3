@@ -20,7 +20,7 @@ sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogi
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String) extends BLogicItem(dom, name) {
 	type StateDataType = BStateData
-	override final def getDefaultStateData(variant: Int) = null
+	override final def getDefaultStateData(variant: Int): BStateData = null
 }
 abstract class BLogicItemMulti(dom: BDomain, name: String) extends BLogicItemSimple(dom, name) {
 	override def stackLimit(variant: Int) = 64
