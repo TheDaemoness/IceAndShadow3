@@ -93,7 +93,11 @@ public class IaS3 {
 	
 	public static Logger logger() {return BEAVER;}
 	public static void bug(Object what, Object... args) {
-		BEAVER.log(BUG_LEVEL,what.getClass().getTypeName(),": ",args);
+		class SomebodyScrewedThePooch extends Throwable {}
+		if(what == null) what = new SomebodyScrewedThePooch();
+		if(what instanceof Throwable) BEAVER.log(BUG_LEVEL, args, (Throwable)what);
+		else BEAVER.log(BUG_LEVEL,what.getClass().getTypeName(),": ",args);
+
 	}
 	
 	@OnlyIn(Dist.CLIENT)

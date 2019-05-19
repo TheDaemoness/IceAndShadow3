@@ -13,4 +13,8 @@ class CRefLiving(entity: EntityLivingBase) extends CRefEntity(entity) {
 
   def visibleTo(who: CRefEntity): Boolean = entity.canEntityBeSeen(who.entity)
   def equipment(where: EquipPoint): CRefItem = where.getItem(entity)
+
+  def hasIaSArmor: Boolean = false //TODO: IaS3 Armor NYI
+
+  def findItem(itemid: String, restrictToHands: Boolean = false): CRefItem = new CRefItem(null, entity)
 }

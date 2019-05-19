@@ -22,7 +22,15 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder") {
 		tags.chroot(IaS3.MODID).getLong("charged") > 0
 		
 	override def onUse(variant: Int, state: BStateData, stack: CRefItem, user: CRefPlayer, mainhand: Boolean): L3 = {
-		state.asInstanceOf[SIWayfinder].charged.set(true) //TODO: NO! Consume a Totem of Undying first.
-		L3.TRUE
+		val wayfinderstate = state.asInstanceOf[SIWayfinder]
+		if(!mainhand && !wayfinderstate.charged.get) {
+			val found = user.findItem("minecraft:totem_of_undying", true)
+			if(!found.isEmpty) {
+				found.consume()
+				wayfinderstate.charged.set(true)
+				return L3.TRUE
+			}
+		}
+		L3.NULL //TODO: Position setting.
 	}
 }

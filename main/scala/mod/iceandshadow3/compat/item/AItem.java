@@ -77,7 +77,7 @@ public class AItem extends Item implements ILogicStateProvider<BLogicItem, ItemS
 			case FALSE: resultType = EnumActionResult.FAIL; break;
 			default: resultType = EnumActionResult.PASS; break; //Safety.
 		}
-		saveStateData(cri.is(), bsd);
-		return new ActionResult<>(resultType, cri.is());
+		saveStateData(cri.exposeItemsOrNull(), bsd);
+		return new ActionResult<>(resultType, cri.exposeItemsOrNull());
 	}
 }

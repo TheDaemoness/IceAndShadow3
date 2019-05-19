@@ -13,7 +13,7 @@ class CRefEntity(protected[compat] val entity: Entity) extends TCRefWorldPlace w
 
 	override def getEffectSourceEntity: Entity = entity
 	
-	override protected[compat] def getWorld(): net.minecraft.world.World = entity.world
+	override protected[compat] def exposeWorld(): net.minecraft.world.World = entity.world
 	
 	override def getAttack: Damage = entity match {
 		case source: TEffectSource => source.getAttack

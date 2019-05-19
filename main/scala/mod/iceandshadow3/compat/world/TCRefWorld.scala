@@ -7,10 +7,10 @@ import net.minecraft.world.World
   * After all, block data is often sent alongside a world.
   */
 trait TCRefWorld {
-  protected def getWorld(): World
+  protected def exposeWorld(): World
 
-  def isServerSide: Boolean = !getWorld().isRemote
-  def isClientSide: Boolean = getWorld().isRemote
-  def rng(): java.util.Random = getWorld().rand
-  def dimension = new CDimension(getWorld().dimension)
+  def isServerSide: Boolean = !exposeWorld().isRemote
+  def isClientSide: Boolean = exposeWorld().isRemote
+  def rng(): java.util.Random = exposeWorld().rand
+  def dimension = new CDimension(exposeWorld().dimension)
 }
