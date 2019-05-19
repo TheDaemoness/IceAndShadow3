@@ -1,21 +1,32 @@
 package mod.iceandshadow3.compat.item
 
 import mod.iceandshadow3.util.SCaster._
-import mod.iceandshadow3.compat.SRandom
+import mod.iceandshadow3.compat.{CNbtTree, SRandom}
 import mod.iceandshadow3.compat.entity.CRefEntity
-
 import net.minecraft.entity.EntityLivingBase
-import net.minecraft.entity.player.{EntityPlayer,EntityPlayerMP}
+import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.item.ItemStack
 
-//TODO: Manually generated class stub.
 class CRefItem(private[compat] var is: ItemStack, private[compat] val owner: EntityLivingBase) {
 	def this(is: ItemStack) = this(is, null)
 	
-	def count(): Int = is.getCount
-	def countMax(): Int = is.getMaxStackSize
-	def hasOwner = owner != null
+	def count: Int = is.getCount
+	def countMax: Int = is.getMaxStackSize
+	def hasOwner: Boolean = owner != null
 	def getOwner: CRefEntity = if(hasOwner) new CRefEntity(owner) else null
+	def canDamage: Boolean = is.isDamageable
+	def isDamaged: Boolean = is.isDamaged
+	def getDamage: Int = is.getDamage
+	def getDamageMax: Int = is.getMaxDamage
+	def isShiny: Boolean = is.hasEffect
+	def isComplex: Boolean = is.hasTag
+
+	def exposeNbtTree(): CNbtTree = new CNbtTree(is.getTag)
+
+	def changeTo(alternate: CRefItem): Unit = {is = alternate.is.copy}
+
+	//TODO: Enchantment querying.
+	//TODO: Item frame handling.
 	
 	/** Reduce stack size or damage the item by the specified amount.
 	 */

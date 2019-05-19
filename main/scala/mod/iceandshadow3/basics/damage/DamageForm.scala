@@ -1,12 +1,13 @@
-package mod.iceandshadow3.basics
+package mod.iceandshadow3.basics.damage
 
 import mod.iceandshadow3.compat.entity.EquipPoint
+import mod.iceandshadow3.compat.entity.EquipPoint._
 
 case class DamageForm (
 	isProjectile:Boolean = false,
 	isBlast:Boolean = false,
 	isMystic:Boolean = false,
-	relevantEquips:List[EquipPoint] = List(EquipPoint.HEAD, EquipPoint.CHEST, EquipPoint.LEGS),
+	relevantEquips:Set[EquipPoint] = Set(BODY_HEAD, BODY_CHEST, BODY_LEGS),
 	dimensions:Int = 2 //Number of dimensions a cross-section of the attack has.
 )
 object DamageForm {
@@ -26,10 +27,10 @@ object DamageForm {
 		dimensions = 3
 	)
 	val FLOOR = DamageForm(
-		relevantEquips = List(EquipPoint.FEET)
+		relevantEquips = Set(BODY_FEET)
 	)
 	val CEILING = DamageForm(
-		relevantEquips = List(EquipPoint.HEAD)
+		relevantEquips = Set(BODY_HEAD)
 	)
 	val ELDRITCH = DamageForm(dimensions = 4)
 }

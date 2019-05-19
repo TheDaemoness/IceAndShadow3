@@ -4,8 +4,8 @@ import java.util.List;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicBlock;
-import mod.iceandshadow3.basics.HarvestMethod;
-import mod.iceandshadow3.basics.ILogicProvider;
+import mod.iceandshadow3.basics.util.HarvestMethod;
+import mod.iceandshadow3.basics.util.ILogicProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -15,8 +15,8 @@ import net.minecraftforge.common.IShearable;
 
 public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShearable {
 	
-	protected final BLogicBlock bl;
-	protected final int variant;
+	private final BLogicBlock bl;
+	private final int variant;
 	
 	public ABlock(BLogicBlock blocklogic, int variant) {
 		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
@@ -34,13 +34,14 @@ public class ABlock extends Block implements ILogicProvider<BLogicBlock>, IShear
 	}
 
 	@Override
+	public int getVariant() {
+		return variant;
+	}
+
+	@Override
 	public List<ItemStack> onSheared(ItemStack item, IWorld world, BlockPos pos, int fortune) {
 		bl.isToolClassEffective(HarvestMethod.SHEAR);
 		return null;
-	}
-	@Override
-	public int getVariant() {
-		return variant;
 	}
 }
 

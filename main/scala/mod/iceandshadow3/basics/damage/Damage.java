@@ -1,9 +1,9 @@
-package mod.iceandshadow3.basics;
+package mod.iceandshadow3.basics.damage;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import mod.iceandshadow3.compat.TEffectSource;
+import mod.iceandshadow3.compat.entity.TEffectSource;
 import mod.iceandshadow3.compat.entity.CRefEntity;
 
 public class Damage {

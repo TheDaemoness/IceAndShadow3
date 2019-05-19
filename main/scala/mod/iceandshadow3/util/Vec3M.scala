@@ -63,6 +63,6 @@ class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ITextLine
 		}
 		true
 	}
-	def newDataTree(): mod.iceandshadow3.data.DataTreeMap =
+	def exposeDataTree(): mod.iceandshadow3.data.DataTreeMap =
 		new DataTreeMap().add("x", x).add("y", y).add("z", z)
 }

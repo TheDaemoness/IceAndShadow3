@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BStateData;
-import mod.iceandshadow3.basics.ILogicProvider;
+import mod.iceandshadow3.basics.util.ILogicProvider;
 import mod.iceandshadow3.data.DataTreeMap;
 
 // Maybe reconsider writing the adapter classes in Scala.
@@ -17,7 +17,7 @@ public interface ILogicStateProvider<LogicType extends BLogic, InstanceType> ext
 	default BStateData getStateData(InstanceType instance){
 		final BStateData sd = getLogic().getDefaultStateData(getVariant());
 		if(sd != null) {
-			final DataTreeMap tree = sd.newDataTree();
+			final DataTreeMap tree = sd.exposeDataTree();
 			tree.fromNBT(getNBT(instance).getCompound(IaS3.MODID));
 			//TODO: Consider using CNbtTree here.
 			sd.fromDataTree(tree);
@@ -26,6 +26,6 @@ public interface ILogicStateProvider<LogicType extends BLogic, InstanceType> ext
 	}
 	default void saveStateData(InstanceType instance, BStateData state) {
 		if(state == null || !state.needsWrite()) return;
-		getNBT(instance).setTag(IaS3.MODID, state.newDataTree().toNBT());
+		getNBT(instance).setTag(IaS3.MODID, state.exposeDataTree().toNBT());
 	}
 }

@@ -10,7 +10,7 @@ abstract class BDataTree[Value](protected var datum: Value) extends INbtRW with 
 	override final def toNBT(): INBTBase = writeNBT(get)
 	def fromNBT(tag: INBTBase): Boolean
 	
-	override final def newDataTree() = this
+	override final def exposeDataTree() = this
 }
 
 // TODO: Impose type restrictions on Container.

@@ -1,9 +1,9 @@
 package mod.iceandshadow3.compat
 
 import java.util
-
-import mod.iceandshadow3.basics.TLogic
 import java.util.ArrayList
+
+import mod.iceandshadow3.basics.util.TLogic
 
 /** A mapping between BLogics and the Minecraft types they control the behaviors of.
  */

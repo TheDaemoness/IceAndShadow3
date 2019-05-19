@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.compat.world
 
 import net.minecraft.world.World
 

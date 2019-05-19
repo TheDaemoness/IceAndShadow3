@@ -1,6 +1,7 @@
 package mod.iceandshadow3.compat.entity;
 
-import mod.iceandshadow3.basics.Damage;
+import mod.iceandshadow3.basics.damage.Damage;
+import mod.iceandshadow3.basics.damage.DamageForm;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
@@ -22,7 +23,7 @@ public class ADamageSource extends DamageSource {
 		super("ias3damage");
 		this.setDamageIsAbsolute().setDamageBypassesArmor();
 		damage = dmg;
-		mod.iceandshadow3.basics.DamageForm f = damage.getForm();
+		DamageForm f = damage.getForm();
 		if(f.isProjectile()) this.setProjectile();
 		if(f.isBlast()) this.setExplosion();
 		if(f.isMystic()) this.setMagicDamage();

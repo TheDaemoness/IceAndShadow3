@@ -1,7 +1,7 @@
-package mod.iceandshadow3.basics
+package mod.iceandshadow3.basics.util
 
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.CRefWorld
+import mod.iceandshadow3.compat.world.CRefWorld
 
 abstract class BItemProperty {
 	def name: String

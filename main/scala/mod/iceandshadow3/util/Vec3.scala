@@ -1,10 +1,9 @@
 package mod.iceandshadow3.util
 
-import net.minecraft.util.math.BlockPos
 import Vec3._
 
 object Vec3 {
-	protected[util] val SUB_BITS: Int = 16
+	val SUB_BITS: Int = 16
 	protected val CHUNK_BITS: Long = 4
 	protected val SUB_MULT: Long = 1L << SUB_BITS
 	protected val CHUNK_MULT: Long = 1L << CHUNK_BITS
@@ -70,7 +69,6 @@ class Vec3 (
 	def magH: Double = Math.sqrt(x * x + z * z)
 
 	def dot(b: Vec3): Double = toDouble(x * b.x + y.toLong * b.y + z * b.z)
-	def toBlockPos: BlockPos = new BlockPos(xBlock, yBlock, zBlock)
 
 	override def equals(o: Any): Boolean = o match {
 		case b: Vec3 => y == b.y && x == b.x && z == b.z

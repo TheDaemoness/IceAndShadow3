@@ -8,6 +8,7 @@ import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.entity.CRefPlayer
 import mod.iceandshadow3.data._
 import mod.iceandshadow3.util.L3
+import mod.iceandshadow3.world.DomainNyx
 
 sealed class SIWayfinder extends BStateData {
 	var charged = new DatumBool(false)

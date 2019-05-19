@@ -13,7 +13,7 @@ class DataTreeMap extends BDataTreeBranch[
 		val compound = tag.asInstanceOf[NBTTagCompound]
 		for(key <- compound.keySet.asScala) try {
 			get(key).foreach(obj => {
-				val tree = obj.newDataTree()
+				val tree = obj.exposeDataTree()
 				tree.fromNBT(compound.getTag(key))
 				obj.fromAnyDataTree(tree)
 			})
@@ -25,7 +25,7 @@ class DataTreeMap extends BDataTreeBranch[
 	}
 	override protected def writeNBT(map: java.util.Map[String,IDataTreeRW[_ <: BDataTree[_]]]) = {
 		val retval = new NBTTagCompound()
-		for((key, value) <- map.asScala) retval.setTag(key, value.newDataTree().toNBT())
+		for((key, value) <- map.asScala) retval.setTag(key, value.exposeDataTree().toNBT())
 		retval
 	}
 	override protected def copyFrom(map: java.util.Map[String,IDataTreeRW[_ <: BDataTree[_]]]): Unit =

@@ -45,9 +45,9 @@ class CNbtTree(val root: NBTTagCompound) {
 	}
 
 	def store(key: String, obj: IDataTreeRW[_ <: BDataTree[_]]) =
-		set(key, obj.newDataTree)
+		set(key, obj.exposeDataTree)
 	def load[T <: BDataTree[_]] (key: String, obj: IDataTreeRW[T]): Boolean = {
-		val tree: T = obj.newDataTree
+		val tree: T = obj.exposeDataTree
 		if(get(key,tree)) obj.fromDataTree(tree) else false
 	}
 }

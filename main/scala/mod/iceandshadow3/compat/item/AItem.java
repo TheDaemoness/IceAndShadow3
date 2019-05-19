@@ -2,10 +2,10 @@ package mod.iceandshadow3.compat.item;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicItem;
-import mod.iceandshadow3.basics.BItemProperty;
+import mod.iceandshadow3.basics.util.BItemProperty;
 import mod.iceandshadow3.basics.BStateData;
 import mod.iceandshadow3.compat.CNbtTree;
-import mod.iceandshadow3.compat.CRefWorld;
+import mod.iceandshadow3.compat.world.CRefWorld;
 import mod.iceandshadow3.compat.ILogicStateProvider;
 import mod.iceandshadow3.compat.entity.CRefPlayer;
 import net.minecraft.entity.EntityLivingBase;

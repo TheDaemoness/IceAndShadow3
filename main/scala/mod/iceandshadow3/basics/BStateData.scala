@@ -8,7 +8,7 @@ abstract class BStateData extends IDataTreeRW[DataTreeMap] {
 	val needsWrite = true
 	private val dataTree = new DataTreeMap
 	def fromDataTree(tree: DataTreeMap): Boolean = tree == dataTree
- 	def newDataTree(): DataTreeMap = dataTree
+ 	def exposeDataTree(): DataTreeMap = dataTree
 	def register(key: String, field: IDataTreeRW[_ <: BDataTree[_]]): Unit = {
 		dataTree.add(key, field)
 	}

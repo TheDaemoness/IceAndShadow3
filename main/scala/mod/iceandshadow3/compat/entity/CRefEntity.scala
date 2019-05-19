@@ -1,16 +1,13 @@
 package mod.iceandshadow3.compat.entity
 
-import mod.iceandshadow3.basics.Damage
-import mod.iceandshadow3.compat.ISpatial
-import mod.iceandshadow3.compat.TEffectSource
-import mod.iceandshadow3.compat.TCRefWorld
-import mod.iceandshadow3.util.Vec3
-
+import mod.iceandshadow3.basics.damage.Damage
+import mod.iceandshadow3.compat.world.TCRefWorldPlace
+import mod.iceandshadow3.util.{IPositional, Vec3}
 import net.minecraft.entity.Entity
 import net.minecraft.util.text.ITextComponent
 
 //TODO: Manually generated class stub.
-class CRefEntity(protected[compat] val entity: Entity) extends TCRefWorld with TEffectSource with ISpatial {
+class CRefEntity(protected[compat] val entity: Entity) extends TCRefWorldPlace with TEffectSource with IPositional {
 	
 	override def getNameTextComponent: ITextComponent = entity.getDisplayName
 

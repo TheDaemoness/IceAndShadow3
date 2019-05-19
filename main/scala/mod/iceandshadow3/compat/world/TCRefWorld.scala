@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.compat.world
 
 import net.minecraft.world.World
 
@@ -10,5 +10,7 @@ trait TCRefWorld {
   protected def getWorld(): World
 
   def isServerSide: Boolean = !getWorld().isRemote
-
+  def isClientSide: Boolean = getWorld().isRemote
+  def rng(): java.util.Random = getWorld().rand
+  def dimension = new CDimension(getWorld().dimension)
 }

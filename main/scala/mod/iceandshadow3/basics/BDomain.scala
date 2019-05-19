@@ -4,6 +4,8 @@ import mod.iceandshadow3.compat.block.CRegistryBlock
 import mod.iceandshadow3.compat.item.CRegistryItem
 import mod.iceandshadow3.compat.item.CRarity
 import mod.iceandshadow3.Domains
+import mod.iceandshadow3.basics.damage.EDeathPolicy
+
 import scala.collection.JavaConverters._
 
 /** A collection of lore-related blocks/items/mobs/etc.

@@ -1,4 +1,4 @@
-package mod.iceandshadow3.basics;
+package mod.iceandshadow3.basics.damage;
 
 import java.util.function.BiFunction;
 

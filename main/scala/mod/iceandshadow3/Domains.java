@@ -8,8 +8,8 @@ import mod.iceandshadow3.compat.item.CRegistryItem;
 
 import mod.iceandshadow3.basics.BDomain;
 import mod.iceandshadow3.world.DomainAlien$;
-import mod.iceandshadow3.world.nyx.DomainNyx$;
-import mod.iceandshadow3.world.gaia.DomainGaia$;
+import mod.iceandshadow3.world.DomainNyx$;
+import mod.iceandshadow3.world.DomainGaia$;
 
 
 /** Class exists for the sole reason of not having to type $.MODULE$ so many times.

@@ -1,4 +1,4 @@
-package mod.iceandshadow3.basics
+package mod.iceandshadow3.basics.util
 
 trait IMateria {
 	def getName: String
@@ -9,4 +9,5 @@ trait IMateria {
 	def getBaseLuma: Int = 0
 	def getBaseOpacity: Int
 	def isEthereal: Boolean = false
+	def getShapes: Set[EBlockShape]
 }
