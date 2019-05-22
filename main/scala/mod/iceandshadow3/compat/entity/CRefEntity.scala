@@ -2,13 +2,12 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.basics.damage.Damage
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.world.TCRefWorldPlace
-import mod.iceandshadow3.util.{EmptySet, IPositional, Vec3}
+import mod.iceandshadow3.compat.world.TCWorldPlace
+import mod.iceandshadow3.util.{EmptyIterator, IPositional, Vec3}
 import net.minecraft.entity.Entity
 import net.minecraft.util.text.ITextComponent
 
-//TODO: Manually generated class stub.
-class CRefEntity(protected[compat] val entity: Entity) extends TCRefWorldPlace with TEffectSource with IPositional {
+class CRefEntity(protected[compat] val entity: Entity) extends TCWorldPlace with TEffectSource with IPositional {
 	override def getEffectSourceEntity: Entity = entity
 	override def getNameTextComponent: ITextComponent = entity.getDisplayName
 	override def position = new Vec3(entity.posX, entity.posY, entity.posZ)
@@ -29,5 +28,5 @@ class CRefEntity(protected[compat] val entity: Entity) extends TCRefWorldPlace w
 		entity.setPositionAndUpdate(newpos.xDouble, newpos.yDouble, newpos.zDouble)
 	}
 
-	def items(): Iterator[CRefItem] = new EmptySet[CRefItem].iterator
+	def items(): Iterator[CRefItem] = new EmptyIterator[CRefItem]
 }

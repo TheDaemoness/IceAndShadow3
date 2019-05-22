@@ -17,18 +17,6 @@ class CRefPlayer(player: EntityPlayer) extends CRefLiving(player) {
 	def message(msg: String, actionBar: Boolean = true): Unit
 		= player.sendStatusMessage(new TextComponentTranslation(msg), actionBar)
 
-	override def findItem(itemid: String, restrictToHands: Boolean = false): CRefItem = {
-		val lookingfor = CRefItem.make(itemid, player)
-		if(lookingfor.isEmpty) return lookingfor
-		if(restrictToHands) {
-			val option = List(equipment(EquipPoint.HAND_MAIN),equipment(EquipPoint.HAND_OFF)).find{lookingfor.matches(_)}
-			option.getOrElse(new CRefItem(null, player))
-		} else {
-			val is = player.inventory.mainInventory.asScala.find {lookingfor.matches(_)}
-			new CRefItem(is.orNull, player)
-		}
-	}
-
 	override def items(): Iterator[CRefItem] = {
 		val inv = player.inventory
 		new IteratorConcat[ItemStack, CRefItem](

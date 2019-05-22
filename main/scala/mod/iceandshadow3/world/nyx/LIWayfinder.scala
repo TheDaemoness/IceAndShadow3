@@ -6,16 +6,17 @@ import mod.iceandshadow3.basics.BStateData
 import mod.iceandshadow3.compat.CNbtTree
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.entity.CRefPlayer
+import mod.iceandshadow3.compat.world.PerDimensionVec3
 import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.IEventFishItemDeath
-import mod.iceandshadow3.util.{L3, Vec3M}
+import mod.iceandshadow3.util.L3
 import mod.iceandshadow3.world.DomainNyx
 
 sealed class SIWayfinder extends BStateData {
 	val charged = new DatumBool(false)
 	register("charged", charged)
-	val position = new Vec3M(0,256,0) //TODO: Vec4M once that's done.
-	register("position", position)
+	val positions = new PerDimensionVec3
+	register("positions", positions)
 }
 class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 with IEventFishItemDeath
@@ -40,7 +41,7 @@ with IEventFishItemDeath
 			}
 			return L3.FALSE
 		} else {
-			wayfinderstate.position.set(user.position)
+			wayfinderstate.positions.set(user.dimensionCoord, user.position)
 			//TODO: More feedback. Maybe make this have a wind-up.
 			return L3.TRUE
 		}
@@ -52,7 +53,8 @@ with IEventFishItemDeath
 		if(preventDeath) {
 			val owner = item.getOwner
 			owner.setHp()
-			owner.teleport(wayfinderstate.position)
+			val where = wayfinderstate.positions.get(owner.dimensionCoord).getOrElse(owner.dimension.getWorldSpawn)
+			if(where != null) owner.teleport(where)
 			wayfinderstate.charged.set(false)
 		}
 		//TODO: Give to ender chest inventory.

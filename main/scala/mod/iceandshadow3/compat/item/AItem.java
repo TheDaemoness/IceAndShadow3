@@ -7,7 +7,7 @@ import mod.iceandshadow3.basics.BStateData;
 import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.CNbtTree;
 import mod.iceandshadow3.compat.ILogicItemProvider;
-import mod.iceandshadow3.compat.world.CRefWorld;
+import mod.iceandshadow3.compat.world.CWorld;
 import mod.iceandshadow3.compat.entity.CRefPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,7 +45,7 @@ public class AItem extends Item implements ILogicItemProvider {
 				@OnlyIn(Dist.CLIENT)
 				@Override
 				public float call(ItemStack is, @Nullable World world, @Nullable EntityLivingBase owner) {
-					return impl.call(new CRefItem(is, owner), new CRefWorld(world));
+					return impl.call(new CRefItem(is, owner), new CWorld(world));
 				}
 			});
 		}

@@ -4,7 +4,7 @@ import mod.iceandshadow3.util.IPositional
 import mod.iceandshadow3.compat.Vec3Conversions._
 import net.minecraft.world.EnumLightType
 
-trait TCRefWorldPlace extends TCRefWorld {
+trait TCWorldPlace extends TCWorld {
   this: IPositional =>
   def light: Int = exposeWorld().getLight(position)
   def sunlight: Int = exposeWorld().getLightFor(EnumLightType.SKY, position)

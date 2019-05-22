@@ -20,7 +20,7 @@ class DataTreeMap extends BDataTreeBranch[
 		var greatSuccess: Boolean = true
 		val compound = tag.asInstanceOf[NBTTagCompound]
 		for(key <- compound.keySet.asScala) try {
-			val option = get(key)
+			val option = getForRead(key)
 			if(option.isEmpty) IaS3.logger().warn(s"Unknown key $key found in NBT compound $compound.")
 			option.foreach(obj => {
 				val tree = obj.exposeDataTree()
@@ -29,7 +29,7 @@ class DataTreeMap extends BDataTreeBranch[
 					greatSuccess = false
 					IaS3.logger().warn(s"An $objname with key $key failed to deserialize from NBT compound $compound.")
 				}
-				if(!obj.fromDataTree(tree)) {
+				if(!obj.fromAnyDataTree(tree)) {
 					greatSuccess = false
 					IaS3.bug(obj, s"An $objname with key $key failed to deserialize from its own data tree.")
 				}

@@ -22,6 +22,7 @@ object Vec3 {
 	protected def toDouble(value: Long): Double =
 		toBlockCoord(value) + toSubCoord(value).toDouble / SUB_MULT
 
+	val ZERO: Vec3 = new Vec3(0, 0, 0)
 	// Unit vectors.
 	val U: Vec3 = new Vec3(0, 1, 0)
 	val D: Vec3 = new Vec3(0, -1, 0)
@@ -66,7 +67,8 @@ class Vec3 (
 	def zDouble: Double = toDouble(z)
 
 /// Returns a mutable copy of this vector.
-	def copy: Vec3M = new Vec3M(x, y, z)
+	def copy: Vec3M = new Vec3M(this)
+	def getMutable: Vec3M = copy
 	def mag: Double = Math.sqrt(x * x + y.toLong * y + z * z)
 	def magH: Double = Math.sqrt(x * x + z * z)
 

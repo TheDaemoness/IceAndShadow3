@@ -5,20 +5,21 @@ import net.minecraft.nbt._
 
 import scala.collection.JavaConverters._
 
-class DataTreeList[Element <: BDataTree[_]] extends BDataTreeBranch[java.util.List[Element], Int](new java.util.ArrayList) {
-	override def fromNBT(tag: INBTBase) = {
+class DataTreeList[Element <: IDataTreeRW[_ <: BDataTree[_]]] extends BDataTreeBranch[java.util.List[Element], Int](new java.util.ArrayList) {
+	override def fromNBT(tag: INBTBase): Boolean = {
 		val list = tag.asInstanceOf[NBTTagList]
-		for ((elem, i) <- datum.asScala zip (0 until list.size)) try {
-			elem.fromNBT(list.get(i))
+		for (i <- 0 until list.size) try {
+			val element = getForRead(i)
+			element.foreach {_.exposeDataTree().fromNBT(list.get(i))}
 		} catch {
-			case e: Exception => IaS3.logger().error("NBT format mismatch: "+e.getMessage)
-			//TODO: More information?
+			case e: Exception => IaS3.logger().error("Barely-handled NBT format mismatch: "+e.getMessage)
+			return false
 		}
-		true //TODO: Report false on something blowing up.
+		return true
 	}
 	override protected def writeNBT(list: java.util.List[Element]) = {
 		val retval = new NBTTagList()
-		for(elem <- list.asScala) retval.add(elem.toNBT())
+		for(elem <- list.asScala) retval.add(elem.exposeDataTree().toNBT())
 		retval
 	}
 	override protected def copyFrom(list: java.util.List[Element]): Unit =

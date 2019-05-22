@@ -1,12 +1,10 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.util.IteratorConcat
+import mod.iceandshadow3.util.{EmptyIterator, IteratorConcat}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
-import scala.collection.JavaConverters._
 
-//TODO: Manually generated class stub.
 class CRefLiving(living: EntityLivingBase) extends CRefEntity(living) {
   def hp: Float = living.getHealth
   def hpTemp: Float = living.getAbsorptionAmount
@@ -21,8 +19,17 @@ class CRefLiving(living: EntityLivingBase) extends CRefEntity(living) {
 
   def hasIaSArmor: Boolean = false //TODO: IaS3 Armor NYI
 
-  def findItem(itemid: String, restrictToHands: Boolean = false): CRefItem = new CRefItem(null, living)
+  def findItem(itemid: String, restrictToHands: Boolean = false): CRefItem = {
+    val tosearch = if(restrictToHands) itemsHeld() else items()
+    val tofind = CRefItem.make(itemid, living)
+    tosearch.find{tofind.matches}.getOrElse(new CRefItem(null, living))
+  }
 
-  override def items(): Iterator[CRefItem] =
+  def itemsWorn(): Iterator[CRefItem] =
     new IteratorConcat((is: ItemStack) => {new CRefItem(is, living)}, living.getArmorInventoryList.iterator)
+  def itemsHeld(): Iterator[CRefItem] =
+    new IteratorConcat((is: ItemStack) => {new CRefItem(is, living)}, living.getHeldEquipment.iterator)
+  def itemsEquipped(): Iterator[CRefItem] =
+    new IteratorConcat((is: ItemStack) => {new CRefItem(is, living)}, living.getEquipmentAndArmor.iterator)
+  override def items(): Iterator[CRefItem] = itemsEquipped()
 }

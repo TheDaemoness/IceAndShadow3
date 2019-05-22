@@ -9,7 +9,7 @@ import net.minecraft.world.World
 import net.minecraft.world.chunk.Chunk
 import mod.iceandshadow3.util.{IPositional, Vec3}
 import mod.iceandshadow3.compat.entity.TEffectSource
-import mod.iceandshadow3.compat.world.TCRefWorldPlace
+import mod.iceandshadow3.compat.world.TCWorldPlace
 import net.minecraft.tileentity.TileEntity
 
 sealed abstract class Impl protected(val pos: BlockPos) {
@@ -38,7 +38,7 @@ object CRefBlock {
 	}
 }
 
-class CRefBlock(private val impl: Impl) extends TCRefWorldPlace with TEffectSource with IPositional {
+class CRefBlock(private val impl: Impl) extends TCWorldPlace with TEffectSource with IPositional {
 
 	protected override def exposeWorld(): World = impl.exposeWorld()
 
