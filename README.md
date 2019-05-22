@@ -19,7 +19,7 @@ __NYI.__
 
 To get a usable development environment:
 1. Clone/extract this repository into an empty directory.
-2. Extract a verion of the Forge MDK (25 or later) into the same directory *without overwriting any existing files*.
+2. Extract a copy of the Forge MDK (version 25 or later) into the same directory *without overwriting any existing files*.
 3. Use the Forge-provided gradle wrapper as usual.
 	1. You may need to set the `JAVA_HOME` environment variable before running the gradle wrapper if you're using Java 11.
 	2. Tasks of special interest include `clean`, `build`, `runClient`, `runServer`.
