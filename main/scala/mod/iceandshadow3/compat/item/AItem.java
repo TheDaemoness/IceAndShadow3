@@ -63,14 +63,13 @@ public class AItem extends Item implements ILogicItemProvider {
 		final boolean mainhand = handIn == EnumHand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final CRefItem cri = new CRefItem(is, playerIn);
-		final BStateData bsd = cri.exposeStateData(getLogicPair());
-		EnumActionResult resultType;
-		switch(logic.onUse(variant, bsd, cri, new CRefPlayer(playerIn), mainhand)) {
-			case TRUE: resultType = EnumActionResult.SUCCESS; break;
-			case FALSE: resultType = EnumActionResult.FAIL; break;
-			default: resultType = EnumActionResult.PASS; break; //Safety.
-		}
-		cri.saveStateData(bsd);
+		final EnumActionResult resultType = cri.forStateData(getLogicPair(), (BStateData state) -> {
+			switch(logic.onUse(variant, state, cri, new CRefPlayer(playerIn), mainhand)) {
+				case TRUE: return EnumActionResult.SUCCESS;
+				case FALSE: return EnumActionResult.FAIL;
+				default: return EnumActionResult.PASS;
+			}
+		});
 		return new ActionResult<>(resultType, cri.exposeItemsOrNull());
 	}
 }

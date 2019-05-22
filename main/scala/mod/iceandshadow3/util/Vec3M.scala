@@ -6,7 +6,8 @@ class Vec3M(original: Vec3) extends Vec3(original.xRaw, original.yRaw, original.
 	with ITextLineRW
 	with IDataTreeRW[DataTreeMap]
 {
-	override def getMutable: Vec3M = this
+	override def asMutable: Vec3M = this
+	override def asImmutable: Vec3 = new Vec3(original.xRaw, original.yRaw, original.zRaw)
 
   def set(b: Vec3): Unit = {
 		this.x = b.xRaw

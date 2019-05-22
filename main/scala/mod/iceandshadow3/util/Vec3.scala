@@ -68,7 +68,8 @@ class Vec3 (
 
 /// Returns a mutable copy of this vector.
 	def copy: Vec3M = new Vec3M(this)
-	def getMutable: Vec3M = copy
+	def asMutable: Vec3M = copy
+	def asImmutable: Vec3 = this
 	def mag: Double = Math.sqrt(x * x + y.toLong * y + z * z)
 	def magH: Double = Math.sqrt(x * x + z * z)
 

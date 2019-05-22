@@ -32,8 +32,17 @@ abstract class BCRef[LogicType <: BLogic] {
     if (state == null || !state.needsWrite) return
     val tags = exposeNBTOrNull() //This shouldn't be null in this case, but just in case.
     if(tags != null) tags.setTag(IaS3.MODID, state.exposeDataTree().toNBT)
-    else IaS3.bug(new IllegalArgumentException, "Attempted to save state to an instance that can't save it.")
+    else IaS3.bug(new IllegalArgumentException, "Attempted to save state to an instance that can't save it, and therefore shouldn't have returned any in the first place.")
   }
 
-  //TODO: forStateData
+  def forStateData[T](logicpair: LogicPair[LogicType], fn: BStateData => T): T = {
+    val statedata = exposeStateData(logicpair)
+    val retval = fn(statedata)
+    saveStateData(statedata)
+    retval
+  }
+  def forStateData[T](fn: BStateData => T): Option[T] = {
+    val pair = getLogicPair
+    if(pair != null) Some(forStateData[T](pair, fn)) else None
+  }
 }

@@ -9,7 +9,7 @@ class PerDimensionVec3 extends IDataTreeRW[DataTreeMapFlexible] {
   private val mapping = new DataTreeMapFlexible(_ => Some(new Vec3M(Vec3.ZERO)))
 
   def set(which: CDimensionCoord, where: Vec3): Unit =
-    mapping.add(which.getId, where.getMutable)
+    mapping.add(which.getId, where.asMutable)
 
   def get(which: CDimensionCoord): Option[Vec3M] =
     mapping.getAndCast[Vec3M](which.getId)

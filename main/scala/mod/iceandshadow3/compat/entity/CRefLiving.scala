@@ -1,11 +1,11 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.util.{EmptyIterator, IteratorConcat}
+import mod.iceandshadow3.util.{EmptyIterator, IteratorConcat, Vec3}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 
-class CRefLiving(living: EntityLivingBase) extends CRefEntity(living) {
+class CRefLiving protected[entity](living: EntityLivingBase) extends CRefEntity(living) {
   def hp: Float = living.getHealth
   def hpTemp: Float = living.getAbsorptionAmount
   def hpReal: Float = hp - hpTemp
@@ -13,6 +13,10 @@ class CRefLiving(living: EntityLivingBase) extends CRefEntity(living) {
   def undead: Boolean = living.isEntityUndead
   def heal(amount: Float = hpMax): Unit = living.heal(amount)
   def setHp(amount: Float = hpMax) = living.setHealth(amount)
+
+  def home: Option[Vec3] = Option(dimension.getWorldSpawn)
+
+  def isCreative = false
 
   def visibleTo(who: CRefEntity): Boolean = living.canEntityBeSeen(who.entity)
   def equipment(where: EquipPoint): CRefItem = where.getItem(living)

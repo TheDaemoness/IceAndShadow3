@@ -53,7 +53,7 @@ with IEventFishItemDeath
 		if(preventDeath) {
 			val owner = item.getOwner
 			owner.setHp()
-			val where = wayfinderstate.positions.get(owner.dimensionCoord).getOrElse(owner.dimension.getWorldSpawn)
+			val where = wayfinderstate.positions.get(owner.dimensionCoord).getOrElse(owner.home.orNull)
 			if(where != null) owner.teleport(where)
 			wayfinderstate.charged.set(false)
 		}

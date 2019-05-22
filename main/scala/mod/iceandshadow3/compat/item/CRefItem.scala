@@ -4,7 +4,7 @@ import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.util.SCaster._
 import mod.iceandshadow3.compat.{BCRef, ILogicItemProvider, SRandom}
-import mod.iceandshadow3.compat.entity.CRefLiving
+import mod.iceandshadow3.compat.entity.{CRefLiving, CRefEntity}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.inventory.IInventory
@@ -21,11 +21,12 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 	def this(is: ItemStack) = this(is, null)
 	//TODO: We can probably make this handle multiple item stacks.
 
+	def copy: CRefItem = new CRefItem(is.fold[ItemStack](null){_.copy()}, owner)
 	def isEmpty: Boolean = is.fold(true){_.getCount == 0}
 	def count: Int = is.fold(0){_.getCount}
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
 	def hasOwner: Boolean = owner != null
-	def getOwner: CRefLiving = if(hasOwner) new CRefLiving(owner) else null
+	def getOwner: CRefLiving = if(hasOwner) CRefEntity.wrap(owner) else null
 	def canDamage: Boolean = is.fold(false){_.isDamageable}
 	def isDamaged: Boolean = is.fold(false){_.isDamaged}
 	def getDamage: Int = is.fold(0){_.getDamage}
@@ -44,17 +45,18 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 	/** Reduce stack size or damage the item by the specified amount.
 	 */
 	def consume(count: Int = 1): Int = {
-		if(this.is.isEmpty) return 0
+		if(this.isEmpty) return 0
+		if(owner != null && CRefEntity.wrap(owner).isCreative) return count
 		val is = this.is.get //Warning: shadowing.
-		//TODO: Creative mode check.
 		//TODO: There's no reason why IaS3 items can't have an override for this.
 		if(is.isDamageable) {
-			val rng = SRandom.getRNG(owner)
 			val dmg = Math.max(0, getDamageMax - getDamage - count) //Intended: ignoring the actual durability increase.
-			if (is.attemptDamageItem(count, rng, cast[EntityPlayerMP](owner).orNull)) {
+			val multiplayer = cast[EntityPlayerMP](owner).orNull
+			if (is.attemptDamageItem(count, SRandom.getRNG(owner), multiplayer)) {
 				if(owner != null) {
 					owner.renderBrokenItemStack(is)
-					cast[EntityPlayer](owner).foreach {
+					//Research: Is there a point of the orElse below?
+					Option(multiplayer).orElse(cast[EntityPlayer](owner)).foreach {
 						_.addStat(net.minecraft.stats.StatList.ITEM_BROKEN.get(is.getItem))
 					}
 				}
@@ -68,6 +70,8 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 			size - is.getCount
 		}
 	}
+	def destroy(): Unit = is.foreach({_.shrink(count)})
+
 	def matches(b: Any): Boolean = if(b == null) isEmpty else b match {
 		case cri: CRefItem => cri.is.fold(isEmpty){matches(_)}
 		case bis: ItemStack => is.fold(false){_.isItemEqualIgnoreDurability(bis)}
