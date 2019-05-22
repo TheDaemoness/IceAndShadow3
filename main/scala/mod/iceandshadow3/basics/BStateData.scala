@@ -7,7 +7,7 @@ import mod.iceandshadow3.data._
 abstract class BStateData extends IDataTreeRW[DataTreeMap] {
 	val needsWrite = true
 	private val dataTree = new DataTreeMap
-	def fromDataTree(tree: DataTreeMap): Boolean = tree == dataTree
+	def fromDataTree(tree: DataTreeMap): Boolean = tree.fromDataTree(tree)
  	def exposeDataTree(): DataTreeMap = dataTree
 	def register(key: String, field: IDataTreeRW[_ <: BDataTree[_]]): Unit = {
 		dataTree.add(key, field)

@@ -5,21 +5,22 @@ import mod.iceandshadow3.data.{BDataTree, IDataTreeRW, INbtRW}
 import net.minecraft.nbt.{NBTPrimitive, NBTTagCompound}
 
 class CNbtTree(val root: NBTTagCompound) {
+	def isNull: Boolean = root == null
+	def isEmpty: Boolean = isNull || root.isEmpty
 	def chroot(key: String): CNbtTree = try {
 		if(root == null) return this
 		val tags = root.getCompound(key)
 		root.setTag(key, tags)
 		new CNbtTree(tags)
 	} catch {
-		case e: ClassCastException => {
+		case e: ClassCastException =>
 			IaS3.logger().warn("Overriding NBT tag \""+key+"\"")
 			e.printStackTrace()
 			val newCompound = new NBTTagCompound()
 			root.setTag(key, newCompound)
 			new CNbtTree(newCompound)
-		}
 	}
-	def set(key: String, obj: INbtRW) =
+	def set(key: String, obj: INbtRW): Unit =
 		if(root != null) root.setTag(key, obj.toNBT)
 	def get(key: String, obj: INbtRW): Boolean = {
 		try {
@@ -44,10 +45,10 @@ class CNbtTree(val root: NBTTagCompound) {
 		tag.asInstanceOf[NBTPrimitive] getLong()
 	}
 
-	def store(key: String, obj: IDataTreeRW[_ <: BDataTree[_]]) =
-		set(key, obj.exposeDataTree)
+	def store(key: String, obj: IDataTreeRW[_ <: BDataTree[_]]): Unit =
+		set(key, obj.exposeDataTree())
 	def load[T <: BDataTree[_]] (key: String, obj: IDataTreeRW[T]): Boolean = {
-		val tree: T = obj.exposeDataTree
+		val tree: T = obj.exposeDataTree()
 		if(get(key,tree)) obj.fromDataTree(tree) else false
 	}
 }

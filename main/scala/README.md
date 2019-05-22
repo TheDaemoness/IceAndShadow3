@@ -72,7 +72,7 @@ Scala: a sealed class with a companion object that contains case objects that su
 ### 'I' - Interface
 Java: an `interface`. Note that IaS3's Java portions are in Java 8.
 
-Scala: a `trait` that contains only public non-final `def`s.
+Scala: an unsealed `trait` that contains only public non-final `def`s.
 
 ### "S" - Singleton/Static
 Java: a singleton OR a class whose only purpose is to group together static methods.

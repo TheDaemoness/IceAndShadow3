@@ -1,4 +1,4 @@
-package mod.iceandshadow3.basics.util
+package mod.iceandshadow3.basics.item
 
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.world.CRefWorld

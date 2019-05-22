@@ -36,9 +36,9 @@ abstract class DatumInt(int: Long) extends BDataTreeLeaf(int) with TIntBounded {
 	override protected def readNBT(tag: INBTBase) =
 		tag.asInstanceOf[NBTPrimitive].getLong
 	override protected def writeNBT(value: Long) =
-		if(testLimits {_.isValidByte}) new NBTTagByte(value.asInstanceOf[Byte])
-		else if(testLimits {_.isValidShort}) new NBTTagShort(value.asInstanceOf[Short])
-		else if(testLimits {_.isValidInt}) new NBTTagInt(value.asInstanceOf[Integer])
+		if(testLimits {_.isValidByte}) new NBTTagByte(value.toByte)
+		else if(testLimits {_.isValidShort}) new NBTTagShort(value.toShort)
+		else if(testLimits {_.isValidInt}) new NBTTagInt(value.toInt)
 		else new NBTTagLong(value)
 	override protected def parseLine(line: String) = java.lang.Long.valueOf(line)
 }
@@ -62,7 +62,7 @@ class DatumFloat(
 	override protected def readNBT(tag: INBTBase) =
 		tag.asInstanceOf[NBTPrimitive].getDouble
 	override protected def writeNBT(value: Double) =
-		if(emitFloat) new NBTTagFloat(value.asInstanceOf[Float]) else new NBTTagDouble(value)
+		if(emitFloat) new NBTTagFloat(value.toFloat) else new NBTTagDouble(value)
 	override protected def parseLine(line: String) = java.lang.Double.valueOf(line)
 }
 

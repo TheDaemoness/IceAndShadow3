@@ -10,6 +10,7 @@ import net.minecraft.world.chunk.Chunk
 import mod.iceandshadow3.util.{IPositional, Vec3}
 import mod.iceandshadow3.compat.entity.TEffectSource
 import mod.iceandshadow3.compat.world.TCRefWorldPlace
+import net.minecraft.tileentity.TileEntity
 
 sealed abstract class Impl protected(val pos: BlockPos) {
 	def exposeBS(): IBlockState //Where to begin in the world?
@@ -73,5 +74,4 @@ class CRefBlock(private val impl: Impl) extends TCRefWorldPlace with TEffectSour
 	override def getAttack: Damage = null
 	
 	override def position = new Vec3(impl.pos.getX, impl.pos.getY, impl.pos.getZ, 0.5, 0.5, 0.5)
-
 }

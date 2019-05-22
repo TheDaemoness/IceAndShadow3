@@ -1,17 +1,19 @@
 package mod.iceandshadow3.util;
 
-import java.util.concurrent.Callable;
+import java.util.Iterator;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-/**
+/** @deprecated DO NOT USE WITHOUT TESTING!
  * Chainable system for providing a same-type output as an input object.
  * 
  * To customize functionality, overload getNext, getSelf, getResult, and
  * getMessage. Ideally, these are stateless, allowing reuse across multiple
  * callers.
  */
-public abstract class BPipeline<T> implements ISupplier<T> {
+public abstract class BPipeline<T> implements Iterator<T>, Function<T, T> {
 	private BPipeline<T> next;
-	private Callable<T> callback;
+	private Supplier<T> callback;
 
 	public BPipeline() {
 	}
@@ -22,11 +24,7 @@ public abstract class BPipeline<T> implements ISupplier<T> {
 	}
 
 	@Override
-	public final T call() throws Exception {
-		return call(callback.call());
-	}
-
-	public final T call(T in) {
+	public final T apply(T in) {
 		Object msg = null, prevmsg = null;
 
 		BPipeline<T> current = getSelf(in, msg);
@@ -69,24 +67,19 @@ public abstract class BPipeline<T> implements ISupplier<T> {
 	@Override
 	public final T next() {
 		try {
-			return call();
+			return apply(callback.get());
 		} catch (final Exception e) {
 			return null;
 		}
 	}
 
-	public BPipeline<T> setCallback(Callable<T> supplier) {
+	public BPipeline<T> setCallback(Supplier<T> supplier) {
 		callback = supplier;
 		return this;
 	}
 
 	public BPipeline<T> setInput(final T input) {
-		callback = new Callable<T>() {
-			@Override
-			public T call() {
-				return input;
-			}
-		};
+		callback = () -> input;
 		return this;
 	}
 

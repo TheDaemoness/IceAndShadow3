@@ -7,7 +7,7 @@ abstract class BDataTree[Value](protected var datum: Value) extends INbtRW with 
 	
 	protected def writeNBT(value: Value): INBTBase
 	
-	override final def toNBT(): INBTBase = writeNBT(get)
+	override final def toNBT: INBTBase = writeNBT(get)
 	def fromNBT(tag: INBTBase): Boolean
 	
 	override final def exposeDataTree() = this
@@ -29,7 +29,9 @@ abstract class BDataTreeLeaf[Value](v: Value) extends BDataTree(v) with ITextLin
 	protected def readNBT(tag: INBTBase): Value
 	
 	protected def parseLine(line: String): Value
-	
+
 	def toLine(): String = datum.toString
 	final def fromLine(line: String) = set(parseLine(line))
+
+	override def toString = datum.toString
 }

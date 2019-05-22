@@ -1,5 +1,6 @@
 package mod.iceandshadow3;
 
+import mod.iceandshadow3.forge.SEventFisherman$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.*;
@@ -28,7 +29,7 @@ public class IaS3 {
 	public static final String MODID = "iceandshadow3";
 	public static final int VER_CFG_FMT = 1;
 	private static final Logger BEAVER = LogManager.getLogger();
-	public static final Level BUG_LEVEL = Level.forName("INTERNAL", 150);
+	public static final Level BUG_LEVEL = Level.forName("BUG", 150);
 		
 	private ConfigManager<ConfigClient> cfgClient;
 	private ConfigManager<ConfigServer> cfgServer;
@@ -54,6 +55,7 @@ public class IaS3 {
 	
 	private void initCommon(final FMLCommonSetupEvent event) {
 		Domains.initLate();
+		SEventFisherman$.MODULE$.baitHooks(MinecraftForge.EVENT_BUS);
 		configServer();
 	}
 
@@ -93,11 +95,16 @@ public class IaS3 {
 	
 	public static Logger logger() {return BEAVER;}
 	public static void bug(Object what, Object... args) {
-		class SomebodyScrewedThePooch extends Throwable {}
-		if(what == null) what = new SomebodyScrewedThePooch();
-		if(what instanceof Throwable) BEAVER.log(BUG_LEVEL, args, (Throwable)what);
-		else BEAVER.log(BUG_LEVEL,what.getClass().getTypeName(),": ",args);
-
+		StringBuilder sb = new StringBuilder();
+		for(Object o: args) sb.append(o.toString());
+		final String message = sb.toString();
+		class SomebodyScrewedThePooch extends Exception {
+			SomebodyScrewedThePooch(String msg) {super(msg);}
+		}
+		String request = "Please make sure the IaS3 developers know about the following problem:";
+		if(what == null) what = new SomebodyScrewedThePooch(message);
+		if(what instanceof Throwable) BEAVER.log(BUG_LEVEL, request, (Throwable)what);
+		else BEAVER.log(BUG_LEVEL, request, new SomebodyScrewedThePooch(what.getClass().getTypeName()+": "+message));
 	}
 	
 	@OnlyIn(Dist.CLIENT)

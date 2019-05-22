@@ -1,12 +1,13 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.basics.util.BItemProperty
+import mod.iceandshadow3.basics.item.BItemProperty
 import mod.iceandshadow3.compat.CNbtTree
 import mod.iceandshadow3.compat.entity.CRefPlayer
 import mod.iceandshadow3.compat.item._
+import mod.iceandshadow3.forge.fish.IEventFishItem
 import mod.iceandshadow3.util.{EmptySet, L3}
 
-sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogicItem(dom, name)  {
+sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogicItem(dom, name) with IEventFishItem  {
 	dom.add(this)
 	/** Triggered when an EntityItem with an instance of an ItemStack controlled by this logic is about to spawn.
 	 *  @return true to permit the spawn, false to deny it.
@@ -17,6 +18,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogi
 	def onUse(variant: Int, state: BStateData, stack: CRefItem, user: CRefPlayer, mainhand: Boolean): L3 = L3.NULL
 
 	def propertyOverrides(): java.util.Set[BItemProperty] = new EmptySet[BItemProperty]
+
+	override def getLogic() = this
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String) extends BLogicItem(dom, name) {

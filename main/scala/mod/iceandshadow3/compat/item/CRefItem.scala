@@ -1,8 +1,10 @@
 package mod.iceandshadow3.compat.item
 
+import mod.iceandshadow3.basics.BLogicItem
+import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.util.SCaster._
-import mod.iceandshadow3.compat.{CNbtTree, SRandom}
-import mod.iceandshadow3.compat.entity.CRefEntity
+import mod.iceandshadow3.compat.{BCRef, ILogicItemProvider, SRandom}
+import mod.iceandshadow3.compat.entity.CRefLiving
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.inventory.IInventory
@@ -11,7 +13,10 @@ import net.minecraft.nbt.NBTTagCompound
 
 /** Null-safe item stack + owner reference.
 	*/
-class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBase) {
+class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBase)
+	extends BCRef[BLogicItem]
+	with ILogicItemProvider
+{
 	private[compat] var is = Option(inputstack)
 	def this(is: ItemStack) = this(is, null)
 	//TODO: We can probably make this handle multiple item stacks.
@@ -19,8 +24,8 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 	def isEmpty: Boolean = is.fold(true){_.getCount == 0}
 	def count: Int = is.fold(0){_.getCount}
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
-	def hasOwner: Boolean = owner != null && owner.isAlive
-	def getOwner: CRefEntity = if(hasOwner) new CRefEntity(owner) else null
+	def hasOwner: Boolean = owner != null
+	def getOwner: CRefLiving = if(hasOwner) new CRefLiving(owner) else null
 	def canDamage: Boolean = is.fold(false){_.isDamageable}
 	def isDamaged: Boolean = is.fold(false){_.isDamaged}
 	def getDamage: Int = is.fold(0){_.getDamage}
@@ -28,7 +33,6 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 	def isShiny: Boolean = is.fold(false){_.hasEffect}
 	def isComplex: Boolean = is.fold(false){_.hasTag}
 
-	def exposeNbtTree(): CNbtTree = new CNbtTree(is.fold[NBTTagCompound](null){_.getTag})
 	def exposeItemsOrNull(): ItemStack = is.orNull
 
 	def changeTo(alternate: CRefItem): Unit = {is = Option(alternate.is.fold[ItemStack](null){_.copy})}
@@ -42,10 +46,11 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 	def consume(count: Int = 1): Int = {
 		if(this.is.isEmpty) return 0
 		val is = this.is.get //Warning: shadowing.
+		//TODO: Creative mode check.
 		//TODO: There's no reason why IaS3 items can't have an override for this.
 		if(is.isDamageable) {
 			val rng = SRandom.getRNG(owner)
-			var dmg = Math.max(0, getDamageMax - getDamage - count) //Intended: ignoring the actual durability increase.
+			val dmg = Math.max(0, getDamageMax - getDamage - count) //Intended: ignoring the actual durability increase.
 			if (is.attemptDamageItem(count, rng, cast[EntityPlayerMP](owner).orNull)) {
 				if(owner != null) {
 					owner.renderBrokenItemStack(is)
@@ -68,6 +73,15 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 		case bis: ItemStack => is.fold(false){_.isItemEqualIgnoreDurability(bis)}
 		case _ => false
 	}
+
+	override protected def exposeNBTOrNull() =
+		is.fold[NBTTagCompound](null){_.getOrCreateTag()}
+
+	override def getLogicPair: LogicPair[BLogicItem] =
+		is.fold[LogicPair[BLogicItem]](null){_.getItem match {
+			case lp: ILogicItemProvider => return lp.getLogicPair
+			case _ => return null
+		}}
 }
 object CRefItem {
 	def get(inv: IInventory, index: Int, owner: EntityLivingBase = null): CRefItem = {

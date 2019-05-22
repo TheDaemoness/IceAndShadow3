@@ -1,10 +1,16 @@
 package mod.iceandshadow3.util
 
+import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.data.{DataTreeMap, DatumInt32, DatumInt64, IDataTreeRW, ITextLineRW}
-import mod.iceandshadow3.data.SDataTreeConversions._
 
 class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ITextLineRW with IDataTreeRW[DataTreeMap] {
-	def add(x: Int, y: Int, z: Int): Vec3M = {
+  def set(b: Vec3): Unit = {
+		this.x = b.xRaw
+		this.y = b.yRaw
+		this.z = b.zRaw
+	}
+
+  def add(x: Int, y: Int, z: Int): Vec3M = {
 		this.x += x << Vec3.SUB_BITS
 		this.y += y.toShort << Vec3.SUB_BITS
 		this.z += z << Vec3.SUB_BITS
@@ -51,18 +57,21 @@ class Vec3M(xO: Long, yO: Int, zO: Long) extends Vec3(xO, yO, zO) with ITextLine
 		this.z = scanner.nextLong
 	}
 	
-	override def toLine: String = "$x $y $z"
+	override def toLine: String = s"$xDouble $yDouble $zDouble"
 	
 	def fromDataTree(tree: DataTreeMap): Boolean = {
 		try {
-			this.x = SCaster.cast[DatumInt64](tree.get("x")).get.get
-			this.y = SCaster.cast[DatumInt32](tree.get("y")).get.get.asInstanceOf[Int]
-			this.z = SCaster.cast[DatumInt64](tree.get("z")).get.get
+			//TODO: This is insane. Add a better way of getting info out of DataTreeBranches.
+			this.x = SCaster.cast[DatumInt64](tree.get("x").get).get.get
+			this.y = SCaster.cast[DatumInt32](tree.get("y").get).get.get.toInt
+			this.z = SCaster.cast[DatumInt64](tree.get("z").get).get.get
 		} catch {
 			case e: NoSuchElementException => return false
 		}
 		true
 	}
+
+	import mod.iceandshadow3.data.SDataTreeConversions._
 	def exposeDataTree(): mod.iceandshadow3.data.DataTreeMap =
 		new DataTreeMap().add("x", x).add("y", y).add("z", z)
 }

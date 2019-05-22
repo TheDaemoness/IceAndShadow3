@@ -1,14 +1,17 @@
 package mod.iceandshadow3.basics.util
 
 import mod.iceandshadow3.basics.{BDomain, BStateData}
+import mod.iceandshadow3.forge.fish.IEventFish
 
 trait TLogic {
 	type StateDataType <: BStateData
+
 	def countVariants: Int = 1
 	def isTechnical(variant: Int): Boolean = false
 	def getTier(variant: Int): Int = 1
 	def getDomain: BDomain
 	def getDefaultStateData(variant: Int): StateDataType
+
 	protected def getBaseName: String
 	protected def getVariantName(variant: Int): String = null
 

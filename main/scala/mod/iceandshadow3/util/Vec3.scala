@@ -2,6 +2,8 @@ package mod.iceandshadow3.util
 
 import Vec3._
 
+// TODO: All of this needs a redesign.
+
 object Vec3 {
 	val SUB_BITS: Int = 16
 	protected val CHUNK_BITS: Long = 4
