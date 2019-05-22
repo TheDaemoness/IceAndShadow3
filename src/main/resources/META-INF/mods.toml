@@ -1,10 +1,10 @@
 modLoader="javafml"
-loaderVersion="[25,)" #(24 is current forge version)
+loaderVersion="[@forge@,)"
 issueTrackerURL="https://github.com/TheDaemoness/IceAndShadow3/issues"
 
 [[mods]]
 modId="iceandshadow3"
-version="0.0.3.0"
+version="@version@"
 displayName="Ice And Shadow III"
 updateJSONURL="https://raw.githubusercontent.com/TheDaemoness/IceAndShadow3/master/update.json"
 displayURL="https://github.com/TheDaemoness/IceAndShadow3"
@@ -18,13 +18,13 @@ A brutal post-endgame world for Minecraft.
 [[dependencies.iceandshadow3]]
 modId="forge"
 mandatory=true
-versionRange="[25,)"
+versionRange="[@forge@,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.iceandshadow3]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.13.2]"
+versionRange="[@minecraft@]"
 ordering="NONE"
 side="BOTH"

@@ -1,1 +1,37 @@
+# Eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# IDEA
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# Gradle
+build
+gradle.properties
+.gradle
+gradlew
+gradle
+
+# Scala Misc
+.metals
+.bloop
+
+# Other
+eclipse
+run
+sandbox
 .*/*
+
+# Forge Files
+CREDITS.txt
+changelog.txt
+forge*.zip
+forge*changelog.txt

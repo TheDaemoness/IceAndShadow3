@@ -1,0 +1,113 @@
+def version_revision = '0'
+def version_major = '0'
+def version_minor = '3'
+def version_patch = '0'
+
+// WARNING: Only edit things below this line if someone else who knows what they're doing thinks you know what you're doing.
+
+def version_minecraft = '1.13.2'
+def version_forge_req='25'
+def version_forge_suffix='.0.214'
+def version_forge="${version_forge_req}${version_forge_suffix}"
+
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'ch.epfl.scala:gradlebloop212_2.12:1.2.5'
+        classpath 'org.scala-lang:scala-library:2.12.8'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'scala'
+apply plugin: 'bloop'
+apply plugin: 'idea'
+apply plugin: 'eclipse' //Would not recommend.
+
+def version_spec = "${version_revision}.${version_major}.${version_minor}"
+version = "${version_spec}.${version_patch}"
+group = 'mod.iceandshadow3'
+archivesBaseName = "iceandshadow3-${version_minecraft}-${version}"
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = compileScala.targetCompatibility = '1.8'
+minecraft {
+    // The mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   Snapshot are built nightly.
+    // stable_#            Stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // Simply re-run your setup task after changing the mappings to update your workspace.
+    mappings channel: 'snapshot', version: '20180921-1.13'
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                iceandshadow3 {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                iceandshadow3 {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+repositories {
+    mavenCentral()
+}
+configurations {
+    shade
+    compile.extendsFrom shade
+}
+dependencies {
+    // About the minecraft dependency: If this has any group other then 'net.minecraft',
+    // it is assumed that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
+    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
+    minecraft "net.minecraftforge:forge:$version_minecraft-$version_forge"
+    /*shade*/ compile 'org.scala-lang:scala-library:2.12.8'
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+processResources {
+   inputs.property "version", project.version
+   filesMatching('**/mods.toml') {
+      filter(ReplaceTokens, tokens: [
+         'version':version.toString(),
+         'minecraft':version_minecraft.toString(),
+         'forge':version_forge_req.toString()
+      ])
+   }
+}
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "iceandshadow3",
+            "Specification-Vendor": "TheDaemoness",
+            "Specification-Version": "${version_spec}",
+            "Implementation-Title": "iceandshadow3",
+            "Implementation-Version": "${version}",
+            "Implementation-Vendor" : "TheDaemoness",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+}
+def reobfFile = file("$buildDir/reobfJar/output.jar")

@@ -11,16 +11,33 @@ Adds a new cold, dark, and highly hostile dimension to Minecraft.
 Its entry requirements and offerings make it a potential long-term destination after finishing most of vanilla Minecraft's progression.
 Indefinite survival is possible, though survival on Nyx comes with unique challenges.
 
-## Getting Started
+## Getting Started (As A Player)
 
 __NYI.__
 
-## Building/Editing
+## Getting Started (As A Developer)
 
-The contents of this repository should be placed in the `src` folder in your Forge MDK.
+To get a usable development environment:
+1. Clone/extract this repository into an empty directory.
+2. Extract a verion of the Forge MDK (25 or later) into the same directory *without overwriting any existing files*.
+3. Use the Forge-provided gradle wrapper as usual.
+	1. You may need to set the `JAVA_HOME` environment variable before running the gradle wrapper if you're using Java 11.
+	2. Tasks of special interest include `clean`, `build`, `runClient`, `runServer`.
 
-IaS3 is written partially in Java 8, partially in Scala 2.12.
-To build properly, you will need to add `apply plugin: 'scala'` to your `build.gradle` add a dependency on a scala standard library, and otherwise fiddle.
+You may generate Intellij IDEA project files using the `idea` task. Generating an Eclipse project with `eclipse` is left in as an option but is not recommended, as the main Scala plugin is outdated to the point of instability on recent versions of Eclipse.
+
+Afterward, refer to the READMEs under the `src/main/scala` directory for more information.
+
+### Bloop
+
+As building a Scala project with Gradle without the daemon is slower than it needs to be, IaS3 can also be tested using the Bloop build server. No changes should need to be made to `build.gradle`. Just run the `bloopInstall` task to export a Bloop configuration.
+
+This also enables use of the [Metals language server](https://scalameta.org/metals/).
+
+### ./sandbox
+
+The .gitignore includes a directory named `sandbox`, which has no specified purpose and isn't used by anything.
+You can use this directory for storing convenience scripts or any WIP assets that shouldn't make it into the repository.
 
 ## License
 
