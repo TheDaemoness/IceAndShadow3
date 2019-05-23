@@ -14,6 +14,9 @@ trait IEventFish {
 trait IEventFishItem extends IEventFish {
   override type Logic = BLogicItem
 }
+trait IEventFishOwner extends IEventFish {
+  override type Logic = BLogicItem
+}
 
 //NOTE: Not using self-type in the above specifically to keep our options open.
 //Some logics might want to return an event-handling object instead. Maybe.

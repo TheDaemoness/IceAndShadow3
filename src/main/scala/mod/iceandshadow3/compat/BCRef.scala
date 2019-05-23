@@ -2,15 +2,16 @@ package mod.iceandshadow3.compat
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BStateData
-import mod.iceandshadow3.basics.util.LogicPair
+import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
 import net.minecraft.nbt.NBTTagCompound
 
-abstract class BCRef[LogicType <: BLogic] {
+abstract class BCRef[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
   this: TLogicProvider[LogicType] =>
+
   protected def exposeNBTOrNull(): NBTTagCompound
 
   def exposeNbtTree(): CNbtTree = new CNbtTree(exposeNBTOrNull())
-  def exposeStateData(logicpair: LogicPair[LogicType]): LogicType#StateDataType = {
+  protected def exposeStateData(logicpair: LogicPair[LogicType]): LogicType#StateDataType = {
     val sd = logicpair.logic.getDefaultStateData(logicpair.variant)
     if (sd != null) {
       val tree = sd.exposeDataTree()
@@ -23,26 +24,40 @@ abstract class BCRef[LogicType <: BLogic] {
     }
     sd
   }
-  def exposeStateData(): LogicType#StateDataType = {
-    val logicpair = getLogicPair
-    if(logicpair == null) null.asInstanceOf[LogicType#StateDataType] else exposeStateData(getLogicPair)
-  }
+
+  override def getLogicTriad: Option[LogicTriad[LogicType]] =
+    Option(getLogicPair).fold[Option[LogicTriad[LogicType]]](None){
+      lp => Some(new LogicTriad(lp, exposeStateData(lp)))
+    }
+  override def toLogicTriad(lp: LogicPair[LogicType]) = new LogicTriad(lp, exposeStateData(lp))
 
   def saveStateData(state: BStateData): Unit = {
     if (state == null || !state.needsWrite) return
     val tags = exposeNBTOrNull() //This shouldn't be null in this case, but just in case.
     if(tags != null) tags.setTag(IaS3.MODID, state.exposeDataTree().toNBT)
-    else IaS3.bug(new IllegalArgumentException, "Attempted to save state to an instance that can't save it, and therefore shouldn't have returned any in the first place.")
+    else IaS3.bug(this, "State owner provided state, but cannot save it.")
   }
 
-  def forStateData[T](logicpair: LogicPair[LogicType], fn: BStateData => T): T = {
-    val statedata = exposeStateData(logicpair)
-    val retval = fn(statedata)
-    saveStateData(statedata)
+  def forStateData[T](bsd: BStateData, fn: () => T): T = {
+    val retval = fn()
+    saveStateData(bsd)
     retval
   }
-  def forStateData[T](fn: BStateData => T): Option[T] = {
-    val pair = getLogicPair
-    if(pair != null) Some(forStateData[T](pair, fn)) else None
+  def forStateData[T](logictriad: LogicTriad[LogicType], fn: () => T): T = {
+    forStateData(logictriad.state, fn)
+  }
+  def forTriad[T](logicpair: LogicPair[LogicType], fn: LogicTriad[LogicType] => T): T = {
+    val triad = toLogicTriad(logicpair)
+    val retval = fn(triad)
+    saveStateData(triad.state)
+    retval
+  }
+  def forTriad[T](fn: LogicTriad[LogicType] => T): Option[T] = {
+    val triad: Option[LogicTriad[LogicType]] = getLogicTriad
+    triad.fold[Option[T]](None)(tri => {
+      val retval = fn(tri)
+      saveStateData(tri.state)
+      Some(retval)
+    })
   }
 }

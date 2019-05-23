@@ -7,7 +7,7 @@ import mod.iceandshadow3.compat.entity.CRefPlayer
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.world.PerDimensionVec3
 import mod.iceandshadow3.data._
-import mod.iceandshadow3.forge.fish.IEventFishItemDeath
+import mod.iceandshadow3.forge.fish.IEventFishOwnerDeath
 import mod.iceandshadow3.util.L3
 import mod.iceandshadow3.world.DomainNyx
 
@@ -18,7 +18,7 @@ sealed class SIWayfinder extends BStateData {
 	register("positions", positions)
 }
 class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
-with IEventFishItemDeath
+with IEventFishOwnerDeath
 {
 	override type StateDataType = SIWayfinder
 	override def getDefaultStateData(variant: Int) = new SIWayfinder

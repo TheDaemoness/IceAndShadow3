@@ -12,6 +12,7 @@ import net.minecraft.world.IWorld;
 import net.minecraftforge.common.IShearable;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
 import java.util.List;
 
 public class ABlock extends Block implements ILogicBlockProvider, IShearable {
@@ -26,16 +27,17 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		this.variant = variant;
 	}
 
+	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(ItemStack item, IWorld world, BlockPos pos, int fortune) {
+	public List<ItemStack> onSheared(@Nonnull ItemStack item, IWorld world, BlockPos pos, int fortune) {
 		logic.isToolClassEffective(HarvestMethod.SHEAR);
-		return null; //TODO: NO!
+		return Collections.emptyList();
 	}
 
 	@Nonnull
 	@Override
 	public LogicPair<BLogicBlock> getLogicPair() {
-		return LogicPair.apply(logic, variant);
+		return new LogicPair<>(logic, variant);
 	}
 }
 

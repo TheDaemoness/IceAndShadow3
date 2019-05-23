@@ -45,7 +45,7 @@ public class AItem extends Item implements ILogicItemProvider {
 
 				@OnlyIn(Dist.CLIENT)
 				@Override
-				public float call(ItemStack is, @Nullable World world, @Nullable EntityLivingBase owner) {
+				public float call(@Nonnull ItemStack is, @Nullable World world, @Nullable EntityLivingBase owner) {
 					return impl.call(new CRefItem(is, owner), new CWorld(world));
 				}
 			});
@@ -55,12 +55,12 @@ public class AItem extends Item implements ILogicItemProvider {
 	@Nonnull
 	@Override
 	public LogicPair<BLogicItem> getLogicPair() {
-		return LogicPair.apply(logic, variant);
+		return new LogicPair<>(logic, variant);
 	}
 
 	@Nonnull
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
 		final boolean mainhand = handIn == EnumHand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final CRefItem cri = new CRefItem(is, playerIn);

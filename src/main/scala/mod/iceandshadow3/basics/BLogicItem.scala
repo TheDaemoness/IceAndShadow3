@@ -4,10 +4,10 @@ import mod.iceandshadow3.basics.item.BItemProperty
 import mod.iceandshadow3.compat.CNbtTree
 import mod.iceandshadow3.compat.entity.CRefPlayer
 import mod.iceandshadow3.compat.item._
-import mod.iceandshadow3.forge.fish.IEventFishItem
+import mod.iceandshadow3.forge.fish.IEventFishOwner
 import mod.iceandshadow3.util.L3
 
-sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogicItem(dom, name) with IEventFishItem  {
+sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogicItem(dom, name) with IEventFishOwner  {
 	dom.add(this)
 	/** Triggered when an EntityItem with an instance of an ItemStack controlled by this logic is about to spawn.
 	 *  @return true to permit the spawn, false to deny it.
