@@ -6,5 +6,5 @@ import net.minecraft.item.{Item, ItemGroup, ItemStack}
 
 object SCreativeTab extends ItemGroup(IaS3.MODID) {
 	override def createIcon: ItemStack =
-		new ItemStack(DomainNyx.wayfinder.getSecrets[Item].get(0))
+		new ItemStack(DomainNyx.li_wayfinder.getSecrets[Item].get(0))
 }

@@ -7,7 +7,7 @@ import net.minecraft.world.World
   * This trait includes most of the stuff that's more generally useful to IaS3.
   */
 trait TCWorld {
-  protected def exposeWorld(): World
+  protected[compat] def exposeWorld(): World
   def world() = new CWorld(exposeWorld())
 
   def isServerSide: Boolean = !exposeWorld().isRemote

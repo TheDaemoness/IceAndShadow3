@@ -37,7 +37,9 @@ public final class Domains {
 	static final void registerItems(CRegistryItem reg) {
 		for(BDomain domain : domains) domain.register(reg);
 	}
+
 	static final void initLate() {
 		for(BDomain domain : domains) domain.initLate();
 	}
+
 }

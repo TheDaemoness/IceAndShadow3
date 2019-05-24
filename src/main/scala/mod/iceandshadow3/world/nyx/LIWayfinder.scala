@@ -5,7 +5,7 @@ import mod.iceandshadow3.basics.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.compat.CNbtTree
 import mod.iceandshadow3.compat.entity.{CRefLiving, CRefPlayer}
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.world.PerDimensionVec3
+import mod.iceandshadow3.compat.world.{CSound, PerDimensionVec3}
 import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{IEventFishOwnerDeath, IEventFishOwnerToss}
 import mod.iceandshadow3.util.{L3, Vec3}
@@ -38,7 +38,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 					val found = user.findItem("minecraft:totem_of_undying", true)
 					if (!found.isEmpty) {
 						found.consume()
-						//TODO: More feedback.
+						user.playSound(CSound.lookup("minecraft:item.totem.use"), 0.5f, 1f)
 						wayfinderstate.charged.set(true)
 						L3.TRUE
 					} else L3.FALSE
@@ -58,8 +58,14 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			val owner = item.getOwner
 			if (preventDeath) {
 				owner.setHp()
+				owner.extinguish()
 				val where = wayfinderstate.positions.get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
-				if (where != null) owner.teleport(where)
+				if (where != null) {
+					owner.teleport(where)
+					item.getOwner.playSound(CSound.lookup(
+						"minecraft:item.chorus_fruit.teleport"
+					), 1f, 0.9f)
+				}
 				wayfinderstate.charged.set(false)
 			} else {
 				wayfinderstate.positions.set(owner.dimensionCoord, owner.position)
@@ -70,6 +76,10 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		result
 	}
 	override def onOwnerToss(variant: Int, state: BStateData, item: CRefItem): L3 = {
-		L3.FALSE.unlessFalse(item.getOwner.saveItem(item))
+		val result = L3.FALSE.unlessFalse(item.getOwner.saveItem(item))
+		if(result == L3.FALSE) item.getOwner.playSound(CSound.lookup(
+			"minecraft:item.chorus_fruit.teleport"
+		), 0.5f, 1.1f)
+		result
 	}
 }

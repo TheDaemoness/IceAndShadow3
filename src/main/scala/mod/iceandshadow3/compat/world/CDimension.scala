@@ -12,5 +12,5 @@ class CDimension(private[compat] val dim: Dimension) extends TCWorld {
 	def getWorldSpawn: Vec3 = if(canRespawnHere) dim.getWorld.getSpawnPoint else null
   def getCoord: CDimensionCoord = CDimensionCoord(dim.getType)
   def isVanilla: Boolean = dim.getType.isVanilla //Convenience method.
-  override protected def exposeWorld() = dim.getWorld
+  override protected[compat] def exposeWorld() = dim.getWorld
 }

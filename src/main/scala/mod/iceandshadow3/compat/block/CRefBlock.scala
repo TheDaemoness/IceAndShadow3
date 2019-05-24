@@ -38,7 +38,7 @@ object CRefBlock {
 
 class CRefBlock(private val impl: Impl) extends TCWorldPlace with TEffectSource with IPositional {
 
-	protected override def exposeWorld(): World = impl.exposeWorld()
+	override protected[compat] def exposeWorld(): World = impl.exposeWorld()
 
 	def this(w: World, v: Vec3) {
 		this(new CRefBlock.ImplChunk(

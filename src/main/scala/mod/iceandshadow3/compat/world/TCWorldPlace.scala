@@ -13,4 +13,7 @@ trait TCWorldPlace extends TCWorld {
 
   def underSky: Boolean = exposeWorld().canSeeSky(position)
   def biome: CBiome = new CBiome(exposeWorld().getBiome(position))
+
+  def playSound(sound: CSound, volume: Float, freqshift: Float): Unit =
+    sound.play(this, this.position, volume, freqshift)
 }

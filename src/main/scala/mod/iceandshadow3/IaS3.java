@@ -2,10 +2,13 @@ package mod.iceandshadow3;
 
 import mod.iceandshadow3.compat.block.CRegistryBlock;
 import mod.iceandshadow3.compat.item.CRegistryItem;
+import mod.iceandshadow3.compat.world.CSound;
+import mod.iceandshadow3.compat.world.CSound$;
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.SEventFisherman$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -93,6 +96,10 @@ public class IaS3 {
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
 			Domains.registerItems(new CRegistryItem(reg.getRegistry()));
+		}
+		@SubscribeEvent
+		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {
+			CSound$.MODULE$.registerSounds(reg.getRegistry());
 		}
 	}
 	
