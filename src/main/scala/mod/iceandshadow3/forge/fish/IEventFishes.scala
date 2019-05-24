@@ -7,7 +7,6 @@ import mod.iceandshadow3.forge.bait.BEventBait
 /** IaS3-friendly class for adding event-handling logic to BLogics.
   */
 trait IEventFish {
-  type Handler <: BEventBait[_] //Forces the author to have a clear idea of what event triggers this fish.
   type Logic <: BLogic
   def getLogic(): Logic
 }

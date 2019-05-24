@@ -1,7 +1,8 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.compat.Vec3Conversions._
-import mod.iceandshadow3.compat.item.CRefItem
+import mod.iceandshadow3.compat.item.{CInventory, CRefItem}
+import mod.iceandshadow3.compat.world.CDimension
 import mod.iceandshadow3.util.{IteratorConcat, Vec3}
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
@@ -15,8 +16,8 @@ class CRefPlayer protected[entity](player: EntityPlayer) extends CRefLiving(play
 	def message(msg: String, actionBar: Boolean = true): Unit
 		= player.sendStatusMessage(new TextComponentTranslation(msg), actionBar)
 
-	override def home: Option[Vec3] =
-		Option(player.getBedLocation(dimensionCoord.dimtype)).fold(super.home){pos => Option(fromBlockPos(pos))}
+	override def home(where: CDimension): Option[Vec3] =
+		Option(player.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
 
 	override def isCreative = player.isCreative
 
@@ -29,4 +30,7 @@ class CRefPlayer protected[entity](player: EntityPlayer) extends CRefLiving(play
 			inv.mainInventory.iterator
 		)
 	}
+
+	override def saveItem(what: CRefItem): Boolean =
+		new CInventory(player.getInventoryEnderChest).add(what)
 }

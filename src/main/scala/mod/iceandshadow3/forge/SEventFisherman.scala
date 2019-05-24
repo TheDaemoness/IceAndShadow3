@@ -8,5 +8,6 @@ object SEventFisherman {
   def baitHooks(bus: IEventBus): Unit = {
     if(triggered) return else triggered = true
     new EventBaitOwnerDeath(bus)
+    new EventBaitOwnerToss(bus)
   }
 }

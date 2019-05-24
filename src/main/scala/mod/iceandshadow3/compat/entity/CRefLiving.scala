@@ -1,6 +1,7 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.compat.item.CRefItem
+import mod.iceandshadow3.compat.world.CDimension
 import mod.iceandshadow3.util.{IteratorConcat, Vec3}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
@@ -14,7 +15,13 @@ class CRefLiving protected[entity](living: EntityLivingBase) extends CRefEntity(
   def heal(amount: Float = hpMax): Unit = living.heal(amount)
   def setHp(amount: Float = hpMax) = living.setHealth(amount)
 
-  def home: Option[Vec3] = Option(dimension.getWorldSpawn)
+  def home(where: CDimension): Option[Vec3] = Option(where.getWorldSpawn)
+
+  /** Give an item to a special inventory possessed by an entity.
+    * For players, this is usually the ender chest.
+    * For mobs, this may be some kind of loot-collection chest.
+    */
+  def saveItem(what: CRefItem): Boolean = false
 
   def isCreative = false
 

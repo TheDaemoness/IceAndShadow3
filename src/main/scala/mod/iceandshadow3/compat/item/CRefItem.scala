@@ -34,6 +34,7 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 	def isShiny: Boolean = is.fold(false){_.hasEffect}
 	def isComplex: Boolean = is.fold(false){_.hasTag}
 
+	def exposeItems(): ItemStack = is.getOrElse(ItemStack.EMPTY)
 	def exposeItemsOrNull(): ItemStack = is.orNull
 
 	def changeTo(alternate: CRefItem): Unit = {is = Option(alternate.is.fold[ItemStack](null){_.copy})}
@@ -70,7 +71,13 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 			size - is.getCount
 		}
 	}
-	def destroy(): Unit = is.foreach({_.shrink(count)})
+	def release(): Unit = {
+		is = None
+	}
+	def destroy(): Unit = {
+		is.foreach(_.setCount(0))
+		release()
+	}
 
 	def matches(b: Any): Boolean = if(b == null) isEmpty else b match {
 		case cri: CRefItem => cri.is.fold(isEmpty){matches(_)}

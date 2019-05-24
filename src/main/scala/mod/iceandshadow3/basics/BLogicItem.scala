@@ -9,10 +9,6 @@ import mod.iceandshadow3.util.L3
 
 sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogicItem(dom, name) with IEventFishOwner  {
 	dom.add(this)
-	/** Triggered when an EntityItem with an instance of an ItemStack controlled by this logic is about to spawn.
-	 *  @return true to permit the spawn, false to deny it.
-	 */
-	def onDrop(variant: Int, stack: CRefItem): Boolean = true
 	def isShiny(variant: Int, tags: CNbtTree, stack: CRefItem) = false
 	
 	def onUse(variant: Int, state: BStateData, stack: CRefItem, user: CRefPlayer, mainhand: Boolean): L3 = L3.NULL

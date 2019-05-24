@@ -7,8 +7,10 @@ import mod.iceandshadow3.basics.item.BItemProperty;
 import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.CNbtTree;
 import mod.iceandshadow3.compat.ILogicItemProvider;
+import mod.iceandshadow3.compat.entity.CRefEntity;
 import mod.iceandshadow3.compat.entity.CRefPlayer;
 import mod.iceandshadow3.compat.world.CWorld;
+import mod.iceandshadow3.util.L3;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.IItemPropertyGetter;
@@ -27,6 +29,13 @@ import javax.annotation.Nullable;
 
 public class AItem extends Item implements ILogicItemProvider {
 
+	private EnumActionResult toEActionResult(L3 in) {
+		switch(in) {
+			case TRUE: return EnumActionResult.SUCCESS;
+			case FALSE: return EnumActionResult.FAIL;
+			default: return EnumActionResult.PASS;
+		}
+	}
 	@Override
 	public boolean hasEffect(ItemStack stack) {
 		return super.hasEffect(stack) || logic.isShiny(variant, new CNbtTree(stack.getTag()), new CRefItem(stack));
@@ -64,13 +73,8 @@ public class AItem extends Item implements ILogicItemProvider {
 		final boolean mainhand = handIn == EnumHand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final CRefItem cri = new CRefItem(is, playerIn);
-		final EnumActionResult resultType = cri.forStateData(getLogicPair(), (BStateData state) -> {
-			switch(logic.onUse(variant, state, cri, new CRefPlayer(playerIn), mainhand)) {
-				case TRUE: return EnumActionResult.SUCCESS;
-				case FALSE: return EnumActionResult.FAIL;
-				default: return EnumActionResult.PASS;
-			}
-		});
-		return new ActionResult<>(resultType, cri.exposeItemsOrNull());
+		final CRefPlayer plai = CRefEntity.wrap(playerIn);
+		final L3 result = logic.onUse(variant, cri.exposeStateData(getLogicPair()), cri, plai, mainhand);
+		return new ActionResult<>(toEActionResult(result), cri.exposeItems());
 	}
 }
