@@ -7,8 +7,11 @@ import mod.iceandshadow3.data.DatumBool;
 public class ConfigServer extends ConfigReflective {
 	@Override public String name() {return "server";}
 	@Override public int versionMajor() {return 1;}
-	@Override public int versionMinor() {return 0;}
+	@Override public int versionMinor() {return 1;}
 	
 	@Entry(comment="Greatly increases IaS3's difficulty.")
 	public DatumBool brutal_mode = new DatumBool(false);
+
+	@Entry(comment="Be able to get the wayfinder in other non-respawn dimensions, including the Nether.")
+	public DatumBool early_wayfinder = new DatumBool(false);
 }

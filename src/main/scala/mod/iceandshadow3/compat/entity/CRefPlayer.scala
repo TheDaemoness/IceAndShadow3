@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.text.TextComponentTranslation
 
 //TODO: Manually generated class stub.
-class CRefPlayer protected[entity](player: EntityPlayer) extends CRefLiving(player) {
+class CRefPlayer protected[entity](protected[compat] val player: EntityPlayer) extends CRefLiving(player) {
 	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f
 	def deshield(force: Boolean = true): Unit = player.disableShield(force)
 	def bed: Vec3 = player.bedLocation
@@ -33,4 +33,12 @@ class CRefPlayer protected[entity](player: EntityPlayer) extends CRefLiving(play
 
 	override def saveItem(what: CRefItem): Boolean =
 		new CInventory(player.getInventoryEnderChest).add(what)
+
+	def donateToEnderChest(what: CRefItem): Boolean = {
+		//Possible TODO: Optimize.
+		if(findItem(what, false).isEmpty) {
+			new CInventory(player.getInventoryEnderChest).donate(what)
+		}
+		else false
+	}
 }

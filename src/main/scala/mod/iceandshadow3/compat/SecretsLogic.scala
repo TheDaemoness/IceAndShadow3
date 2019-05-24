@@ -9,5 +9,6 @@ import mod.iceandshadow3.basics.util.TLogic
 class SecretsLogic[Logic <: TLogic, McType <: Object](l: Logic) {
 	private val flatmap = new ArrayList[McType](l.countVariants)
 	protected[compat] def add(adapter: McType) = flatmap.add(adapter)
-	protected[compat] def get(variant: Int) = flatmap.get(variant) //TODO: Null?
+	protected[compat] def get(variant: Int) =
+		if(variant>=flatmap.size()) null.asInstanceOf[McType] else flatmap.get(variant)
 }

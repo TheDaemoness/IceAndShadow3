@@ -4,12 +4,10 @@ import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.forge.fish.IEventFishOwnerDeath
-import mod.iceandshadow3.util.L3
 import net.minecraft.util.DamageSource
 import net.minecraftforge.event.entity.living.LivingDeathEvent
-import net.minecraftforge.eventbus.api.IEventBus
 
-class EventBaitOwnerDeath(bus: IEventBus) extends BEventBaitOwner[LivingDeathEvent](bus) {
+class EventBaitOwnerDeath extends BEventBaitOwner[LivingDeathEvent] {
 	override type FishType = IEventFishOwnerDeath
 
 	override protected def catchFish(logicpair: LogicPair[BLogicItem]) =

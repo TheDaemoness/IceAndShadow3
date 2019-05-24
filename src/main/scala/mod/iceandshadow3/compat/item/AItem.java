@@ -38,7 +38,11 @@ public class AItem extends Item implements ILogicItemProvider {
 	}
 	@Override
 	public boolean hasEffect(ItemStack stack) {
-		return super.hasEffect(stack) || logic.isShiny(variant, new CNbtTree(stack.getTag()), new CRefItem(stack));
+		return super.hasEffect(stack) || logic.isShiny(
+			variant,
+			new CNbtTree(stack.getTag()),
+			new CRefItem(stack, null)
+		);
 	}
 
 	private final BLogicItem logic;

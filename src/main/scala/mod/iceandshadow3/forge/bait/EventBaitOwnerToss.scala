@@ -4,12 +4,11 @@ import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.forge.fish.IEventFishOwnerToss
 import net.minecraftforge.event.entity.item.ItemTossEvent
-import net.minecraftforge.eventbus.api.IEventBus
 
 //WARNING: Despite the name, this event needs to be handled very differently from the other Owner events.
 //DO NOT SUBTYPE BEventBaitOwner HERE!
 
-class EventBaitOwnerToss(bus: IEventBus) extends BEventBait[ItemTossEvent](bus) {
+class EventBaitOwnerToss extends BEventBait[ItemTossEvent] {
 	override def receiveCancelled = false
 
 	override protected def handle(event: ItemTossEvent): Unit ={

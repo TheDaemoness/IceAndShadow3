@@ -8,17 +8,20 @@ import mod.iceandshadow3.util.SCaster._
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.inventory.IInventory
-import net.minecraft.item.ItemStack
+import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.util.IItemProvider
 
 /** Null-safe item stack + owner reference.
 	*/
-class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBase)
+class CRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBase)
 	extends BCRef[BLogicItem]
 	with ILogicItemProvider
 {
 	private[compat] var is = Option(inputstack)
-	def this(is: ItemStack) = this(is, null)
+	def this() = this(null.asInstanceOf[ItemStack], null.asInstanceOf[EntityLivingBase])
+	def this(is: Null, owner: EntityLivingBase) = this(null.asInstanceOf[ItemStack], owner)
+	def this(is: IItemProvider, owner: EntityLivingBase) = this(new ItemStack(is), owner)
 	//TODO: We can probably make this handle multiple item stacks.
 
 	def copy: CRefItem = new CRefItem(is.fold[ItemStack](null){_.copy()}, owner)
@@ -37,8 +40,18 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 	def exposeItems(): ItemStack = is.getOrElse(ItemStack.EMPTY)
 	def exposeItemsOrNull(): ItemStack = is.orNull
 
-	def changeTo(alternate: CRefItem): Unit = {is = Option(alternate.is.fold[ItemStack](null){_.copy})}
-	def changeCount(newcount: Int): Unit = is.foreach(is => {if(is.isStackable) is.setCount(newcount)})
+	protected[item] def move(): ItemStack = {
+		val retval = exposeItems().copy()
+		destroy()
+		retval
+	}
+
+	def changeTo(alternate: CRefItem): CRefItem =
+		{is = Option(alternate.is.fold[ItemStack](null){_.copy}); this}
+	def changeCount(newcount: Int): CRefItem =
+		{is.foreach(is => {if(is.isStackable) is.setCount(Math.min(countMax,newcount))}); this}
+	def changeOwner(who: CRefLiving): CRefItem =
+		{owner = who.living; this}
 
 	//TODO: Enchantment querying.
 	//TODO: Item frame handling.
@@ -95,16 +108,14 @@ class CRefItem(inputstack: ItemStack, private[compat] val owner: EntityLivingBas
 		}}
 }
 object CRefItem {
-	def get(inv: IInventory, index: Int, owner: EntityLivingBase = null): CRefItem = {
+	def get(inv: IInventory, index: Int): CRefItem = {
 		val stack = if(index >= inv.getSizeInventory) null else inv.getStackInSlot(index)
-		new CRefItem(stack, owner)
+		new CRefItem(stack, null)
 	}
-	def make(id: String, owner: EntityLivingBase = null): CRefItem =
-		new CRefItem(ItemConversions.newItemStack(id), owner)
-	def make(id: String, count: Int, owner: EntityLivingBase): CRefItem = {
-		val option = make(id, owner)
-		option.is.foreach{_.setCount(count)}
-		option
+	def make(id: String): CRefItem =
+		new CRefItem(ItemConversions.newItemStack(id), null)
+	def make(logic: BLogicItem, variant: Int): CRefItem = {
+		val item: Item = logic.secrets.get(variant).asInstanceOf[Item]
+		if(item == null) new CRefItem() else new CRefItem(item, null)
 	}
-	def make(id: String, count: Int): CRefItem = make(id, count, null)
 }

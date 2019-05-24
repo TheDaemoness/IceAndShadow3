@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.util.text.ITextComponent
 
-class CRefEntity protected(protected[compat] val entity: Entity) extends TCWorldPlace with TEffectSource with IPositional {
+class CRefEntity protected[entity](protected[compat] val entity: Entity) extends TCWorldPlace with TEffectSource with IPositional {
 	override def getEffectSourceEntity: Entity = entity
 	override def getNameTextComponent: ITextComponent = entity.getDisplayName
 	override def position = new Vec3(entity.posX, entity.posY, entity.posZ)

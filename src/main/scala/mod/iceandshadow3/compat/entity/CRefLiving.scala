@@ -6,14 +6,14 @@ import mod.iceandshadow3.util.{IteratorConcat, Vec3}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 
-class CRefLiving protected[entity](living: EntityLivingBase) extends CRefEntity(living) {
+class CRefLiving protected[entity](protected[compat] val living: EntityLivingBase) extends CRefEntity(living) {
   def hp: Float = living.getHealth
   def hpTemp: Float = living.getAbsorptionAmount
   def hpReal: Float = hp - hpTemp
   def hpMax: Float = living.getMaxHealth
   def undead: Boolean = living.isEntityUndead
   def heal(amount: Float = hpMax): Unit = living.heal(amount)
-  def setHp(amount: Float = hpMax) = living.setHealth(amount)
+  def setHp(amount: Float = hpMax): Unit = living.setHealth(amount)
 
   def home(where: CDimension): Option[Vec3] = Option(where.getWorldSpawn)
 
@@ -30,9 +30,10 @@ class CRefLiving protected[entity](living: EntityLivingBase) extends CRefEntity(
 
   def hasIaSArmor: Boolean = false //TODO: IaS3 Armor NYI
 
-  def findItem(itemid: String, restrictToHands: Boolean = false): CRefItem = {
+  def findItem(itemid: String, restrictToHands: Boolean): CRefItem =
+    findItem(CRefItem.make(itemid).changeOwner(this), restrictToHands)
+  def findItem(tofind: CRefItem, restrictToHands: Boolean): CRefItem = {
     val tosearch = if(restrictToHands) itemsHeld() else items()
-    val tofind = CRefItem.make(itemid, living)
     tosearch.find{tofind.matches}.getOrElse(new CRefItem(null, living))
   }
 

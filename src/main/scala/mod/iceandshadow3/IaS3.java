@@ -32,10 +32,10 @@ public class IaS3 {
 	public static final String MODID = "iceandshadow3";
 	public static final int VER_CFG_FMT = 1;
 	private static final Logger BEAVER = LogManager.getLogger();
-	public static final Level BUG_LEVEL = Level.forName("BUG", 150);
-		
-	private ConfigManager<ConfigClient> cfgClient;
-	private ConfigManager<ConfigServer> cfgServer;
+	private static final Level BUG_LEVEL = Level.forName("BUG", 150);
+
+	private static ConfigManager<ConfigClient> cfgClient;
+	private static ConfigManager<ConfigServer> cfgServer;
 
 	public IaS3() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -58,8 +58,8 @@ public class IaS3 {
 	
 	private void initCommon(final FMLCommonSetupEvent event) {
 		Domains.initLate();
-		SEventFisherman$.MODULE$.baitHooks(MinecraftForge.EVENT_BUS);
-		configServer();
+		SEventFisherman$.MODULE$.baitHooks();
+		getCfgServer();
 	}
 
 	private void initClient(final FMLClientSetupEvent event) {
@@ -76,7 +76,7 @@ public class IaS3 {
 	}
 	
 	private void onServerStarting(FMLServerStartingEvent event) {
-		configServer().seal();
+		getCfgServer().seal();
 	}
 	
 	private void onServerStopped(FMLServerStoppedEvent event) {
@@ -99,23 +99,32 @@ public class IaS3 {
 	public static Logger logger() {return BEAVER;}
 	public static void bug(Object what, Object... args) {
 		StringBuilder sb = new StringBuilder();
+		sb.append("Please make sure the IaS3 developers know about the following problem:");
+		if(args.length > 0) sb.append("\n");
 		for(Object o: args) sb.append(o.toString());
 		final String message = sb.toString();
+
 		class SomebodyScrewedThePooch extends Exception {
-			SomebodyScrewedThePooch(String msg) {super(msg);}
+			private SomebodyScrewedThePooch(String msg) {super(msg);}
 		}
-		String request = "Please make sure the IaS3 developers know about the following problem:";
-		if(what == null) what = new SomebodyScrewedThePooch(message);
-		if(what instanceof Throwable) BEAVER.log(BUG_LEVEL, request, (Throwable)what);
-		else BEAVER.log(BUG_LEVEL, request, new SomebodyScrewedThePooch(what.getClass().getTypeName()+": "+message));
+		if(what == null) what = new SomebodyScrewedThePooch("Caller of bug(...)");
+
+		if(what instanceof Throwable) BEAVER.log(BUG_LEVEL, message, (Throwable)what);
+		else {
+			String whoScrewedThePooch;
+			if(what instanceof Class) whoScrewedThePooch = ((Class) what).getTypeName();
+			else if(what instanceof String) whoScrewedThePooch = (String)what;
+			else whoScrewedThePooch = what.getClass().getTypeName();
+			BEAVER.log(BUG_LEVEL, message, new SomebodyScrewedThePooch(whoScrewedThePooch));
+		}
 	}
-	
-	@OnlyIn(Dist.CLIENT)
-	public ConfigClient configClient() {return cfgClient.get();}
-	public ConfigServer configServer() {
+
+	public static ConfigServer getCfgServer() {
 		if(cfgServer == null) {
 			cfgServer = new ConfigManager<>(new ConfigServer());
 		}
 		return cfgServer.get();
 	}
+	@OnlyIn(Dist.CLIENT)
+	public static ConfigClient getCfgClient() {return cfgClient.get();}
 }

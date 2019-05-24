@@ -26,3 +26,8 @@ BEventBait instances are actually instantiated and registered with the event bus
 Why fisherman? Because a fisherman is what actually puts bait on the hooks.
 
 Why has this metaphor been taken this far? If you're hoping for any reasonable reason, you'll be disappointed.
+
+## Other Event Handling
+
+Fish-unrelated event handlers should still be instantiated by `SEventFisherman`.
+
