@@ -14,5 +14,5 @@ trait IEventFishOwnerDeath extends IEventFishOwner {
 
   /** As onOwnerDeath, but in response to void damage in specific (which onOwnerDeath does NOT reply to).
     */
-  def onOwnerVoided(variant: Int, state: BStateData, item: CRefItem, isCanceled: Boolean): L3 = L3.NULL
+  def onOwnerVoided(variant: Int, state: BStateData, item: CRefItem, isCanceled: Boolean): L3 = L3.NEUTRAL
 }

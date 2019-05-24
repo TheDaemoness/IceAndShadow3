@@ -11,7 +11,7 @@ sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogi
 	dom.add(this)
 	def isShiny(variant: Int, tags: CNbtTree, stack: CRefItem) = false
 	
-	def onUse(variant: Int, state: BStateData, stack: CRefItem, user: CRefPlayer, mainhand: Boolean): L3 = L3.NULL
+	def onUse(variant: Int, state: BStateData, stack: CRefItem, user: CRefPlayer, mainhand: Boolean): L3 = L3.NEUTRAL
 
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
 

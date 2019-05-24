@@ -64,14 +64,12 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			} else {
 				wayfinderstate.positions.set(owner.dimensionCoord, owner.position)
 			}
-			if(preventDeath) L3.FALSE else L3.NULL
+			L3.FALSE.unlessFalse(preventDeath)
 		})
 		item.getOwner.saveItem(item)
-		item.destroy() //If it wasn't saved, destroy it anyway.
 		result
 	}
 	override def onOwnerToss(variant: Int, state: BStateData, item: CRefItem): L3 = {
-		item.getOwner.saveItem(item)
-		L3.FALSE
+		L3.FALSE.unlessFalse(item.getOwner.saveItem(item))
 	}
 }

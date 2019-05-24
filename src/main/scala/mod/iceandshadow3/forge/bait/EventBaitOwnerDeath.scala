@@ -25,6 +25,6 @@ class EventBaitOwnerDeath(bus: IEventBus) extends BEventBaitOwner[LivingDeathEve
 			fish.onOwnerVoided(logictriad.variant, logictriad.state, item, event.isCanceled)
 		} else fish.onOwnerDeath(logictriad.variant, logictriad.state, item, event.isCanceled)
 		//TODO: The following has happened twice now. Add foreaches to L3.
-		if (cancel != L3.NULL) event.setCanceled(cancel == L3.FALSE)
+		cancel.forBoolean(uncancel => {event.setCanceled(!uncancel)})
 	}
 }
