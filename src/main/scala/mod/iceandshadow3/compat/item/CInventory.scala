@@ -1,5 +1,6 @@
 package mod.iceandshadow3.compat.item
 
+import mod.iceandshadow3.util.L3
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.inventory.IInventory
 
@@ -35,17 +36,17 @@ class CInventory(inv: IInventory, owner: EntityLivingBase = null) extends Iterab
 	}
 
 	/** Adds this item if a stack of the same type does not already exist.
-		* @return False if the inventory doesn't contain an item of the matching type after this.
+		* @return True if the item was added, neutral if it existed, and false if it couldn't be added.
 		*/
-	def donate(item: CRefItem): Boolean = {
+	def donate(item: CRefItem): L3 = {
 		var slot = -1
 		for(i <- 0 until inv.getSizeInventory) {
 			val stack = inv.getStackInSlot(i)
 			if(slot == -1 && (stack == null || stack.isEmpty) && inv.isItemValidForSlot(i, item.exposeItems())) slot = i
-			if(item.matches(stack)) return true
+			if(item.matches(stack)) return L3.NEUTRAL
 		}
-		if(slot == -1) false
-		else {inv.setInventorySlotContents(slot, item.move()); true}
+		if(slot == -1) L3.FALSE
+		else {inv.setInventorySlotContents(slot, item.move()); L3.TRUE}
 	}
 
 	override def iterator = new Iterator[CRefItem] {

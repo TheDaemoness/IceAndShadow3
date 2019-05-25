@@ -51,10 +51,10 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		})
 	}
 
-	override def onOwnerDeath(variant: Int, state: BStateData, item: CRefItem, isCancelled: Boolean): L3 = {
+	override def onOwnerDeath(variant: Int, state: BStateData, item: CRefItem, isCanceled: Boolean): L3 = {
 		val wayfinderstate = state.asInstanceOf[SIWayfinder]
 		val result = item.forStateData(wayfinderstate, ()=> {
-			val preventDeath = !isCancelled && wayfinderstate.charged.get
+			val preventDeath = !isCanceled && wayfinderstate.charged.get
 			val owner = item.getOwner
 			if (preventDeath) {
 				owner.setHp()
@@ -62,6 +62,10 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 				val where = wayfinderstate.positions.get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
 				if (where != null) {
 					owner.teleport(where)
+					owner match {
+						case player: CRefPlayer => player.advancement("iceandshadow3:wayfinder_save")
+						case _ =>
+					}
 					item.getOwner.playSound(CSound.lookup(
 						"minecraft:item.chorus_fruit.teleport"
 					), 1f, 0.9f)
@@ -75,6 +79,22 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		item.getOwner.saveItem(item)
 		result
 	}
+
+	override def onOwnerVoided(variant: Int, state: BStateData, item: CRefItem, isCanceled: Boolean) = {
+		val wayfinderstate = state.asInstanceOf[SIWayfinder]
+		val result = item.forStateData(wayfinderstate, ()=> {
+			val owner = item.getOwner
+			val preventDeath = !isCanceled && wayfinderstate.charged.get && owner.position.yBlock < 60
+			if (preventDeath) {
+				//Just kidding, the mod isn't ready for this yet.
+				//TODO: Trigger the outworlder advancement (which needs to be unhidden).
+			}
+			L3.NEUTRAL
+		})
+		item.getOwner.saveItem(item)
+		result
+	}
+
 	override def onOwnerToss(variant: Int, state: BStateData, item: CRefItem): L3 = {
 		val result = L3.FALSE.unlessFalse(item.getOwner.saveItem(item))
 		if(result == L3.FALSE) item.getOwner.playSound(CSound.lookup(

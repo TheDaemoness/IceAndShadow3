@@ -1,0 +1,18 @@
+{
+  "display": {
+    "icon": {
+      "item": "iceandshadow3:nyx_wayfinder",
+      "nbt": "{iceandshadow3:{charged:true}}"
+    },
+    "title": "Screw This, I'm Leaving!",
+    "description": "Teleport before death using an Undying-charged wayfinder.",
+    "announce_to_chat": false
+  },
+  "parent": "iceandshadow3:wayfinder",
+  "criteria": {
+    "charged": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}
