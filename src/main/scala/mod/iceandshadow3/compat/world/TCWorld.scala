@@ -15,4 +15,5 @@ trait TCWorld {
   def rng(): java.util.Random = exposeWorld().rand
   def dimension = new CDimension(exposeWorld().dimension)
   def dimensionCoord = new CDimensionCoord(exposeWorld().dimension.getType)
+  def gameTime: Long = exposeWorld().getGameTime
 }

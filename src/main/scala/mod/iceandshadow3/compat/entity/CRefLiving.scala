@@ -2,11 +2,13 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.world.CDimension
-import mod.iceandshadow3.util.{IteratorConcat, Vec3}
+import mod.iceandshadow3.util.{EmptyIterator, IteratorConcat, Vec3}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 
 class CRefLiving protected[entity](protected[compat] val living: EntityLivingBase) extends CRefEntity(living) {
+  def sneaking = living.isSneaking
+  def sprinting = living.isSprinting
   def hp: Float = living.getHealth
   def hpTemp: Float = living.getAbsorptionAmount
   def hpReal: Float = hp - hpTemp
@@ -16,6 +18,15 @@ class CRefLiving protected[entity](protected[compat] val living: EntityLivingBas
   def setHp(amount: Float = hpMax): Unit = living.setHealth(amount)
 
   def home(where: CDimension): Option[Vec3] = Option(where.getWorldSpawn)
+
+  def facing: Vec3 = {
+    val where = living.getForward
+    new Vec3(where.x, where.y, where.z)
+  }
+  def facingH: Vec3 = {
+    val where = living.getForward
+    new Vec3(where.x, 0, where.z)
+  }
 
   /** Give an item to a special inventory possessed by an entity.
     * For players, this is usually the ender chest.
@@ -43,5 +54,7 @@ class CRefLiving protected[entity](protected[compat] val living: EntityLivingBas
     new IteratorConcat((is: ItemStack) => {new CRefItem(is, living)}, living.getHeldEquipment.iterator)
   def itemsEquipped(): Iterator[CRefItem] =
     new IteratorConcat((is: ItemStack) => {new CRefItem(is, living)}, living.getEquipmentAndArmor.iterator)
+  def itemsStashed(): Iterator[CRefItem] =
+    new IteratorConcat((is: ItemStack) => {new CRefItem(is, living)}, new EmptyIterator[ItemStack])
   override def items(): Iterator[CRefItem] = itemsEquipped()
 }

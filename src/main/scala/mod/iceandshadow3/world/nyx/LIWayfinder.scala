@@ -1,11 +1,13 @@
 package mod.iceandshadow3.world.nyx
 
 import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.basics.item.BItemProperty
+import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.basics.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.compat.CNbtTree
 import mod.iceandshadow3.compat.entity.{CRefLiving, CRefPlayer}
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.world.{CSound, PerDimensionVec3}
+import mod.iceandshadow3.compat.world.{CSound, PerDimensionVec3, TCWorld}
 import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{IEventFishOwnerDeath, IEventFishOwnerToss}
 import mod.iceandshadow3.util.{L3, Vec3}
@@ -16,6 +18,15 @@ sealed class SIWayfinder extends BStateData {
 	register("charged", charged)
 	val positions = new PerDimensionVec3
 	register("positions", positions)
+}
+sealed abstract class BItemPropertyDelta(logic: BLogicItemComplex) extends BItemProperty(logic) {
+	def evaluate(owner: CRefLiving, point: Option[Vec3]): Float
+	override def call(item: CRefItem, world: TCWorld): Float = {
+		if(!item.hasOwner) return 0f
+		val owner = item.getOwner
+		val state = item.exposeStateData(new LogicPair(logic, 0)).asInstanceOf[SIWayfinder]
+		evaluate(owner, state.positions.get(owner.dimensionCoord))
+	}
 }
 class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	with IEventFishOwnerDeath
@@ -43,12 +54,17 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 						L3.TRUE
 					} else L3.FALSE
 				} else L3.FALSE
-			} else {
+			} else if(user.sneaking) {
 				wayfinderstate.positions.set(user.dimensionCoord, user.position)
-				//TODO: More feedback. Maybe make this have a wind-up.
+				//TODO: More feedback.
 				L3.TRUE
-			}
+			} else L3.NEUTRAL
 		})
+	}
+
+	def teleportItem(item: CRefItem): Boolean = {
+		//item.getOwner.itemsStashed().foreach(_.destroy())
+		item.getOwner.saveItem(item)
 	}
 
 	override def onOwnerDeath(variant: Int, state: BStateData, item: CRefItem, isCanceled: Boolean): L3 = {
@@ -76,7 +92,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			}
 			L3.FALSE.unlessFalse(preventDeath)
 		})
-		item.getOwner.saveItem(item)
+		teleportItem(item)
 		result
 	}
 
@@ -87,19 +103,44 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			val preventDeath = !isCanceled && wayfinderstate.charged.get && owner.position.yBlock < 60
 			if (preventDeath) {
 				//Just kidding, the mod isn't ready for this yet.
-				//TODO: Trigger the outworlder advancement (which needs to be unhidden).
+				//TODO: Trigger the outworlder advancement (which needs to be unhidden once triggering is in place).
 			}
 			L3.NEUTRAL
 		})
-		item.getOwner.saveItem(item)
+		teleportItem(item)
 		result
 	}
 
 	override def onOwnerToss(variant: Int, state: BStateData, item: CRefItem): L3 = {
-		val result = L3.FALSE.unlessFalse(item.getOwner.saveItem(item))
+		val result = L3.FALSE.unlessFalse(teleportItem(item))
 		if(result == L3.FALSE) item.getOwner.playSound(CSound.lookup(
 			"minecraft:item.chorus_fruit.teleport"
 		), 0.5f, 1.1f)
 		result
 	}
+
+	override def propertyOverrides() = Array(
+		new BItemProperty(this) {
+			override def name = "charged"
+			override def call(item: CRefItem, world: TCWorld): Float =
+				if(item.exposeNbtTree().chroot().getLong("charged") > 0) 1f else 0f
+		},
+		new BItemPropertyDelta(this) {
+			override def name = "blink"
+			override def evaluate(owner: CRefLiving, point: Option[Vec3]): Float = {
+				if(point.isEmpty) (1+(owner.gameTime & 31))/32f
+				else 0f
+			}
+		},
+		new BItemPropertyDelta(this) {
+			override def name = "hotness"
+			override def evaluate(owner: CRefLiving, point: Option[Vec3]): Float = {
+				if(point.isEmpty) 0f
+				else {
+					def angle = owner.facingH.angle(owner.position.delta(point.get))/Math.PI
+					Math.max(0f, 1f - angle.abs.toFloat)
+				}
+			}
+		}
+	)
 }

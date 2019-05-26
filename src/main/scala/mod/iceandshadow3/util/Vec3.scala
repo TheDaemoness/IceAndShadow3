@@ -70,10 +70,17 @@ class Vec3 (
 	def copy: Vec3M = new Vec3M(this)
 	def asMutable: Vec3M = copy
 	def asImmutable: Vec3 = this
-	def mag: Double = Math.sqrt(x * x + y.toLong * y + z * z)
-	def magH: Double = Math.sqrt(x * x + z * z)
+
+	def mag: Double = Math.sqrt(toDouble(x * x + y * y + z * z))
+	def magH: Double = Math.sqrt(toDouble(x * x + z * z))
 
 	def dot(b: Vec3): Double = toDouble(x * b.x + y.toLong * b.y + z * b.z)
+	def delta(b: Vec3): Vec3 = new Vec3(b.xRaw - x, b.yRaw - y, b.zRaw - z)
+	def angle(b: Vec3): Double = {
+		val result = Math.acos(this.dot(b) / (mag * b.mag))
+		if (result > Math.PI) result - 2 * Math.PI
+		else result
+	}
 
 	override def equals(o: Any): Boolean = o match {
 		case b: Vec3 => y == b.y && x == b.x && z == b.z

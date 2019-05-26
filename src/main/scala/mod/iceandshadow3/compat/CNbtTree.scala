@@ -7,6 +7,7 @@ import net.minecraft.nbt.{NBTPrimitive, NBTTagCompound}
 class CNbtTree(val root: NBTTagCompound) {
 	def isNull: Boolean = root == null
 	def isEmpty: Boolean = isNull || root.isEmpty
+	def chroot(): CNbtTree = chroot(IaS3.MODID)
 	def chroot(key: String): CNbtTree = try {
 		if(root == null) return this
 		val tags = root.getCompound(key)

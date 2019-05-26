@@ -11,7 +11,10 @@ abstract class BCRef[LogicType <: BLogic] extends TLogicStateProvider[LogicType]
   protected def exposeNBTOrNull(): NBTTagCompound
 
   def exposeNbtTree(): CNbtTree = new CNbtTree(exposeNBTOrNull())
-  protected def exposeStateData(logicpair: LogicPair[LogicType]): LogicType#StateDataType = {
+
+  /** WARNING: This should only be used for read-only access to state data.
+    */
+  def exposeStateData(logicpair: LogicPair[LogicType]): LogicType#StateDataType = {
     val sd = logicpair.logic.getDefaultStateData(logicpair.variant)
     if (sd != null) {
       val tree = sd.exposeDataTree()

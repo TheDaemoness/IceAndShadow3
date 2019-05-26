@@ -2,7 +2,6 @@ package mod.iceandshadow3.compat.item;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicItem;
-import mod.iceandshadow3.basics.BStateData;
 import mod.iceandshadow3.basics.item.BItemProperty;
 import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.CNbtTree;
@@ -53,7 +52,7 @@ public class AItem extends Item implements ILogicItemProvider {
 		this.setRegistryName(IaS3.MODID, logic.getName(variant));
 		this.variant = variant;
 		for(BItemProperty bpo : logic.propertyOverrides()) {
-			this.addPropertyOverride(new ResourceLocation(bpo.name()), new IItemPropertyGetter() {
+			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
 				final BItemProperty impl = bpo;
 
 				@OnlyIn(Dist.CLIENT)

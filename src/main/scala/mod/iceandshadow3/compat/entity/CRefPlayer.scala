@@ -33,6 +33,7 @@ class CRefPlayer protected[entity](protected[compat] val player: EntityPlayer) e
 			inv.mainInventory.iterator
 		)
 	}
+	override def itemsStashed(): Iterator[CRefItem] = new CInventory(player.getInventoryEnderChest).iterator
 
 	override def saveItem(what: CRefItem): Boolean =
 		new CInventory(player.getInventoryEnderChest).add(what)
