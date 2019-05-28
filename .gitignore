@@ -15,9 +15,9 @@ out
 
 # Gradle
 build
-gradle.properties
 .gradle
 gradlew
+gradlew.bat
 gradle
 
 # Scala Misc
@@ -25,6 +25,7 @@ gradle
 .bloop
 
 # Other
+*.jar
 eclipse
 run
 sandbox

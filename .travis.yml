@@ -1,0 +1,7 @@
+language: scala
+dist: xenial
+jdk: openjdk8
+scala:
+  - "2.12.8"
+install: gradle wrapper --gradle-version 4.10.2
+script: ./gradlew build

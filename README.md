@@ -16,17 +16,23 @@ Indefinite survival is possible, though survival on Nyx comes with unique challe
 __NYI.__
 
 ## Getting Started (As A Developer)
+![Insert Travis CI status here.](https://travis-ci.org/TheDaemoness/IceAndShadow3.svg?branch=master "Travis CI status (branch: master)")
+
+IaS3 uses Gradle, but does not include a gradle wrapper in VCS for largely philosophical reasons.
 
 To get a usable development environment:
-1. Clone/extract this repository into an empty directory.
-2. Extract a copy of the Forge MDK (version 25 or later) into the same directory *without overwriting any existing files*.
-3. Use the Forge-provided gradle wrapper as usual.
-	1. You may need to set the `JAVA_HOME` environment variable before running the gradle wrapper if you're using Java 11.
-	2. Tasks of special interest include `clean`, `build`, `runClient`, `runServer`.
+1. Ensure you are using Java **8 or later, up to and excluding 11**.
+Otherwise, you will run into problems when you try to run the gradle wrapper.
+2. Clone/extract this repository into an empty directory.
+3. Get a compatible copy of the gradle wrapper (4.9 up to and excluding 5.0). You can either:
+	* (Recommended) If you have gradle installed, run `gradle wrapper` in the project directory.
+	* Extract a copy of the Forge MDK (version 25.0 up to and excluding 26.0) into the same directory *without overwriting any existing files*.
+4. Use the gradle wrapper as usual with a compatible version of Java.
+    1. You may generate Intellij IDEA project files using the `idea` task. Generating an Eclipse project with `eclipse` is left in as an option but is not recommended,
+    as the main Scala plugin is outdated to the point of instability on recent versions of Eclipse.
+    2. You may run the client and/or dedicated server with the `runClient` and `runServer` tasks respectively.
 
-You may generate Intellij IDEA project files using the `idea` task. Generating an Eclipse project with `eclipse` is left in as an option but is not recommended, as the main Scala plugin is outdated to the point of instability on recent versions of Eclipse.
-
-Afterward, refer to the READMEs under the `src/main/scala` directory for more information.
+Refer to the READMEs under the `src` directory for more information.
 
 ### Bloop
 

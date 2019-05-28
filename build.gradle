@@ -7,7 +7,7 @@ def version_patch = '0'
 
 def version_minecraft = '1.13.2'
 def version_forge_req='25'
-def version_forge_suffix='.0.214'
+def version_forge_suffix='.0.218'
 def version_forge="${version_forge_req}${version_forge_suffix}"
 
 buildscript {
@@ -21,6 +21,9 @@ buildscript {
         classpath 'ch.epfl.scala:gradlebloop212_2.12:1.2.5'
         classpath 'org.scala-lang:scala-library:2.12.8'
     }
+}
+wrapper {
+   gradleVersion = '4.10.3'
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'scala'
