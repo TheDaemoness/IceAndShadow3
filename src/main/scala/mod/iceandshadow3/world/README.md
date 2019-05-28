@@ -1,9 +1,13 @@
 # .world
 
 Contains elements of the world(s) of Ice and Shadow III.
+
 Items, blocks, mobs, and more all go into subpackages here.
 
-Domains, however, go here specifically. Remember to add new domains to `iceandshadow3.Domains`!
+`BDomain` objects go into this package specifically, not their respective subpackage.
+`BDimension` objects also go here.
+
+Remember to add both to `iceandshadow3.Multiverse`!
 
 ## Type Name Prefixes
 

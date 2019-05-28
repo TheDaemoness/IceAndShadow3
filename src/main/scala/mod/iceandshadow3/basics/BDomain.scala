@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.Domains
+import mod.iceandshadow3.Multiverse
 import mod.iceandshadow3.basics.damage.EDeathPolicy
 import mod.iceandshadow3.compat.block.CRegistryBlock
 import mod.iceandshadow3.compat.item.{CRarity, CRegistryItem}
@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
 	* This affects their IDs as well a number of other (important) properties.
 	*/
 abstract class BDomain(val name: java.lang.String) {
-	Domains.addDomain(this)
+	Multiverse.addDomain(this)
 	private val listLogicBlock = new java.util.LinkedList[BLogicBlock]
 	private val listLogicItem = new java.util.LinkedList[BLogicItem]
 	

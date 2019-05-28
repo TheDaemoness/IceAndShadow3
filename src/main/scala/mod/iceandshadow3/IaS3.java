@@ -2,7 +2,6 @@ package mod.iceandshadow3;
 
 import mod.iceandshadow3.compat.block.CRegistryBlock;
 import mod.iceandshadow3.compat.item.CRegistryItem;
-import mod.iceandshadow3.compat.world.CSound;
 import mod.iceandshadow3.compat.world.CSound$;
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.SEventFisherman$;
@@ -52,7 +51,7 @@ public class IaS3 {
 
 		MinecraftForge.EVENT_BUS.register(this);
 		
-		Domains.initEarly();
+		Multiverse.initEarly();
 	}
 
 	private void initRegistries(final RegistryEvent.NewRegistry event) {
@@ -60,7 +59,7 @@ public class IaS3 {
 	}
 	
 	private void initCommon(final FMLCommonSetupEvent event) {
-		Domains.initLate();
+		Multiverse.initLate();
 		SEventFisherman$.MODULE$.baitHooks();
 		getCfgServer();
 	}
@@ -80,6 +79,7 @@ public class IaS3 {
 	
 	private void onServerStarting(FMLServerStartingEvent event) {
 		getCfgServer().seal();
+		Multiverse.registerDimensions();
 	}
 	
 	private void onServerStopped(FMLServerStoppedEvent event) {
@@ -91,11 +91,11 @@ public class IaS3 {
 	public static class RegistryEvents {
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> reg) {
-			Domains.registerBlocks(new CRegistryBlock(reg.getRegistry()));
+			Multiverse.registerBlocks(new CRegistryBlock(reg.getRegistry()));
 		}
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
-			Domains.registerItems(new CRegistryItem(reg.getRegistry()));
+			Multiverse.registerItems(new CRegistryItem(reg.getRegistry()));
 		}
 		@SubscribeEvent
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {

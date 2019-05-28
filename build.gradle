@@ -23,7 +23,7 @@ buildscript {
     }
 }
 wrapper {
-   gradleVersion = '4.10.3'
+    gradleVersion = '4.10.3'
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'scala'
