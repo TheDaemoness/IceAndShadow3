@@ -1,9 +1,10 @@
 package mod.iceandshadow3.compat.block
 
 import mod.iceandshadow3.basics.damage.Damage
+import mod.iceandshadow3.compat.Vec3Conversions
 import mod.iceandshadow3.compat.entity.TEffectSource
 import mod.iceandshadow3.compat.world.TCWorldPlace
-import mod.iceandshadow3.util.{IPositional, Vec3}
+import mod.iceandshadow3.spatial.{IPositional, IVec3}
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.ITextComponent
@@ -40,7 +41,7 @@ class CRefBlock(private val impl: Impl) extends TCWorldPlace with TEffectSource 
 
 	override protected[compat] def exposeWorld(): World = impl.exposeWorld()
 
-	def this(w: World, v: Vec3) {
+	def this(w: World, v: IVec3) {
 		this(new CRefBlock.ImplChunk(
 		w.getChunk(v.xChunk, v.zChunk),
 		new BlockPos(v.xBlock.toInt,
@@ -71,5 +72,5 @@ class CRefBlock(private val impl: Impl) extends TCWorldPlace with TEffectSource 
 
 	override def getAttack: Damage = null
 	
-	override def position = new Vec3(impl.pos.getX, impl.pos.getY, impl.pos.getZ, 0.5, 0.5, 0.5)
+	override def position = Vec3Conversions.fromBlockPos(impl.pos)
 }

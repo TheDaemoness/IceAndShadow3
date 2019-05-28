@@ -2,7 +2,8 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.world.CDimension
-import mod.iceandshadow3.util.{EmptyIterator, IteratorConcat, Vec3}
+import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
+import mod.iceandshadow3.util.{EmptyIterator, IteratorConcat}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 
@@ -17,15 +18,23 @@ class CRefLiving protected[entity](protected[compat] val living: EntityLivingBas
   def heal(amount: Float = hpMax): Unit = living.heal(amount)
   def setHp(amount: Float = hpMax): Unit = living.setHealth(amount)
 
-  def home(where: CDimension): Option[Vec3] = Option(where.getWorldSpawn)
+  def home(where: CDimension): Option[IVec3] = Option(where.getWorldSpawn)
 
-  def facing: Vec3 = {
+  def facing: IVec3 = {
     val where = living.getForward
-    new Vec3(where.x, where.y, where.z)
+    new Vec3Mutable(
+      IVec3.fromDouble(where.x),
+      IVec3.fromDouble(where.y).toInt,
+      IVec3.fromDouble(where.z)
+    )
   }
-  def facingH: Vec3 = {
+  def facingH: IVec3 = {
     val where = living.getForward
-    new Vec3(where.x, 0, where.z)
+    new Vec3Mutable(
+      IVec3.fromDouble(where.x),
+      0,
+      IVec3.fromDouble(where.z)
+    )
   }
 
   /** Give an item to a special inventory possessed by an entity.

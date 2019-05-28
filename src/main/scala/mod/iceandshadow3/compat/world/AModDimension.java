@@ -3,7 +3,7 @@ package mod.iceandshadow3.compat.world;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;
 import mod.iceandshadow3.compat.Vec3Conversions;
-import mod.iceandshadow3.util.Vec3;
+import mod.iceandshadow3.spatial.IVec3;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
@@ -54,7 +54,7 @@ public class AModDimension extends ModDimension {
 
 		@Nullable
 		public BlockPos getSpawnCoordinate() {
-			final Vec3 where = dimlogic.getWorldSpawn();
+			final IVec3 where = dimlogic.getWorldSpawn();
 			if(where == null) return null;
 			else return Vec3Conversions.toBlockPos(where);
 		}

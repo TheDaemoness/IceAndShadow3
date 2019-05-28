@@ -4,22 +4,24 @@ import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.Vec3Conversions._
 import mod.iceandshadow3.compat.item.{CInventory, CRefItem}
 import mod.iceandshadow3.compat.world.CDimension
-import mod.iceandshadow3.util.{IteratorConcat, L3, Vec3}
+import mod.iceandshadow3.spatial.IVec3
+import mod.iceandshadow3.util.{IteratorConcat, L3}
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TextComponentTranslation
+
 import scala.collection.JavaConverters._
 
 //TODO: Manually generated class stub.
 class CRefPlayer protected[entity](protected[compat] val player: EntityPlayer) extends CRefLiving(player) {
 	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f
 	def deshield(force: Boolean = true): Unit = player.disableShield(force)
-	def bed: Vec3 = player.bedLocation
+	def bed: IVec3 = player.bedLocation
 	def message(msg: String, actionBar: Boolean = true): Unit
 		= player.sendStatusMessage(new TextComponentTranslation(msg), actionBar)
 
-	override def home(where: CDimension): Option[Vec3] =
+	override def home(where: CDimension): Option[IVec3] =
 		Option(player.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
 
 	override def isCreative = player.isCreative

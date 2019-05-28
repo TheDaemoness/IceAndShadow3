@@ -14,6 +14,6 @@ trait TCWorld {
   def isClientSide: Boolean = exposeWorld().isRemote
   def rng(): java.util.Random = exposeWorld().rand
   def dimension = new CDimension(exposeWorld().dimension)
-  def dimensionCoord = new CDimensionCoord(exposeWorld().dimension.getType)
+  def dimensionCoord = CDimensionCoord(exposeWorld().dimension.getType)
   def gameTime: Long = exposeWorld().getGameTime
 }

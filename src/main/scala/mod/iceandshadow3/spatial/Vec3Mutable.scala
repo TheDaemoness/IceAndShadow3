@@ -1,49 +1,59 @@
-package mod.iceandshadow3.util
+package mod.iceandshadow3.spatial
 
 import mod.iceandshadow3.data._
 
-class Vec3M(original: Vec3) extends Vec3(original.xRaw, original.yRaw, original.zRaw)
+import mod.iceandshadow3.spatial.IVec3._
+
+class Vec3Mutable (
+	private var x: Long,
+	private var y: Int,
+	private var z: Long
+)
+	extends IVec3
 	with ITextLineRW
 	with IDataTreeRW[DataTreeMap]
 {
-	override def asMutable: Vec3M = this
-	override def asImmutable: Vec3 = new Vec3(original.xRaw, original.yRaw, original.zRaw)
+	def this(from: IVec3) = this(from.xRaw, from.yRaw, from.zRaw)
+	override def xRaw = x
+	override def yRaw = y
+	override def zRaw = z
+	override def asMutable: Vec3Mutable = this
 
-  def set(b: Vec3): Unit = {
+  def set(b: IVec3): Unit = {
 		this.x = b.xRaw
 		this.y = b.yRaw
 		this.z = b.zRaw
 	}
 
-  def add(x: Int, y: Int, z: Int): Vec3M = {
-		this.x += x << Vec3.SUB_BITS
-		this.y += y.toShort << Vec3.SUB_BITS
-		this.z += z << Vec3.SUB_BITS
+  def add(x: Int, y: Int, z: Int): Vec3Mutable = {
+		this.x += x << SUB_BITS
+		this.y += y.toShort << SUB_BITS
+		this.z += z << SUB_BITS
 		this
 	}
 
-	def add(x: Double, y: Double, z: Double): Vec3M = {
-		this.x += Vec3.toLong(x)
-		this.y += Vec3.toLong(y).toInt
-		this.z += Vec3.toLong(z)
+	def add(x: Double, y: Double, z: Double): Vec3Mutable = {
+		this.x += IVec3.fromDouble(x)
+		this.y += IVec3.fromDouble(y).toInt
+		this.z += IVec3.fromDouble(z)
 		this
 	}
 
-	def add(b: Vec3): Vec3M = {
+	def add(b: IVec3): Vec3Mutable = {
 		x += b.xRaw
 		y += b.yRaw
 		z += b.zRaw
 		this
 	}
 
-	def sub(b: Vec3): Vec3M = {
+	def sub(b: IVec3): Vec3Mutable = {
 		x -= b.xRaw
 		y -= b.yRaw
 		z -= b.zRaw
 		this
 	}
 
-	def mult(multiplier: Double): Vec3M = {
+	def mult(multiplier: Double): Vec3Mutable = {
 		x = (x.toDouble*multiplier).toLong
 		y = (y.toDouble*multiplier).toInt
 		z = (z.toDouble*multiplier).toLong
@@ -51,9 +61,9 @@ class Vec3M(original: Vec3) extends Vec3(original.xRaw, original.yRaw, original.
 	}
 
 /// Converts the vector to its normal equivalent (magnitude = 1).
-	def norm(): Vec3M = mult(1 / mag)
+	def norm(): Vec3Mutable = mult(1 / mag)
 
-	def inv(): Vec3M = mult(-1)
+	def inv(): Vec3Mutable = mult(-1)
 	
 	override def fromLine(line: String): Unit = {
 		val scanner = new java.util.Scanner(line)
@@ -70,7 +80,7 @@ class Vec3M(original: Vec3) extends Vec3(original.xRaw, original.yRaw, original.
 			this.y = tree.getAndUnwrap[Long, DatumInt32]("y").get.toInt
 			this.z = tree.getAndUnwrap[Long, DatumInt64]("z").get
 		} catch {
-			case e: NoSuchElementException => return false
+			case _: NoSuchElementException => return false
 		}
 		true
 	}

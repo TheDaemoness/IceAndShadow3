@@ -1,7 +1,7 @@
 package mod.iceandshadow3.compat.world
 
 import mod.iceandshadow3.compat.Vec3Conversions._
-import mod.iceandshadow3.util.IPositional
+import mod.iceandshadow3.spatial.IPositional
 import net.minecraft.world.EnumLightType
 
 trait TCWorldPlace extends TCWorld {

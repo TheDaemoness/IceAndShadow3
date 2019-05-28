@@ -7,10 +7,11 @@ import mod.iceandshadow3.basics.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.compat.CNbtTree
 import mod.iceandshadow3.compat.entity.{CRefLiving, CRefPlayer}
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.world.{CSound, PerDimensionVec3, TCWorld}
+import mod.iceandshadow3.compat.world.{CSound, TCWorld}
 import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{IEventFishOwnerDeath, IEventFishOwnerToss}
-import mod.iceandshadow3.util.{L3, Vec3}
+import mod.iceandshadow3.util.L3
+import mod.iceandshadow3.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.world.DomainNyx
 
 sealed class SIWayfinder extends BStateData {
@@ -20,7 +21,7 @@ sealed class SIWayfinder extends BStateData {
 	register("positions", positions)
 }
 sealed abstract class BItemPropertyDelta(logic: BLogicItemComplex) extends BItemProperty(logic) {
-	def evaluate(owner: CRefLiving, point: Option[Vec3]): Float
+	def evaluate(owner: CRefLiving, point: Option[IVec3]): Float
 	override def call(item: CRefItem, world: TCWorld): Float = {
 		if(!item.hasOwner) return 0f
 		val owner = item.getOwner
@@ -32,7 +33,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	with IEventFishOwnerDeath
 	with IEventFishOwnerToss
 {
-	protected def getDefaultCoord(who: CRefLiving): Vec3 =
+	protected def getDefaultCoord(who: CRefLiving): IVec3 =
 		who.home(who.dimension).getOrElse(who.position)
 
 	override type StateDataType = SIWayfinder
@@ -127,14 +128,14 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		},
 		new BItemPropertyDelta(this) {
 			override def name = "blink"
-			override def evaluate(owner: CRefLiving, point: Option[Vec3]): Float = {
+			override def evaluate(owner: CRefLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) (1+(owner.gameTime & 31))/32f
 				else 0f
 			}
 		},
 		new BItemPropertyDelta(this) {
 			override def name = "hotness"
-			override def evaluate(owner: CRefLiving, point: Option[Vec3]): Float = {
+			override def evaluate(owner: CRefLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) 0f
 				else {
 					def angle = owner.facingH.angle(owner.position.delta(point.get))/Math.PI

@@ -5,7 +5,7 @@ import java.util.Collections
 import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDomain
-import mod.iceandshadow3.util.Vec3
+import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
 import net.minecraftforge.registries.{ForgeRegistries, IForgeRegistry}
 
@@ -13,7 +13,7 @@ import scala.collection.JavaConverters._
 
 case class CSound(@Nullable private val soundevent: SoundEvent) {
 	private[compat] def event: Option[SoundEvent] = Option(soundevent)
-	def play(world: TCWorld, place: Vec3, volume: Float, freqshift: Float): Unit = {
+	def play(world: TCWorld, place: IVec3, volume: Float, freqshift: Float): Unit = {
 		if(soundevent == null) return
 		world.exposeWorld().playSound(null,
 			place.xDouble, place.yDouble, place.zDouble,
