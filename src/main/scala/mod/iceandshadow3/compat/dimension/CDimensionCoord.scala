@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.world
+package mod.iceandshadow3.compat.dimension
 
 import net.minecraft.world.dimension.DimensionType
 

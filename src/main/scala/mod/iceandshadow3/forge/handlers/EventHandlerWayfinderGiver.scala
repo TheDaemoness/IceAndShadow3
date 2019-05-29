@@ -3,8 +3,8 @@ package mod.iceandshadow3.forge.handlers
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.entity.{CRefEntity, CRefPlayer}
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.world.{CDimensionCoord, CWorld}
 import mod.iceandshadow3.compat.Vec3Conversions._
+import mod.iceandshadow3.compat.dimension.CDimensionCoord
 import mod.iceandshadow3.util.L3
 import mod.iceandshadow3.world.DomainNyx
 import net.minecraft.init.Blocks

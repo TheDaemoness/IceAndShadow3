@@ -1,9 +1,13 @@
-package mod.iceandshadow3.compat.world;
+package mod.iceandshadow3.compat.dimension;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;
 import mod.iceandshadow3.compat.Vec3Conversions;
+import mod.iceandshadow3.spatial.IPosChunk;
+import mod.iceandshadow3.spatial.IPosColumn;
 import mod.iceandshadow3.spatial.IVec3;
+import mod.iceandshadow3.util.Color;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
@@ -21,18 +25,16 @@ import java.util.function.Function;
 
 public class AModDimension extends ModDimension {
 	private final BDimension dimlogic; //Couldn't resist.
+	private final ResourceLocation name;
+	public final ABiome dimbiome;
 	public AModDimension(BDimension what) {
 		dimlogic = what;
-		this.setRegistryName(IaS3.MODID, what.name());
-		//TODO: Remove the following explosion when it's ready.
-		throw new IllegalArgumentException("IaS3 dimensions are NOT READY FOR USE!");
+		name = new ResourceLocation(IaS3.MODID, what.name());
+		this.setRegistryName(name);
+		this.dimbiome = new ABiome(name, what);
 	}
-	public void register() {
-		dimlogic.coord_$eq(CDimensionCoord.apply(DimensionManager.registerDimension(
-			this.getRegistryName(), //SHOULD BE NON-NULL AFTER CONSTRUCTION!
-			this,
-			null
-		)));
+	public void enable() {
+		dimlogic.coord_$eq(CDimensionCoord.apply(DimensionManager.registerDimension(name, this, null)));
 		//TODO: The third arg can be null, but probably shouldn't be.
 	}
 
@@ -47,9 +49,10 @@ public class AModDimension extends ModDimension {
 			this.hasSkyLight = dimlogic.hasSkyLight();
 		}
 
+		@Nonnull
 		@Override
 		public IChunkGenerator<?> createChunkGenerator() {
-			return null; //TODO: Implement world generator.
+			return new AChunkGenerator(this.world, dimlogic, dimbiome);
 		}
 
 		@Nullable
@@ -67,13 +70,21 @@ public class AModDimension extends ModDimension {
 
 		@Nullable
 		@Override
-		public BlockPos findSpawn(int xChunk, int zChunk, boolean checkValid) {
-			return Vec3Conversions.toBlockPos(dimlogic.findSpawn(xChunk, zChunk, checkValid));
+		public BlockPos findSpawn(int x, int z, boolean checkValid) {
+			final IVec3 where = dimlogic.findSpawn(new IPosChunk() {
+				@Override
+				public int xChunk() {return x;}
+
+				@Override
+				public int zChunk() {return z;}
+			}, checkValid);
+			if(where == null) return null;
+			else return Vec3Conversions.toBlockPos(where);
 		}
 
 		@OnlyIn(Dist.CLIENT)
 		public float getCloudHeight() {
-			return dimlogic.cloudHeight();
+			return dimlogic.cloudLevel();
 		}
 
 		@Override
@@ -86,9 +97,11 @@ public class AModDimension extends ModDimension {
 			return false; //Setting this true exposes us to a LOT of default behaviors.
 		}
 
+		@Nonnull
 		@Override
-		public Vec3d getFogColor(float p_76562_1_, float partialTicks) {
-			return null; //TODO: Color class.
+		public Vec3d getFogColor(float skyAngle, float partialTicks) {
+			final Color color = dimlogic.fogColor(skyAngle, partialTicks);
+			return new Vec3d(color.red(), color.green(), color.blue());
 		}
 
 		@Override
@@ -98,7 +111,13 @@ public class AModDimension extends ModDimension {
 
 		@Override
 		public boolean doesXZShowFog(int x, int z) {
-			return dimlogic.hasFogAt(x, z);
+			return dimlogic.hasFogAt(new IPosColumn() {
+				@Override
+				public long xBlock() {return x;}
+
+				@Override
+				public long zBlock() {return z;}
+			});
 		}
 
 		@Nonnull

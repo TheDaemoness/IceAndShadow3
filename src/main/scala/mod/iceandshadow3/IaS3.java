@@ -8,10 +8,13 @@ import mod.iceandshadow3.forge.SEventFisherman$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,7 +22,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
@@ -41,13 +44,12 @@ public class IaS3 {
 
 	public IaS3() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		//net.minecraftforge.fml.event.lifecycle event handlers here ONLY!
 		bus.addListener(this::initRegistries);
 		bus.addListener(this::initCommon);
 		bus.addListener(this::initClient);
 		bus.addListener(this::enqueueIMC);
 		bus.addListener(this::processIMC);
-		bus.addListener(this::onServerStarting);
-		bus.addListener(this::onServerStopped);
 
 		MinecraftForge.EVENT_BUS.register(this);
 		
@@ -76,16 +78,6 @@ public class IaS3 {
 	private void processIMC(final InterModProcessEvent event) {
 		ModSynergy$.MODULE$.imcRecv(event.getIMCStream());
 	}
-	
-	private void onServerStarting(FMLServerStartingEvent event) {
-		getCfgServer().seal();
-		Multiverse.registerDimensions();
-	}
-	
-	private void onServerStopped(FMLServerStoppedEvent event) {
-		cfgServer.close();
-		cfgServer = null;
-	}
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
@@ -101,6 +93,30 @@ public class IaS3 {
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {
 			CSound$.MODULE$.registerSounds(reg.getRegistry());
 		}
+		@SubscribeEvent
+		public static void registerBiomes(final RegistryEvent.Register<Biome> reg) {
+			Multiverse.registerBiomes(reg.getRegistry());
+		}
+		@SubscribeEvent
+		public static void registerDimensions(final RegistryEvent.Register<ModDimension> reg) {
+			Multiverse.registerDimensions(reg.getRegistry());
+		}
+	}
+
+	@SubscribeEvent
+	public void onServerLoading(FMLServerAboutToStartEvent event) {
+		getCfgServer().seal();
+	}
+
+	@SubscribeEvent
+	public void onRegisterDimensions(RegisterDimensionsEvent event) {
+		Multiverse.enableDimensions();
+	}
+
+	@SubscribeEvent
+	public void onServerStopped(FMLServerStoppedEvent event) {
+		cfgServer.close();
+		cfgServer = null;
 	}
 	
 	public static Logger logger() {return BEAVER;}

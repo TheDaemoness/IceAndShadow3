@@ -1,7 +1,7 @@
 package mod.iceandshadow3.compat.entity
 
+import mod.iceandshadow3.compat.dimension.CDimension
 import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.world.CDimension
 import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.util.{EmptyIterator, IteratorConcat}
 import net.minecraft.entity.EntityLivingBase

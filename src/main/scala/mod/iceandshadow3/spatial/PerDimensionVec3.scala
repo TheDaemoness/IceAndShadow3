@@ -1,6 +1,6 @@
 package mod.iceandshadow3.spatial
 
-import mod.iceandshadow3.compat.world.CDimensionCoord
+import mod.iceandshadow3.compat.dimension.CDimensionCoord
 import mod.iceandshadow3.data.{DataTreeMapFlexible, IDataTreeRW}
 
 /** A mutable map of DimensionCoords to Vec3Ms.

@@ -1,5 +1,6 @@
 package mod.iceandshadow3.compat.world
 
+import mod.iceandshadow3.compat.dimension.{CDimension, CDimensionCoord}
 import net.minecraft.world.World
 
 /** Base trait for world references.

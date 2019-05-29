@@ -2,8 +2,8 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.Vec3Conversions._
+import mod.iceandshadow3.compat.dimension.CDimension
 import mod.iceandshadow3.compat.item.{CInventory, CRefItem}
-import mod.iceandshadow3.compat.world.CDimension
 import mod.iceandshadow3.spatial.IVec3
 import mod.iceandshadow3.util.{IteratorConcat, L3}
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}

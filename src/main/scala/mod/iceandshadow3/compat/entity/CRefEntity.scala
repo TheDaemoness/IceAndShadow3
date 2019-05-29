@@ -2,8 +2,10 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.basics.damage.Damage
 import mod.iceandshadow3.compat.Vec3Conversions
+import mod.iceandshadow3.compat.dimension.CDimensionCoord
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.world.TCWorldPlace
+import mod.iceandshadow3.forge.ATeleporter
 import mod.iceandshadow3.spatial.{IPositional, IVec3}
 import mod.iceandshadow3.util.EmptyIterator
 import net.minecraft.entity.player.EntityPlayer
@@ -33,6 +35,9 @@ class CRefEntity protected[entity](protected[compat] val entity: Entity)
 		//TODO: For very long teleports, do we still need to do chunk loading shenanigans ala gatestones?
 		val pitchyaw = entity.getPitchYaw
 		entity.setPositionAndUpdate(newpos.xDouble, newpos.yDouble, newpos.zDouble)
+	}
+	def teleport(newpos: IVec3, dim: CDimensionCoord) = {
+		entity.changeDimension(dim.dimtype, new ATeleporter(newpos))
 	}
 	def items(): Iterator[CRefItem] = new EmptyIterator[CRefItem]
 	def extinguish(): Unit = entity.extinguish()

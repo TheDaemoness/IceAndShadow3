@@ -1,6 +1,7 @@
-package mod.iceandshadow3.compat.world
+package mod.iceandshadow3.compat.dimension
 
 import mod.iceandshadow3.compat.Vec3Conversions._
+import mod.iceandshadow3.compat.world.TCWorld
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.world.dimension.Dimension
 
