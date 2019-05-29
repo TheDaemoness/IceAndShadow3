@@ -1,0 +1,17 @@
+{
+  "display": {
+    "icon": {
+      "item": "iceandshadow3:gaia_livingstone"
+    },
+    "title": "Ice and Shadow",
+    "description": "You should probably leave.",
+    "background": "iceandshadow3:textures/nyx_snow.png",
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "madeit": {
+      "trigger": "minecraft:impossible",
+      "conditions": {}
+    }
+  }
+}

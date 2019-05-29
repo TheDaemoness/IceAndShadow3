@@ -48,7 +48,7 @@ class CRefPlayer protected[entity](protected[compat] val player: EntityPlayer) e
 
 	def advancement(name: String, criteria: String*): Unit = player match {
 		case mp: EntityPlayerMP =>
-			val what = mp.getServer.getAdvancementManager.getAdvancement(new ResourceLocation(name))
+			val what = mp.getServer.getAdvancementManager.getAdvancement(new ResourceLocation(IaS3.MODID, name))
 			if(what == null) {
 				IaS3.logger.warn(s"Advancement with id $name does not exist.")
 				return

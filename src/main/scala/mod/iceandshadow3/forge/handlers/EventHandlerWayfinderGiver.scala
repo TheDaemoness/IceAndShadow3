@@ -18,16 +18,15 @@ class EventHandlerWayfinderGiver extends BEventHandler {
 			val who = CRefEntity.wrap(placeevent.getEntity)
 			if(who.isClientSide) return
 			who match {
-				case player: CRefPlayer => {
+				case player: CRefPlayer =>
 					val dim = player.dimensionCoord
 					val mayGiveEarly = IaS3.getCfgServer.early_wayfinder.get && !player.dimension.canRespawnHere
 					if(dim == CDimensionCoord.END || mayGiveEarly) {
 						if(player.donateToEnderChest(CRefItem.make(DomainNyx.li_wayfinder, 0)) == L3.TRUE) {
 							DomainNyx.snd_portal_subtle.play(player, placeevent.getBlockSnapshot.getPos, 0.4f, 1f)
-							player.advancement("iceandshadow3:wayfinder")
+							player.advancement("vanilla_wayfinder")
 						}
 					}
-				}
 				case _ =>
 			}
 		}

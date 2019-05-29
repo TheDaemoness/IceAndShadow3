@@ -8,7 +8,7 @@
     "announce_to_chat": false,
     "hidden": true
   },
-  "parent": "iceandshadow3:enderchest",
+  "parent": "iceandshadow3:vanilla_enderchest",
   "criteria": {
     "gotwayfinder": {
       "trigger": "minecraft:inventory_changed",

@@ -1,16 +1,20 @@
 package mod.iceandshadow3.compat.entity
 
+import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.basics.damage.Damage
 import mod.iceandshadow3.compat.Vec3Conversions
 import mod.iceandshadow3.compat.dimension.CDimensionCoord
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.world.TCWorldPlace
-import mod.iceandshadow3.forge.ATeleporter
+import mod.iceandshadow3.forge.{TeleporterDeferred, TeleporterExact}
 import mod.iceandshadow3.spatial.{IPositional, IVec3}
 import mod.iceandshadow3.util.EmptyIterator
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.util.text.ITextComponent
+import net.minecraft.world.Teleporter
+import net.minecraftforge.common.DimensionManager
 
 class CRefEntity protected[entity](protected[compat] val entity: Entity)
 	extends TCWorldPlace
@@ -36,9 +40,21 @@ class CRefEntity protected[entity](protected[compat] val entity: Entity)
 		val pitchyaw = entity.getPitchYaw
 		entity.setPositionAndUpdate(newpos.xDouble, newpos.yDouble, newpos.zDouble)
 	}
-	def teleport(newpos: IVec3, dim: CDimensionCoord) = {
-		entity.changeDimension(dim.dimtype, new ATeleporter(newpos))
+	def teleport(newpos: IVec3, dim: CDimensionCoord): Unit =
+		entity.changeDimension(dim.dimtype, new TeleporterExact(newpos))
+	def teleport(dim: BDimension): Unit = {
+		if(!dim.isEnabled) {
+			IaS3.bug(new NullPointerException, s"Attempted to teleport to a disabled BDimension $dim.")
+		} else entity.changeDimension(dim.coord.dimtype, new TeleporterDeferred(dim))
 	}
+	def teleportVanilla(dim: CDimensionCoord): Unit =
+		entity.changeDimension(
+			dim.dimtype,
+			new Teleporter(DimensionManager.getWorld(
+					entity.getServer, dim.dimtype, true, true
+				)
+			)
+		)
 	def items(): Iterator[CRefItem] = new EmptyIterator[CRefItem]
 	def extinguish(): Unit = entity.extinguish()
 }

@@ -8,7 +8,7 @@
     "description": "Teleport before death using an Undying-charged wayfinder.",
     "announce_to_chat": false
   },
-  "parent": "iceandshadow3:wayfinder",
+  "parent": "iceandshadow3:vanilla_wayfinder",
   "criteria": {
     "charged": {
       "trigger": "minecraft:impossible",

@@ -9,6 +9,7 @@ object DomainNyx extends BDomain("nyx") {
 	val li_wayfinder = new LIWayfinder
 
 	val snd_portal_subtle = CSound.addSound(this, "portal_subtle")
+	val snd_arrival = CSound.addSound(this, "arrival")
 
 	override def isHostileTo(other: BDomain): Boolean = other != this
 	override def tierToRarity(tier: Int): CRarity = CRarity.COMMON

@@ -5,6 +5,7 @@ import mod.iceandshadow3.basics.item.BItemProperty
 import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.basics.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.compat.CNbtTree
+import mod.iceandshadow3.compat.dimension.CDimensionCoord
 import mod.iceandshadow3.compat.entity.{CRefLiving, CRefPlayer}
 import mod.iceandshadow3.compat.item.CRefItem
 import mod.iceandshadow3.compat.world.{CSound, TCWorld}
@@ -12,7 +13,7 @@ import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{IEventFishOwnerDeath, IEventFishOwnerToss}
 import mod.iceandshadow3.util.L3
 import mod.iceandshadow3.spatial.{IVec3, PerDimensionVec3}
-import mod.iceandshadow3.world.DomainNyx
+import mod.iceandshadow3.world.{DimensionNyx, DomainNyx}
 
 sealed class SIWayfinder extends BStateData {
 	val charged = new DatumBool(false)
@@ -80,7 +81,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 				if (where != null) {
 					owner.teleport(where)
 					owner match {
-						case player: CRefPlayer => player.advancement("iceandshadow3:wayfinder_save")
+						case player: CRefPlayer => player.advancement("vanilla_wayfinder_save")
 						case _ =>
 					}
 					item.getOwner.playSound(CSound.lookup(
@@ -101,12 +102,22 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		val wayfinderstate = state.asInstanceOf[SIWayfinder]
 		val result = item.forStateData(wayfinderstate, ()=> {
 			val owner = item.getOwner
-			val preventDeath = !isCanceled && wayfinderstate.charged.get && owner.position.yBlock < 60
+			val preventDeath = !isCanceled && wayfinderstate.charged.get && owner.position.yBlock < -60
 			if (preventDeath) {
-				//Just kidding, the mod isn't ready for this yet.
-				//TODO: Trigger the outworlder advancement (which needs to be unhidden once triggering is in place).
+				val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
+				owner match {
+					case player: CRefPlayer =>
+						player.advancement("vanilla_outworlder")
+						player.advancement(if(areweinnyx) "nyx_escape" else "nyx_root")
+						//TODO: The nyx root advancement should not have to be manually triggered.
+					case _ =>
+				}
+				owner.setHp(1)
+				if(areweinnyx) owner.teleportVanilla(CDimensionCoord.END)
+				else owner.teleport(DimensionNyx)
+				wayfinderstate.charged.set(false)
 			}
-			L3.NEUTRAL
+			L3.FALSE.unlessFalse(preventDeath)
 		})
 		teleportItem(item)
 		result

@@ -2,7 +2,9 @@ package mod.iceandshadow3.world
 
 import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.compat.block.BlockType
-import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, Vec3Fixed}
+import mod.iceandshadow3.compat.entity.CRefEntity
+import mod.iceandshadow3.compat.world.{CSound, CWorld}
+import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, SpatialConstants, Vec3Fixed}
 import mod.iceandshadow3.util.Color
 
 object DimensionNyx extends BDimension("nyx") {
@@ -22,4 +24,13 @@ object DimensionNyx extends BDimension("nyx") {
 	override def baseTemperature = 0f
 	override def baseAltitude = 1.0F
 	override def baseHilliness = 2.5F
+
+	override def placeVisitor(here: CWorld, who: CRefEntity, yaw: Float): Unit = {
+		//TODO: Bit shoddy. Come up with something better.
+		val topopt = here.topSolid(SpatialConstants.ZERO)
+		val teleloc = if(topopt.isEmpty) SpatialConstants.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
+		//DomainNyx.snd_arrival.play(here, teleloc, 1f, 1f)
+		//TODO: ^ Research if there's a way to override the vanilla teleport sound.
+		who.teleport(teleloc)
+	}
 }

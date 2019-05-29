@@ -104,7 +104,7 @@ public class AChunkGenerator implements IChunkGenerator {
 		chunk.setBiomes(fauxBP.getBiomes(0, 0, 16, 16));
 		//TODO: Extremely temporary worldgen.
 		for(BlockPos bp : BlockPos.getAllInBox(0, dim.seaLevel(), 0, 16, dim.seaLevel(), 16)) {
-			chunk.setBlockState(bp, Blocks.BEDROCK.getDefaultState(), false);
+			chunk.setBlockState(bp, dim.defaultLand().exposeState(), false);
 		}
 		chunk.setStatus(ChunkStatus.FULLCHUNK);
 	}
