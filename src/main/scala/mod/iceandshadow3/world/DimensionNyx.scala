@@ -4,28 +4,44 @@ import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.compat.block.{BBlockType, BlockTypeSimple}
 import mod.iceandshadow3.compat.entity.CRefEntity
 import mod.iceandshadow3.compat.world.CWorld
-import mod.iceandshadow3.gen.{BWorldSource, Noise2dCell}
+import mod.iceandshadow3.gen.{BWorldSource, Cellmaker, Noise2dCrater}
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, SpatialConstants, Vec3Fixed}
-import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.util.{Color, SMath}
 
 class WorldSourceNyx(seed: Long) extends BWorldSource {
 	val stonetype = new BlockTypeSimple(DomainGaia.livingstone, 0)
-	val noisemakerDip = new Noise2dCell(seed, 1928, 60)
-	val noisemakerHill = new Noise2dCell(seed, 3092, 150)
+	val plateaumaker = new Cellmaker(seed, 9967, 270)
+	val noisemakerDip = new Noise2dCrater(seed, 1928, 60)
+	val noisemakerMountain = new Noise2dCrater(seed, 3092, 150)
+	val noisemakerRidgeScale = new Noise2dCrater(seed, 4815, 420)
+	val noisemakerRidgeB = new Noise2dCrater(seed, 6872, 230)
+	val noisemakerIsle = new Noise2dCrater(seed, 4815, 1200)
 	override def getColumn(x: Int, z: Int): Iterator[BBlockType] = {
-		var cratervalue = 1-noisemakerDip(x,z)
-		cratervalue *= Math.cbrt(cratervalue)
-		val hillvalue = (1-Math.cos((1-noisemakerHill(x,z))*Math.PI))/2
-
+		val ridgescale = Math.sqrt(1-noisemakerRidgeScale(x,z))
+		var cratervalue = noisemakerDip(x,z)
+		cratervalue *= Math.cbrt(cratervalue)/(4-ridgescale)
+		val mountainvalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerMountain(x,z)*Math.PI)))/2
+		val ridgevalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerRidgeB(x,z)*Math.PI)))/2
+		val islevalue = 1-noisemakerIsle(x,z)
+		val height = {
+			if(islevalue <= 0.15) 0
+			else {
+				val tuner = if(islevalue <= 0.3) (islevalue-0.2)*10 else 1d
+				val base = 2+(islevalue+mountainvalue*tuner)*(1+SMath.sinelike(islevalue))+ridgevalue*tuner+cratervalue
+				if(islevalue <= 0.2) base*(islevalue-0.15)*20
+				else base
+			}
+		}
 		new Iterator[BBlockType]() {
 			var y = 0
-			val height = cratervalue/3+hillvalue
-			override def hasNext = (y-32)/32f < height
+			val finalheight = height
+			override def hasNext = y/32f < finalheight
 
 			override def next() = {
 				y += 1
 				stonetype
 			}
+
 		}
 	}
 }

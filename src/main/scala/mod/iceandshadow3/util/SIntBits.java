@@ -16,13 +16,25 @@ public class SIntBits {
 		return ((value & (-1 >>> 1)) + (flag ? 1 : 0)) * (flag ? -1 : 1);
 	}
 
-	// The following are common and simple-enough operations, but are unintuitive or annoying.
-
 	public static boolean signBit(long value) {
 		return value < 0;
 	}
 
 	public static long value(long value) {
 		return Math.abs(value + (signBit(value) ? 1 : 0));
+	}
+
+	private static long spreadBits(int value) {
+		final long init = Integer.toUnsignedLong(value);
+		long retval = 0;
+		for(int i = 31; i >= 0; --i) {
+			long mask = 1L << i;
+			retval |= (init & mask) << i;
+		}
+		return retval;
+	}
+
+	public static long mixIntBits(int higher, int lower) {
+		return spreadBits(higher) << 1 | spreadBits(lower);
 	}
 }
