@@ -4,6 +4,8 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import mod.iceandshadow3.basics.BDimension;
+import mod.iceandshadow3.compat.block.BBlockType;
+import mod.iceandshadow3.gen.BWorldSource;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -20,6 +22,7 @@ import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
+import scala.collection.Iterator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,12 +32,14 @@ public class AChunkGenerator implements IChunkGenerator {
 	private final long seed;
 	private final BDimension dim;
 	private final ABiome abiome;
+	private final BWorldSource realworldgen;
 	private final BiomeProvider fauxBP = new BiomeProvider() {
 		@Override
 		public Biome getBiome(@Nonnull BlockPos pos, @Nullable Biome defaultBiome) {
 			return abiome;
 		}
 
+		@Nonnull
 		@Override
 		public Biome[] getBiomes(int startX, int startZ, int xSize, int zSize) {
 			final Biome[] retval = new Biome[xSize*zSize];
@@ -42,6 +47,7 @@ public class AChunkGenerator implements IChunkGenerator {
 			return retval;
 		}
 
+		@Nonnull
 		@Override
 		public Biome[] getBiomes(int x, int z, int width, int length, boolean cacheFlag) {
 			return getBiomes(x,z,width,length);
@@ -88,23 +94,37 @@ public class AChunkGenerator implements IChunkGenerator {
 		@Override public int getMansionDistance() { return 0; }
 		@Override public int getMansionSeparation() { return 0; }
 		@Nonnull
-		@Override public IBlockState getDefaultBlock() { return dim.defaultLand().exposeState(); }
+		@Override public IBlockState getDefaultBlock() { return dim.defaultLand().state(); }
 		@Nonnull
-		@Override public IBlockState getDefaultFluid() { return dim.defaultSea().exposeState(); }
+		@Override public IBlockState getDefaultFluid() { return dim.defaultSea().state(); }
 	};
 
 	AChunkGenerator(World w, BDimension dim, ABiome dimbiome) {
 		this.seed = w.getSeed();
 		this.dim = dim;
 		this.abiome = dimbiome;
+		this.realworldgen = dim.getWorldSource(seed);
 	}
+
+	// WORLDGENERATION LOGIC HERE!
 
 	@Override
 	public void makeBase(@Nonnull IChunk chunk) {
 		chunk.setBiomes(fauxBP.getBiomes(0, 0, 16, 16));
-		//TODO: Extremely temporary worldgen.
-		for(BlockPos bp : BlockPos.getAllInBox(0, dim.seaLevel(), 0, 16, dim.seaLevel(), 16)) {
-			chunk.setBlockState(bp, dim.defaultLand().exposeState(), false);
+		BlockPos.MutableBlockPos mbp = new BlockPos.MutableBlockPos();
+		for(int xit = chunk.getPos().getXStart(); xit <= chunk.getPos().getXEnd(); ++xit) {
+			for(int zit = chunk.getPos().getZStart(); zit <= chunk.getPos().getZEnd(); ++zit) {
+				Iterator<BBlockType> blockiter = realworldgen.getColumn(xit, zit);
+				int yit = 0;
+				for(; blockiter.hasNext() && yit < 256; ++yit) {
+					mbp.setPos(xit, yit, zit);
+					chunk.setBlockState(mbp, blockiter.next().state(), false);
+				}
+				for(; yit < 256; ++yit) {
+					mbp.setPos(xit, yit, zit);
+					chunk.setBlockState(mbp, Blocks.AIR.getDefaultState(), false);
+				}
+			}
 		}
 		chunk.setStatus(ChunkStatus.FULLCHUNK);
 	}

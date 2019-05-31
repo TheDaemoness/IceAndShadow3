@@ -12,6 +12,6 @@ public class ConfigServer extends ConfigReflective {
 	@Entry(comment="Greatly increases IaS3's difficulty.")
 	public DatumBool brutal_mode = new DatumBool(false);
 
-	@Entry(comment="Be able to get the wayfinder in other non-respawn dimensions, including the Nether.")
+	@Entry(comment="Be able to getColumn the wayfinder in other non-respawn dimensions, including the Nether.")
 	public DatumBool early_wayfinder = new DatumBool(false);
 }

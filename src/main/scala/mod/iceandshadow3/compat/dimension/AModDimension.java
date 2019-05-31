@@ -35,7 +35,7 @@ public class AModDimension extends ModDimension {
 	}
 	public void enable() {
 		//Forge marks the registry for internal use only.
-		//I'd like to know how else they want us to get DimensionTypes out of DimensionManager.
+		//I'd like to know how else they want us to getColumn DimensionTypes out of DimensionManager.
 		if(DimensionManager.getRegistry().func_212607_c(name)) {
 			dimlogic.coord_$eq(CDimensionCoord.apply(DimensionManager.getRegistry().func_212608_b(name)));
 		} else {

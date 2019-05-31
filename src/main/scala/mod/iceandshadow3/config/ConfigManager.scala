@@ -47,7 +47,7 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 		return false
 	}
 	
-	//TODO: We can get clever with writing, and allow writing that matches the format (incl. comments) of a read file.
+	//TODO: We can getColumn clever with writing, and allow writing that matches the format (incl. comments) of a read file.
 
 	protected[iceandshadow3] def read(): Boolean = {
 		try {

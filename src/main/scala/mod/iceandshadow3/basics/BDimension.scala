@@ -1,10 +1,11 @@
 package mod.iceandshadow3.basics
 
 import mod.iceandshadow3.Multiverse
-import mod.iceandshadow3.compat.block.BlockType
+import mod.iceandshadow3.compat.block.BlockTypeSimple
 import mod.iceandshadow3.compat.dimension.CDimensionCoord
 import mod.iceandshadow3.compat.entity.CRefEntity
 import mod.iceandshadow3.compat.world.CWorld
+import mod.iceandshadow3.gen.BWorldSource
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3}
 import mod.iceandshadow3.util.Color
 
@@ -25,8 +26,10 @@ abstract class BDimension(val name: String) extends BBiome {
 	def skyAngle(worldTime: Long, partialTicks: Float): Float
 	def fogColor(skyAngle: Float, partialTicks: Float): Color
 
-	def defaultLand(): BlockType
-	def defaultSea(): BlockType
+	def defaultLand(): BlockTypeSimple
+	def defaultSea(): BlockTypeSimple
 
 	def placeVisitor(world: CWorld, who: CRefEntity, yaw: Float)
+
+	def getWorldSource(seed: Long): BWorldSource
 }

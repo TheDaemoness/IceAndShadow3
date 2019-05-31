@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.compat.block.BlockType
+import mod.iceandshadow3.compat.block.BlockTypeSimple
 import mod.iceandshadow3.util.Color
 
 abstract class BBiome {

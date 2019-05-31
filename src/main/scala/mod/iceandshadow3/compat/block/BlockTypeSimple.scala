@@ -8,12 +8,16 @@ import net.minecraft.init.Blocks
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries
 
-/**More analogous to a CBlockState.
+/**The missing CBlockState equivalent.
 	*/
-class BlockType(@Nullable state: IBlockState) {
+class BlockTypeSimple(@Nullable bs: IBlockState) extends BBlockType {
 	def this(bl: Block) = this(bl.getDefaultState)
 	def this(bl: BLogicBlock, variant: Int) = this(bl.getSecrets[Block].get(variant).getDefaultState)
 	def this(name: String) = this(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name)))
 
-	def exposeState(): IBlockState = if(state == null) Blocks.AIR.getDefaultState else state
+	override protected[compat] def state(): IBlockState =
+		if(bs == null) Blocks.AIR.getDefaultState else bs
+}
+object BlockTypeSimple {
+	val AIR = new BlockTypeSimple(Blocks.AIR.getDefaultState)
 }
