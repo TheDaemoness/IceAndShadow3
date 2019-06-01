@@ -3,7 +3,7 @@ package mod.iceandshadow3.config
 sealed class BadConfigException(message: String) extends Exception(message)
 
 abstract class BConfig {
-	private var sealedstate = false;
+	private var sealedstate = false
 
 	private[iceandshadow3] def seal(): Unit = {sealedstate = true}
 	protected def isSealed = sealedstate

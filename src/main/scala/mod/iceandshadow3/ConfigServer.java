@@ -16,5 +16,5 @@ public class ConfigServer extends ConfigReflective {
 	public DatumBool early_wayfinder = new DatumBool(false);
 
 	@Entry(comment="Use snow to reduce blockiness in terrain.")
-	public DatumBool smooth_snow = new DatumBool(true);
+	public DatumBool smooth_snow = new DatumBool(false);
 }

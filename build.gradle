@@ -1,6 +1,6 @@
 def version_revision = '0'
 def version_major = '0'
-def version_minor = '6'
+def version_minor = '7'
 def version_patch = '0'
 
 // WARNING: Only edit things below this line if someone else who knows what they're doing thinks you know what you're doing.

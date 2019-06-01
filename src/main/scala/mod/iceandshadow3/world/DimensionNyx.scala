@@ -1,60 +1,12 @@
 package mod.iceandshadow3.world
 
-import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDimension
-import mod.iceandshadow3.compat.block.BBlockType
-import mod.iceandshadow3.compat.block.`type`.{BlockTypeSimple, BlockTypeSnow}
+import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.compat.entity.CRefEntity
 import mod.iceandshadow3.compat.world.CWorld
-import mod.iceandshadow3.gen.{BWorldSource, Cellmaker, Noise2dCrater}
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, SpatialConstants, Vec3Fixed}
-import mod.iceandshadow3.util.{Color, SMath}
-
-class WorldSourceNyx(seed: Long) extends BWorldSource {
-	val stonetype = new BlockTypeSimple(DomainGaia.livingstone, 0)
-	val plateaumaker = new Cellmaker(seed, 9967, 270)
-	val noisemakerDip = new Noise2dCrater(seed, 1928, 60)
-	val noisemakerMountain = new Noise2dCrater(seed, 3092, 150)
-	val noisemakerRidgeScale = new Noise2dCrater(seed, 4815, 420)
-	val noisemakerRidgeB = new Noise2dCrater(seed, 6872, 230)
-	val noisemakerIsle = new Noise2dCrater(seed, 4815, 1200)
-	override def getColumn(x: Int, z: Int): Iterator[BBlockType] = {
-		val ridgescale = Math.sqrt(1-noisemakerRidgeScale(x,z))
-		var cratervalue = noisemakerDip(x,z)
-		cratervalue *= Math.cbrt(cratervalue)/(4-ridgescale)
-		val mountainvalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerMountain(x,z)*Math.PI)))/2
-		val ridgevalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerRidgeB(x,z)*Math.PI)))/2
-		val islevalue = 1-noisemakerIsle(x,z)
-		val height = {
-			if(islevalue <= 0.15) 0
-			else {
-				val tuner = if(islevalue <= 0.3) (islevalue-0.2)*10 else 1d
-				val base = 2+(islevalue+mountainvalue*tuner)*(1+SMath.sinelike(islevalue))+ridgevalue*tuner+cratervalue
-				if(islevalue <= 0.2) base*(islevalue-0.15)*20
-				else base
-			}
-		}
-		new Iterator[BBlockType]() {
-			var y = 0
-			val finalheight = height*32
-			val smoothsnow = IaS3.getCfgServer.smooth_snow.get
-			override def hasNext = y < 256
-
-			override def next() = {
-				val delta = finalheight-y
-				y += 1
-				if(delta > 2) stonetype
-				else if(delta > 1) BlockTypeSnow.SNOWS.last
-				else if(delta > 0) {
-					val snowdelta = if(smoothsnow) delta else 0.5
-					BlockTypeSnow.fromFloat(snowdelta)
-				}
-				else BlockTypeSimple.AIR //TODO: Aurora air at y>=192
-			}
-
-		}
-	}
-}
+import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.world.dim_nyx.WorldSourceNyx
 
 object DimensionNyx extends BDimension("nyx") {
 	override def hasSkyLight = false //TODO: Dim light.

@@ -33,16 +33,9 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 			}
 			return changed
 		} catch {
+			//Quietly suppress these errors until we have a better way of reporting them than IaS3.logger.error
+			case _: BadConfigException =>
 			case _: IllegalArgumentException =>
-				IaS3.logger().error(
-					"Line #\" + line + \" in \" + filename() + \" references an unknown option " +
-					option +
-					". Ignoring.")
-			case e: BadConfigException =>
-				IaS3.logger().error(
-					"Line #\" + line + \" in \" + filename() + \" is invalid: " +
-					e.getMessage +
-					". Ignoring.")
 		}
 		false
 	}
@@ -53,7 +46,7 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 		try {
 			val lis = new Scanner(configFile)
 			if (!lis.hasNextLine) {
-				IaS3.logger().warn("Config file is empty. Will overwrite.")
+				IaS3.logger().warn(filename()+" is empty. Will overwrite.")
 				return true
 			}
 			var file_minor_version: Int = 0
@@ -102,17 +95,17 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 				if (!orig.isEmpty) try {
 					val key_value: Array[String] = orig.split("\\s+", 2)
 					if (key_value.length != 2) {
-						throw new BadConfigException("Line is incomplete")
+						throw new BadConfigException(s"Line $line is incomplete")
 					}
 					option = key_value(0)
 					config.set(option, key_value(1))
 				} catch {
 					case e: BadConfigException =>
 						IaS3.logger().error(
-						"Line #\" "+ line + "\" in \"" + filename() + "\" is invalid: "+e.getMessage+". Ignoring.");
+						s"Line $line in " + filename() + " is invalid: "+e.getMessage+". Ignoring.");
 					case _: IllegalArgumentException =>
 						IaS3.logger().error(
-						"Line #\" "+ line + "\" in \"" + filename() + "\" references an unknown option \""+option+". Ignoring.");
+							s"Line $line in " + filename() + s" references an unknown option $option. Ignoring.");
 				}
 			}
 			return file_major_version == config.versionMajor && file_minor_version < config.versionMinor
