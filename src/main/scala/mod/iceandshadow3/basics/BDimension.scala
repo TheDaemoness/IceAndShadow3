@@ -1,7 +1,7 @@
 package mod.iceandshadow3.basics
 
 import mod.iceandshadow3.Multiverse
-import mod.iceandshadow3.compat.block.BlockTypeSimple
+import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.compat.dimension.CDimensionCoord
 import mod.iceandshadow3.compat.entity.CRefEntity
 import mod.iceandshadow3.compat.world.CWorld

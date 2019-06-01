@@ -1,7 +1,8 @@
-package mod.iceandshadow3.compat.block
+package mod.iceandshadow3.compat.block.`type`
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.basics.BLogicBlock
+import mod.iceandshadow3.compat.block.BBlockType
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks

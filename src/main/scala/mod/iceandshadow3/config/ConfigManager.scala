@@ -1,7 +1,7 @@
 package mod.iceandshadow3.config
 
 import java.io.{Closeable, File, FileNotFoundException, PrintWriter}
-import java.util.{HashMap, Scanner}
+import java.util.Scanner
 
 import mod.iceandshadow3.IaS3
 
@@ -11,29 +11,29 @@ import scala.collection.JavaConverters._
 */
 class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) extends Closeable {
 	private val magic = "config"
-	private val cache = new HashMap[String, String]
+	private val cache = new java.util.HashMap[String, String]
 	private val configFile = new File("config/"+IaS3.MODID+'.'+config.name+".cfg")
 	private var needs_write: Boolean = if (configFile.exists()) read() else true
-	def flush = if(needs_write) write
-	
-	flush
+	def flush(): Unit = if(needs_write) write()
 
-	override def close() = flush
+	flush()
+
+	override def close(): Unit = flush()
 	def filename(): String = configFile.getName
 	def needsWrite(): Boolean = needs_write
 	
 	def get(): ConfigType = config
 	
-	private def set(option: String, value: String): Boolean = {
+	def set(option: String, value: String): Boolean = {
 		try {
 			val changed = config.set(option, value)
 			if(!changed) {
 				cache.put(option, value)
 				needs_write = true
 			}
-			changed
+			return changed
 		} catch {
-			case e: IllegalArgumentException =>
+			case _: IllegalArgumentException =>
 				IaS3.logger().error(
 					"Line #\" + line + \" in \" + filename() + \" references an unknown option " +
 					option +
@@ -44,15 +44,15 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 					e.getMessage +
 					". Ignoring.")
 		}
-		return false
+		false
 	}
 	
-	//TODO: We can getColumn clever with writing, and allow writing that matches the format (incl. comments) of a read file.
+	//TODO: We can get clever with writing, and allow writing that matches the format (incl. comments) of a read file.
 
 	protected[iceandshadow3] def read(): Boolean = {
 		try {
-			val lis = new Scanner(configFile);
-			if (!lis.hasNextLine()) {
+			val lis = new Scanner(configFile)
+			if (!lis.hasNextLine) {
 				IaS3.logger().warn("Config file is empty. Will overwrite.")
 				return true
 			}
@@ -73,7 +73,7 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 			}
 			if(!config_ver(2).contentEquals(config.name)) {
 				throw new BadConfigException(
-					filename() + " specifies that it is a " + config_ver(2) + " configuration");
+					filename() + " specifies that it is a " + config_ver(2) + " configuration")
 			}
 			file_major_version = java.lang.Integer.parseInt(config_ver(3))
 			file_minor_version = java.lang.Integer.parseInt(config_ver(4))
@@ -90,14 +90,15 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 					filename() +
 					" is of an older minor version than this mod supports. Will update.")
 			}
-			var line: Int = 1
+			var line: Int = 0
 			while (lis.hasNextLine) {
+				line += 1
 				var orig: String = lis.nextLine()
 				val commentstart: Int = orig.indexOf('#')
 				if (commentstart != -1) {
 					orig = orig.substring(0, commentstart)
 				}
-				var option = "";
+				var option = ""
 				if (!orig.isEmpty) try {
 					val key_value: Array[String] = orig.split("\\s+", 2)
 					if (key_value.length != 2) {
@@ -109,14 +110,14 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 					case e: BadConfigException =>
 						IaS3.logger().error(
 						"Line #\" "+ line + "\" in \"" + filename() + "\" is invalid: "+e.getMessage+". Ignoring.");
-					case e: IllegalArgumentException =>
+					case _: IllegalArgumentException =>
 						IaS3.logger().error(
 						"Line #\" "+ line + "\" in \"" + filename() + "\" references an unknown option \""+option+". Ignoring.");
 				}
 			}
-			file_major_version == config.versionMajor && file_minor_version < config.versionMinor
+			return file_major_version == config.versionMajor && file_minor_version < config.versionMinor
 		} catch {
-			case e: FileNotFoundException =>
+			case _: FileNotFoundException =>
 				IaS3.logger().error(
 					"Couldn't open " + filename() +
 					" for reading. Will use default values. Please check the file's read permissions.")
@@ -129,22 +130,22 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 	}
 
 	protected[iceandshadow3] def write(): Unit = {
-		if(!needs_write) return
+		configFile.delete()
 		val ecris = new PrintWriter(configFile)
 		try {
 			ecris.println(magic+' '+IaS3.VER_CFG_FMT+' '+config.name+' '+config.versionMajor+' '+config.versionMinor)
 			ecris.println("# https://github.com/TheDaemoness/IceAndShadow3/wiki/Configuration")
 			for (entry <- config.options.asScala) {
 				ecris.println()
-				ecris.println("# "+config.getComment(entry));
+				ecris.println("# "+config.getComment(entry))
 				ecris.println(entry + " " + cache.getOrDefault(entry, config.get(entry)))
 			}
 			needs_write = false
 		} catch {
-			case e: FileNotFoundException =>
+			case _: FileNotFoundException =>
 				IaS3.logger().error("Could not open config file for writing")
 		} finally {
-			ecris.close();
+			ecris.close()
 		}
 	}
 }

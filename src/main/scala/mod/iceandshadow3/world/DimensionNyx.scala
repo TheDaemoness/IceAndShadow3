@@ -1,7 +1,9 @@
 package mod.iceandshadow3.world
 
+import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDimension
-import mod.iceandshadow3.compat.block.{BBlockType, BlockTypeSimple}
+import mod.iceandshadow3.compat.block.BBlockType
+import mod.iceandshadow3.compat.block.`type`.{BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.compat.entity.CRefEntity
 import mod.iceandshadow3.compat.world.CWorld
 import mod.iceandshadow3.gen.{BWorldSource, Cellmaker, Noise2dCrater}
@@ -34,12 +36,20 @@ class WorldSourceNyx(seed: Long) extends BWorldSource {
 		}
 		new Iterator[BBlockType]() {
 			var y = 0
-			val finalheight = height
-			override def hasNext = y/32f < finalheight
+			val finalheight = height*32
+			val smoothsnow = IaS3.getCfgServer.smooth_snow.get
+			override def hasNext = y < 256
 
 			override def next() = {
+				val delta = finalheight-y
 				y += 1
-				stonetype
+				if(delta > 2) stonetype
+				else if(delta > 1) BlockTypeSnow.SNOWS.last
+				else if(delta > 0) {
+					val snowdelta = if(smoothsnow) delta else 0.5
+					BlockTypeSnow.fromFloat(snowdelta)
+				}
+				else BlockTypeSimple.AIR //TODO: Aurora air at y>=192
 			}
 
 		}
@@ -47,7 +57,7 @@ class WorldSourceNyx(seed: Long) extends BWorldSource {
 }
 
 object DimensionNyx extends BDimension("nyx") {
-	override def hasSkyLight = true //TODO: Dim light.
+	override def hasSkyLight = false //TODO: Dim light.
 	override def getWorldSpawn = new Vec3Fixed(0, 64, 0)
 	override def findSpawn(where: IPosChunk, check: Boolean) = null
 	override def cloudLevel = 192f
