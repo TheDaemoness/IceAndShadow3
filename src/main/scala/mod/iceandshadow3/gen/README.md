@@ -2,9 +2,8 @@
 
 Contains the (mostly) Minecraft agnostic parts of the IaS3 worldgen system.
 
-The general entry point into
+One `BWorldSource` exists per IaS3 dimension.
+Its methods are called `compat.dimension.AChunkGenerator`, specifically `getChunkSource`.
+Most terrain gen (and an initial simple decoration pass) happens in the returned `BChunkSource`.
 
-## THREAD SAFETY WARNING
-
-Many of the methods in this package need to be pure, or at the very least thread-safe.
-If you're not sure what that means or how to achieve it, don't edit anything here.
+WARNING: Some stuff in here has thread-safety requirements.

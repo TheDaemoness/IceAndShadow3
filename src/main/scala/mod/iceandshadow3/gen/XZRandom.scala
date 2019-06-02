@@ -7,7 +7,7 @@ import java.util.Random
 /** Implements a wrapper for a PRNG designed for providing random numbers at certain 2d coordinates.
 	* Extends Java's Random class, which is an LCG.
 	*/
-object ColumnRandom {
+object XZRandom {
 	def calculateSeed(seedIn: Long, modifierIn: Int, xIn: Int, zIn: Int) = {
 		val x = java.lang.Double.doubleToLongBits(Math.expm1(xIn)).toInt
 		val z = java.lang.Double.doubleToLongBits(Math.expm1(zIn)).toInt
@@ -17,10 +17,10 @@ object ColumnRandom {
 	}
 }
 
-class ColumnRandom(seed: Long, modifier: Int, x: Int, z: Int)
-	extends Random(ColumnRandom.calculateSeed(seed, modifier, x, z))
+class XZRandom(seed: Long, modifier: Int, x: Int, z: Int)
+	extends Random(XZRandom.calculateSeed(seed, modifier, x, z))
 {
 	def setSeed(x: Int, z: Int): Unit = {
-		this.setSeed(ColumnRandom.calculateSeed(seed, modifier, x, z))
+		this.setSeed(XZRandom.calculateSeed(seed, modifier, x, z))
 	}
 }

@@ -4,12 +4,12 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import mod.iceandshadow3.basics.BDimension;
-import mod.iceandshadow3.compat.block.BBlockType;
+import mod.iceandshadow3.gen.BChunkSource;
 import mod.iceandshadow3.gen.BWorldSource;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
@@ -22,7 +22,6 @@ import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
-import scala.collection.Iterator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -112,17 +111,18 @@ public class AChunkGenerator implements IChunkGenerator {
 	public void makeBase(@Nonnull IChunk chunk) {
 		chunk.setBiomes(fauxBP.getBiomes(0, 0, 16, 16));
 		BlockPos.MutableBlockPos mbp = new BlockPos.MutableBlockPos();
-		for(int xit = chunk.getPos().getXStart(); xit <= chunk.getPos().getXEnd(); ++xit) {
-			for(int zit = chunk.getPos().getZStart(); zit <= chunk.getPos().getZEnd(); ++zit) {
-				Iterator<BBlockType> blockiter = realworldgen.getColumn(xit, zit);
-				int yit = 0;
-				for(; blockiter.hasNext() && yit < 256; ++yit) {
+		ChunkPos cp = chunk.getPos();
+		int xFirst = cp.getXStart(), zFirst = cp.getZStart();
+		int xLast = cp.getXEnd(), zLast = cp.getZEnd();
+		BChunkSource bcs = realworldgen.getTerrainChunk(
+			xFirst, zFirst,
+			xLast-xFirst+1, zLast-zFirst+1
+		);
+		for(int xit = xFirst; xit <= xLast; ++xit) {
+			for(int zit = zFirst; zit <= zLast; ++zit) {
+				for(int yit = 0; yit < 256; ++yit) {
 					mbp.setPos(xit, yit, zit);
-					chunk.setBlockState(mbp, blockiter.next().state(), false);
-				}
-				for(; yit < 256; ++yit) {
-					mbp.setPos(xit, yit, zit);
-					chunk.setBlockState(mbp, Blocks.AIR.getDefaultState(), false);
+					chunk.setBlockState(mbp, bcs.getBlock(xit, yit, zit).state(), false);
 				}
 			}
 		}
