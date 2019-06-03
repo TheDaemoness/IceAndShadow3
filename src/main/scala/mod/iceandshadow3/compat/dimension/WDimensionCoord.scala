@@ -4,13 +4,13 @@ import net.minecraft.world.dimension.DimensionType
 
 /** Wrapper for DimensionType.
   */
-case class CDimensionCoord(dimtype: DimensionType) {
+case class WDimensionCoord(dimtype: DimensionType) {
   def isVanilla: Boolean = dimtype.isVanilla
   def getResourceLocation = DimensionType.func_212678_a(dimtype)
   def getId: String = getResourceLocation.toString
 }
-object CDimensionCoord {
-  val OVERWORLD = CDimensionCoord(DimensionType.OVERWORLD)
-  val NETHER = CDimensionCoord(DimensionType.NETHER)
-  val END = CDimensionCoord(DimensionType.THE_END)
+object WDimensionCoord {
+  val OVERWORLD = WDimensionCoord(DimensionType.OVERWORLD)
+  val NETHER = WDimensionCoord(DimensionType.NETHER)
+  val END = WDimensionCoord(DimensionType.THE_END)
 }

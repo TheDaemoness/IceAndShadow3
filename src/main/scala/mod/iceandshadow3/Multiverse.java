@@ -2,8 +2,8 @@ package mod.iceandshadow3;
 
 import mod.iceandshadow3.basics.BDimension;
 import mod.iceandshadow3.basics.BDomain;
-import mod.iceandshadow3.compat.block.CRegistryBlock;
-import mod.iceandshadow3.compat.item.CRegistryItem;
+import mod.iceandshadow3.compat.block.WRegistryBlock;
+import mod.iceandshadow3.compat.item.WRegistryItem;
 import mod.iceandshadow3.compat.dimension.AModDimension;
 import mod.iceandshadow3.world.*;
 import net.minecraft.world.biome.Biome;
@@ -38,10 +38,10 @@ public final class Multiverse {
 		for(BDomain domain : domains) domain.initEarly();
 		sealDomains = true;
 	}
-	static void registerBlocks(CRegistryBlock reg) {
+	static void registerBlocks(WRegistryBlock reg) {
 		for(BDomain domain : domains) domain.register(reg);
 	}
-	static void registerItems(CRegistryItem reg) {
+	static void registerItems(WRegistryItem reg) {
 		for(BDomain domain : domains) domain.register(reg);
 	}
 

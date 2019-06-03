@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.item;
 
 import net.minecraft.item.EnumRarity;
 
-public enum CRarity implements Comparable<CRarity> {
+public enum WRarity implements Comparable<WRarity> {
 	//WARNING: Order-sensitive.
 	COMMON(EnumRarity.COMMON),
 	UNCOMMON(EnumRarity.UNCOMMON),
@@ -11,10 +11,10 @@ public enum CRarity implements Comparable<CRarity> {
 	
 	final EnumRarity rarity;
 
-	static CRarity get(EnumRarity r) {
-		return CRarity.values()[r.ordinal()];
+	static WRarity get(EnumRarity r) {
+		return WRarity.values()[r.ordinal()];
 	}
-	CRarity(EnumRarity r) {
+	WRarity(EnumRarity r) {
 		rarity = r;
 	}
 }

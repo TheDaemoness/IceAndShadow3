@@ -1,8 +1,8 @@
 package mod.iceandshadow3;
 
-import mod.iceandshadow3.compat.block.CRegistryBlock;
-import mod.iceandshadow3.compat.item.CRegistryItem;
-import mod.iceandshadow3.compat.world.CSound$;
+import mod.iceandshadow3.compat.block.WRegistryBlock;
+import mod.iceandshadow3.compat.item.WRegistryItem;
+import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.SEventFisherman$;
 import net.minecraft.block.Block;
@@ -83,15 +83,15 @@ public class IaS3 {
 	public static class RegistryEvents {
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> reg) {
-			Multiverse.registerBlocks(new CRegistryBlock(reg.getRegistry()));
+			Multiverse.registerBlocks(new WRegistryBlock(reg.getRegistry()));
 		}
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
-			Multiverse.registerItems(new CRegistryItem(reg.getRegistry()));
+			Multiverse.registerItems(new WRegistryItem(reg.getRegistry()));
 		}
 		@SubscribeEvent
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {
-			CSound$.MODULE$.registerSounds(reg.getRegistry());
+			WSound$.MODULE$.registerSounds(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerBiomes(final RegistryEvent.Register<Biome> reg) {

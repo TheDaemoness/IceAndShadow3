@@ -3,28 +3,28 @@ package mod.iceandshadow3.compat.entity
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.basics.damage.Damage
-import mod.iceandshadow3.compat.Vec3Conversions
-import mod.iceandshadow3.compat.dimension.CDimensionCoord
-import mod.iceandshadow3.compat.item.CRefItem
-import mod.iceandshadow3.compat.world.TCWorldPlace
+import mod.iceandshadow3.compat.CNVVec3
+import mod.iceandshadow3.compat.dimension.WDimensionCoord
+import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.world.TWWorldPlace
 import mod.iceandshadow3.forge.{TeleporterDeferred, TeleporterExact}
 import mod.iceandshadow3.spatial.{IPositional, IVec3}
-import mod.iceandshadow3.util.EmptyIterator
+import mod.iceandshadow3.util.IteratorEmpty
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.{Entity, EntityLivingBase}
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.world.Teleporter
 import net.minecraftforge.common.DimensionManager
 
-class CRefEntity protected[entity](protected[compat] val entity: Entity)
-	extends TCWorldPlace
+class WEntity protected[entity](protected[compat] val entity: Entity)
+	extends TWWorldPlace
 		with TEffectSource
 		with IPositional
 {
 	override def getEffectSourceEntity: Entity = entity
 	override def getNameTextComponent: ITextComponent = entity.getDisplayName
-	override def position = Vec3Conversions.fromEntity(entity)
-	
+	override def position = CNVVec3.fromEntity(entity)
+
 	override protected[compat] def exposeWorld(): net.minecraft.world.World = entity.world
 
 	override def getAttack: Damage = entity match {
@@ -32,7 +32,7 @@ class CRefEntity protected[entity](protected[compat] val entity: Entity)
 		case _ => null
 	}
 
-	def damage(attack: Damage): Unit = 
+	def damage(attack: Damage): Unit =
 		entity.attackEntityFrom(new ADamageSource(attack), attack.onDamage(this))
 
 	def teleport(newpos: IVec3): Unit = {
@@ -40,14 +40,14 @@ class CRefEntity protected[entity](protected[compat] val entity: Entity)
 		val pitchyaw = entity.getPitchYaw
 		entity.setPositionAndUpdate(newpos.xDouble, newpos.yDouble, newpos.zDouble)
 	}
-	def teleport(newpos: IVec3, dim: CDimensionCoord): Unit =
+	def teleport(newpos: IVec3, dim: WDimensionCoord): Unit =
 		entity.changeDimension(dim.dimtype, new TeleporterExact(newpos))
 	def teleport(dim: BDimension): Unit = {
 		if(!dim.isEnabled) {
 			IaS3.bug(new NullPointerException, s"Attempted to teleport to a disabled BDimension $dim.")
 		} else entity.changeDimension(dim.coord.dimtype, new TeleporterDeferred(dim))
 	}
-	def teleportVanilla(dim: CDimensionCoord): Unit =
+	def teleportVanilla(dim: WDimensionCoord): Unit =
 		entity.changeDimension(
 			dim.dimtype,
 			new Teleporter(DimensionManager.getWorld(
@@ -55,17 +55,7 @@ class CRefEntity protected[entity](protected[compat] val entity: Entity)
 				)
 			)
 		)
-	def items(): Iterator[CRefItem] = new EmptyIterator[CRefItem]
+	def items(): Iterator[WRefItem] = new IteratorEmpty[WRefItem]
 	def extinguish(): Unit = entity.extinguish()
 }
-object CRefEntity {
-	implicit def wrap(ent: Entity): CRefEntity = ent match {
-		case elb: EntityLivingBase => wrap(elb)
-		case _ => new CRefEntity(ent)
-	}
-	implicit def wrap(ent: EntityLivingBase): CRefLiving = ent match {
-		case player: EntityPlayer => wrap(player)
-		case _ => new CRefLiving(ent)
-	}
-	implicit def wrap(ent: EntityPlayer): CRefPlayer = new CRefPlayer(ent)
-}
+

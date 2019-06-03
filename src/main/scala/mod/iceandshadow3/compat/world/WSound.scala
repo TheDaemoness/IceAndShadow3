@@ -11,9 +11,9 @@ import net.minecraftforge.registries.{ForgeRegistries, IForgeRegistry}
 
 import scala.collection.JavaConverters._
 
-case class CSound(@Nullable private val soundevent: SoundEvent) {
+case class WSound(@Nullable private val soundevent: SoundEvent) {
 	private[compat] def event: Option[SoundEvent] = Option(soundevent)
-	def play(world: TCWorld, place: IVec3, volume: Float, freqshift: Float): Unit = {
+	def play(world: TWWorld, place: IVec3, volume: Float, freqshift: Float): Unit = {
 		if(soundevent == null) return
 		world.exposeWorld().playSound(null,
 			place.xDouble, place.yDouble, place.zDouble,
@@ -22,24 +22,24 @@ case class CSound(@Nullable private val soundevent: SoundEvent) {
 	}
 }
 
-object CSound {
+object WSound {
 	private var newsounds: java.util.List[SoundEvent] = new java.util.LinkedList[SoundEvent]
-	def addSound(domain: BDomain, name: String): CSound = {
+	def addSound(domain: BDomain, name: String): WSound = {
 		try {
 			val location = new ResourceLocation(IaS3.MODID, s"${domain.name}_$name")
 			val soundevent = new SoundEvent(location)
 			soundevent.setRegistryName(location)
 			newsounds.add(soundevent)
-			return CSound(soundevent)
+			return WSound(soundevent)
 		} catch {
 			case e: UnsupportedOperationException => IaS3.bug(e, "Attempt add a sound name too late.")
 		}
-		CSound(null)
+		WSound(null)
 	}
 	private[iceandshadow3] def registerSounds(registry: IForgeRegistry[SoundEvent]): Unit = {
 		for(soundevent <- newsounds.asScala) registry.register(soundevent)
 		newsounds = Collections.emptyList()
 	}
-	implicit def lookup(id: String): CSound =
-		CSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(id)))
+	implicit def lookup(id: String): WSound =
+		WSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(id)))
 }

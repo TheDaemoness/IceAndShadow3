@@ -85,7 +85,7 @@ class Vec3Mutable (
 		true
 	}
 
-	import mod.iceandshadow3.data.SDataTreeConversions._
+	import mod.iceandshadow3.data.CNVDataTree._
 	def exposeDataTree(): mod.iceandshadow3.data.DataTreeMap =
 		new DataTreeMap().add("x", x).add("y", y).add("z", z)
 }

@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.dimension;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;
-import mod.iceandshadow3.compat.Vec3Conversions;
+import mod.iceandshadow3.compat.CNVVec3;
 import mod.iceandshadow3.spatial.IPosChunk;
 import mod.iceandshadow3.spatial.IPosColumn;
 import mod.iceandshadow3.spatial.IVec3;
@@ -37,11 +37,11 @@ public class AModDimension extends ModDimension {
 		//Forge marks the registry for internal use only.
 		//I'd like to know how else they want us to getColumn DimensionTypes out of DimensionManager.
 		if(DimensionManager.getRegistry().func_212607_c(name)) {
-			dimlogic.coord_$eq(CDimensionCoord.apply(DimensionManager.getRegistry().func_212608_b(name)));
+			dimlogic.coord_$eq(WDimensionCoord.apply(DimensionManager.getRegistry().func_212608_b(name)));
 		} else {
 			DimensionType dimtype = DimensionManager.registerDimension(name, this, null);
 			//TODO: The third arg can be null, but probably shouldn't be.
-			dimlogic.coord_$eq(CDimensionCoord.apply(dimtype));
+			dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
 		}
 	}
 	//TODO: We probably need a disable function for server unload.
@@ -70,7 +70,7 @@ public class AModDimension extends ModDimension {
 		public BlockPos getSpawnCoordinate() {
 			final IVec3 where = dimlogic.getWorldSpawn();
 			if(where == null) return null;
-			else return Vec3Conversions.toBlockPos(where);
+			else return CNVVec3.toBlockPos(where);
 		}
 
 		@Nullable
@@ -90,7 +90,7 @@ public class AModDimension extends ModDimension {
 				public int zChunk() {return z;}
 			}, checkValid);
 			if(where == null) return null;
-			else return Vec3Conversions.toBlockPos(where);
+			else return CNVVec3.toBlockPos(where);
 		}
 
 		@OnlyIn(Dist.CLIENT)

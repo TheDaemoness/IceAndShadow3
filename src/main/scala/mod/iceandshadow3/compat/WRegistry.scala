@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat
 
 import net.minecraftforge.registries.{IForgeRegistry, IForgeRegistryEntry}
 
-class CRegistry[RegistryType <: IForgeRegistryEntry[RegistryType], IaSType <: BLogic](
+class WRegistry[RegistryType <: IForgeRegistryEntry[RegistryType], IaSType <: BLogic](
 		registry: IForgeRegistry[RegistryType]) {
 	
 	protected def register(logic: BLogic, entry: RegistryType): Unit = {

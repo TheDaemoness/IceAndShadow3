@@ -81,6 +81,6 @@ abstract class DatumIntArray(size: Int = 0) extends BDataTreeLeaf(new Array[Long
 		else if(testLimits {_.isValidInt}) new NBTTagIntArray(value.map(_.toInt))
 		else new NBTTagLongArray(value)
 	}
-	override def toLine() = String.join("_", get.map(_.toString).toSeq.asJava)
+	override def toLine = String.join("_", get.map(_.toString).toSeq.asJava)
 	override protected def parseLine(line: String) = line.split(' ').map(java.lang.Long.valueOf(_).longValue)
 }

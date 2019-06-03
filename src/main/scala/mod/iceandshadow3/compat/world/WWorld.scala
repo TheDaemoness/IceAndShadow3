@@ -1,11 +1,11 @@
 package mod.iceandshadow3.compat.world
 
-import mod.iceandshadow3.compat.Vec3Conversions
+import mod.iceandshadow3.compat.CNVVec3
 import mod.iceandshadow3.spatial.{IPosColumn, IVec3}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{EnumDifficulty, World}
 
-class CWorld(private[compat] val worldobj: World) extends TCWorld {
+class WWorld(private[compat] val worldobj: World) extends TWWorld {
 	override def exposeWorld(): World = worldobj
   override def world() = this
 
@@ -15,7 +15,7 @@ class CWorld(private[compat] val worldobj: World) extends TCWorld {
 			val x = where.xBlock.toInt
 			val y = 255-yit
 			val z = where.zBlock.toInt
-			if(chunk.getBlockState(x, y, z).isSolid) return Some(Vec3Conversions.fromBlockPos(new BlockPos(x, y, z)))
+			if(chunk.getBlockState(x, y, z).isSolid) return Some(CNVVec3.fromBlockPos(new BlockPos(x, y, z)))
 		}
 		return None
 	}

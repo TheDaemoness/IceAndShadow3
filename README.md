@@ -18,7 +18,6 @@ __NYI.__
 ## Getting Started (As A Developer)
 [![Travis CI Status](https://travis-ci.org/TheDaemoness/IceAndShadow3.svg?branch=master "Travis CI status (branch: master)")](https://travis-ci.org/TheDaemoness/IceAndShadow3)
 
-
 IaS3 uses Gradle, but does not include a gradle wrapper in VCS for largely philosophical reasons.
 
 To get a usable development environment:
@@ -32,25 +31,9 @@ Otherwise, you will run into problems when you try to run the gradle wrapper.
     1. You may generate Intellij IDEA project files using the `idea` task. Generating an Eclipse project with `eclipse` is left in as an option but is not recommended,
     as the main Scala plugin is outdated to the point of instability on recent versions of Eclipse.
     2. You may run the client and/or dedicated server with the `runClient` and `runServer` tasks respectively.
+    3. Remember to run `check` frequently!
 
 Refer to the READMEs under the `src` directory for more information.
-
-### Bloop
-
-As building a Scala project with Gradle without the daemon is slower than it needs to be,
-IaS3 can also be compiled using the [Bloop build server](https://scalacenter.github.io/bloop/).
-
-No changes should need to be made to `build.gradle`.
-Just run the `bloopInstall` task to export a Bloop configuration.
-
-This also enables use of the [Metals language server](https://scalameta.org/metals/).
-
-If, however, you want to test or package the mod, you're on your own.
-
-### ./sandbox
-
-The .gitignore includes a directory named `sandbox`, which has no specified purpose and isn't used by anything.
-You can use this directory for storing convenience scripts or any WIP assets that shouldn't make it into the repository.
 
 ## License
 

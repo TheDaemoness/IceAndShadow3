@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 /**
  * Singleton executor.
  */
-public class Exec implements ExecutorService {
+public class SExec implements ExecutorService {
 	public class Future<T> extends FutureTask<T> {
 		protected Throwable e = null;
 		public Future(Callable<T> arg0) {
@@ -30,23 +30,23 @@ public class Exec implements ExecutorService {
 		}
 	}
 	
-	private static final Exec instance = new Exec();
-	/*public*/ static Exec get() {return instance;}
+	private static final SExec instance = new SExec();
+	/*public*/ static SExec get() {return instance;}
 
-	public static <T> Exec.Future<T> push(Callable<T> r) {
-		final Exec.Future<T> f = instance.new Future<>(r);
+	public static <T> SExec.Future<T> push(Callable<T> r) {
+		final SExec.Future<T> f = instance.new Future<>(r);
 		instance.execute(f);
 		return f;
 	}
-	public static <T> Exec.Future<T> push(Runnable r, T arg) {
-		final Exec.Future<T> f = instance.new Future<T>(r, arg);
+	public static <T> SExec.Future<T> push(Runnable r, T arg) {
+		final SExec.Future<T> f = instance.new Future<T>(r, arg);
 		instance.execute(f);
 		return f;
 	}
-	public static Exec.Future<Object> push(Runnable r) {return push(r, null);}
+	public static SExec.Future<Object> push(Runnable r) {return push(r, null);}
 	
 	private ExecutorService executor;
-	protected Exec() {
+	protected SExec() {
 		executor = Executors.newWorkStealingPool(Math.max(1, Runtime.getRuntime().availableProcessors()-1));
 	}
 

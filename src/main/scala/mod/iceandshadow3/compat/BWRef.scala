@@ -5,12 +5,12 @@ import mod.iceandshadow3.basics.BStateData
 import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
 import net.minecraft.nbt.NBTTagCompound
 
-abstract class BCRef[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
+abstract class BWRef[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
   this: TLogicProvider[LogicType] =>
 
   protected def exposeNBTOrNull(): NBTTagCompound
 
-  def exposeNbtTree(): CNbtTree = new CNbtTree(exposeNBTOrNull())
+  def exposeNbtTree(): WNbtTree = new WNbtTree(exposeNBTOrNull())
 
   /** WARNING: This should only be used for read-only access to state data.
     */

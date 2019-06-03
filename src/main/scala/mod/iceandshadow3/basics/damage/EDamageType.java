@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics.damage;
 
-import mod.iceandshadow3.compat.entity.CRefEntity;
+import mod.iceandshadow3.compat.entity.WEntity;
 
 import javax.annotation.Nullable;
 import java.util.function.BiFunction;
@@ -13,8 +13,8 @@ public enum EDamageType {
 	TOXIN(null),
 	EXOUSIA(null);
 	
-	BiFunction<CRefEntity, Float, Float> onHarm;
-	private EDamageType(@Nullable BiFunction<CRefEntity, Float, Float> fn) {
+	BiFunction<WEntity, Float, Float> onHarm;
+	private EDamageType(@Nullable BiFunction<WEntity, Float, Float> fn) {
 		onHarm = fn;
 	}
 }

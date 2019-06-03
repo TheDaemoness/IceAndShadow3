@@ -4,22 +4,22 @@ import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.data.{BDataTree, IDataTreeRW, INbtRW}
 import net.minecraft.nbt.{NBTPrimitive, NBTTagCompound}
 
-class CNbtTree(val root: NBTTagCompound) {
+class WNbtTree(val root: NBTTagCompound) {
 	def isNull: Boolean = root == null
 	def isEmpty: Boolean = isNull || root.isEmpty
-	def chroot(): CNbtTree = chroot(IaS3.MODID)
-	def chroot(key: String): CNbtTree = try {
+	def chroot(): WNbtTree = chroot(IaS3.MODID)
+	def chroot(key: String): WNbtTree = try {
 		if(root == null) return this
 		val tags = root.getCompound(key)
 		root.setTag(key, tags)
-		new CNbtTree(tags)
+		new WNbtTree(tags)
 	} catch {
 		case e: ClassCastException =>
 			IaS3.logger().warn("Overriding NBT tag \""+key+"\"")
 			e.printStackTrace()
 			val newCompound = new NBTTagCompound()
 			root.setTag(key, newCompound)
-			new CNbtTree(newCompound)
+			new WNbtTree(newCompound)
 	}
 	def set(key: String, obj: INbtRW): Unit =
 		if(root != null) root.setTag(key, obj.toNBT)

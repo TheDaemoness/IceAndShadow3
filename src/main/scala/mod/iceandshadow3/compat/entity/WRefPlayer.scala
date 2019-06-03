@@ -1,11 +1,11 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.compat.Vec3Conversions._
-import mod.iceandshadow3.compat.dimension.CDimension
-import mod.iceandshadow3.compat.item.{CInventory, CRefItem}
+import mod.iceandshadow3.compat.CNVVec3._
+import mod.iceandshadow3.compat.dimension.WDimension
+import mod.iceandshadow3.compat.item.{WInventory, WRefItem}
 import mod.iceandshadow3.spatial.IVec3
-import mod.iceandshadow3.util.{IteratorConcat, L3}
+import mod.iceandshadow3.util.{E3vl, IteratorConcat}
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
@@ -14,36 +14,36 @@ import net.minecraft.util.text.TextComponentTranslation
 import scala.collection.JavaConverters._
 
 //TODO: Manually generated class stub.
-class CRefPlayer protected[entity](protected[compat] val player: EntityPlayer) extends CRefLiving(player) {
+class WRefPlayer protected[entity](protected[compat] val player: EntityPlayer) extends WRefLiving(player) {
 	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f
 	def deshield(force: Boolean = true): Unit = player.disableShield(force)
 	def bed: IVec3 = player.bedLocation
 	def message(msg: String, actionBar: Boolean = true): Unit
 		= player.sendStatusMessage(new TextComponentTranslation(msg), actionBar)
 
-	override def home(where: CDimension): Option[IVec3] =
+	override def home(where: WDimension): Option[IVec3] =
 		Option(player.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
 
 	override def isCreative = player.isCreative
 
-	override def items(): Iterator[CRefItem] = {
+	override def items(): Iterator[WRefItem] = {
 		val inv = player.inventory
-		new IteratorConcat[ItemStack, CRefItem](
-			(is: ItemStack) => {new CRefItem(is, player)},
+		new IteratorConcat[ItemStack, WRefItem](
+			(is: ItemStack) => {new WRefItem(is, player)},
 			inv.offHandInventory.iterator,
 			inv.armorInventory.iterator,
 			inv.mainInventory.iterator
 		)
 	}
-	override def itemsStashed(): Iterator[CRefItem] = new CInventory(player.getInventoryEnderChest).iterator
+	override def itemsStashed(): Iterator[WRefItem] = new WInventory(player.getInventoryEnderChest).iterator
 
-	override def saveItem(what: CRefItem): Boolean =
-		new CInventory(player.getInventoryEnderChest).add(what)
+	override def saveItem(what: WRefItem): Boolean =
+		new WInventory(player.getInventoryEnderChest).add(what)
 
-	def donateToEnderChest(what: CRefItem): L3 = {
+	def donateToEnderChest(what: WRefItem): E3vl = {
 		if(findItem(what, false).isEmpty) {
-			new CInventory(player.getInventoryEnderChest).donate(what)
-		} else L3.NEUTRAL
+			new WInventory(player.getInventoryEnderChest).donate(what)
+		} else E3vl.NEUTRAL
 	}
 
 	def advancement(name: String, criteria: String*): Unit = player match {

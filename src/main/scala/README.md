@@ -44,42 +44,45 @@ Subpackages of `mod.iceandshadow3` where you will definitely NOT find such excep
 Two or more adjacent capital letters at the start of a class/file name are indicative of a type name prefix.
 If necessary, abbreviations that would otherwise be capitalized will be camelcased to ensure this (e.g. NBT -> Nbt).
 
+Note that these are more guidelines than hard rules.
+
 ### "A" - Adapter
-Always written in Java. Takes IaS3 objects (or their data) and exposes a Minecraft-compatible (or Forge-compatible) interface to them.
+Always written in Java.
+Takes IaS3 objects (or their data) and exposes a Minecraft-compatible (or Forge-compatible) interface to them.
 
 Used for Blocks, Items, Entities, and virtually everything that needs to go in a Registry.
-
-Should be defined exclusively in `mod.iceandshadow3.compat`.
 
 ### "B" - Base
 A class intended to be subtyped. Usually abstract, *never* a leaf in the inheritance tree
 (`sealed` without any other classes in the same file extending it, or `final`).
 
-### "C" - Compatibility/Condom
-Always written in Scala. Takes Minecraft objects (or their data) and exposes an IaS3-controlled interface to them.
-
-Usually exposes the objects it's hiding with `protected[compat]` or `private[compat]` visibility, sometimes narrower.
-
-Typically constructed inside adapters to pass on to IaS objects.
-
-Should be defined exclusively in `mod.iceandshadow3.compat`.
+### "CNV" - Conversions
+Always written in Scala.
+A non-package object that contains implicit conversions.
 
 ### 'E' - Enumeration
 Java: a `public enum`. Woop.
 
-Scala: a sealed class with a companion object that contains case objects that subtype the sealed class.
+Scala: a sealed class with a companion object that contains `case object`s that subtype the sealed class.
 
 ### 'I' - Interface
 Java: an `interface`. Note that IaS3's Java portions are in Java 8.
 
-Scala: an unsealed `trait` that contains only public non-final `def`s.
+Scala: an unsealed `trait` that could be losslessly translated to a Java 8 interface.
 
 ### "S" - Singleton/Static
-Java: a singleton OR a class whose only purpose is to group together static methods.
+Java: a singleton OR a class whose only purpose is to group together static methods or constants.
 
-Scala: a non-package non-companion `object`.
-
-Not present on any of the classes in `mod.iceandshadow3` in specific, where it would be redundant.
+Scala: a non-package non-companion `object` that contains no implicit conversions.
 
 ### "T" - Trait
 Always written in Scala. A trait that does NOT fit the criteria for the `I` prefix. Often a mixin.
+
+### "W" - Wrapper
+Formerly prefixed with "C". Always written in Scala.
+Takes Minecraft objects (or their data) and exposes an IaS3-controlled interface to them.
+
+Usually exposes the objects it's hiding with `protected[compat]` or `private[compat]` visibility, sometimes narrower.
+
+Typically constructed inside adapters to pass on to IaS objects.
+These should be mostly safe to use throughout IaS3's codebase, barring a handful of forbidden methods.

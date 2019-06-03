@@ -1,10 +1,10 @@
 package mod.iceandshadow3.compat.world
 
-import mod.iceandshadow3.compat.Vec3Conversions._
+import mod.iceandshadow3.compat.CNVVec3._
 import mod.iceandshadow3.spatial.IPositional
 import net.minecraft.world.EnumLightType
 
-trait TCWorldPlace extends TCWorld {
+trait TWWorldPlace extends TWWorld {
   this: IPositional =>
   def light: Int = exposeWorld().getLight(position)
   def sunlight: Int = exposeWorld().getLightFor(EnumLightType.SKY, position)
@@ -12,8 +12,8 @@ trait TCWorldPlace extends TCWorld {
   //TODO: Confirm that getLightFor does what we need.
 
   def underSky: Boolean = exposeWorld().canSeeSky(position)
-  def biome: CBiome = new CBiome(exposeWorld().getBiome(position))
+  def biome: WBiome = new WBiome(exposeWorld().getBiome(position))
 
-  def playSound(sound: CSound, volume: Float, freqshift: Float): Unit =
+  def playSound(sound: WSound, volume: Float, freqshift: Float): Unit =
     sound.play(this, this.position, volume, freqshift)
 }

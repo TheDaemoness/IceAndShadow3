@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics.damage;
 
-import mod.iceandshadow3.compat.entity.CRefEntity;
+import mod.iceandshadow3.compat.entity.WEntity;
 import mod.iceandshadow3.compat.entity.TEffectSource;
 
 import java.util.EnumMap;
@@ -31,7 +31,7 @@ public class Damage {
 	 * Applies on-damage effects and calculates damage taken.
 	 * @return The amount of damage taken, in half-hearts.
 	 */
-	public float onDamage(CRefEntity victim) {
+	public float onDamage(WEntity victim) {
 		float damagetotal = 0f;
 		for(Map.Entry<EDamageType, Float> dmg : damages.entrySet()) {
 			damagetotal += dmg.getKey().onHarm.apply(victim, dmg.getValue());

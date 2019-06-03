@@ -2,12 +2,12 @@ package mod.iceandshadow3.world.dim_nyx
 
 import mod.iceandshadow3.gen.noise.{BNoise2dFractal, Noise2dCrater}
 import mod.iceandshadow3.gen.{Cellmaker, XZRandom}
-import mod.iceandshadow3.spatial.XZPair
+import mod.iceandshadow3.spatial.PairXZ
 
 class NoisesNyx(seed: Long) {
 	val isleMaker = new Cellmaker(seed, 9967, 1200) {
-		override def cellToPoint(cell: XZPair, rng: XZRandom) = {
-			if(cell.x == 0 && cell.z == 0) XZPair(0,0)
+		override def cellToPoint(cell: PairXZ, rng: XZRandom) = {
+			if(cell.x == 0 && cell.z == 0) PairXZ(0,0)
 			else super.cellToPoint(cell, rng)
 		}
 	}

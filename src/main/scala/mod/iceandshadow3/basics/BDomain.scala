@@ -2,8 +2,8 @@ package mod.iceandshadow3.basics
 
 import mod.iceandshadow3.Multiverse
 import mod.iceandshadow3.basics.damage.EDeathPolicy
-import mod.iceandshadow3.compat.block.CRegistryBlock
-import mod.iceandshadow3.compat.item.{CRarity, CRegistryItem}
+import mod.iceandshadow3.compat.block.WRegistryBlock
+import mod.iceandshadow3.compat.item.{WRarity, WRegistryItem}
 
 import scala.collection.JavaConverters._
 
@@ -18,10 +18,10 @@ abstract class BDomain(val name: java.lang.String) {
 	
 	final protected[basics] def add(l: BLogicBlock): Unit = listLogicBlock.add(l)
 	final protected[basics] def add(l: BLogicItem): Unit = listLogicItem.add(l)
-	final protected[iceandshadow3] def register(reg: CRegistryBlock): Unit = {
+	final protected[iceandshadow3] def register(reg: WRegistryBlock): Unit = {
 		for(logic <- listLogicBlock.asScala) reg.add(logic)
 	}
-	final protected[iceandshadow3] def register(reg: CRegistryItem): Unit = {
+	final protected[iceandshadow3] def register(reg: WRegistryItem): Unit = {
 		for(logic <- listLogicItem.asScala) reg.add(logic)
 		for(logic <- listLogicBlock.asScala) reg.add(logic)
 	}
@@ -29,6 +29,6 @@ abstract class BDomain(val name: java.lang.String) {
 	protected[iceandshadow3] def initEarly(): Unit = {}
 	protected[iceandshadow3] def initLate(): Unit = {}
 	def isHostileTo(other: BDomain): Boolean
-	def tierToRarity(tier: Int): CRarity
+	def tierToRarity(tier: Int): WRarity
 	def tierToDeathPolicy(tier: Int): EDeathPolicy = EDeathPolicy.DEFAULT
 }

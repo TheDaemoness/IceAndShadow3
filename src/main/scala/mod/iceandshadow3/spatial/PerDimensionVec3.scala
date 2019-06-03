@@ -1,17 +1,17 @@
 package mod.iceandshadow3.spatial
 
-import mod.iceandshadow3.compat.dimension.CDimensionCoord
+import mod.iceandshadow3.compat.dimension.WDimensionCoord
 import mod.iceandshadow3.data.{DataTreeMapFlexible, IDataTreeRW}
 
 /** A mutable map of DimensionCoords to Vec3Ms.
   */
 class PerDimensionVec3 extends IDataTreeRW[DataTreeMapFlexible] {
-  private val mapping = new DataTreeMapFlexible(_ => Some(new Vec3Mutable(SpatialConstants.ZERO)))
+  private val mapping = new DataTreeMapFlexible(_ => Some(new Vec3Mutable(SUnitVec3s.ZERO)))
 
-  def set(which: CDimensionCoord, where: IVec3): Unit =
+  def set(which: WDimensionCoord, where: IVec3): Unit =
     mapping.add(which.getId, where.asMutable)
 
-  def get(which: CDimensionCoord): Option[Vec3Mutable] =
+  def get(which: WDimensionCoord): Option[Vec3Mutable] =
     mapping.getAndCast[Vec3Mutable](which.getId)
 
   override def exposeDataTree() = mapping

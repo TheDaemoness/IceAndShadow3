@@ -2,8 +2,8 @@ package mod.iceandshadow3.compat.item
 
 import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
-import mod.iceandshadow3.compat.entity.{CRefEntity, CRefLiving}
-import mod.iceandshadow3.compat.{BCRef, ILogicItemProvider, SRandom}
+import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WRefLiving}
+import mod.iceandshadow3.compat.{BWRef, ILogicItemProvider, SRandom}
 import mod.iceandshadow3.util.SCaster._
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
@@ -14,8 +14,8 @@ import net.minecraft.util.IItemProvider
 
 /** Null-safe item stack + owner reference.
 	*/
-class CRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBase)
-	extends BCRef[BLogicItem]
+class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBase)
+	extends BWRef[BLogicItem]
 	with ILogicItemProvider
 {
 	private[compat] var is = Option(inputstack)
@@ -24,12 +24,12 @@ class CRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 	def this(is: IItemProvider, owner: EntityLivingBase) = this(new ItemStack(is), owner)
 	//TODO: We can probably make this handle multiple item stacks.
 
-	def copy: CRefItem = new CRefItem(is.fold[ItemStack](null){_.copy()}, owner)
+	def copy: WRefItem = new WRefItem(is.fold[ItemStack](null){_.copy()}, owner)
 	def isEmpty: Boolean = is.fold(true){_.getCount == 0}
 	def count: Int = is.fold(0){_.getCount}
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
 	def hasOwner: Boolean = owner != null
-	def getOwner: CRefLiving = if(hasOwner) CRefEntity.wrap(owner) else null
+	def getOwner: WRefLiving = if(hasOwner) CNVEntity.wrap(owner) else null
 	def canDamage: Boolean = is.fold(false){_.isDamageable}
 	def isDamaged: Boolean = is.fold(false){_.isDamaged}
 	def getDamage: Int = is.fold(0){_.getDamage}
@@ -46,11 +46,11 @@ class CRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 		retval
 	}
 
-	def changeTo(alternate: CRefItem): CRefItem =
+	def changeTo(alternate: WRefItem): WRefItem =
 		{is = Option(alternate.is.fold[ItemStack](null){_.copy}); this}
-	def changeCount(newcount: Int): CRefItem =
+	def changeCount(newcount: Int): WRefItem =
 		{is.foreach(is => {if(is.isStackable) is.setCount(Math.min(countMax,newcount))}); this}
-	def changeOwner(who: CRefLiving): CRefItem =
+	def changeOwner(who: WRefLiving): WRefItem =
 		{owner = who.living; this}
 
 	//TODO: Enchantment querying.
@@ -60,7 +60,7 @@ class CRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 	 */
 	def consume(count: Int = 1): Int = {
 		if(this.isEmpty) return 0
-		if(owner != null && CRefEntity.wrap(owner).isCreative) return count
+		if(owner != null && CNVEntity.wrap(owner).isCreative) return count
 		val is = this.is.get //Warning: shadowing.
 		//TODO: There's no reason why IaS3 items can't have an override for this.
 		if(is.isDamageable) {
@@ -93,7 +93,7 @@ class CRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 	}
 
 	def matches(b: Any): Boolean = if(b == null) isEmpty else b match {
-		case cri: CRefItem => cri.is.fold(isEmpty){matches(_)}
+		case cri: WRefItem => cri.is.fold(isEmpty){matches(_)}
 		case bis: ItemStack => is.fold(false){_.isItemEqualIgnoreDurability(bis)}
 		case _ => false
 	}
@@ -107,15 +107,15 @@ class CRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 			case _ => return null
 		}}
 }
-object CRefItem {
-	def get(inv: IInventory, index: Int): CRefItem = {
+object WRefItem {
+	def get(inv: IInventory, index: Int): WRefItem = {
 		val stack = if(index >= inv.getSizeInventory) null else inv.getStackInSlot(index)
-		new CRefItem(stack, null)
+		new WRefItem(stack, null)
 	}
-	def make(id: String): CRefItem =
-		new CRefItem(ItemConversions.newItemStack(id), null)
-	def make(logic: BLogicItem, variant: Int): CRefItem = {
+	def make(id: String): WRefItem =
+		new WRefItem(CNVItem.newItemStack(id), null)
+	def make(logic: BLogicItem, variant: Int): WRefItem = {
 		val item: Item = logic.secrets.get(variant).asInstanceOf[Item]
-		if(item == null) new CRefItem() else new CRefItem(item, null)
+		if(item == null) new WRefItem() else new WRefItem(item, null)
 	}
 }

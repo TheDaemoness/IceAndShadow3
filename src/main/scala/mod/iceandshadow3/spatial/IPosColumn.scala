@@ -1,11 +1,6 @@
 package mod.iceandshadow3.spatial
 
-import SpatialConstants._
-
-trait IPosChunk {
-	def xChunk: Int
-	def zChunk: Int
-}
+import IPosChunk._
 
 trait IPosColumn extends IPosChunk {
 	def xBlock: Long
@@ -16,6 +11,3 @@ trait IPosColumn extends IPosChunk {
 	def zSubChunk: Byte = (zBlock & CHUNK_MASK).toByte
 }
 
-trait IPosBlock extends IPosColumn {
-	def yBlock: Int
-}

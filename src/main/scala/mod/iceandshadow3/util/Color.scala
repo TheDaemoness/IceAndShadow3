@@ -1,6 +1,6 @@
 package mod.iceandshadow3.util
 
-class Color(val colorcode: Int) {
+case class Color(colorcode: Int) {
 	def this(r: Int, g: Int, b: Int) = this((r&0xff) << 16 | (g&0xff) << 8 | (b&0xff))
 
 	def r = colorcode >> 16 & 0xff
@@ -12,7 +12,11 @@ class Color(val colorcode: Int) {
 }
 object Color {
 	val BLACK = new Color(0)
+	val WHITE = new Color(0xffffff)
 	val RED = new Color(0xff0000)
+	val YELLOW = new Color(0xffff00)
 	val GREEN = new Color(0x00ff00)
+	val CYAN = new Color(0x00ffff)
 	val BLUE = new Color(0x0000ff)
+	val MAGENTA = new Color(0xff00ff)
 }

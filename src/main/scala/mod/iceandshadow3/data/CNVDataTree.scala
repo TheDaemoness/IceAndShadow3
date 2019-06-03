@@ -1,6 +1,8 @@
 package mod.iceandshadow3.data
 
-object SDataTreeConversions {
+import scala.language.implicitConversions
+
+object CNVDataTree {
 	implicit def toDatum(value: Boolean) = new DatumBool(value)
 	implicit def toDatum(value: Long) = new DatumInt64(value)
 	implicit def toDatum(value: Int) = new DatumInt32(value)
