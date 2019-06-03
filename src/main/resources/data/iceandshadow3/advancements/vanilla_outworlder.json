@@ -12,9 +12,8 @@
   },
   "parent": "minecraft:end/root",
   "criteria": {
-    "gotchest": {
-      "trigger": "minecraft:impossible",
-      "conditions": {}
+    "outtahere": {
+      "trigger": "minecraft:impossible"
     }
   }
 }

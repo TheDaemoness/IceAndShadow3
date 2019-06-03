@@ -10,8 +10,7 @@
   "parent": "iceandshadow3:nyx_root",
   "criteria": {
     "madeit": {
-      "trigger": "minecraft:impossible",
-      "conditions": {}
+      "trigger": "minecraft:impossible"
     }
   }
 }

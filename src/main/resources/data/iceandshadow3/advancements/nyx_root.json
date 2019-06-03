@@ -10,8 +10,7 @@
   },
   "criteria": {
     "madeit": {
-      "trigger": "minecraft:impossible",
-      "conditions": {}
+      "trigger": "minecraft:impossible"
     }
   }
 }

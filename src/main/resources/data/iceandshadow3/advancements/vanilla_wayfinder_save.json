@@ -11,8 +11,7 @@
   "parent": "iceandshadow3:vanilla_wayfinder",
   "criteria": {
     "charged": {
-      "trigger": "minecraft:impossible",
-      "conditions": {}
+      "trigger": "minecraft:impossible"
     }
   }
 }

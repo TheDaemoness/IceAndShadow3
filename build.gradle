@@ -1,14 +1,5 @@
-def version_revision = '0'
-def version_major = '0'
-def version_minor = '7'
-def version_patch = '0'
-
-// WARNING: Only edit things below this line if someone else who knows what they're doing thinks you know what you're doing.
-
-def version_minecraft = '1.13.2'
-def version_forge_req='25'
-def version_forge_suffix='.0.218'
-def version_forge="${version_forge_req}${version_forge_suffix}"
+//You are discouraged from editing this file.
+//If you're looking for compile-time configuration options (such as version info), see config.gradle.
 
 buildscript {
     repositories {
@@ -22,14 +13,24 @@ buildscript {
         classpath 'org.scala-lang:scala-library:2.12.8'
     }
 }
+plugins {
+    id "scala"
+    id "idea"
+    id "eclipse"
+    id "de.undercouch.download" version "3.4.3"
+}
 wrapper {
     gradleVersion = '4.10.3'
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'scala'
 apply plugin: 'bloop'
-apply plugin: 'idea'
-apply plugin: 'eclipse' //Would not recommend.
+
+def version_minecraft = '1.13.2'
+def version_forge_req='25'
+def version_forge_suffix='.0.218'
+def version_forge="${version_forge_req}${version_forge_suffix}"
+
+apply from: 'config.gradle'
 
 def version_spec = "${version_revision}.${version_major}.${version_minor}"
 version = "${version_spec}.${version_patch}"
@@ -71,6 +72,7 @@ minecraft {
 }
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 configurations {
     shade
@@ -81,7 +83,12 @@ dependencies {
     // it is assumed that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:$version_minecraft-$version_forge"
-    /*shade*/ compile 'org.scala-lang:scala-library:2.12.8'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+
+    shade 'org.scala-lang:scala-library:2.12.8'
+
+    testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.11.1'
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
@@ -89,7 +96,7 @@ processResources {
    inputs.property "version", project.version
    filesMatching('**/mods.toml') {
       filter(ReplaceTokens, tokens: [
-         'version':version.toString(),
+         'config':version.toString(),
          'minecraft':version_minecraft.toString(),
          'forge':version_forge_req.toString()
       ])
@@ -107,10 +114,18 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    configurations.shade.each { dep ->
+    /*configurations.shade.each { dep ->
         from(project.zipTree(dep)){
             exclude 'META-INF', 'META-INF/**'
         }
+    }*/
+}
+test {
+    useJUnitPlatform()
+    workingDir = new File('./build/resources')
+    testLogging {
+        showStandardStreams = true
     }
 }
+//TODO: Release configuration which tests, generates a shaded reobfuscated jar, and signs it.
 def reobfFile = file("$buildDir/reobfJar/output.jar")
