@@ -91,12 +91,14 @@ dependencies {
     testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.11.1'
 }
 
+
 import org.apache.tools.ant.filters.ReplaceTokens
+
 processResources {
    inputs.property "version", project.version
    filesMatching('**/mods.toml') {
       filter(ReplaceTokens, tokens: [
-         'config':version.toString(),
+         'version':version.toString(),
          'minecraft':version_minecraft.toString(),
          'forge':version_forge_req.toString()
       ])
@@ -120,11 +122,13 @@ jar {
         }
     }*/
 }
+
 test {
     useJUnitPlatform()
     workingDir = new File('./build/resources')
     testLogging {
-        showStandardStreams = true
+        events 'standard_error'
+        exceptionFormat 'full'
     }
 }
 //TODO: Release configuration which tests, generates a shaded reobfuscated jar, and signs it.

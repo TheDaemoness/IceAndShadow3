@@ -16,7 +16,8 @@ Indefinite survival is possible, though survival on Nyx comes with unique challe
 __NYI.__
 
 ## Getting Started (As A Developer)
-![Insert Travis CI status here.](https://travis-ci.org/TheDaemoness/IceAndShadow3.svg?branch=master "Travis CI status (branch: master)")
+[![Travis CI Status](https://travis-ci.org/TheDaemoness/IceAndShadow3.svg?branch=master "Travis CI status (branch: master)")](https://travis-ci.org/TheDaemoness/IceAndShadow3)
+
 
 IaS3 uses Gradle, but does not include a gradle wrapper in VCS for largely philosophical reasons.
 
@@ -36,9 +37,15 @@ Refer to the READMEs under the `src` directory for more information.
 
 ### Bloop
 
-As building a Scala project with Gradle without the daemon is slower than it needs to be, IaS3 can also be tested using the Bloop build server. No changes should need to be made to `build.gradle`. Just run the `bloopInstall` task to export a Bloop configuration.
+As building a Scala project with Gradle without the daemon is slower than it needs to be,
+IaS3 can also be compiled using the [Bloop build server](https://scalacenter.github.io/bloop/).
+
+No changes should need to be made to `build.gradle`.
+Just run the `bloopInstall` task to export a Bloop configuration.
 
 This also enables use of the [Metals language server](https://scalameta.org/metals/).
+
+If, however, you want to test or package the mod, you're on your own.
 
 ### ./sandbox
 
