@@ -20,5 +20,6 @@ class BlockTypeSimple(@Nullable bs: IBlockState) extends BBlockType {
 		if(bs == null) Blocks.AIR.getDefaultState else bs
 }
 object BlockTypeSimple {
+	val BEDROCK = new BlockTypeSimple(Blocks.BEDROCK.getDefaultState)
 	val AIR = new BlockTypeSimple(Blocks.AIR.getDefaultState)
 }

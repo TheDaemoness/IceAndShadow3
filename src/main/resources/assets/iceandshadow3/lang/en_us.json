@@ -1,7 +1,9 @@
 {
-"itemGroup.iceandshadow3": "Ice and Shadow",
+  "itemGroup.iceandshadow3": "Ice and Shadow",
 
-"item.iceandshadow3.nyx_wayfinder": "Mysterious Wayfinder",
+  "item.iceandshadow3.nyx_wayfinder": "Mysterious Wayfinder",
 
-"block.iceandshadow3.gaia_livingstone": "Nyxian Stone"
+  "block.iceandshadow3.gaia_livingstone": "Nyxian Stone",
+  "block.iceandshadow3.gaia_navistra_bedrock": "Navistra Bedrock",
+  "block.iceandshadow3.gaia_navistra_stone": "Navistra Stone"
 }

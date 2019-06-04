@@ -1,21 +1,17 @@
 package mod.iceandshadow3.compat.block;
 
-import com.google.common.collect.ImmutableMap;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicBlock;
 import mod.iceandshadow3.basics.util.HarvestMethod;
 import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.ILogicBlockProvider;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.IProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.common.IShearable;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

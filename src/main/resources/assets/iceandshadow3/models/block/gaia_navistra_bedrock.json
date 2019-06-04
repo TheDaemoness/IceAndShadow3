@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "north": "iceandshadow3:gaia_navistra_bedrock.side",
+        "east": "iceandshadow3:gaia_navistra_bedrock.side",
+        "west": "iceandshadow3:gaia_navistra_bedrock.side",
+        "south": "iceandshadow3:gaia_navistra_bedrock.side",
+        "particle": "iceandshadow3:gaia_navistra_bedrock.top",
+        "up": "iceandshadow3:gaia_navistra_bedrock.top",
+        "down": "iceandshadow3:gaia_navistra_bedrock.bottom"
+    }
+}

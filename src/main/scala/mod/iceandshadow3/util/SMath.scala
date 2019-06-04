@@ -8,9 +8,12 @@ object SMath {
     val amount = fn(fraction)
     a*(1-amount) + b*amount
   }
-  def attenuateBetween(lower: Int, where: Int, upper: Int): Double = {
-    if(where <= lower) 1d
-    else if(where >= upper) 0d
-    else (where-lower)/(upper-lower).toDouble
+
+  /** Returns 1 below the lower argument, 0 above the higher, and interpolates linearly between.
+    */
+  def attenuateThrough(lower: Int, where: Int, upper: Int): Float = {
+    if(where <= lower) 1f
+    else if(where >= upper) 0f
+    else 1f-((where-lower).toFloat/(upper-lower))
   }
 }
