@@ -4,12 +4,6 @@ import mod.iceandshadow3.util.SIntBits
 
 /** An XZ pairing with no defined unit vectors.
 	*/
-object PairXZ {
-	def rescale(in: Int, scale: Int): Int = {
-		val inMod = in+scale/2
-		inMod / scale - (if (inMod < 0) 1 else 0)
-	}
-}
 case class PairXZ(private var _x: Int, private var _z: Int)
 	extends Iterable[Int]
 {

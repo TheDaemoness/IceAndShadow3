@@ -3,7 +3,9 @@ package mod.iceandshadow3.compat.dimension;
 import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;
+import mod.iceandshadow3.compat.block.BBlockType;
 import mod.iceandshadow3.gen.BChunkSource;
 import mod.iceandshadow3.gen.BWorldSource;
 import net.minecraft.block.state.IBlockState;
@@ -114,17 +116,23 @@ public class AChunkGenerator implements IChunkGenerator {
 		ChunkPos cp = chunk.getPos();
 		int xFirst = cp.getXStart(), zFirst = cp.getZStart();
 		int xLast = cp.getXEnd(), zLast = cp.getZEnd();
-		BChunkSource bcs = realworldgen.getTerrainChunk(
-			xFirst, zFirst,
-			xLast-xFirst+1, zLast-zFirst+1
-		);
-		for(int xit = xFirst; xit <= xLast; ++xit) {
-			for(int zit = zFirst; zit <= zLast; ++zit) {
-				for(int yit = 0; yit < 256; ++yit) {
-					mbp.setPos(xit, yit, zit);
-					chunk.setBlockState(mbp, bcs.getBlock(xit, yit, zit).state(), false);
+		try {
+			BChunkSource bcs = realworldgen.getTerrainChunk(
+				xFirst, zFirst,
+				xLast - xFirst + 1, zLast - zFirst + 1
+			);
+			for (int xit = xFirst; xit <= xLast; ++xit) {
+				for (int zit = zFirst; zit <= zLast; ++zit) {
+					final BBlockType[] column = bcs.getColumn(xit, zit);
+					for (int yit = 0; yit < 256; ++yit) {
+						mbp.setPos(xit, yit, zit);
+						BBlockType bt = column[yit];
+						chunk.setBlockState(mbp, (bt != null ? bt : bcs.getDefaultAir(yit)).state(), false);
+					}
 				}
 			}
+		} catch(Exception e) {
+			IaS3.bug(e, "Worldgen failure on "+dim.name());
 		}
 		chunk.setStatus(ChunkStatus.FULLCHUNK);
 	}

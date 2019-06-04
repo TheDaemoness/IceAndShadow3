@@ -1,7 +1,9 @@
 package mod.iceandshadow3.gen
 
 import mod.iceandshadow3.compat.block.BBlockType
+import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 
 abstract class BChunkSource(xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int) {
-	def getBlock(x: Int, y: Int, z: Int): BBlockType
+	def getColumn(x: Int, z: Int): Array[BBlockType]
+	def getDefaultAir(y: Int): BBlockType = BlockTypeSimple.AIR
 }
