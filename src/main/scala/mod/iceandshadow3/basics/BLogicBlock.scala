@@ -1,9 +1,12 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.compat.block.{BCompatLogicBlock, BMateria}
+import mod.iceandshadow3.compat.block.{BCompatLogicBlock, BMateria, BinderBlock}
 
-sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria) extends BCompatLogicBlock(dom, name, mat) {
-	dom.add(this)
+sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
+	extends BCompatLogicBlock(dom, name, mat)
+	with BinderBlock.TKey
+{
+	BinderBlock.add(this)
 }
 
 abstract class BLogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {

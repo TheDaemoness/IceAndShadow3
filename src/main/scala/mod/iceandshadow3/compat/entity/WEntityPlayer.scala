@@ -14,7 +14,7 @@ import net.minecraft.util.text.TextComponentTranslation
 import scala.collection.JavaConverters._
 
 //TODO: Manually generated class stub.
-class WRefPlayer protected[entity](protected[compat] val player: EntityPlayer) extends WRefLiving(player) {
+class WEntityPlayer protected[entity](protected[compat] val player: EntityPlayer) extends WEntityLiving(player) {
 	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f
 	def deshield(force: Boolean = true): Unit = player.disableShield(force)
 	def bed: IVec3 = player.bedLocation

@@ -7,7 +7,7 @@ import mod.iceandshadow3.util.{IteratorEmpty, IteratorConcat}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 
-class WRefLiving protected[entity](protected[compat] val living: EntityLivingBase) extends WEntity(living) {
+class WEntityLiving protected[entity](protected[compat] val living: EntityLivingBase) extends WEntity(living) {
   def sneaking = living.isSneaking
   def sprinting = living.isSprinting
   def hp: Float = living.getHealth

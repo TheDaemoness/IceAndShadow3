@@ -2,19 +2,21 @@ package mod.iceandshadow3.basics
 
 import mod.iceandshadow3.basics.item.BItemProperty
 import mod.iceandshadow3.compat.WNbtTree
-import mod.iceandshadow3.compat.entity.WRefPlayer
+import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.compat.item._
 import mod.iceandshadow3.forge.fish.IEventFishOwner
 import mod.iceandshadow3.util.E3vl
 
-sealed abstract class BLogicItem(dom: BDomain, name: String) extends BCompatLogicItem(dom, name) with IEventFishOwner  {
-	dom.add(this)
+sealed abstract class BLogicItem(dom: BDomain, name: String)
+	extends BCompatLogicItem(dom, name)
+	with IEventFishOwner
+	with BinderItem.TKey
+{
+	BinderItem.add(this)
+
 	def isShiny(variant: Int, tags: WNbtTree, stack: WRefItem) = false
-	
-	def onUse(variant: Int, state: BStateData, stack: WRefItem, user: WRefPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
-
+	def onUse(variant: Int, state: BStateData, stack: WRefItem, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
-
 	override def getLogic() = this
 }
 

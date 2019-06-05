@@ -10,9 +10,9 @@ object CNVEntity {
 		case elb: EntityLivingBase => wrap(elb)
 		case _ => new WEntity(ent)
 	}
-	implicit def wrap(ent: EntityLivingBase): WRefLiving = ent match {
+	implicit def wrap(ent: EntityLivingBase): WEntityLiving = ent match {
 		case player: EntityPlayer => wrap(player)
-		case _ => new WRefLiving(ent)
+		case _ => new WEntityLiving(ent)
 	}
-	implicit def wrap(ent: EntityPlayer): WRefPlayer = new WRefPlayer(ent)
+	implicit def wrap(ent: EntityPlayer): WEntityPlayer = new WEntityPlayer(ent)
 }

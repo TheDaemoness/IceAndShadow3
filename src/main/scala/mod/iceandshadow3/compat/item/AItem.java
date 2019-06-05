@@ -7,7 +7,7 @@ import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.ILogicItemProvider;
 import mod.iceandshadow3.compat.WNbtTree;
 import mod.iceandshadow3.compat.entity.CNVEntity;
-import mod.iceandshadow3.compat.entity.WRefPlayer;
+import mod.iceandshadow3.compat.entity.WEntityPlayer;
 import mod.iceandshadow3.compat.world.WWorld;
 import mod.iceandshadow3.util.E3vl;
 import net.minecraft.entity.EntityLivingBase;
@@ -76,7 +76,7 @@ public class AItem extends Item implements ILogicItemProvider {
 		final boolean mainhand = handIn == EnumHand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final WRefItem wri = new WRefItem(is, playerIn);
-		final WRefPlayer plai = CNVEntity.wrap(playerIn);
+		final WEntityPlayer plai = CNVEntity.wrap(playerIn);
 		final E3vl result = logic.onUse(variant, wri.exposeStateData(getLogicPair()), wri, plai, mainhand);
 		return new ActionResult<>(toEActionResult(result), wri.exposeItems());
 	}

@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.item
 
 import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
-import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WRefLiving}
+import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityLiving}
 import mod.iceandshadow3.compat.{BWRef, ILogicItemProvider, SRandom}
 import mod.iceandshadow3.util.SCaster._
 import net.minecraft.entity.EntityLivingBase
@@ -29,7 +29,7 @@ class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 	def count: Int = is.fold(0){_.getCount}
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
 	def hasOwner: Boolean = owner != null
-	def getOwner: WRefLiving = if(hasOwner) CNVEntity.wrap(owner) else null
+	def getOwner: WEntityLiving = if(hasOwner) CNVEntity.wrap(owner) else null
 	def canDamage: Boolean = is.fold(false){_.isDamageable}
 	def isDamaged: Boolean = is.fold(false){_.isDamaged}
 	def getDamage: Int = is.fold(0){_.getDamage}
@@ -50,7 +50,7 @@ class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 		{is = Option(alternate.is.fold[ItemStack](null){_.copy}); this}
 	def changeCount(newcount: Int): WRefItem =
 		{is.foreach(is => {if(is.isStackable) is.setCount(Math.min(countMax,newcount))}); this}
-	def changeOwner(who: WRefLiving): WRefItem =
+	def changeOwner(who: WEntityLiving): WRefItem =
 		{owner = who.living; this}
 
 	//TODO: Enchantment querying.
@@ -115,7 +115,7 @@ object WRefItem {
 	def make(id: String): WRefItem =
 		new WRefItem(CNVItem.newItemStack(id), null)
 	def make(logic: BLogicItem, variant: Int): WRefItem = {
-		val item: Item = logic.secrets.get(variant).asInstanceOf[Item]
+		val item: Item = BinderItem(logic)(variant).asInstanceOf[Item]
 		if(item == null) new WRefItem() else new WRefItem(item, null)
 	}
 }

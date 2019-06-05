@@ -1,7 +1,7 @@
 package mod.iceandshadow3.forge.handlers
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WRefPlayer}
+import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityPlayer}
 import mod.iceandshadow3.compat.item.WRefItem
 import mod.iceandshadow3.compat.CNVVec3._
 import mod.iceandshadow3.compat.dimension.WDimensionCoord
@@ -18,7 +18,7 @@ class EventHandlerWayfinderGiver extends BEventHandler {
 			val who = CNVEntity.wrap(placeevent.getEntity)
 			if(who.isClientSide) return
 			who match {
-				case player: WRefPlayer =>
+				case player: WEntityPlayer =>
 					val dim = player.dimensionCoord
 					val mayGiveEarly = IaS3.getCfgServer.early_wayfinder.get && !player.dimension.canRespawnHere
 					if(dim == WDimensionCoord.END || mayGiveEarly) {

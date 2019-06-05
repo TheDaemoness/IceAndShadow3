@@ -14,8 +14,4 @@ abstract class BLogic(protected val domain: BDomain, protected val name: String)
 		val fishtype = classTag[T].runtimeClass
 		if (fishtype.isAssignableFrom(this.getClass)) Some(fishtype.cast(this).asInstanceOf[T]) else None
 	}
-
-	private[compat] var secrets: SecretsLogic[_ <: TLogic, _] = _
-	private[compat] def getSecrets[McType <: Object] =
-		secrets.asInstanceOf[SecretsLogic[this.type,McType]]
 }

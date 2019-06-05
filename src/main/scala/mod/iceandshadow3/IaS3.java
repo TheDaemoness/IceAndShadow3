@@ -1,7 +1,5 @@
 package mod.iceandshadow3;
 
-import mod.iceandshadow3.compat.block.WRegistryBlock;
-import mod.iceandshadow3.compat.item.WRegistryItem;
 import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.SEventFisherman$;
@@ -83,11 +81,11 @@ public class IaS3 {
 	public static class RegistryEvents {
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> reg) {
-			Multiverse.registerBlocks(new WRegistryBlock(reg.getRegistry()));
+			Multiverse.registerBlocks(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
-			Multiverse.registerItems(new WRegistryItem(reg.getRegistry()));
+			Multiverse.registerItems(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {

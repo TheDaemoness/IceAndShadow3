@@ -6,7 +6,7 @@ import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.basics.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.compat.WNbtTree
 import mod.iceandshadow3.compat.dimension.WDimensionCoord
-import mod.iceandshadow3.compat.entity.{WRefLiving, WRefPlayer}
+import mod.iceandshadow3.compat.entity.{WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.compat.item.WRefItem
 import mod.iceandshadow3.compat.world.{TWWorld, WSound}
 import mod.iceandshadow3.data._
@@ -22,7 +22,7 @@ sealed class SIWayfinder extends BStateData {
 	register("positions", positions)
 }
 sealed abstract class BItemPropertyDelta(logic: BLogicItemComplex) extends BItemProperty(logic) {
-	def evaluate(owner: WRefLiving, point: Option[IVec3]): Float
+	def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float
 	override def call(item: WRefItem, world: TWWorld): Float = {
 		if(!item.hasOwner) return 0f
 		val owner = item.getOwner
@@ -34,7 +34,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	with IEventFishOwnerDeath
 	with IEventFishOwnerToss
 {
-	protected def getDefaultCoord(who: WRefLiving): IVec3 =
+	protected def getDefaultCoord(who: WEntityLiving): IVec3 =
 		who.home(who.dimension).getOrElse(who.position)
 
 	override type StateDataType = SIWayfinder
@@ -43,7 +43,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	override def isShiny(variant: Int, tags: WNbtTree, stack: WRefItem) =
 		tags.chroot(IaS3.MODID).getLong("charged") > 0
 		
-	override def onUse(variant: Int, state: BStateData, stack: WRefItem, user: WRefPlayer, mainhand: Boolean): E3vl = {
+	override def onUse(variant: Int, state: BStateData, stack: WRefItem, user: WEntityPlayer, mainhand: Boolean): E3vl = {
 		val wayfinderstate = state.asInstanceOf[SIWayfinder]
 		stack.forStateData(wayfinderstate, ()=>{
 			if (!mainhand) {
@@ -81,7 +81,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 				if (where != null) {
 					owner.teleport(where)
 					owner match {
-						case player: WRefPlayer => player.advancement("vanilla_wayfinder_save")
+						case player: WEntityPlayer => player.advancement("vanilla_wayfinder_save")
 						case _ =>
 					}
 					item.getOwner.playSound(WSound.lookup(
@@ -106,7 +106,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			if (preventDeath) {
 				val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
 				owner match {
-					case player: WRefPlayer =>
+					case player: WEntityPlayer =>
 						player.advancement("vanilla_outworlder")
 						player.advancement(if(areweinnyx) "nyx_escape" else "nyx_root")
 						//TODO: The nyx root advancement should not have to be manually triggered.
@@ -139,14 +139,14 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		},
 		new BItemPropertyDelta(this) {
 			override def name = "blink"
-			override def evaluate(owner: WRefLiving, point: Option[IVec3]): Float = {
+			override def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) (1+(owner.gameTime & 31))/32f
 				else 0f
 			}
 		},
 		new BItemPropertyDelta(this) {
 			override def name = "hotness"
-			override def evaluate(owner: WRefLiving, point: Option[IVec3]): Float = {
+			override def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) 0f
 				else {
 					def angle = owner.facingH.angle(owner.position.delta(point.get))/Math.PI
