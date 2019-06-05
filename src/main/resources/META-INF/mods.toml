@@ -1,18 +1,18 @@
 modLoader="javafml"
 loaderVersion="[@forge@,)"
 issueTrackerURL="https://github.com/TheDaemoness/IceAndShadow3/issues"
+logoFile="ias3logo.png"
 
 [[mods]]
 modId="iceandshadow3"
 version="@version@"
-displayName="Ice And Shadow III"
+displayName="Ice and Shadow III"
 updateJSONURL="https://raw.githubusercontent.com/TheDaemoness/IceAndShadow3/master/update.json"
 displayURL="https://github.com/TheDaemoness/IceAndShadow3"
-#logoFile="ias3icon.png"
 #credits="Caffeine"
 authors="TheDaemoness"
 description='''
-A brutal post-endgame world for Minecraft.
+A brutal post-endgame dimension.
 '''
 
 [[dependencies.iceandshadow3]]

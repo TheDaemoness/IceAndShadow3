@@ -57,7 +57,8 @@ public class AModDimension extends ModDimension {
 
 		@Override
 		protected void init() {
-			this.hasSkyLight = dimlogic.hasSkyLight();
+			this.hasSkyLight = dimlogic.getSkyBrightness(0f) >= 0f;
+			this.world.setSkylightSubtracted(world.calculateSkylightSubtracted(1.0f));
 		}
 
 		@Nonnull
@@ -129,6 +130,17 @@ public class AModDimension extends ModDimension {
 				@Override
 				public long zBlock() {return z;}
 			});
+		}
+
+		@Override
+		public float getSunBrightnessFactor(float partialTicks) {
+			return dimlogic.getSkyBrightness(partialTicks);
+		}
+
+		@OnlyIn(Dist.CLIENT)
+		@Override
+		public float getSunBrightness(float partialTicks) {
+			return dimlogic.getSkyBrightness(partialTicks);
 		}
 
 		@Nonnull

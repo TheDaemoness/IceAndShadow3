@@ -16,7 +16,7 @@ abstract class BDimension(val name: String) extends BBiome {
 	def coord = _coord
 	def coord_= (where: WDimensionCoord): Unit = {_coord = where; isEnabled = true;}
 
-	def hasSkyLight: Boolean
+	def getSkyBrightness(partialTicks: Float): Float
 	def getWorldSpawn: IVec3
 	def findSpawn(where: IPosChunk, check: Boolean): IVec3
 	def cloudLevel: Float
@@ -28,6 +28,9 @@ abstract class BDimension(val name: String) extends BBiome {
 
 	def defaultLand(): BlockTypeSimple
 	def defaultSea(): BlockTypeSimple
+
+	override def baseAltitude = seaLevel/128f
+	override def baseHilliness = (peakLevel/seaLevel)/128f
 
 	def placeVisitor(world: WWorld, who: WEntity, yaw: Float)
 

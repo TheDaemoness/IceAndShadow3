@@ -17,7 +17,7 @@ class WWorld(private[compat] val worldobj: World) extends TWWorld {
 			val z = where.zBlock.toInt
 			if(chunk.getBlockState(x, y, z).isSolid) return Some(CNVVec3.fromBlockPos(new BlockPos(x, y, z)))
 		}
-		return None
+		None
 	}
 	def seed = worldobj.getWorldInfo.getSeed
 	def isHardcore = worldobj.getWorldInfo.isHardcore

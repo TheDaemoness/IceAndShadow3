@@ -9,11 +9,11 @@ import mod.iceandshadow3.util.Color
 import mod.iceandshadow3.world.dim_nyx.WorldSourceNyx
 
 object DimensionNyx extends BDimension("nyx") {
-	override def hasSkyLight = false //TODO: Dim light.
+	override def getSkyBrightness(partialTicks: Float) = 0.15f
 	override def getWorldSpawn = new Vec3Fixed(0, 64, 0)
 	override def findSpawn(where: IPosChunk, check: Boolean) = null
 	override def cloudLevel = 192f
-	override def seaLevel = 32
+	override def seaLevel = 8
 
 	override def hasFogAt(where: IPosColumn) = true
 	override def skyAngle(worldTime: Long, partialTicks: Float) = 0
@@ -23,8 +23,6 @@ object DimensionNyx extends BDimension("nyx") {
 
 	override def baseDownfall = 0f
 	override def baseTemperature = 0f
-	override def baseAltitude = 1.0F
-	override def baseHilliness = 2.5F
 
 	override def placeVisitor(here: WWorld, who: WEntity, yaw: Float): Unit = {
 		//TODO: Bit shoddy. Come up with something better.
