@@ -1,8 +1,8 @@
 package mod.iceandshadow3.basics
 
 import mod.iceandshadow3.Multiverse
-import mod.iceandshadow3.basics.damage.EDeathPolicy
 import mod.iceandshadow3.compat.item.WRarity
+import mod.iceandshadow3.damage.EDeathPolicy
 
 /** A collection of lore-related blocks/items/mobs/etc.
 	* Every BLogic subtype eventually gets instantiated in and attached to one of these.

@@ -1,10 +1,12 @@
 package mod.iceandshadow3;
 
+import mod.iceandshadow3.compat.entity.Statuses$;
 import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.SEventFisherman$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -50,7 +52,8 @@ public class IaS3 {
 		bus.addListener(this::processIMC);
 
 		MinecraftForge.EVENT_BUS.register(this);
-		
+
+		Statuses$.MODULE$.addVanillaEffects();
 		Multiverse.initEarly();
 	}
 
@@ -86,6 +89,10 @@ public class IaS3 {
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
 			Multiverse.registerItems(reg.getRegistry());
+		}
+		@SubscribeEvent
+		public static void registerPots(final RegistryEvent.Register<Potion> reg) {
+			Multiverse.registerPots(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {

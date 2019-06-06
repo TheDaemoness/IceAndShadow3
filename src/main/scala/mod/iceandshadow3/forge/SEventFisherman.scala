@@ -12,7 +12,8 @@ object SEventFisherman {
   private val eventClasses: Set[Class[_ <: BEventHandler]] = Set(
     classOf[EventBaitOwnerDeath],
     classOf[EventBaitOwnerToss],
-    classOf[EventHandlerWayfinderGiver]
+    classOf[EventHandlerEnderChest],
+    classOf[EventHandlerNyx]
   )
   var triggered = false
   def baitHooks(): Unit = {

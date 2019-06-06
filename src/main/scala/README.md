@@ -70,11 +70,6 @@ Java: an `interface`. Note that IaS3's Java portions are in Java 8.
 
 Scala: an unsealed `trait` that could be losslessly translated to a Java 8 interface.
 
-### "S" - Singleton/Static
-Java: a singleton OR a class whose only purpose is to group together static methods or constants.
-
-Scala: a non-package non-companion `object` that contains no implicit conversions.
-
 ### "T" - Trait
 Always written in Scala. A trait that does NOT fit the criteria for the `I` prefix. Often a mixin.
 

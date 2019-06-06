@@ -79,7 +79,9 @@ public final class Multiverse {
 		for(AModDimension dim : dimensions) reg.register(dim.dimbiome);
 	}
 	static void registerPots(IForgeRegistry<Potion> reg) {
-		for(AStatusEffect fx : BinderStatusEffect$.MODULE$.freeze()) reg.register(fx);
+		for(Potion fx : BinderStatusEffect$.MODULE$.freeze()) {
+			if(fx instanceof AStatusEffect) reg.register(fx);
+		}
 	}
 
 	static void enableDimensions() {

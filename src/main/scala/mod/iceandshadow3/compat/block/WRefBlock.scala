@@ -1,9 +1,9 @@
 package mod.iceandshadow3.compat.block
 
-import mod.iceandshadow3.basics.damage.Damage
 import mod.iceandshadow3.compat.CNVVec3
 import mod.iceandshadow3.compat.entity.TEffectSource
 import mod.iceandshadow3.compat.world.TWWorldPlace
+import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.spatial.{IPositional, IVec3}
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.BlockPos
@@ -70,7 +70,7 @@ class CRefBlock(private val impl: Impl) extends TWWorldPlace with TEffectSource 
 	override def getNameTextComponent: ITextComponent =
 		impl.exposeBS().getBlock.getNameTextComponent
 
-	override def getAttack: Damage = null
+	override def getAttack: Attack = null
 	
 	override def position = CNVVec3.fromBlockPos(impl.pos)
 }

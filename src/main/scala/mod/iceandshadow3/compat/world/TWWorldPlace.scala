@@ -16,4 +16,8 @@ trait TWWorldPlace extends TWWorld {
 
   def playSound(sound: WSound, volume: Float, freqshift: Float): Unit =
     sound.play(this, this.position, volume, freqshift)
+
+  def getShadowPresence: Float = {
+    1f-Math.max(sunlight, blocklight)/15f
+  }
 }

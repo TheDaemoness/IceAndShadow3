@@ -11,7 +11,7 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
 		this: KeyType =>
 		private[Binder] var binderIndex: Int = -1
 	}
-	final def freeze(): Array[ValueType] = {
+	def freeze(): Array[ValueType] = {
 		immutable = mutable.toArray[ValueType]
 		mutable = null
 		immutable

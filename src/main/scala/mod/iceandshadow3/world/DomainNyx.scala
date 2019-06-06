@@ -3,7 +3,7 @@ package mod.iceandshadow3.world
 import mod.iceandshadow3.basics.BDomain
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.compat.world.WSound
-import mod.iceandshadow3.world.nyx.LIWayfinder
+import mod.iceandshadow3.world.nyx._
 
 object DomainNyx extends BDomain("nyx") {
 	val li_wayfinder = new LIWayfinder

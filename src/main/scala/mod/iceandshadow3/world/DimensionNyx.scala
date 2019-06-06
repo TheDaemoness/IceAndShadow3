@@ -9,7 +9,7 @@ import mod.iceandshadow3.util.Color
 import mod.iceandshadow3.world.dim_nyx.WorldSourceNyx
 
 object DimensionNyx extends BDimension("nyx") {
-	override def getSkyBrightness(partialTicks: Float) = 0.15f
+	override def getSkyBrightness(partialTicks: Float) = 0.05f
 	override def getWorldSpawn = new Vec3Fixed(0, 64, 0)
 	override def findSpawn(where: IPosChunk, check: Boolean) = null
 	override def cloudLevel = 192f
@@ -34,4 +34,13 @@ object DimensionNyx extends BDimension("nyx") {
 	}
 
 	override def getWorldSource(seed: Long) = new WorldSourceNyx(seed)
+
+	override def brightnessTable(lightBrightnessTable: Array[Float]): Unit = {
+		for(i <- lightBrightnessTable.indices) {
+			val sub = 1.0F - i / 15.0F
+			lightBrightnessTable(i) = (1.0F - sub) / (3*sub + 1.0F)
+		}
+	}
+
+
 }

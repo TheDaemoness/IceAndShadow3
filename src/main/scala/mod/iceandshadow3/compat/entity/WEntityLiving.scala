@@ -1,11 +1,13 @@
 package mod.iceandshadow3.compat.entity
 
+import mod.iceandshadow3.basics.StatusEffect
 import mod.iceandshadow3.compat.dimension.WDimension
 import mod.iceandshadow3.compat.item.WRefItem
 import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
-import mod.iceandshadow3.util.{IteratorEmpty, IteratorConcat}
+import mod.iceandshadow3.util.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
+import net.minecraft.potion.{Potion, PotionEffect}
 
 class WEntityLiving protected[entity](protected[compat] val living: EntityLivingBase) extends WEntity(living) {
   def sneaking = living.isSneaking
@@ -66,4 +68,9 @@ class WEntityLiving protected[entity](protected[compat] val living: EntityLiving
   def itemsStashed(): Iterator[WRefItem] =
     new IteratorConcat((is: ItemStack) => {new WRefItem(is, living)}, new IteratorEmpty[ItemStack])
   override def items(): Iterator[WRefItem] = itemsEquipped()
+
+  def setStatus(status: StatusEffect, ticks: Int, amp: Int = 1): Unit = if(isServerSide) {
+    if(amp <= 0) living.removePotionEffect(BinderStatusEffect(status))
+    else living.addPotionEffect(new PotionEffect(BinderStatusEffect(status), ticks, amp-1))
+  }
 }

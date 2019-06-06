@@ -1,42 +1,65 @@
 package mod.iceandshadow3.compat.entity;
 
-import mod.iceandshadow3.basics.damage.Damage;
-import mod.iceandshadow3.basics.damage.DamageForm;
+import mod.iceandshadow3.IaS3;
+import mod.iceandshadow3.damage.Attack;
+import mod.iceandshadow3.damage.AttackForm;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Damage source.
- * TODO: Split away the IaS additions into a new class that constructs one of these.
  */
 public class ADamageSource extends DamageSource {
+
+	private final TEffectSource source;
+	private final Attack attack;
 	
-	public static float resistCalc(float damage, float armor, float toughness) {
-		return Math.max(0, damage - armor)/(1+toughness+armor/2);
-	}
-	
-	private final Damage damage;
-	
-	public ADamageSource(final Damage dmg) {
-		super("ias3damage");
+	public ADamageSource(final Attack dmg, final TEffectSource source) {
+		super(dmg.name());
+		this.source = source;
 		this.setDamageIsAbsolute().setDamageBypassesArmor();
-		damage = dmg;
-		DamageForm f = damage.getForm();
+		attack = dmg;
+		AttackForm f = attack.form();
 		if(f.isProjectile()) this.setProjectile();
-		if(f.isBlast()) this.setExplosion();
 		if(f.isMystic()) this.setMagicDamage();
 	}
+	public ADamageSource(final Attack dmg) {
+		this(dmg, null);
+	}
 
-	public Damage getIaSDamage() {return damage;}
+	public Attack getAdsAttack() {return attack;}
 
+	@Nonnull
 	@Override
 	public ITextComponent getDeathMessage(EntityLivingBase elb) {
-        String s = "death.attack." + this.damageType;
-        String s1 = s + ".player";
-        //if(I18n.canTranslate(s1)) {
-        	return new TextComponentTranslation(s1, elb.getDisplayName(), damage.getSource().getNameTextComponent());
-        //} else return new TextComponentTranslation(s, elb.getDisplayName());
+     String s = "death."+IaS3.MODID+'.'+ attack.name();
+		if(source != null) return new TextComponentTranslation(
+			s+".attacker",
+			elb.getDisplayName(),
+			source.getNameTextComponent()
+		);
+		else return new TextComponentTranslation(s, elb.getDisplayName());
+	}
+
+	@Nullable
+	@Override
+	public Entity getImmediateSource() {
+		return (source == null)?null:source.getEffectSourceEntity();
+	}
+
+	@Nullable
+	@Override
+	public Entity getTrueSource() {
+		Entity truesource = null;
+		for(TEffectSource it = source; it != null; it = it.getMaster()) {
+			truesource = it.getEffectSourceEntity();
+		}
+		return truesource;
 	}
 }

@@ -11,7 +11,7 @@ import net.minecraft.init.Blocks
 import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
-class EventHandlerWayfinderGiver extends BEventHandler {
+class EventHandlerEnderChest extends BEventHandler {
 	@SubscribeEvent
 	def onPlaceChest(placeevent: EntityPlaceEvent): Unit = {
 		if(placeevent.getPlacedBlock.getBlock == Blocks.ENDER_CHEST) {

@@ -18,7 +18,7 @@ object ChunkSourceNyx {
 class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int)
 	extends BChunkSource(xFrom, zFrom, xWidth, zWidth)
 {
-	val yBald = 184
+	val yBald = 188
 	val yThinning = 176
 	val yFull = 168
 	val yCaveMax = 180

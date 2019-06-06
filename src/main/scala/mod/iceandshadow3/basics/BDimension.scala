@@ -35,4 +35,6 @@ abstract class BDimension(val name: String) extends BBiome {
 	def placeVisitor(world: WWorld, who: WEntity, yaw: Float)
 
 	def getWorldSource(seed: Long): BWorldSource
+
+	def brightnessTable(lightBrightnessTable: Array[Float]): Unit
 }

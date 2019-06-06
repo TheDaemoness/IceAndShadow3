@@ -1,4 +1,4 @@
-package mod.iceandshadow3.basics.damage;
+package mod.iceandshadow3.damage;
 
 import mod.iceandshadow3.util.SMath$;
 
