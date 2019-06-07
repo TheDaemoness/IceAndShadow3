@@ -9,8 +9,6 @@ Items, blocks, mobs, and more all go into subpackages here.
 
 Remember to add both to `iceandshadow3.Multiverse`!
 
-The `S` prefix may be freely omitted here.
-
 ## Type Name Prefixes
 
 The following rules apply to subpackages. 

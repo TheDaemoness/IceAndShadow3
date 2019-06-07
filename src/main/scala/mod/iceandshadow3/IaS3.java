@@ -3,7 +3,7 @@ package mod.iceandshadow3;
 import mod.iceandshadow3.compat.entity.Statuses$;
 import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
-import mod.iceandshadow3.forge.SEventFisherman$;
+import mod.iceandshadow3.forge.EventFisherman$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -63,7 +63,7 @@ public class IaS3 {
 	
 	private void initCommon(final FMLCommonSetupEvent event) {
 		Multiverse.initLate();
-		SEventFisherman$.MODULE$.baitHooks();
+		EventFisherman$.MODULE$.baitHooks();
 		getCfgServer();
 	}
 

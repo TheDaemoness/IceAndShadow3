@@ -148,6 +148,14 @@ public class AModDimension extends ModDimension {
 			dimlogic.brightnessTable(lightBrightnessTable);
 		}
 
+		@Override
+		public void getLightmapColors(float partTicks, float sunLuma, float skyLight, float blockLight, float[] colors) {
+			final Color result = dimlogic.modifyLightmap(skyLight, blockLight, new Color(colors[0], colors[1], colors[2]));
+			colors[0] = result.red();
+			colors[1] = result.green();
+			colors[2] = result.blue();
+		}
+
 		@Nonnull
 		@Override
 		public DimensionType getType() {

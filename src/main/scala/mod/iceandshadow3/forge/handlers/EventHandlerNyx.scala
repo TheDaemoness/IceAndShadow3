@@ -3,7 +3,7 @@ package mod.iceandshadow3.forge.handlers
 import mod.iceandshadow3.compat.entity.{CNVEntity, Statuses}
 import mod.iceandshadow3.compat.item.WRefItem
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
-import mod.iceandshadow3.util.SMath
+import mod.iceandshadow3.util.MathUtils
 import mod.iceandshadow3.world.{DimensionNyx, DomainNyx}
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -28,7 +28,7 @@ class EventHandlerNyx extends BEventHandler {
 		val height = who.position.yBlock
 		if(height >= 192) {
 			who.setStatus(Statuses.frost, 95)
-			who.damage(placesHighAttack, 4f-SMath.attenuateThrough(192, height, 255)*3)
+			who.damage(placesHighAttack, 4f-MathUtils.attenuateThrough(192, height, 255)*3)
 		}
 	}
 }

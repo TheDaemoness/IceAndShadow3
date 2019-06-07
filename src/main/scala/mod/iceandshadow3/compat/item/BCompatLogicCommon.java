@@ -17,7 +17,7 @@ public abstract class BCompatLogicCommon extends BLogic {
 		final Item.Properties retval = new Item.Properties();
 		retval.maxStackSize(this.stackLimit(variant));
 		retval.rarity(getDomain().tierToRarity(getTier(variant)).rarity);
-		if(!isTechnical(variant)) retval.group(SCreativeTab$.MODULE$);
+		if(!isTechnical(variant)) retval.group(CreativeTab$.MODULE$);
 		return retval;
 	}
 }

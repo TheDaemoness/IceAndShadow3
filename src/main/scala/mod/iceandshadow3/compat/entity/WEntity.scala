@@ -12,7 +12,7 @@ import mod.iceandshadow3.spatial.{IPositional, IVec3}
 import mod.iceandshadow3.util.IteratorEmpty
 import net.minecraft.entity.Entity
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.world.Teleporter
+import net.minecraft.world.{EnumLightType, Teleporter}
 import net.minecraftforge.common.DimensionManager
 
 class WEntity protected[entity](protected[compat] val entity: Entity)
@@ -20,6 +20,7 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 		with TEffectSource
 		with IPositional {
 	override def getEffectSourceEntity: Entity = entity
+	override def sunlight: Int = exposeWorld().getLightFor(EnumLightType.SKY, CNVVec3.toBlockPos(position).add(0,1,0))
 
 	override def getNameTextComponent: ITextComponent = entity.getDisplayName
 

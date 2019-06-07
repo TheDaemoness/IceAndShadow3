@@ -4,8 +4,6 @@ Contains `IceAndShadow3`.
 
 Otherwise, contains types and pure-static classes/singletons that are immediately relevant to the overall initialization/configuration of IaS3.
 
-The `S` prefix can be freely omitted here.
-
 Classes in this package (but NOT subpackages) may freely use (but not inherit from) otherwise restricted types.
 
 ## Altering the Configuration Files

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.spatial
 
-object SUnitVec3s {
+object UnitVec3s {
 	val ZERO: IVec3 = new Vec3Fixed(0, 0, 0)
 	// Unit vectors.
 	val U: IVec3 = new Vec3Fixed(0, 1, 0)

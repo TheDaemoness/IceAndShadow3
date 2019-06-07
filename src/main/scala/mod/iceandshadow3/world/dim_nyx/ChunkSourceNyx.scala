@@ -7,7 +7,7 @@ import mod.iceandshadow3.compat.block.BBlockType
 import mod.iceandshadow3.compat.block.`type`.{BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.gen.{BChunkSource, Cellmaker, TerrainMap}
 import mod.iceandshadow3.spatial.RandomXZ
-import mod.iceandshadow3.util.SMath
+import mod.iceandshadow3.util.MathUtils
 import mod.iceandshadow3.world.DomainGaia
 
 object ChunkSourceNyx {
@@ -33,15 +33,15 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 			cratervalue *= Math.cbrt(cratervalue)/(4-ridgescale)
 			val mountainvalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerMountain(x,z)(0)*Math.PI)))/2
 			val ridgevalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerRidge(x,z)(0)*Math.PI)))/2
-			var hillvalue = SMath.sinelike(1-noisemakerHills(x,z)(0))
+			var hillvalue = MathUtils.sinelike(1-noisemakerHills(x,z)(0))
 			hillvalue *= hillvalue
 			val retval =
 				if(islevalue <= 0.15) 0
 				else {
 					val tuner = if(islevalue <= 0.3) (islevalue-0.2)*10 else 1d
 					val totalmountainvalue = (ridgevalue+mountainvalue)*tuner*(1+islevalue)+hillvalue
-					val base = 1.5+SMath.sinelike(islevalue)+totalmountainvalue+cratervalue
-					if(islevalue <= 0.2) base*SMath.sinelike((islevalue-0.15)*20)
+					val base = 1.5+MathUtils.sinelike(islevalue)+totalmountainvalue+cratervalue
+					if(islevalue <= 0.2) base*MathUtils.sinelike((islevalue-0.15)*20)
 					else base
 				}
 			retval.toFloat
@@ -67,7 +67,7 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 			val delta = finalheight-y
 			if(y == 0) ChunkSourceNyx.bedrock
 			else if(finalheight < 48) null
-			else if(y < yCaveMax && caves(y) > (1-SMath.attenuateThrough(yFull, y, yCaveMax)*0.25)) null
+			else if(y < yCaveMax && caves(y) > (1-MathUtils.attenuateThrough(yFull, y, yCaveMax)*0.25)) null
 			else if(delta > 2) {
 				if(y<=11+navistraNoise && (y <= 1+navistraNoise || finalheight <= 64 || caves(y) > 0.4)) {
 					ChunkSourceNyx.navistra
@@ -77,7 +77,7 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 			else if(delta > 1) {
 				if(finalheight <= yThinning) BlockTypeSnow.SNOWS.last
 				else {
-					val snowmod = SMath.attenuateThrough(yThinning, y, yBald)
+					val snowmod = MathUtils.attenuateThrough(yThinning, y, yBald)
 					if(snowmod != 0) BlockTypeSnow.fromFloat(snowmod) else null
 				}
 			} else null
@@ -87,7 +87,7 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 			val y = -yminus
 			if (retval(y - 1) != null) {
 				val delta = finalheight - y
-				val snowmod = SMath.attenuateThrough(yFull, y, yThinning)
+				val snowmod = MathUtils.attenuateThrough(yFull, y, yThinning)
 				retval(y) = if (snowmod != 0) {
 					val snowdelta = if (smoothsnow) delta else if (delta > 2f / 3) 5d / 7 else 1d / 7
 					BlockTypeSnow.fromFloat(snowmod * snowdelta)

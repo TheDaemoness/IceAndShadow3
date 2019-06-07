@@ -4,7 +4,7 @@ import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityLiving}
 import mod.iceandshadow3.compat.{BWRef, ILogicItemProvider, SRandom}
-import mod.iceandshadow3.util.SCaster._
+import mod.iceandshadow3.util.Casting._
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
 import net.minecraft.inventory.IInventory

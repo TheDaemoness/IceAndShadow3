@@ -3,7 +3,7 @@ package mod.iceandshadow3.util;
 /** Utility functions for using the bits (esp. the sign bit) on a long integer for
  * something else.
  */
-public class SIntBits {
+public class IntBitUtils {
 	public static boolean areAllSet(long value, long bitmask) {
 		return (value & bitmask) == bitmask;
 	}

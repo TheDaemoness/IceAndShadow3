@@ -7,7 +7,7 @@ import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.util.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
-import net.minecraft.potion.{Potion, PotionEffect}
+import net.minecraft.potion.PotionEffect
 
 class WEntityLiving protected[entity](protected[compat] val living: EntityLivingBase) extends WEntity(living) {
   def sneaking = living.isSneaking
@@ -50,7 +50,7 @@ class WEntityLiving protected[entity](protected[compat] val living: EntityLiving
   def visibleTo(who: WEntity): Boolean = living.canEntityBeSeen(who.entity)
   def equipment(where: EquipPoint): WRefItem = where.getItem(living)
 
-  def hasIaSArmor: Boolean = false //TODO: IaS3 Armor NYI
+  def usesAds: Boolean = false //TODO: IaS3 Armor NYI
 
   def findItem(itemid: String, restrictToHands: Boolean): WRefItem =
     findItem(WRefItem.make(itemid).changeOwner(this), restrictToHands)
@@ -69,7 +69,7 @@ class WEntityLiving protected[entity](protected[compat] val living: EntityLiving
     new IteratorConcat((is: ItemStack) => {new WRefItem(is, living)}, new IteratorEmpty[ItemStack])
   override def items(): Iterator[WRefItem] = itemsEquipped()
 
-  def setStatus(status: StatusEffect, ticks: Int, amp: Int = 1): Unit = if(isServerSide) {
+  def setStatus(status: StatusEffect, ticks: Int, amp: Int = 1): Unit = {
     if(amp <= 0) living.removePotionEffect(BinderStatusEffect(status))
     else living.addPotionEffect(new PotionEffect(BinderStatusEffect(status), ticks, amp-1))
   }

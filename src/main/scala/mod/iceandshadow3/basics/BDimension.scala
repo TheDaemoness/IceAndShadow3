@@ -37,4 +37,5 @@ abstract class BDimension(val name: String) extends BBiome {
 	def getWorldSource(seed: Long): BWorldSource
 
 	def brightnessTable(lightBrightnessTable: Array[Float]): Unit
+  def modifyLightmap(lightSky: Float, lightBlock: Float, color: Color): Color = color
 }
