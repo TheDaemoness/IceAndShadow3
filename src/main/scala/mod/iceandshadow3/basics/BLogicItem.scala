@@ -14,8 +14,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 {
 	BinderItem.add(this)
 
-	def isShiny(variant: Int, tags: WNbtTree, stack: WRefItem) = false
-	def onUse(variant: Int, state: BStateData, stack: WRefItem, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
+	def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) = false
+	def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
 	override def getLogic() = this
 }

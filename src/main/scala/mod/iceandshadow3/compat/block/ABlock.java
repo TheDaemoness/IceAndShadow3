@@ -8,7 +8,7 @@ import mod.iceandshadow3.basics.block.HarvestMethod$;
 import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.ILogicBlockProvider;
 import mod.iceandshadow3.compat.entity.CNVEntity$;
-import mod.iceandshadow3.compat.item.WRefItem;
+import mod.iceandshadow3.compat.item.WItemStack;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -76,10 +76,10 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	}
 	@Override
 	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
-		final WRefItem[] overrides = logic.harvestOverride(variant, new WRefBlock(world, pos, state), fortune);
+		final WItemStack[] overrides = logic.harvestOverride(variant, new WBlockRef(world, pos, state), fortune);
 		if(overrides != null) {
 			drops.clear();
-			for(WRefItem item : overrides) {
+			for(WItemStack item : overrides) {
 				if(item == null || item.isEmpty()) continue;
 				drops.add(item.exposeItems());
 			}
@@ -112,7 +112,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	@Override
 	public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
-		return logic.canBeAt(new WRefBlock(worldIn, pos), false);
+		return logic.canBeAt(new WBlockView(worldIn, pos), false);
 	}
 
 	@Override
@@ -121,13 +121,13 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		IWorld worldIn, BlockPos currentPos, BlockPos facingPos
 	) {
 		//TODO: BlockType on breakage.
-		return !logic.canBeAt(new WRefBlock(worldIn, currentPos), true) ? Blocks.AIR.getDefaultState() :
+		return !logic.canBeAt(new WBlockView(worldIn, currentPos), true) ? Blocks.AIR.getDefaultState() :
 			super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
 	@Override
 	public void onEntityCollision(IBlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		logic.onInside(new WRefBlock(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
+		logic.onInside(new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
 	}
 
 	@Override

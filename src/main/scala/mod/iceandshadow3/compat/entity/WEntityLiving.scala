@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.basics.StatusEffect
 import mod.iceandshadow3.compat.dimension.WDimension
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.util.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.EntityLivingBase
@@ -43,31 +43,31 @@ class WEntityLiving protected[entity](protected[compat] val living: EntityLiving
     * For players, this is usually the ender chest.
     * For mobs, this may be some kind of loot-collection chest.
     */
-  def saveItem(what: WRefItem): Boolean = false
+  def saveItem(what: WItemStack): Boolean = false
 
   def isCreative = false
 
   def visibleTo(who: WEntity): Boolean = living.canEntityBeSeen(who.entity)
-  def equipment(where: EquipPoint): WRefItem = where.getItem(living)
+  def equipment(where: EquipPoint): WItemStack = where.getItem(living)
 
   def usesAds: Boolean = false //TODO: IaS3 Armor NYI
 
-  def findItem(itemid: String, restrictToHands: Boolean): WRefItem =
-    findItem(WRefItem.make(itemid).changeOwner(this), restrictToHands)
-  def findItem(tofind: WRefItem, restrictToHands: Boolean): WRefItem = {
+  def findItem(itemid: String, restrictToHands: Boolean): WItemStack =
+    findItem(WItemStack.make(itemid).changeOwner(this), restrictToHands)
+  def findItem(tofind: WItemStack, restrictToHands: Boolean): WItemStack = {
     val tosearch = if(restrictToHands) itemsHeld() else items()
-    tosearch.find{tofind.matches}.getOrElse(new WRefItem(null, living))
+    tosearch.find{tofind.matches}.getOrElse(new WItemStack(null, living))
   }
 
-  def itemsWorn(): Iterator[WRefItem] =
-    new IteratorConcat((is: ItemStack) => {new WRefItem(is, living)}, living.getArmorInventoryList.iterator)
-  def itemsHeld(): Iterator[WRefItem] =
-    new IteratorConcat((is: ItemStack) => {new WRefItem(is, living)}, living.getHeldEquipment.iterator)
-  def itemsEquipped(): Iterator[WRefItem] =
-    new IteratorConcat((is: ItemStack) => {new WRefItem(is, living)}, living.getEquipmentAndArmor.iterator)
-  def itemsStashed(): Iterator[WRefItem] =
-    new IteratorConcat((is: ItemStack) => {new WRefItem(is, living)}, new IteratorEmpty[ItemStack])
-  override def items(): Iterator[WRefItem] = itemsEquipped()
+  def itemsWorn(): Iterator[WItemStack] =
+    new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, living.getArmorInventoryList.iterator)
+  def itemsHeld(): Iterator[WItemStack] =
+    new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, living.getHeldEquipment.iterator)
+  def itemsEquipped(): Iterator[WItemStack] =
+    new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, living.getEquipmentAndArmor.iterator)
+  def itemsStashed(): Iterator[WItemStack] =
+    new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, new IteratorEmpty[ItemStack])
+  override def items(): Iterator[WItemStack] = itemsEquipped()
 
   def setStatus(status: StatusEffect, ticks: Int, amp: Int = 1): Unit = if(this.isServerSide) {
     if(amp <= 0) living.removePotionEffect(BinderStatusEffect(status))

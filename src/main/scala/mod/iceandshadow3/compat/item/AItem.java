@@ -40,7 +40,7 @@ public class AItem extends Item implements ILogicItemProvider {
 		return super.hasEffect(stack) || logic.isShiny(
 			variant,
 			new WNbtTree(stack.getTag()),
-			new WRefItem(stack, null)
+			new WItemStack(stack, null)
 		);
 	}
 
@@ -58,7 +58,7 @@ public class AItem extends Item implements ILogicItemProvider {
 				@OnlyIn(Dist.CLIENT)
 				@Override
 				public float call(@Nonnull ItemStack is, @Nullable World world, @Nullable EntityLivingBase owner) {
-					return impl.call(new WRefItem(is, owner), new WWorld(world));
+					return impl.call(new WItemStack(is, owner), new WWorld(world));
 				}
 			});
 		}
@@ -75,7 +75,7 @@ public class AItem extends Item implements ILogicItemProvider {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
 		final boolean mainhand = handIn == EnumHand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
-		final WRefItem wri = new WRefItem(is, playerIn);
+		final WItemStack wri = new WItemStack(is, playerIn);
 		final WEntityPlayer plai = CNVEntity.wrap(playerIn);
 		final E3vl result = logic.onUse(variant, wri.exposeStateData(getLogicPair()), wri, plai, mainhand);
 		return new ActionResult<>(toEActionResult(result), wri.exposeItems());

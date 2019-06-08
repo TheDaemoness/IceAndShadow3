@@ -2,14 +2,14 @@ package mod.iceandshadow3.world.status
 
 import mod.iceandshadow3.basics.BStatusEffect
 import mod.iceandshadow3.compat.entity.WEntityLiving
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold}
 import mod.iceandshadow3.util.{Color, E3vl}
 
 class StatusFrost extends BStatusEffect("frost", E3vl.FALSE, new Color(0x5079ff)) {
 	val damage = new Attack("frostbite", AttackForm.CONDITION, new BDamage with TDmgTypeCold {
 		override def baseDamage = 1f
-		override def onDamage(dmg: Float, dmgResisted: Float, what: WRefItem) = dmgResisted
+		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
 	})
 	override def onStart(who: WEntityLiving, amp: Int): Unit = {}
 	override def shouldTick(duration: Int, amp: Int) = {

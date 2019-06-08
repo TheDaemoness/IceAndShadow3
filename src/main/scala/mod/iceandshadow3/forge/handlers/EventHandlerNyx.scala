@@ -1,7 +1,7 @@
 package mod.iceandshadow3.forge.handlers
 
 import mod.iceandshadow3.compat.entity.{CNVEntity, Statuses}
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
 import mod.iceandshadow3.util.MathUtils
 import mod.iceandshadow3.world.{DimensionNyx, DomainNyx}
@@ -11,11 +11,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 class EventHandlerNyx extends BEventHandler {
 	val placesHighAttack = new Attack("windchill", AttackForm.VOLUME, new BDamage with TDmgTypeCold {
 		override def baseDamage = 1f
-		override def onDamage(dmg: Float, dmgResisted: Float, what: WRefItem) = dmgResisted
+		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
 	})
 	val placesDarkAttack = new Attack("darkness", AttackForm.CURSE, new BDamage with TDmgTypeShadow {
 		override def baseDamage = 4f
-		override def onDamage(dmg: Float, dmgResisted: Float, what: WRefItem) = dmgResisted
+		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
 	})
 	@SubscribeEvent
 	def onPoorInnocentSoulUpdate(victim: LivingUpdateEvent): Unit = {

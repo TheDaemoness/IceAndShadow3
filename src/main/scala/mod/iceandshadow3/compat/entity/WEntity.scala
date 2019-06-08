@@ -4,7 +4,7 @@ import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.compat.CNVVec3
 import mod.iceandshadow3.compat.dimension.WDimensionCoord
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.world.TWWorldPlace
 import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.forge.{TeleporterDeferred, TeleporterExact}
@@ -57,7 +57,7 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 			)
 		)
 
-	def items(): Iterator[WRefItem] = new IteratorEmpty[WRefItem]
+	def items(): Iterator[WItemStack] = new IteratorEmpty[WItemStack]
 
 	def extinguish(): Unit = entity.extinguish()
 

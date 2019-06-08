@@ -6,13 +6,17 @@ import mod.iceandshadow3.compat.world.WSound
 import mod.iceandshadow3.world.nyx._
 
 object DomainNyx extends BDomain("nyx") {
-	val li_wayfinder = new LIWayfinder
-	val li_icicle = new LogicItemMulti(this, "icicle")
-
-	val lb_icicles = new LBIcicle
-
-	val snd_portal_subtle = WSound.addSound(this, "portal_subtle")
-	val snd_arrival = WSound.addSound(this, "arrival")
+	val Blocks = new {
+		val icicles = new LBIcicle
+	}
+	val Items = new {
+		val wayfinder = new LIWayfinder
+		val icicle = new LogicItemMulti(DomainNyx, "icicle")
+	}
+	val Sounds = new {
+		val portal_subtle = WSound.addSound(DomainNyx, "portal_subtle")
+		val arrival = WSound.addSound(DomainNyx, "arrival")
+	}
 
 	override def isHostileTo(other: BDomain): Boolean = other != this
 	override def tierToRarity(tier: Int): WRarity = WRarity.COMMON

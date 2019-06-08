@@ -1,11 +1,11 @@
 package mod.iceandshadow3.damage
 
 import mod.iceandshadow3.compat.entity.WEntityLiving
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 
 
 sealed trait TDmgType {
-	def onDamage(dmg: Float, dmgResisted: Float, what: WRefItem): Float
+	def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack): Float
 	def onDamage(dmg: Float, dmgResisted: Float, who: WEntityLiving): Float = dmgResisted
 	def resistancePotMult(amp: Int): Float = Math.max(0, 1-amp/5f)
 }
@@ -27,7 +27,7 @@ trait TDmgTypeMagic extends TDmgTypeOmni {this: BDamage => override def name = "
 trait TDmgTypeCold extends TDmgTypeOmni {this: BDamage => override def name = "cold"}
 trait TDmgTypeHeat extends TDmgTypeOmni {this: BDamage => override def name = "heat"}
 trait TDmgTypeExousic extends TDmgTypeOmni {this: BDamage => override def name = "exousic"
-	override def onDamage(dmg: Float, dmgResisted: Float, what: WRefItem):Float = {
+	override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack):Float = {
 		what.consume(dmgResisted.toInt)
 		dmgResisted
 	}

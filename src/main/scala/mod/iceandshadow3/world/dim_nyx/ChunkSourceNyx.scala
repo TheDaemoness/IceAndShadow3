@@ -8,13 +8,14 @@ import mod.iceandshadow3.compat.block.`type`.{BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.gen.{BChunkSource, Cellmaker, TerrainMap}
 import mod.iceandshadow3.spatial.RandomXZ
 import mod.iceandshadow3.util.MathUtils
-import mod.iceandshadow3.world.{DomainGaia, DomainNyx}
+import mod.iceandshadow3.world.DomainGaia.Blocks._
+import mod.iceandshadow3.world.DomainNyx
 
 object ChunkSourceNyx {
-	val stone = new BlockTypeSimple(DomainGaia.lb_livingstone, 0)
-	val navistra = new BlockTypeSimple(DomainGaia.lb_navistra_stone, 0)
-	val bedrock = new BlockTypeSimple(DomainGaia.lb_navistra_bedrock, 0)
-	val icicles = new BlockTypeSimple(DomainNyx.lb_icicles, 0)
+	val stone = new BlockTypeSimple(livingstone, 0)
+	val navistra = new BlockTypeSimple(navistra_stone, 0)
+	val bedrock = new BlockTypeSimple(navistra_bedrock, 0)
+	val icicles = new BlockTypeSimple(DomainNyx.Blocks.icicles, 0)
 }
 class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int)
 	extends BChunkSource(xFrom, zFrom, xWidth, zWidth)

@@ -3,7 +3,7 @@ package mod.iceandshadow3.compat.entity
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.CNVVec3._
 import mod.iceandshadow3.compat.dimension.WDimension
-import mod.iceandshadow3.compat.item.{WInventory, WRefItem}
+import mod.iceandshadow3.compat.item.{WInventory, WItemStack}
 import mod.iceandshadow3.spatial.IVec3
 import mod.iceandshadow3.util.{E3vl, IteratorConcat}
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
@@ -26,21 +26,21 @@ class WEntityPlayer protected[entity](protected[compat] val player: EntityPlayer
 
 	override def isCreative = player.isCreative
 
-	override def items(): Iterator[WRefItem] = {
+	override def items(): Iterator[WItemStack] = {
 		val inv = player.inventory
-		new IteratorConcat[ItemStack, WRefItem](
-			(is: ItemStack) => {new WRefItem(is, player)},
+		new IteratorConcat[ItemStack, WItemStack](
+			(is: ItemStack) => {new WItemStack(is, player)},
 			inv.offHandInventory.iterator,
 			inv.armorInventory.iterator,
 			inv.mainInventory.iterator
 		)
 	}
-	override def itemsStashed(): Iterator[WRefItem] = new WInventory(player.getInventoryEnderChest).iterator
+	override def itemsStashed(): Iterator[WItemStack] = new WInventory(player.getInventoryEnderChest).iterator
 
-	override def saveItem(what: WRefItem): Boolean =
+	override def saveItem(what: WItemStack): Boolean =
 		new WInventory(player.getInventoryEnderChest).add(what)
 
-	def donateToEnderChest(what: WRefItem): E3vl = {
+	def donateToEnderChest(what: WItemStack): E3vl = {
 		if(findItem(what, false).isEmpty) {
 			new WInventory(player.getInventoryEnderChest).donate(what)
 		} else E3vl.NEUTRAL

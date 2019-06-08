@@ -2,7 +2,7 @@ package mod.iceandshadow3.forge.handlers
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityPlayer}
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.CNVVec3._
 import mod.iceandshadow3.compat.dimension.WDimensionCoord
 import mod.iceandshadow3.util.E3vl
@@ -22,8 +22,8 @@ class EventHandlerEnderChest extends BEventHandler {
 					val dim = player.dimensionCoord
 					val mayGiveEarly = IaS3.getCfgServer.early_wayfinder.get && !player.dimension.canRespawnHere
 					if(dim == WDimensionCoord.END || mayGiveEarly) {
-						if(player.donateToEnderChest(WRefItem.make(DomainNyx.li_wayfinder, 0)) == E3vl.TRUE) {
-							DomainNyx.snd_portal_subtle.play(player, placeevent.getBlockSnapshot.getPos, 0.4f, 1f)
+						if(player.donateToEnderChest(WItemStack.make(DomainNyx.Items.wayfinder, 0)) == E3vl.TRUE) {
+							DomainNyx.Sounds.portal_subtle.play(player, placeevent.getBlockSnapshot.getPos, 0.4f, 1f)
 							player.advancement("vanilla_wayfinder")
 						}
 					}

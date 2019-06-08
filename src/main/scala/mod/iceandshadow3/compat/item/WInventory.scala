@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityLivingBase
 import net.minecraft.inventory.IInventory
 
 //TODO: Incomplete.
-class WInventory(inv: IInventory, owner: EntityLivingBase = null) extends Iterable[WRefItem] {
-	def add(what: WRefItem): Boolean = {
+class WInventory(inv: IInventory, owner: EntityLivingBase = null) extends Iterable[WItemStack] {
+	def add(what: WItemStack): Boolean = {
 		if (what.isEmpty) return true
 		val whatexposed = what.exposeItems()
 		for (i <- 0 until inv.getSizeInventory) {
@@ -38,7 +38,7 @@ class WInventory(inv: IInventory, owner: EntityLivingBase = null) extends Iterab
 	/** Adds this item if a stack of the same type does not already exist.
 		* @return True if the item was added, neutral if it existed, and false if it couldn't be added.
 		*/
-	def donate(item: WRefItem): E3vl = {
+	def donate(item: WItemStack): E3vl = {
 		var slot = -1
 		for(i <- 0 until inv.getSizeInventory) {
 			val stack = inv.getStackInSlot(i)
@@ -49,13 +49,13 @@ class WInventory(inv: IInventory, owner: EntityLivingBase = null) extends Iterab
 		else {inv.setInventorySlotContents(slot, item.move()); E3vl.TRUE}
 	}
 
-	override def iterator = new Iterator[WRefItem] {
+	override def iterator = new Iterator[WItemStack] {
 		var index = 0
 		override def hasNext = index < inv.getSizeInventory
 
 		override def next() = {
 			index += 1
-			new WRefItem(inv.getStackInSlot(index-1), owner)
+			new WItemStack(inv.getStackInSlot(index-1), owner)
 		}
 	}
 }

@@ -2,7 +2,7 @@ package mod.iceandshadow3.forge.bait
 
 import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.forge.fish.IEventFishOwnerDeath
 import net.minecraft.util.DamageSource
 import net.minecraftforge.event.entity.living.LivingDeathEvent
@@ -15,7 +15,7 @@ class EventBaitOwnerDeath extends BEventBaitOwner[LivingDeathEvent] {
 
 	override protected def handleFish(
 		event: LivingDeathEvent,
-		item: WRefItem,
+		item: WItemStack,
 		logictriad: LogicTriad[BLogicItem],
 		fish: IEventFishOwnerDeath
 	): Unit = {

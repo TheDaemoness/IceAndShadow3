@@ -5,7 +5,7 @@ import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.compat.entity.WEntity
 import mod.iceandshadow3.compat.world.WWorld
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, UnitVec3s, Vec3Fixed}
-import mod.iceandshadow3.util.{Color, MathUtils}
+import mod.iceandshadow3.util.Color
 import mod.iceandshadow3.world.dim_nyx.WorldSourceNyx
 
 object DimensionNyx extends BDimension("nyx") {
@@ -18,7 +18,7 @@ object DimensionNyx extends BDimension("nyx") {
 	override def hasFogAt(where: IPosColumn) = true
 	override def skyAngle(worldTime: Long, partialTicks: Float) = 0
 	override def fogColor(skyAngle: Float, partialTicks: Float) = Color.BLACK
-	override def defaultLand() = new BlockTypeSimple(DomainGaia.lb_livingstone, 0)
+	override def defaultLand() = new BlockTypeSimple(DomainGaia.Blocks.livingstone, 0)
 	override def defaultSea() = new BlockTypeSimple("minecraft:air")
 
 	override def baseDownfall = 0f

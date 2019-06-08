@@ -3,7 +3,7 @@ package mod.iceandshadow3.compat.item
 import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityLiving}
-import mod.iceandshadow3.compat.{BWRef, ILogicItemProvider, SRandom}
+import mod.iceandshadow3.compat.{TWLogical, ILogicItemProvider, SRandom}
 import mod.iceandshadow3.util.Casting._
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
@@ -14,8 +14,8 @@ import net.minecraft.util.IItemProvider
 
 /** Null-safe item stack + owner reference.
 	*/
-class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBase)
-	extends BWRef[BLogicItem]
+class WItemStack(inputstack: ItemStack, private[compat] var owner: EntityLivingBase)
+	extends TWLogical[BLogicItem]
 	with ILogicItemProvider
 {
 	private[compat] var is = Option(inputstack)
@@ -24,7 +24,7 @@ class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 	def this(is: IItemProvider, owner: EntityLivingBase) = this(new ItemStack(is), owner)
 	//TODO: We can probably make this handle multiple item stacks.
 
-	def copy: WRefItem = new WRefItem(is.fold[ItemStack](null){_.copy()}, owner)
+	def copy: WItemStack = new WItemStack(is.fold[ItemStack](null){_.copy()}, owner)
 	def isEmpty: Boolean = is.fold(true){_.getCount == 0}
 	def count: Int = is.fold(0){_.getCount}
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
@@ -46,11 +46,11 @@ class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 		retval
 	}
 
-	def changeTo(alternate: WRefItem): WRefItem =
+	def changeTo(alternate: WItemStack): WItemStack =
 		{is = Option(alternate.is.fold[ItemStack](null){_.copy}); this}
-	def changeCount(newcount: Int): WRefItem =
+	def changeCount(newcount: Int): WItemStack =
 		{is.foreach(is => {if(is.isStackable) is.setCount(Math.min(countMax,newcount))}); this}
-	def changeOwner(who: WEntityLiving): WRefItem =
+	def changeOwner(who: WEntityLiving): WItemStack =
 		{owner = who.living; this}
 
 	//TODO: Enchantment querying.
@@ -93,12 +93,12 @@ class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 	}
 
 	def matches(b: Any): Boolean = if(b == null) isEmpty else b match {
-		case cri: WRefItem => cri.is.fold(isEmpty){matches(_)}
+		case cri: WItemStack => cri.is.fold(isEmpty){matches(_)}
 		case bis: ItemStack => is.fold(false){_.isItemEqualIgnoreDurability(bis)}
 		case _ => false
 	}
 
-	override protected def exposeNBTOrNull() =
+	override protected def exposeCompoundOrNull() =
 		is.fold[NBTTagCompound](null){_.getOrCreateTag()}
 
 	override def getLogicPair: LogicPair[BLogicItem] =
@@ -107,15 +107,15 @@ class WRefItem(inputstack: ItemStack, private[compat] var owner: EntityLivingBas
 			case _ => return null
 		}}
 }
-object WRefItem {
-	def get(inv: IInventory, index: Int): WRefItem = {
+object WItemStack {
+	def get(inv: IInventory, index: Int): WItemStack = {
 		val stack = if(index >= inv.getSizeInventory) null else inv.getStackInSlot(index)
-		new WRefItem(stack, null)
+		new WItemStack(stack, null)
 	}
-	def make(id: String): WRefItem =
-		new WRefItem(CNVItem.newItemStack(id), null)
-	def make(logic: BLogicItem, variant: Int): WRefItem = {
+	def make(id: String): WItemStack =
+		new WItemStack(CNVItem.newItemStack(id), null)
+	def make(logic: BLogicItem, variant: Int): WItemStack = {
 		val item: Item = BinderItem(logic)(variant).asInstanceOf[Item]
-		if(item == null) new WRefItem() else new WRefItem(item, null)
+		if(item == null) new WItemStack() else new WItemStack(item, null)
 	}
 }

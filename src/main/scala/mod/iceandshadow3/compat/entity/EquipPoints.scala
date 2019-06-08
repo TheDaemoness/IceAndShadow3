@@ -1,16 +1,16 @@
 package mod.iceandshadow3.compat.entity
 
-import mod.iceandshadow3.compat.item.WRefItem
+import mod.iceandshadow3.compat.item.WItemStack
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.inventory.EntityEquipmentSlot
 import net.minecraft.inventory.EntityEquipmentSlot._
 
 sealed abstract class EquipPoint {
-	protected[entity] def getItem(who: EntityLivingBase): WRefItem
+	protected[entity] def getItem(who: EntityLivingBase): WItemStack
 }
 case class EquipPointVanilla(where: EntityEquipmentSlot) extends EquipPoint {
-	override protected[entity] def getItem(who: EntityLivingBase): WRefItem =
-		new WRefItem(who.getItemStackFromSlot(where), who)
+	override protected[entity] def getItem(who: EntityLivingBase): WItemStack =
+		new WItemStack(who.getItemStackFromSlot(where), who)
 }
 object EquipPoint {
 	val HAND_MAIN = EquipPointVanilla(MAINHAND)
