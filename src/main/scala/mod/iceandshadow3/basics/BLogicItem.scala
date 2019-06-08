@@ -24,11 +24,11 @@ sealed abstract class BLogicItemSimple(dom: BDomain, name: String) extends BLogi
 	type StateDataType = BStateData
 	override final def getDefaultStateData(variant: Int): BStateData = null
 }
-abstract class BLogicItemMulti(dom: BDomain, name: String) extends BLogicItemSimple(dom, name) {
+class LogicItemMulti(dom: BDomain, name: String) extends BLogicItemSimple(dom, name) {
 	override def stackLimit(variant: Int) = 64
 	override final def damageLimit(variant: Int) = 0
 }
-abstract class BLogicItemSingle(dom: BDomain, name: String) extends BLogicItemSimple(dom, name) {
+class LogicItemSingle(dom: BDomain, name: String) extends BLogicItemSimple(dom, name) {
 	override final def stackLimit(variant: Int) = 1
 	override def damageLimit(variant: Int) = 0
 }

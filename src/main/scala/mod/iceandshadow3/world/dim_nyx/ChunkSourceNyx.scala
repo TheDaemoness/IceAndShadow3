@@ -8,12 +8,13 @@ import mod.iceandshadow3.compat.block.`type`.{BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.gen.{BChunkSource, Cellmaker, TerrainMap}
 import mod.iceandshadow3.spatial.RandomXZ
 import mod.iceandshadow3.util.MathUtils
-import mod.iceandshadow3.world.DomainGaia
+import mod.iceandshadow3.world.{DomainGaia, DomainNyx}
 
 object ChunkSourceNyx {
-	val stone = new BlockTypeSimple(DomainGaia.livingstone, 0)
-	val navistra = new BlockTypeSimple(DomainGaia.navistra_stone, 0)
-	val bedrock = new BlockTypeSimple(DomainGaia.navistra_bedrock, 0)
+	val stone = new BlockTypeSimple(DomainGaia.lb_livingstone, 0)
+	val navistra = new BlockTypeSimple(DomainGaia.lb_navistra_stone, 0)
+	val bedrock = new BlockTypeSimple(DomainGaia.lb_navistra_bedrock, 0)
+	val icicles = new BlockTypeSimple(DomainNyx.lb_icicles, 0)
 }
 class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int)
 	extends BChunkSource(xFrom, zFrom, xWidth, zWidth)
@@ -23,6 +24,7 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 	val yFull = 168
 	val yCaveMax = 180
 	val smoothsnow = IaS3.getCfgServer.smooth_snow.get
+	val icicleInfrequency = 24
 
 	val heightmap = new TerrainMap[Float](xFrom, zFrom, xWidth, zWidth, (x, z) => {
 			import noises._
@@ -62,14 +64,14 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 	override def getColumn(x: Int, z: Int): Array[BBlockType] = {
 		val finalheight = heightmap(x,z)*32
 		lazy val caves = cavemap(x,z)
-		val navistraNoise = new RandomXZ(noises.seed, 31920, x, z).nextInt(2)
+		val colNoise = new RandomXZ(noises.seed, 31920, x, z).nextInt(2)
 		val retval = Array.tabulate[BBlockType](256)(y => {
 			val delta = finalheight-y
 			if(y == 0) ChunkSourceNyx.bedrock
 			else if(finalheight < 48) null
 			else if(y < yCaveMax && caves(y) > (1-MathUtils.attenuateThrough(yFull, y, yCaveMax)*0.25)) null
 			else if(delta > 2) {
-				if(y<=11+navistraNoise && (y <= 1+navistraNoise || finalheight <= 64 || caves(y) > 0.4)) {
+				if(y<=11+colNoise && (y <= 1+colNoise || finalheight <= 64 || caves(y) > 0.4)) {
 					ChunkSourceNyx.navistra
 				} else ChunkSourceNyx.stone
 			}
@@ -83,17 +85,29 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 			} else null
 		})
 		//TODO: Structure gen.
-		for (yminus <- -255 to -16) {
+		var doSnow = true
+		var doIcicles = true
+		for (yminus <- -255 to -32) {
 			val y = -yminus
-			if (retval(y - 1) != null) {
-				val delta = finalheight - y
-				val snowmod = MathUtils.attenuateThrough(yFull, y, yThinning)
-				retval(y) = if (snowmod != 0) {
-					val snowdelta = if (smoothsnow) delta else if (delta > 2f / 3) 5d / 7 else 1d / 7
-					BlockTypeSnow.fromFloat(snowmod * snowdelta)
-				} else null
-				return retval
-			}
+			if(doSnow) {
+				if (retval(y - 1) != null) {
+					doSnow = false
+					val delta = finalheight - y
+					val snowmod = MathUtils.attenuateThrough(yFull, y, yThinning)
+					retval(y) = if (snowmod != 0) {
+						val snowdelta = if (smoothsnow) delta else if (delta > 2f / 3) 5d / 7 else 1d / 7
+						BlockTypeSnow.fromFloat(snowmod * snowdelta)
+					} else null
+				}
+			} else if(doIcicles) {
+				if(retval(y) == null) {
+					doIcicles = false
+					if(new Random(noises.seed ^ 0xff928ff823749377L).nextInt(icicleInfrequency) == 0) {
+						//TODO: Check if it can stay here.
+						retval(y) = ChunkSourceNyx.icicles
+					}
+				}
+			} else return retval
 		}
 		retval
 	}

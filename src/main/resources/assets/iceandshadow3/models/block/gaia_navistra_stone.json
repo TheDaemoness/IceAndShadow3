@@ -1,6 +1,1 @@
-{
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "iceandshadow3:gaia_navistra_stone"
-    }
-}
+{"parent": "block/cube_all", "textures": {"all": "iceandshadow3:block/gaia_navistra_stone"}}

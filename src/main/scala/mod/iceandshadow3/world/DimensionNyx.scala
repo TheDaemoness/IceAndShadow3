@@ -18,7 +18,7 @@ object DimensionNyx extends BDimension("nyx") {
 	override def hasFogAt(where: IPosColumn) = true
 	override def skyAngle(worldTime: Long, partialTicks: Float) = 0
 	override def fogColor(skyAngle: Float, partialTicks: Float) = Color.BLACK
-	override def defaultLand() = new BlockTypeSimple(DomainGaia.livingstone, 0)
+	override def defaultLand() = new BlockTypeSimple(DomainGaia.lb_livingstone, 0)
 	override def defaultSea() = new BlockTypeSimple("minecraft:air")
 
 	override def baseDownfall = 0f

@@ -1,4 +1,4 @@
-package mod.iceandshadow3.basics.util
+package mod.iceandshadow3.basics.block
 
 object IMateria {
 	val indestructibleByMining = -1f
@@ -12,7 +12,9 @@ trait IMateria {
 	def getBaseHarvestResist: Int
 	def getBaseLuma: Int = 0
 	def getBaseOpacity: Int
-	def isEthereal: Boolean = false
-	def getShapes: Set[EBlockShape]
+	def getSlipperiness: Float = 0.6f
+	def isNonSolid: Boolean = false
+	def getShapes: Set[ECommonBlockType]
 	def resistsExousia: Boolean = false
+	def isTransparent = false
 }

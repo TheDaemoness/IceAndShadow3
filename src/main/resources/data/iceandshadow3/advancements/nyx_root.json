@@ -4,8 +4,8 @@
       "item": "iceandshadow3:gaia_livingstone"
     },
     "title": "Ice and Shadow",
-    "description": "You should probably leave.",
-    "background": "iceandshadow3:textures/nyx_snow.png",
+    "description": "You should probably escape.",
+    "background": "iceandshadow3:textures/adv_bg_nyx.png",
     "announce_to_chat": false
   },
   "criteria": {

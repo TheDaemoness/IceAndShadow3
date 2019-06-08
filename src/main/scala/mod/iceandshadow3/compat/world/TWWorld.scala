@@ -14,6 +14,7 @@ trait TWWorld {
   def isServerSide: Boolean = !exposeWorld().isRemote
   def isClientSide: Boolean = exposeWorld().isRemote
   def rng(): java.util.Random = exposeWorld().rand
+  def rng(base: Int, variance: Int): Int = base+rng().nextInt(variance+1)
   def dimension = new WDimension(exposeWorld().dimension)
   def dimensionCoord = WDimensionCoord(exposeWorld().dimension.getType)
   def gameTime: Long = exposeWorld().getGameTime

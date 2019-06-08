@@ -1,8 +1,8 @@
 package mod.iceandshadow3.compat.block;
 
 import mod.iceandshadow3.basics.BDomain;
-import mod.iceandshadow3.basics.util.HarvestMethod;
-import mod.iceandshadow3.basics.util.IMateria;
+import mod.iceandshadow3.basics.block.HarvestMethod;
+import mod.iceandshadow3.basics.block.IMateria;
 import mod.iceandshadow3.compat.item.BCompatLogicCommon;
 import net.minecraft.block.Block;
 
@@ -13,9 +13,11 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 		materia = mat;
 	}
 	
-	public boolean isToolClassEffective(HarvestMethod m) {
+	public boolean isToolClassEffective(int variant, HarvestMethod m) {
 		return materia.isToolClassEffective(m);
 	}
+	protected boolean randomlyUpdates() {return false;}
+	protected boolean multipleOpacities() {return false;}
 	
 	protected IMateria getMateria() {return materia;}
 	public boolean isOfMateria(IMateria b) {return b == materia;}
@@ -24,7 +26,11 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 		Block.Properties retval = Block.Properties.create(materia.mcmat);
 		retval.hardnessAndResistance(materia.getBaseHardness(), materia.getBaseBlastResist());
 		retval.lightValue(materia.getBaseLuma());
-		if(materia.isEthereal()) retval.doesNotBlockMovement();
+		retval.slipperiness(materia.getSlipperiness());
+		if(multipleOpacities()) retval.variableOpacity();
+		if(randomlyUpdates()) retval.needsRandomTick();
+		if(materia.isNonSolid()) retval.doesNotBlockMovement();
+		retval.sound(materia.snd);
 		//TODO: There's more.
 		return retval;
 	}

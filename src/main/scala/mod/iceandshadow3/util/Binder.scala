@@ -5,8 +5,8 @@ import mod.iceandshadow3.IaS3
 import scala.reflect.ClassTag
 
 class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
-	var mutable = new scala.collection.mutable.ListBuffer[ValueType]
-	var immutable: Array[ValueType] = _
+	private var mutable = new scala.collection.mutable.ListBuffer[ValueType]
+	private var immutable: Array[ValueType] = _
 	trait TKey {
 		this: KeyType =>
 		private[Binder] var binderIndex: Int = -1
@@ -18,7 +18,7 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
 	}
 	final def add(ias: TKey, adapter: ValueType): Unit = {
 		if(mutable == null) {
-			IaS3.bug(ias, "update() called after binder was frozen")
+			IaS3.bug(ias, s"add() called after $this was frozen")
 			return
 		}
 		ias.binderIndex = mutable.size
@@ -26,7 +26,7 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
 	}
 	final def apply(ias: TKey): ValueType = {
 		if(immutable == null) {
-			IaS3.bug(ias, "apply() called before binder was frozen")
+			IaS3.bug(ias, s"apply() called before $this was frozen")
 			return null.asInstanceOf[ValueType]
 		}
 		val index = ias.binderIndex

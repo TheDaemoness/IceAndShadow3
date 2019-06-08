@@ -69,7 +69,7 @@ class WEntityLiving protected[entity](protected[compat] val living: EntityLiving
     new IteratorConcat((is: ItemStack) => {new WRefItem(is, living)}, new IteratorEmpty[ItemStack])
   override def items(): Iterator[WRefItem] = itemsEquipped()
 
-  def setStatus(status: StatusEffect, ticks: Int, amp: Int = 1): Unit = {
+  def setStatus(status: StatusEffect, ticks: Int, amp: Int = 1): Unit = if(this.isServerSide) {
     if(amp <= 0) living.removePotionEffect(BinderStatusEffect(status))
     else living.addPotionEffect(new PotionEffect(BinderStatusEffect(status), ticks, amp-1))
   }

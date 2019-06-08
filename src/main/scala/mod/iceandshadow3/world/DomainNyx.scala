@@ -1,12 +1,15 @@
 package mod.iceandshadow3.world
 
-import mod.iceandshadow3.basics.BDomain
+import mod.iceandshadow3.basics.{BDomain, LogicItemMulti}
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.compat.world.WSound
 import mod.iceandshadow3.world.nyx._
 
 object DomainNyx extends BDomain("nyx") {
 	val li_wayfinder = new LIWayfinder
+	val li_icicle = new LogicItemMulti(this, "icicle")
+
+	val lb_icicles = new LBIcicle
 
 	val snd_portal_subtle = WSound.addSound(this, "portal_subtle")
 	val snd_arrival = WSound.addSound(this, "arrival")

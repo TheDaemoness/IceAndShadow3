@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.IChunkGenerator;
@@ -72,6 +73,16 @@ public class AModDimension extends ModDimension {
 			final IVec3 where = dimlogic.getWorldSpawn();
 			if(where == null) return null;
 			else return CNVVec3.toBlockPos(where);
+		}
+
+		@Override
+		public boolean canDoRainSnowIce(Chunk chunk) {
+			return false;
+		}
+
+		@Override
+		public boolean canDoLightning(Chunk chunk) {
+			return false;
 		}
 
 		@Nullable
