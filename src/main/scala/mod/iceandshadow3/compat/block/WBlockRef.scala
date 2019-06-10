@@ -4,12 +4,12 @@ import mod.iceandshadow3.compat.CNVVec3
 import mod.iceandshadow3.compat.block.`type`.BBlockType
 import mod.iceandshadow3.compat.world.TWWorldPlace
 import mod.iceandshadow3.spatial.IVec3
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
 import net.minecraft.world.chunk.IChunk
 
-class WBlockRef(chunk: IChunk, pos: BlockPos, bs: IBlockState) extends WBlockView(chunk.getWorldForge, pos, bs)
+class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView(chunk.getWorldForge, pos, bs)
 	with TWWorldPlace
 {
 	override protected def acquireBS() = chunk.getBlockState(pos)
@@ -20,11 +20,11 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: IBlockState) extends WBlockVie
 	}
 
 	def this(w: IWorld, p: BlockPos) = {
-		this(w.getChunkDefault(p), p, null)
+		this(w.getChunk(p.getX >> 4, p.getZ >> 4), p, null)
 	}
 
-	def this(w: IWorld, p: BlockPos, bs: IBlockState) = {
-		this(w.getChunkDefault(p), p, bs)
+	def this(w: IWorld, p: BlockPos, bs: BlockState) = {
+		this(w.getChunk(p.getX >> 4, p.getZ >> 4), p, bs)
 	}
 
 	override def atOffset(x: Int, y: Int, z: Int): WBlockRef =

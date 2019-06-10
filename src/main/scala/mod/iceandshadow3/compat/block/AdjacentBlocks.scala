@@ -1,29 +1,29 @@
 package mod.iceandshadow3.compat.block
 
 import mod.iceandshadow3.util.IteratorConcat
-import net.minecraft.util.EnumFacing
+import net.minecraft.util.Direction
 
 import scala.collection.JavaConverters._
 
-sealed abstract class AdjacentBlocks(val central: WBlockView, protected val whats: (WBlockView, EnumFacing)*)
+sealed abstract class AdjacentBlocks(val central: WBlockView, protected val whats: (WBlockView, Direction)*)
 	extends Iterable[WBlockView]
 {
-	def areSidesSolid = whats.forall(pair => pair._1.isSideSolid(pair._2))
-	override def iterator = new IteratorConcat[(WBlockView, EnumFacing), WBlockView]({_._1}, whats.iterator.asJava)
+	def areSidesSolid = whats.forall(pair => pair._1.isSolid)
+	override def iterator = new IteratorConcat[(WBlockView, Direction), WBlockView]({_._1}, whats.iterator.asJava)
 }
 object AdjacentBlocks {
 	protected def up(center: WBlockView) =
-		(center.atOffset(0, 1, 0), EnumFacing.DOWN)
+		(center.atOffset(0, 1, 0), Direction.DOWN)
 	protected def down(center: WBlockView) =
-		(center.atOffset(0, -1, 0), EnumFacing.UP)
+		(center.atOffset(0, -1, 0), Direction.UP)
 	protected def south(center: WBlockView) =
-		(center.atOffset(0, 0, 1), EnumFacing.NORTH)
+		(center.atOffset(0, 0, 1), Direction.NORTH)
 	protected def north(center: WBlockView) =
-		(center.atOffset(0, 0, -1), EnumFacing.SOUTH)
+		(center.atOffset(0, 0, -1), Direction.SOUTH)
 	protected def east(center: WBlockView) =
-		(center.atOffset(1, 0, 0), EnumFacing.WEST)
+		(center.atOffset(1, 0, 0), Direction.WEST)
 	protected def west(center: WBlockView) =
-		(center.atOffset(-1, 0, 0), EnumFacing.EAST)
+		(center.atOffset(-1, 0, 0), Direction.EAST)
 
 	class Above(center: WBlockView) extends AdjacentBlocks(center,
 		up(center)

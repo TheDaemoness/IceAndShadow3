@@ -2,7 +2,7 @@ package mod.iceandshadow3.forge.bait
 
 import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
-import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity}
+import mod.iceandshadow3.compat.entity.CNVEntity
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.forge.fish.IEventFishOwner
 import net.minecraftforge.event.entity.living.LivingEvent

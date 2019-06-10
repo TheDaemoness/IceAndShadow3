@@ -1,20 +1,20 @@
 package mod.iceandshadow3.compat.item;
 
-import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Rarity;
 
 public enum WRarity implements Comparable<WRarity> {
 	//WARNING: Order-sensitive.
-	COMMON(EnumRarity.COMMON),
-	UNCOMMON(EnumRarity.UNCOMMON),
-	RARE(EnumRarity.RARE),
-	EPIC(EnumRarity.EPIC);
+	COMMON(Rarity.COMMON),
+	UNCOMMON(Rarity.UNCOMMON),
+	RARE(Rarity.RARE),
+	EPIC(Rarity.EPIC);
 	
-	final EnumRarity rarity;
+	final Rarity rarity;
 
-	static WRarity get(EnumRarity r) {
+	static WRarity get(Rarity r) {
 		return WRarity.values()[r.ordinal()];
 	}
-	WRarity(EnumRarity r) {
+	WRarity(Rarity r) {
 		rarity = r;
 	}
 }

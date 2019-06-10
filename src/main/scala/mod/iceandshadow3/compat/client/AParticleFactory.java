@@ -5,7 +5,10 @@ import mod.iceandshadow3.basics.BParticleType;
 import mod.iceandshadow3.spatial.IVec3;
 import mod.iceandshadow3.util.Color;
 import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -40,6 +43,21 @@ public class AParticleFactory implements IParticleFactory<BasicParticleType> {
 		}
 
 		@Override
+		public void renderParticle(
+			@Nonnull BufferBuilder buffer, @Nonnull ActiveRenderInfo entityIn, float partialTicks,
+			float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ
+		) {
+			//TODO: Implement.
+		}
+
+		@Nonnull
+		@Override
+		public IParticleRenderType func_217558_b() {
+			//TODO: The below is a no-op. Return something meaningful.
+			return IParticleRenderType.field_217606_f;
+		}
+
+		@Override
 		public void iasSetColor(Color color) {
 			this.setColor(color.red(), color.green(), color.blue());
 		}
@@ -50,7 +68,7 @@ public class AParticleFactory implements IParticleFactory<BasicParticleType> {
 		}
 
 		@Override
-		public void iasSetScale(float scale) { this.particleScale = scale; }
+		public void iasSetScale(float scale) { this.setSize(scale, scale); }
 
 		@Override
 		public void iasSetGravity(float gravity) {
@@ -67,7 +85,6 @@ public class AParticleFactory implements IParticleFactory<BasicParticleType> {
 		@Override
 		public void iasSetTexture(int mcid) {
 			//TODO: Look into custom textures for IaS3 particles.
-			this.setParticleTextureIndex(mcid);
 		}
 
 		@Override

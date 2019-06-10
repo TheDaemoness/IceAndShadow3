@@ -4,10 +4,10 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.damage.Attack;
 import mod.iceandshadow3.damage.AttackForm;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,14 +37,14 @@ public class ADamageSource extends DamageSource {
 
 	@Nonnull
 	@Override
-	public ITextComponent getDeathMessage(EntityLivingBase elb) {
+	public ITextComponent getDeathMessage(LivingEntity elb) {
      String s = "death."+IaS3.MODID+'.'+ attack.name();
-		if(source != null) return new TextComponentTranslation(
+		if(source != null) return new TranslationTextComponent(
 			s+".attacker",
 			elb.getDisplayName(),
 			source.getNameTextComponent()
 		);
-		else return new TextComponentTranslation(s, elb.getDisplayName());
+		else return new TranslationTextComponent(s, elb.getDisplayName());
 	}
 
 	@Nullable

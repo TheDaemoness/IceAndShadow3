@@ -25,13 +25,13 @@ wrapper {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'bloop'
 
-def version_minecraft = '1.13.2'
-def version_forge_maj=25
+def version_minecraft = '1.14.2'
+def version_forge_maj=26
 def version_forge_min=0
-def version_forge_patch=219
+def version_forge_patch=14
 def version_forge_req="${version_forge_maj}.${version_forge_min}"
 def version_forge="${version_forge_req}.${version_forge_patch}"
-def mappings_id='20180921-1.13'
+def mappings_id='20190608-1.14.2'
 
 apply from: 'config.gradle'
 

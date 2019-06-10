@@ -3,7 +3,7 @@ package mod.iceandshadow3.compat.world
 import mod.iceandshadow3.compat.CNVVec3
 import mod.iceandshadow3.spatial.{IPosColumn, IVec3}
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.{EnumDifficulty, IWorld}
+import net.minecraft.world.{Difficulty, IWorld}
 
 class WWorld(private[compat] val worldobj: IWorld) extends TWWorld {
 	override def exposeWorld(): IWorld = worldobj
@@ -23,5 +23,5 @@ class WWorld(private[compat] val worldobj: IWorld) extends TWWorld {
 	}
 	def seed = worldobj.getWorldInfo.getSeed
 	def isHardcore = worldobj.getWorldInfo.isHardcore
-	def isPeaceful = worldobj.getWorldInfo.getDifficulty == EnumDifficulty.PEACEFUL
+	def isPeaceful = worldobj.getWorldInfo.getDifficulty == Difficulty.PEACEFUL
 }

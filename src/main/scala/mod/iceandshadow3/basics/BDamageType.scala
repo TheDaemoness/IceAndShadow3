@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.compat.entity.{WEntity, WEntityLiving}
+import mod.iceandshadow3.compat.entity.WEntityLiving
 import mod.iceandshadow3.compat.item.WItemStack
 
 abstract class BDamageType {

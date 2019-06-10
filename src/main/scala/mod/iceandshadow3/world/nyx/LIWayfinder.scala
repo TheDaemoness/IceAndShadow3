@@ -113,7 +113,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 					case _ =>
 				}
 				owner.setHp(1)
-				if(areweinnyx) owner.teleportVanilla(WDimensionCoord.END)
+				if(areweinnyx) owner.teleport(WDimensionCoord.END)
 				else owner.teleport(DimensionNyx)
 				wayfinderstate.charged.set(false)
 			}

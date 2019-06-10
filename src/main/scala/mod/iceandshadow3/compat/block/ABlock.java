@@ -2,26 +2,26 @@ package mod.iceandshadow3.compat.block;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicBlock;
-import mod.iceandshadow3.basics.block.BlockShape;
-import mod.iceandshadow3.basics.block.BlockSides;
 import mod.iceandshadow3.basics.block.HarvestMethod$;
 import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.ILogicBlockProvider;
 import mod.iceandshadow3.compat.entity.CNVEntity$;
-import mod.iceandshadow3.compat.item.WItemStack;
 import mod.iceandshadow3.compat.world.WWorld;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.*;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IShearable;
@@ -69,7 +69,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	}
 
 	@Override
-	public boolean isToolEffective(IBlockState state, ToolType tool) {
+	public boolean isToolEffective(BlockState state, ToolType tool) {
 		return logic.isToolClassEffective(variant, HarvestMethod$.MODULE$.get(tool));
 	}
 
@@ -79,66 +79,45 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		logic.isToolClassEffective(variant, HarvestMethod$.MODULE$.SHEAR()); //TODO: Drops.
 		return Collections.emptyList();
 	}
+
+
+
+	@Nonnull
 	@Override
-	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
-		final WItemStack[] overrides = logic.harvestOverride(variant, new WBlockRef(world, pos, state), fortune);
-		if(overrides != null) {
-			drops.clear();
-			for(WItemStack item : overrides) {
-				if(item == null || item.isEmpty()) continue;
-				drops.add(item.exposeItems());
-			}
-		} else super.getDrops(state, drops, world, pos, fortune);
+	public List<ItemStack> getDrops(@Nonnull BlockState bs, @Nonnull LootContext.Builder loottable) {
+		//TODO: Currently no-op.
+		return super.getDrops(bs, loottable);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void animateTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		logic.clientSideTick(variant, new WWorld(worldIn), new WBlockView(worldIn, pos, stateIn), rand);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public boolean isSideInvisible(IBlockState state, IBlockState abs, EnumFacing side) {
+	public boolean isSideInvisible(BlockState state, BlockState abs, Direction side) {
 		return !logic.isDiscrete() && logic.getMateria().isTransparent() && abs.getBlock() == this ||
 			super.isSideInvisible(state, abs, side);
 	}
 
 	@Nonnull
 	@Override
-	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
 		return defaultShape;
 	}
 
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return logic.shape().sides().isFullCube();
-	}
-
-	@Nonnull
-	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-		//TODO: More dynamic EnumFacing -> BlockSides val mapping.
-		final BlockShape shape = logic.shape();
-		final BlockSides sides = shape.sides();
-		ESideType sideType;
-		switch(face) {
-			case DOWN: sideType = sides.bottom(); break;
-			case UP: sideType = sides.top(); break;
-			default: sideType = sides.front(); break;
-		}
-		return sideType.expose(face, shape.isPole());
-	}
 
 	@Override
-	public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
+	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return logic.canBeAt(variant, new WBlockView(worldIn, pos), false);
 	}
 
 	@Nonnull
 	@Override
-	public IBlockState updatePostPlacement(
-		@Nonnull IBlockState stateIn, EnumFacing facing, IBlockState facingState,
+	public BlockState updatePostPlacement(
+		@Nonnull BlockState stateIn, Direction facing, BlockState facingState,
 		IWorld worldIn, BlockPos currentPos, BlockPos facingPos
 	) {
 		//TODO: BlockType on breakage.
@@ -151,13 +130,8 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	}
 
 	@Override
-	public void onEntityCollision(IBlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
 		logic.onInside(variant, new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
-	}
-
-	@Override
-	public int getExpDrop(IBlockState state, IWorldReader world, BlockPos pos, int fortune) {
-		return logic.harvestXP(variant);
 	}
 }
 

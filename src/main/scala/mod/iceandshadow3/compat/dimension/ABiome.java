@@ -3,14 +3,15 @@ package mod.iceandshadow3.compat.dimension;
 import mod.iceandshadow3.basics.BBiome;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.surfacebuilders.CompositeSurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 
 /** A biome for an IaS3 dimension.
  */
-public class ABiome extends Biome {
+class ABiome extends Biome {
 	ABiome(ResourceLocation dimname, BBiome b) {
-		super(new BiomeBuilder().
-			surfaceBuilder(new CompositeSurfaceBuilder<>(NOOP_SURFACE_BUILDER, AIR_SURFACE)).
+		super(new Biome.Builder().
+			surfaceBuilder(new ConfiguredSurfaceBuilder<>(SurfaceBuilder.field_215407_R, SurfaceBuilder.field_215422_s)).
 			category(Category.NONE).
 			downfall(b.baseDownfall()).
 			temperature(b.baseTemperature()).

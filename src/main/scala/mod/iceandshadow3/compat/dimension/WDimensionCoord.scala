@@ -6,7 +6,7 @@ import net.minecraft.world.dimension.DimensionType
   */
 case class WDimensionCoord(dimtype: DimensionType) {
   def isVanilla: Boolean = dimtype.isVanilla
-  def getResourceLocation = DimensionType.func_212678_a(dimtype)
+  def getResourceLocation = DimensionType.getKey(dimtype)
   def getId: String = getResourceLocation.toString
 }
 object WDimensionCoord {

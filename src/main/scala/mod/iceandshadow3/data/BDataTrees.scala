@@ -8,10 +8,10 @@ import scala.reflect.ClassTag
 abstract class BDataTree[Value](protected var datum: Value) extends INbtRW with IDataTreeRW[BDataTree[Value]] {
 	def get: Value = datum
 	
-	protected def writeNBT(value: Value): INBTBase
+	protected def writeNBT(value: Value): INBT
 	
-	override final def toNBT: INBTBase = writeNBT(get)
-	def fromNBT(tag: INBTBase): Boolean
+	override final def toNBT: INBT = writeNBT(get)
+	def fromNBT(tag: INBT): Boolean
 	
 	override final def exposeDataTree() = this
 }
@@ -38,8 +38,8 @@ abstract class BDataTreeLeaf[Value](v: Value) extends BDataTree(v) with ITextLin
 	def set(value: Value): Boolean = {datum = value; true}
 	override final def fromDataTree(newval: BDataTree[Value]) = if(newval != this) set(newval.get) else true
 	
-	override final def fromNBT(tag: INBTBase): Boolean = set(readNBT(tag))
-	protected def readNBT(tag: INBTBase): Value
+	override final def fromNBT(tag: INBT): Boolean = set(readNBT(tag))
+	protected def readNBT(tag: INBT): Value
 	
 	protected def parseLine(line: String): Value
 

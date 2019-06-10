@@ -2,26 +2,27 @@ package mod.iceandshadow3.compat.item
 
 import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
-import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityLiving}
-import mod.iceandshadow3.compat.{TWLogical, ILogicItemProvider, SRandom}
+import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityLiving}
+import mod.iceandshadow3.compat.{ILogicItemProvider, SRandom, TWLogical}
 import mod.iceandshadow3.util.Casting._
-import net.minecraft.entity.EntityLivingBase
-import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.IItemProvider
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.util.{Hand, IItemProvider}
 
 /** Null-safe item stack + owner reference.
 	*/
-class WItemStack(inputstack: ItemStack, private[compat] var owner: EntityLivingBase)
+class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends TWLogical[BLogicItem]
 	with ILogicItemProvider
 {
 	private[compat] var is = Option(inputstack)
-	def this() = this(null.asInstanceOf[ItemStack], null.asInstanceOf[EntityLivingBase])
-	def this(is: Null, owner: EntityLivingBase) = this(null.asInstanceOf[ItemStack], owner)
-	def this(is: IItemProvider, owner: EntityLivingBase) = this(new ItemStack(is), owner)
+	def this() = this(null.asInstanceOf[ItemStack], null.asInstanceOf[LivingEntity])
+	def this(is: Null, owner: LivingEntity) = this(null.asInstanceOf[ItemStack], owner)
+	def this(is: IItemProvider, owner: LivingEntity) = this(new ItemStack(is), owner)
 	//TODO: We can probably make this handle multiple item stacks.
 
 	def copy: WItemStack = new WItemStack(is.fold[ItemStack](null){_.copy()}, owner)
@@ -65,13 +66,13 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: EntityLivingB
 		//TODO: There's no reason why IaS3 items can't have an override for this.
 		if(is.isDamageable) {
 			val dmg = Math.max(0, getDamageMax - getDamage - count) //Intended: ignoring the actual durability increase.
-			val multiplayer = cast[EntityPlayerMP](owner).orNull
+			val multiplayer = cast[ServerPlayerEntity](owner).orNull
 			if (is.attemptDamageItem(count, SRandom.getRNG(owner), multiplayer)) {
 				if(owner != null) {
-					owner.renderBrokenItemStack(is)
+					//TODO: Break animation.
 					//Research: Is there a point of the orElse below?
-					Option(multiplayer).orElse(cast[EntityPlayer](owner)).foreach {
-						_.addStat(net.minecraft.stats.StatList.ITEM_BROKEN.get(is.getItem))
+					Option(multiplayer).orElse(cast[PlayerEntity](owner)).foreach {
+						_.addStat(net.minecraft.stats.Stats.ITEM_BROKEN.get(is.getItem))
 					}
 				}
 				is.shrink(1)
@@ -99,7 +100,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: EntityLivingB
 	}
 
 	override protected def exposeCompoundOrNull() =
-		is.fold[NBTTagCompound](null){_.getOrCreateTag()}
+		is.fold[CompoundNBT](null){_.getOrCreateTag()}
 
 	override def getLogicPair: LogicPair[BLogicItem] =
 		is.fold[LogicPair[BLogicItem]](null){_.getItem match {

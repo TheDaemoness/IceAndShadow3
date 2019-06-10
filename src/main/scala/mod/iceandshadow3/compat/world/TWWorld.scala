@@ -22,7 +22,7 @@ trait TWWorld {
   def dimension = new WDimension(exposeWorld().getDimension)
   def dimensionCoord = WDimensionCoord(exposeWorld().getDimension.getType)
   def gameTime: Long = exposeWorld().getWorldInfo.getGameTime
-  def particle(what: ParticleType, where: IVec3, vel: IVec3): Unit = exposeWorld().spawnParticle(
+  def particle(what: ParticleType, where: IVec3, vel: IVec3): Unit = exposeWorld().addParticle(
     BinderParticle(what),
     where.xDouble, where.yDouble, where.zDouble,
     vel.xDouble, vel.yDouble, vel.zDouble

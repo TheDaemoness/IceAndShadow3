@@ -2,32 +2,32 @@ package mod.iceandshadow3.compat
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.data.{BDataTree, IDataTreeRW, INbtRW}
-import net.minecraft.nbt.{NBTPrimitive, NBTTagCompound}
+import net.minecraft.nbt.{NumberNBT, CompoundNBT}
 
-class WNbtTree(val root: NBTTagCompound) {
+class WNbtTree(val root: CompoundNBT) {
 	def isNull: Boolean = root == null
 	def isEmpty: Boolean = isNull || root.isEmpty
 	def chroot(): WNbtTree = chroot(IaS3.MODID)
 	def chroot(key: String): WNbtTree = try {
 		if(root == null) return this
 		val tags = root.getCompound(key)
-		root.setTag(key, tags)
+		root.put(key, tags)
 		new WNbtTree(tags)
 	} catch {
 		case e: ClassCastException =>
 			IaS3.logger().warn("Overriding NBT tag \""+key+"\"")
 			e.printStackTrace()
-			val newCompound = new NBTTagCompound()
-			root.setTag(key, newCompound)
+			val newCompound = new CompoundNBT()
+			root.put(key, newCompound)
 			new WNbtTree(newCompound)
 	}
 	def set(key: String, obj: INbtRW): Unit =
-		if(root != null) root.setTag(key, obj.toNBT)
+		if(root != null) root.put(key, obj.toNBT)
 	def get(key: String, obj: INbtRW): Boolean = {
 		try {
 			if(root == null) return false
 			//TODO: Check for nulls and set up a default tag value.
-			obj.fromNBT(root.getTag(key))
+			obj.fromNBT(root.get(key))
 		} catch {
 			case e: Exception =>
 				IaS3.logger().error("Root NBT tag mismatch when loading $obj: "+e.getMessage)
@@ -41,9 +41,9 @@ class WNbtTree(val root: NBTTagCompound) {
 		*/
 	def getLong(key: String): Long = {
 		if(root == null) return 0
-		val tag = root.getTag(key)
-		if(!tag.isInstanceOf[NBTPrimitive]) return 0
-		tag.asInstanceOf[NBTPrimitive] getLong()
+		val tag = root.get(key)
+		if(!tag.isInstanceOf[NumberNBT]) return 0
+		tag.asInstanceOf[NumberNBT] getLong()
 	}
 
 	def store(key: String, obj: IDataTreeRW[_ <: BDataTree[_]]): Unit =

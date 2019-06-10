@@ -5,7 +5,7 @@ import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
 import mod.iceandshadow3.util.MathUtils
 import mod.iceandshadow3.world.misc.Statuses
-import mod.iceandshadow3.world.{DimensionNyx, DomainNyx}
+import mod.iceandshadow3.world.DimensionNyx
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 

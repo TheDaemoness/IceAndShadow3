@@ -10,14 +10,14 @@ import mod.iceandshadow3.compat.entity.CNVEntity;
 import mod.iceandshadow3.compat.entity.WEntityPlayer;
 import mod.iceandshadow3.compat.world.WWorld;
 import mod.iceandshadow3.util.E3vl;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,11 +28,11 @@ import javax.annotation.Nullable;
 
 public class AItem extends Item implements ILogicItemProvider {
 
-	private EnumActionResult toEActionResult(E3vl in) {
+	private ActionResultType toEActionResult(E3vl in) {
 		switch(in) {
-			case TRUE: return EnumActionResult.SUCCESS;
-			case FALSE: return EnumActionResult.FAIL;
-			default: return EnumActionResult.PASS;
+			case TRUE: return ActionResultType.SUCCESS;
+			case FALSE: return ActionResultType.FAIL;
+			default: return ActionResultType.PASS;
 		}
 	}
 	@Override
@@ -57,7 +57,7 @@ public class AItem extends Item implements ILogicItemProvider {
 
 				@OnlyIn(Dist.CLIENT)
 				@Override
-				public float call(@Nonnull ItemStack is, @Nullable World world, @Nullable EntityLivingBase owner) {
+				public float call(@Nonnull ItemStack is, @Nullable World world, @Nullable LivingEntity owner) {
 					return impl.call(new WItemStack(is, owner), new WWorld(world));
 				}
 			});
@@ -72,8 +72,8 @@ public class AItem extends Item implements ILogicItemProvider {
 
 	@Nonnull
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
-		final boolean mainhand = handIn == EnumHand.MAIN_HAND;
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
+		final boolean mainhand = handIn == Hand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final WItemStack wri = new WItemStack(is, playerIn);
 		final WEntityPlayer plai = CNVEntity.wrap(playerIn);

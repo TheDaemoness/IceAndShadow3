@@ -1,11 +1,11 @@
 package mod.iceandshadow3.compat.item
 
 import mod.iceandshadow3.util.E3vl
-import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.LivingEntity
 import net.minecraft.inventory.IInventory
 
 //TODO: Incomplete.
-class WInventory(inv: IInventory, owner: EntityLivingBase = null) extends Iterable[WItemStack] {
+class WInventory(inv: IInventory, owner: LivingEntity = null) extends Iterable[WItemStack] {
 	def add(what: WItemStack): Boolean = {
 		if (what.isEmpty) return true
 		val whatexposed = what.exposeItems()

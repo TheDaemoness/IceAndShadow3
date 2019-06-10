@@ -3,16 +3,16 @@ package mod.iceandshadow3.compat.world
 import mod.iceandshadow3.basics.ParticleType
 import mod.iceandshadow3.compat.CNVVec3._
 import mod.iceandshadow3.spatial.{IPositional, IVec3}
-import net.minecraft.world.EnumLightType
+import net.minecraft.world.LightType
 
 trait TWWorldPlace extends TWWorld {
   this: IPositional =>
   def light: Int = exposeWorld().getLight(position)
-  def sunlight: Int = exposeWorld().getLightFor(EnumLightType.SKY, position)
-  def blocklight: Int = exposeWorld().getLightFor(EnumLightType.BLOCK, position)
+  def sunlight: Int = exposeWorld().getLightFor(LightType.SKY, position)
+  def blocklight: Int = exposeWorld().getLightFor(LightType.BLOCK, position)
   //TODO: Confirm that getLightFor does what we need.
 
-  def underSky: Boolean = exposeWorld().canSeeSky(position)
+  def underSky: Boolean = exposeWorld().canBlockSeeSky(position)
   def biome: WBiome = new WBiome(exposeWorld().getBiome(position))
 
   def playSound(sound: WSound, volume: Float, freqshift: Float): Unit =

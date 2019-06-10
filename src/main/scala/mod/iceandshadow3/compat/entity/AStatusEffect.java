@@ -4,11 +4,13 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BStatusEffect;
 import mod.iceandshadow3.util.E3vl;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.DisplayEffectsScreen;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,17 +19,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 
-public class AStatusEffect extends Potion {
+public class AStatusEffect extends Effect {
 	//NOTE: Sprite sheets are 256x256. Status effect icons are 18x18.
 	//TODO: Find drawing solution that doesn't require a sprite sheet. There *must* be one.
 	private static int globalTextureIndex = 0;
 	private final BStatusEffect fxlogic;
 	private final String mcname;
-	final ResourceLocation texloc;
+	private final ResourceLocation texloc;
 	private final int textureIndex;
 	public AStatusEffect(BStatusEffect fx) {
-		super(fx.isBeneficial() == E3vl.FALSE, fx.color().colorcode());
-		if(fx.isBeneficial() == E3vl.TRUE) this.setBeneficial();
+		super(
+			fx.isBeneficial() == E3vl.TRUE ? EffectType.BENEFICIAL : (
+				fx.isBeneficial() == E3vl.FALSE ? EffectType.HARMFUL : EffectType.NEUTRAL
+			),
+			fx.color().colorcode()
+		);
 		final ResourceLocation namespaced = new ResourceLocation(IaS3.MODID, fx.name());
 		this.setRegistryName(namespaced);
 		mcname = Util.makeTranslationKey("effect", namespaced);
@@ -49,16 +55,16 @@ public class AStatusEffect extends Potion {
 	}
 
 	@Override
-	public void performEffect(@Nonnull EntityLivingBase elb, int amplifier) {
+	public void performEffect(@Nonnull LivingEntity elb, int amplifier) {
 		fxlogic.onTick(CNVEntity.wrap(elb), amplifier+1);
 	}
 
-	public void applyAttributesModifiersToEntity(EntityLivingBase elb, @Nonnull AbstractAttributeMap map, int amp) {
+	public void applyAttributesModifiersToEntity(LivingEntity elb, @Nonnull AbstractAttributeMap map, int amp) {
 		fxlogic.onStart(CNVEntity.wrap(elb), amp+1);
 		super.applyAttributesModifiersToEntity(elb, map, amp);
 	}
 
-	public void removeAttributesModifiersFromEntity(EntityLivingBase elb, @Nonnull AbstractAttributeMap map, int amp) {
+	public void removeAttributesModifiersFromEntity(LivingEntity elb, @Nonnull AbstractAttributeMap map, int amp) {
 		fxlogic.onEnd(CNVEntity.wrap(elb), amp+1);
 		super.removeAttributesModifiersFromEntity(elb, map, amp);
 	}
@@ -71,22 +77,23 @@ public class AStatusEffect extends Potion {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private void draw(Gui gui, int x, int y) {
+	private void draw(AbstractGui gui, int x, int y) {
 		Minecraft.getInstance().getTextureManager().bindTexture(texloc);
 		final int xSpriteSheet = (textureIndex % 14)*18;
 		final int ySpriteSheet = (textureIndex / 14)*18;
-		gui.drawTexturedModalRect(x, y, xSpriteSheet, ySpriteSheet, 18, 18);
+		//TODO: Test.
+		gui.blit(x, y, xSpriteSheet, ySpriteSheet, 18, 18);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void renderInventoryEffect(PotionEffect effect, Gui gui, int x, int y, float z) {
+	public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
 		draw(gui, x+6, y+7);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void renderHUDEffect(PotionEffect effect, Gui gui, int x, int y, float z, float alpha) {
+	public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
 		draw(gui, x+3, y+3);
 	}
 }

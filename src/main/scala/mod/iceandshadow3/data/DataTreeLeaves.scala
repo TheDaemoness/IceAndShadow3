@@ -22,10 +22,10 @@ sealed trait TFloatBounded extends TBounded[Double] {
 
 class DatumBool(bool: Boolean) extends BDataTreeLeaf(bool) {
 	def isTrue: Boolean = get
-	override protected def readNBT(tag: INBTBase) =
-		tag.asInstanceOf[NBTPrimitive].getByte != 0
+	override protected def readNBT(tag: INBT) =
+		tag.asInstanceOf[NumberNBT].getByte != 0
 	override protected def writeNBT(value: Boolean) =
-		new NBTTagByte(if(value) 1 else 0)
+		new ByteNBT(if(value) 1 else 0)
 	override protected def parseLine(line: String) = java.lang.Boolean.valueOf(line)
 }
 
@@ -34,21 +34,21 @@ abstract class DatumInt(int: Long) extends BDataTreeLeaf(int) with TIntBounded {
 		if(newval < getMin || newval > getMax) false
 		super.set(newval)
 	}
-	override protected def readNBT(tag: INBTBase) =
-		tag.asInstanceOf[NBTPrimitive].getLong
+	override protected def readNBT(tag: INBT) =
+		tag.asInstanceOf[NumberNBT].getLong
 	override protected def writeNBT(value: Long) =
-		if(testLimits {_.isValidByte}) new NBTTagByte(value.toByte)
-		else if(testLimits {_.isValidShort}) new NBTTagShort(value.toShort)
-		else if(testLimits {_.isValidInt}) new NBTTagInt(value.toInt)
-		else new NBTTagLong(value)
+		if(testLimits {_.isValidByte}) new ByteNBT(value.toByte)
+		else if(testLimits {_.isValidShort}) new ShortNBT(value.toShort)
+		else if(testLimits {_.isValidInt}) new IntNBT(value.toInt)
+		else new LongNBT(value)
 	override protected def parseLine(line: String) = java.lang.Long.valueOf(line)
 }
 
 class DatumString(string: String) extends BDataTreeLeaf(string) {
-	override protected def readNBT(tag: INBTBase) =
-		tag.asInstanceOf[NBTTagString].getString
+	override protected def readNBT(tag: INBT) =
+		tag.asInstanceOf[StringNBT].getString
 	override protected def writeNBT(value: String) =
-		new NBTTagString(value)
+		new StringNBT(value)
 	override protected def parseLine(line: String) = line //TODO: Decide if we need quotes.
 }
 
@@ -60,10 +60,10 @@ class DatumFloat(
 		if(newval < getMin || newval > getMax) false
 		super.set(newval)
 	}
-	override protected def readNBT(tag: INBTBase) =
-		tag.asInstanceOf[NBTPrimitive].getDouble
+	override protected def readNBT(tag: INBT) =
+		tag.asInstanceOf[NumberNBT].getDouble
 	override protected def writeNBT(value: Double) =
-		if(emitFloat) new NBTTagFloat(value.toFloat) else new NBTTagDouble(value)
+		if(emitFloat) new FloatNBT(value.toFloat) else new DoubleNBT(value)
 	override protected def parseLine(line: String) = java.lang.Double.valueOf(line)
 }
 
@@ -72,15 +72,15 @@ abstract class DatumIntArray(size: Int = 0) extends BDataTreeLeaf(new Array[Long
 		for(newval <- newarray) if(newval < getMin || newval > getMax) throw new IllegalArgumentException
 		super.set(newarray)
 	}
-	override protected def readNBT(tag: INBTBase) = tag match {
-		case bytes: NBTTagByteArray => bytes.getByteArray.map(_.toLong)
-		case ints: NBTTagIntArray => ints.getIntArray.map(_.toLong)
-		case _ => tag.asInstanceOf[NBTTagLongArray].getAsLongArray.toArray //the toArray is deliberate.
+	override protected def readNBT(tag: INBT) = tag match {
+		case bytes: ByteArrayNBT => bytes.getByteArray.map(_.toLong)
+		case ints: IntArrayNBT => ints.getIntArray.map(_.toLong)
+		case _ => tag.asInstanceOf[LongArrayNBT].getAsLongArray.toArray //the toArray is deliberate.
 	}
 	override protected def writeNBT(value: Array[Long]) = {
-		if(testLimits {_.isValidByte}) new NBTTagByteArray(value.map(_.toByte))
-		else if(testLimits {_.isValidInt}) new NBTTagIntArray(value.map(_.toInt))
-		else new NBTTagLongArray(value)
+		if(testLimits {_.isValidByte}) new ByteArrayNBT(value.map(_.toByte))
+		else if(testLimits {_.isValidInt}) new IntArrayNBT(value.map(_.toInt))
+		else new LongArrayNBT(value)
 	}
 	override def toLine = String.join("_", get.map(_.toString).toSeq.asJava)
 	override protected def parseLine(line: String) = line.split(' ').map(java.lang.Long.valueOf(_).longValue)

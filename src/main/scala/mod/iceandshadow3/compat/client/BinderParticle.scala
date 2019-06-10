@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.client
 
 import mod.iceandshadow3.basics.{BParticleType, ParticleType}
 import mod.iceandshadow3.util.BinderLazy
-import net.minecraft.init.Particles
+import net.minecraft.particles.ParticleTypes
 import net.minecraft.particles.IParticleData
 
 
@@ -11,6 +11,6 @@ object BinderParticle extends BinderLazy[ParticleType, BParticleType, IParticleD
 }) {
 	def populate(): Unit = {
 		import mod.iceandshadow3.world.misc.Particles._
-		add(smoke_large, Particles.LARGE_SMOKE)
+		add(smoke_large, ParticleTypes.LARGE_SMOKE)
 	}
 }

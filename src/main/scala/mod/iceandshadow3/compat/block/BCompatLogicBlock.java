@@ -28,7 +28,7 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 		retval.lightValue(materia.getBaseLuma());
 		retval.slipperiness(materia.getSlipperiness());
 		if(multipleOpacities()) retval.variableOpacity();
-		if(randomlyUpdates()) retval.needsRandomTick();
+		if(randomlyUpdates()) retval.tickRandomly();
 		if(materia.isNonSolid()) retval.doesNotBlockMovement();
 		retval.sound(materia.snd);
 		//TODO: There's more.

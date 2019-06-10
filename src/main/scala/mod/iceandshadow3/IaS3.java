@@ -7,7 +7,8 @@ import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.EventFisherman$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -103,8 +104,12 @@ public class IaS3 {
 			Multiverse.registerItems(reg.getRegistry());
 		}
 		@SubscribeEvent
-		public static void registerPots(final RegistryEvent.Register<Potion> reg) {
+		public static void registerPots(final RegistryEvent.Register<Effect> reg) {
 			Multiverse.registerPots(reg.getRegistry());
+		}
+		@SubscribeEvent
+		public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> reg) {
+			Multiverse.registerParticles(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {

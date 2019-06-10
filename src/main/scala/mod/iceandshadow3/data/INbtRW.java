@@ -1,9 +1,9 @@
 package mod.iceandshadow3.data;
 
-import net.minecraft.nbt.INBTBase;
+import net.minecraft.nbt.INBT;
 
 public interface INbtRW {
-	INBTBase toNBT();
+	INBT toNBT();
 
-	boolean fromNBT(INBTBase tag) throws ClassCastException, IllegalArgumentException;
+	boolean fromNBT(INBT tag) throws ClassCastException, IllegalArgumentException;
 }

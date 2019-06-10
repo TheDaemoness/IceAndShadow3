@@ -3,12 +3,12 @@ package mod.iceandshadow3.compat
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BStateData
 import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
-import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.CompoundNBT
 
 trait TWLogical[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
 	this: TLogicProvider[LogicType] =>
 
-	protected def exposeCompoundOrNull(): NBTTagCompound
+	protected def exposeCompoundOrNull(): CompoundNBT
 
 	def exposeNbtTree(): WNbtTree = new WNbtTree(exposeCompoundOrNull())
 
@@ -37,7 +37,7 @@ trait TWLogical[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
 	def saveStateData(state: BStateData): Unit = {
 		if (state == null || !state.needsWrite) return
 		val tags = exposeCompoundOrNull() //This shouldn't be null in this case, but just in case.
-		if(tags != null) tags.setTag(IaS3.MODID, state.exposeDataTree().toNBT)
+		if(tags != null) tags.put(IaS3.MODID, state.exposeDataTree().toNBT)
 		else IaS3.bug(this, "State owner provided state, but cannot save it.")
 	}
 

@@ -1,12 +1,12 @@
 package mod.iceandshadow3.compat.block.`type`
 
-import net.minecraft.block.BlockSnowLayer
-import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Blocks
+import net.minecraft.block.SnowBlock
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 
 class BlockTypeSnow(height: Int) extends BBlockType {
-	override protected[compat] def state(): IBlockState =
-		Blocks.SNOW.getDefaultState.`with`(BlockSnowLayer.LAYERS, Integer.valueOf(height+1))
+	override protected[compat] def state(): BlockState =
+		Blocks.SNOW.getDefaultState.`with`(SnowBlock.LAYERS, Integer.valueOf(height+1))
 }
 object BlockTypeSnow {
 	val SNOWS = Array.tabulate[BlockTypeSnow](8){new BlockTypeSnow(_)}

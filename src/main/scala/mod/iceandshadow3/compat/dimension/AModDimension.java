@@ -11,10 +11,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.DimensionManager;
@@ -22,7 +23,7 @@ import net.minecraftforge.common.ModDimension;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public class AModDimension extends ModDimension {
 	private final BDimension dimlogic; //Couldn't resist.
@@ -39,12 +40,13 @@ public class AModDimension extends ModDimension {
 		//Forge marks the registry for internal use only.
 		//I'd like to know how else they want us to get DimensionTypes out of DimensionManager besides register.
 		DimensionType dimtype;
-		if(DimensionManager.getRegistry().func_212607_c(name)) {
-			dimtype = DimensionManager.getRegistry().func_212608_b(name);
+		if(DimensionManager.getRegistry().containsKey(name)) {
+			dimtype = DimensionManager.getRegistry().getOrDefault(name);
 		} else {
 			dimtype = DimensionManager.registerDimension(
 				name, this,
-				null //TODO: Can be null, but probably shouldn't.
+				null, //TODO: Can be null, but probably shouldn't.
+				dimlogic.getSkyBrightness(0f) >= 0f
 			);
 		}
 		dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
@@ -54,21 +56,21 @@ public class AModDimension extends ModDimension {
 		return dimlogic;
 	}
 
+	@Override
+	public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
+		return ADimension::new;
+	}
+
 	class ADimension extends Dimension {
 		private final DimensionType type;
-		ADimension(DimensionType type) {
+		ADimension(World w, DimensionType type) {
+			super(w, type);
 			this.type = type;
-		}
-
-		@Override
-		protected void init() {
-			this.hasSkyLight = dimlogic.getSkyBrightness(0f) >= 0f;
-			this.world.setSkylightSubtracted(world.calculateSkylightSubtracted(1.0f));
 		}
 
 		@Nonnull
 		@Override
-		public IChunkGenerator<?> createChunkGenerator() {
+		public ChunkGenerator<?> createChunkGenerator() {
 			return new AChunkGenerator(this.world, dimlogic, dimbiome);
 		}
 
@@ -140,19 +142,17 @@ public class AModDimension extends ModDimension {
 		public boolean doesXZShowFog(int x, int z) {
 			return dimlogic.hasFogAt(new IPosColumn() {
 				@Override
-				public long xBlock() {return x;}
+				public long xBlock() {
+					return x;
+				}
 
 				@Override
-				public long zBlock() {return z;}
+				public long zBlock() {
+					return z;
+				}
 			});
 		}
 
-		@Override
-		public float getSunBrightnessFactor(float partialTicks) {
-			return dimlogic.getSkyBrightness(partialTicks);
-		}
-
-		@OnlyIn(Dist.CLIENT)
 		@Override
 		public float getSunBrightness(float partialTicks) {
 			return dimlogic.getSkyBrightness(partialTicks);
@@ -178,9 +178,5 @@ public class AModDimension extends ModDimension {
 		}
 
 		//TODO: Way incomplete.
-	}
-	@Override
-	public Function<DimensionType, ? extends Dimension> getFactory() {
-		return (mctype) -> this.new ADimension(mctype);
 	}
 }

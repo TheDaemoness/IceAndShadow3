@@ -1,8 +1,6 @@
 package mod.iceandshadow3.world.misc
 
 import mod.iceandshadow3.basics.StatusEffectPlaceholder
-import mod.iceandshadow3.compat.entity.BinderStatusEffect
-import net.minecraft.init.MobEffects
 
 object Statuses {
 	val poison = new StatusEffectPlaceholder

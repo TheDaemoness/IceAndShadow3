@@ -1,15 +1,15 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.compat.item.WItemStack
-import net.minecraft.entity.EntityLivingBase
-import net.minecraft.inventory.EntityEquipmentSlot
-import net.minecraft.inventory.EntityEquipmentSlot._
+import net.minecraft.entity.LivingEntity
+import net.minecraft.inventory.EquipmentSlotType
+import net.minecraft.inventory.EquipmentSlotType._
 
 sealed abstract class EquipPoint {
-	protected[entity] def getItem(who: EntityLivingBase): WItemStack
+	protected[entity] def getItem(who: LivingEntity): WItemStack
 }
-case class EquipPointVanilla(where: EntityEquipmentSlot) extends EquipPoint {
-	override protected[entity] def getItem(who: EntityLivingBase): WItemStack =
+case class EquipPointVanilla(where: EquipmentSlotType) extends EquipPoint {
+	override protected[entity] def getItem(who: LivingEntity): WItemStack =
 		new WItemStack(who.getItemStackFromSlot(where), who)
 }
 object EquipPoint {

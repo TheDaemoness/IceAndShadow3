@@ -16,16 +16,16 @@ class DataTreeMap extends BDataTreeBranch[
 	}
 	override def iterator = datum.asScala.iterator
 
-	override def fromNBT(tag: INBTBase) = {
+	override def fromNBT(tag: INBT) = {
 		var greatSuccess: Boolean = true
-		val compound = tag.asInstanceOf[NBTTagCompound]
+		val compound = tag.asInstanceOf[CompoundNBT]
 		for(key <- compound.keySet.asScala) try {
 			val option = getForRead(key)
 			if(option.isEmpty) IaS3.logger().warn(s"Unknown key $key found in NBT compound $compound.")
 			option.foreach(obj => {
 				val tree = obj.exposeDataTree()
 				val objname = obj.getClass.getSimpleName
-				if(!tree.fromNBT(compound.getTag(key))) {
+				if(!tree.fromNBT(compound.get(key))) {
 					greatSuccess = false
 					IaS3.logger().warn(s"An $objname with key $key failed to deserialize from NBT compound $compound.")
 				}
@@ -41,8 +41,8 @@ class DataTreeMap extends BDataTreeBranch[
 		greatSuccess
 	}
 	override protected def writeNBT(map: java.util.Map[String,IDataTreeRW[_ <: BDataTree[_]]]) = {
-		val retval = new NBTTagCompound()
-		for((key, value) <- map.asScala) retval.setTag(key, value.exposeDataTree().toNBT())
+		val retval = new CompoundNBT()
+		for((key, value) <- map.asScala) retval.put(key, value.exposeDataTree().toNBT())
 		retval
 	}
 

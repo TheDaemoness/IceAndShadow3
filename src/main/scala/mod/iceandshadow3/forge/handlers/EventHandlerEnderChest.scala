@@ -1,13 +1,13 @@
 package mod.iceandshadow3.forge.handlers
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityPlayer}
+import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityPlayer}
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.CNVVec3._
 import mod.iceandshadow3.compat.dimension.WDimensionCoord
 import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.world.DomainNyx
-import net.minecraft.init.Blocks
+import net.minecraft.block.Blocks
 import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 

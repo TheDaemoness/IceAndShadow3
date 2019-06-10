@@ -4,6 +4,8 @@ import mod.iceandshadow3.basics.BDimension;
 import mod.iceandshadow3.basics.BDomain;
 import mod.iceandshadow3.compat.block.ABlock;
 import mod.iceandshadow3.compat.block.BinderBlock$;
+import mod.iceandshadow3.compat.client.AParticleType;
+import mod.iceandshadow3.compat.client.BinderParticle$;
 import mod.iceandshadow3.compat.dimension.AModDimension;
 import mod.iceandshadow3.compat.entity.AStatusEffect;
 import mod.iceandshadow3.compat.entity.BinderStatusEffect$;
@@ -16,7 +18,9 @@ import mod.iceandshadow3.world.DomainGaia$;
 import mod.iceandshadow3.world.DomainNyx$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.potion.Effect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ModDimension;
@@ -79,9 +83,14 @@ public final class Multiverse {
 		sealDimensions = true;
 		for(AModDimension dim : dimensions) reg.register(dim.dimbiome);
 	}
-	static void registerPots(IForgeRegistry<Potion> reg) {
-		for(Potion fx : BinderStatusEffect$.MODULE$.freeze()) {
+	static void registerPots(IForgeRegistry<Effect> reg) {
+		for(Effect fx : BinderStatusEffect$.MODULE$.freeze()) {
 			if(fx instanceof AStatusEffect) reg.register(fx);
+		}
+	}
+	static void registerParticles(IForgeRegistry<ParticleType<?>> reg) {
+		for(IParticleData fx : BinderParticle$.MODULE$.freeze()) {
+			if(fx instanceof AParticleType) reg.register((AParticleType)fx);
 		}
 	}
 

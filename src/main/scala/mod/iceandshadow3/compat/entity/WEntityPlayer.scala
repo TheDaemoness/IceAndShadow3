@@ -6,20 +6,19 @@ import mod.iceandshadow3.compat.dimension.WDimension
 import mod.iceandshadow3.compat.item.{WInventory, WItemStack}
 import mod.iceandshadow3.spatial.IVec3
 import mod.iceandshadow3.util.{E3vl, IteratorConcat}
-import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
+import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TranslationTextComponent
 
 import scala.collection.JavaConverters._
 
-//TODO: Manually generated class stub.
-class WEntityPlayer protected[entity](protected[compat] val player: EntityPlayer) extends WEntityLiving(player) {
+class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity) extends WEntityLiving(player) {
 	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f
 	def deshield(force: Boolean = true): Unit = player.disableShield(force)
-	def bed: IVec3 = player.bedLocation
+	def bed: IVec3 = player.getBedLocation(this.dimensionCoord.dimtype)
 	def message(msg: String, actionBar: Boolean = true): Unit
-		= player.sendStatusMessage(new TextComponentTranslation(msg), actionBar)
+		= player.sendStatusMessage(new TranslationTextComponent(msg), actionBar)
 
 	override def home(where: WDimension): Option[IVec3] =
 		Option(player.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
@@ -41,13 +40,13 @@ class WEntityPlayer protected[entity](protected[compat] val player: EntityPlayer
 		new WInventory(player.getInventoryEnderChest).add(what)
 
 	def donateToEnderChest(what: WItemStack): E3vl = {
-		if(findItem(what, false).isEmpty) {
+		if(findItem(what, restrictToHands = false).isEmpty) {
 			new WInventory(player.getInventoryEnderChest).donate(what)
 		} else E3vl.NEUTRAL
 	}
 
 	def advancement(name: String, criteria: String*): Unit = player match {
-		case mp: EntityPlayerMP =>
+		case mp: ServerPlayerEntity =>
 			val what = mp.getServer.getAdvancementManager.getAdvancement(new ResourceLocation(IaS3.MODID, name))
 			if(what == null) {
 				IaS3.logger.warn(s"Advancement with id $name does not exist.")
