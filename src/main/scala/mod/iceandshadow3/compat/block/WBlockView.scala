@@ -57,4 +57,6 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 		if(lp == null) getHardness < 0f || getHardness >= 150f
 		else lp.logic.resistsExousia(lp.variant)
 	}
+
+	def isAir: Boolean = exposeBS().isAir(ibr, pos)
 }

@@ -14,14 +14,15 @@ object CNVVec3 {
 		override def yBlock = bp.getY
 		override def zBlock = bp.getZ
 	}
-	implicit def fromEntity(ent: Entity): IVec3 = new IVec3 {
-		override def xRaw = IVec3.fromDouble(ent.posX)
-		override def yRaw = IVec3.fromDouble(ent.posY).toInt
-		override def zRaw = IVec3.fromDouble(ent.posZ)
-		override def xDouble = ent.posX
-		override def yDouble = ent.posY
-		override def zDouble = ent.posZ
+	def fromDoubles(x: Double, y: Double, z: Double): IVec3 = new IVec3 {
+		override def xRaw = IVec3.fromDouble(x)
+		override def yRaw = IVec3.fromDouble(y).toInt
+		override def zRaw = IVec3.fromDouble(z)
+		override def xDouble = x
+		override def yDouble = y
+		override def zDouble = z
 	}
+	implicit def fromEntity(ent: Entity): IVec3 = fromDoubles(ent.posX, ent.posY, ent.posZ)
 	implicit def fromVec3d(v3f: Vec3d): IVec3 = new Vec3Mutable (
 		IVec3.fromDouble(v3f.x),
 		IVec3.fromDouble(v3f.y).toInt,

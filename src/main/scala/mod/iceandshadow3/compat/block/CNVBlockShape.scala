@@ -14,7 +14,6 @@ object CNVBlockShape {
 		if(what == BlockShape.FULL_CUBE) VoxelShapes.fullCube()
 		else if(what == BlockShape.EMPTY) VoxelShapes.empty()
 		else if(what != null) {
-			IaS3.logger().debug("Reached shapemaker: "+what.boxes.size)
 			var result: VoxelShape = null
 			for (box <- what.boxes) {
 				val mcbox = Block.makeCuboidShape(

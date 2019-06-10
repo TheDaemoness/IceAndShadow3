@@ -21,6 +21,7 @@ sealed trait TFloatBounded extends TBounded[Double] {
 }
 
 class DatumBool(bool: Boolean) extends BDataTreeLeaf(bool) {
+	def isTrue: Boolean = get
 	override protected def readNBT(tag: INBTBase) =
 		tag.asInstanceOf[NBTPrimitive].getByte != 0
 	override protected def writeNBT(value: Boolean) =

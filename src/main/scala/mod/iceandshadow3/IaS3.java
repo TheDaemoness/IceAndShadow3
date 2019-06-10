@@ -1,5 +1,6 @@
 package mod.iceandshadow3;
 
+import mod.iceandshadow3.compat.client.BinderParticle$;
 import mod.iceandshadow3.compat.entity.BinderStatusEffect$;
 import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
@@ -18,10 +19,7 @@ import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -42,6 +40,8 @@ public class IaS3 {
 	private static ConfigManager<ConfigClient> cfgClient;
 	private static ConfigManager<ConfigServer> cfgServer;
 
+	private static boolean weIsClient = false;
+
 	public IaS3() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		//net.minecraftforge.fml.event.lifecycle event handlers here ONLY!
@@ -50,10 +50,12 @@ public class IaS3 {
 		bus.addListener(this::initClient);
 		bus.addListener(this::enqueueIMC);
 		bus.addListener(this::processIMC);
+		bus.addListener(this::initFinal);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		BinderStatusEffect$.MODULE$.addVanillaEffects();
+		BinderStatusEffect$.MODULE$.populate();
+		BinderParticle$.MODULE$.populate();
 		Multiverse.initEarly();
 	}
 
@@ -70,6 +72,7 @@ public class IaS3 {
 	private void initClient(final FMLClientSetupEvent event) {
 		cfgClient = new ConfigManager<>(new ConfigClient());
 		cfgClient.get().seal();
+		weIsClient = true;
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -78,6 +81,12 @@ public class IaS3 {
 
 	private void processIMC(final InterModProcessEvent event) {
 		ModSynergy$.MODULE$.imcRecv(event.getIMCStream());
+	}
+
+	private void initFinal(final FMLLoadCompleteEvent event) {
+		if(weIsClient) {
+			InitClient.finishParticles();
+		} else BinderParticle$.MODULE$.freeze();
 	}
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)

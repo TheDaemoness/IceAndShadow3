@@ -1,7 +1,8 @@
 package mod.iceandshadow3.compat.world
 
+import mod.iceandshadow3.basics.ParticleType
 import mod.iceandshadow3.compat.CNVVec3._
-import mod.iceandshadow3.spatial.IPositional
+import mod.iceandshadow3.spatial.{IPositional, IVec3}
 import net.minecraft.world.EnumLightType
 
 trait TWWorldPlace extends TWWorld {
@@ -20,4 +21,5 @@ trait TWWorldPlace extends TWWorld {
   def getShadowPresence: Float = {
     1f-Math.max(sunlight, blocklight)/15f
   }
+  def particle(what: ParticleType, vel: IVec3): Unit = super.particle(what, position, vel)
 }

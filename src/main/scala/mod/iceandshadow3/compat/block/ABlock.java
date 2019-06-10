@@ -9,6 +9,7 @@ import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.ILogicBlockProvider;
 import mod.iceandshadow3.compat.entity.CNVEntity$;
 import mod.iceandshadow3.compat.item.WItemStack;
+import mod.iceandshadow3.compat.world.WWorld;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -29,6 +30,7 @@ import net.minecraftforge.common.ToolType;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 //NOTE: The deprecation warnings in here are because the methods are supposed to be called indirectly via IBlockState.
 //Overriding them is fine.
@@ -90,6 +92,12 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
+	public void animateTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		logic.clientSideTick(variant, new WWorld(worldIn), new WBlockView(worldIn, pos, stateIn), rand);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	@Override
 	public boolean isSideInvisible(IBlockState state, IBlockState abs, EnumFacing side) {
 		return !logic.isDiscrete() && logic.getMateria().isTransparent() && abs.getBlock() == this ||
 			super.isSideInvisible(state, abs, side);
@@ -121,7 +129,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	@Override
 	public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
-		return logic.canBeAt(new WBlockView(worldIn, pos), false);
+		return logic.canBeAt(variant, new WBlockView(worldIn, pos), false);
 	}
 
 	@Nonnull
@@ -131,17 +139,17 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		IWorld worldIn, BlockPos currentPos, BlockPos facingPos
 	) {
 		//TODO: BlockType on breakage.
-		if(!logic.canBeAt(new WBlockView(worldIn, currentPos), true)) return Blocks.AIR.getDefaultState();
+		if(!logic.canBeAt(variant, new WBlockView(worldIn, currentPos), true)) return Blocks.AIR.getDefaultState();
 		else {
 			WBlockRef us = new WBlockRef(worldIn, currentPos, stateIn);
-			logic.onNeighborChanged(us, new WBlockRef(worldIn, facingPos, facingState));
+			logic.onNeighborChanged(variant, us, new WBlockRef(worldIn, facingPos, facingState));
 			return us.exposeBS();
 		}
 	}
 
 	@Override
 	public void onEntityCollision(IBlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		logic.onInside(new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
+		logic.onInside(variant, new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
 	}
 
 	@Override

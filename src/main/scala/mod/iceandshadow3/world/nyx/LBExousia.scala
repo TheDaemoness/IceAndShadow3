@@ -7,8 +7,9 @@ import mod.iceandshadow3.compat.block.{BMateriaPlasma, WBlockRef}
 import mod.iceandshadow3.compat.entity.{WEntity, WEntityLiving, WProjectile}
 import mod.iceandshadow3.compat.world.WSound
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeExousic}
+import mod.iceandshadow3.spatial.UnitVec3s
 import mod.iceandshadow3.world.DomainNyx
-import mod.iceandshadow3.world.status.Statuses
+import mod.iceandshadow3.world.misc.{Particles, Statuses}
 
 class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasma {
 	override def getName = "exousia"
@@ -25,9 +26,10 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 
 	override val shape: BlockShape = BlockShape.EMPTY
 
-	override def onInside(block: WBlockRef, who: WEntity): Unit = {
+	override def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {
 		who.playSound(WSound.lookup("minecraft:entity.generic.burn"), 0.5f, who.rng(0.9f, 0.2f))
-		//TODO: Smoke particles and damage resistance check.
+		//TODO: Damage resistance check.
+		who.particle(Particles.smoke_large, UnitVec3s.ZERO)
 		who.damage(damage)
 		who.slow(0.5, 0.1, 0.5)
 		who.impulse(0, 0.1, 0)
@@ -41,10 +43,12 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 	override def isTechnical(variant: Int) = true
 
 	lazy val blocktype = new BlockTypeSimple(this, 0)
-	override def onNeighborChanged(us: WBlockRef, them: WBlockRef): Unit = {
+	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): Unit = {
 		if(them.position.yBlock <= us.position.yBlock && !them.resistsExousia) {
-			//TODO: Smoke particles.
-			them.playSound(WSound.lookup("minecraft:entity.generic.burn"), 1f, them.rng(0.9f, 0.2f))
+			if(!them.isAir) {
+				them.particle(Particles.smoke_large, UnitVec3s.ZERO)
+				them.playSound(WSound.lookup("minecraft:entity.generic.burn"), 1f, them.rng(0.9f, 0.2f))
+			}
 			them.set(blocktype)
 		}
 	}

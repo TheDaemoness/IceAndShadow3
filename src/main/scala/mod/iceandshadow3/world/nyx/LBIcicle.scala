@@ -14,7 +14,7 @@ class LBIcicle extends BLogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 	override def harvestOverride(variant: Int, block: WBlockRef, fortune: Int) =
 		Array(WItemStack.make(DomainNyx.Items.icicle, 0).changeCount(block.rng(2, 2+fortune)))
 
-	override def canBeAt(block: WBlockView, preexisting: Boolean) = {
+	override def canBeAt(variant: Int, block: WBlockView, preexisting: Boolean) = {
 		new AdjacentBlocks.Above(block).areSidesSolid
 	}
 
@@ -22,7 +22,7 @@ class LBIcicle extends BLogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 
 	override val shape: BlockShape = BlockShape(BlockSides.UNEVEN, true, BlockSubCuboid(11, 3, 14))
 
-	override def onInside(block: WBlockRef, who: WEntity): Unit = {
+	override def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {
 		//TODO: ADS Ice Ceiling 4
 		block.break(true)
 	}

@@ -1,7 +1,10 @@
 package mod.iceandshadow3.compat.world
 
+import mod.iceandshadow3.basics.ParticleType
+import mod.iceandshadow3.compat.client.BinderParticle
 import mod.iceandshadow3.compat.dimension.{WDimension, WDimensionCoord}
-import net.minecraft.world.{IWorld, World}
+import mod.iceandshadow3.spatial.IVec3
+import net.minecraft.world.IWorld
 
 /** Base trait for world references.
   * Written under the realization that under current design, several other references can also function as world references.
@@ -19,4 +22,9 @@ trait TWWorld {
   def dimension = new WDimension(exposeWorld().getDimension)
   def dimensionCoord = WDimensionCoord(exposeWorld().getDimension.getType)
   def gameTime: Long = exposeWorld().getWorldInfo.getGameTime
+  def particle(what: ParticleType, where: IVec3, vel: IVec3): Unit = exposeWorld().spawnParticle(
+    BinderParticle(what),
+    where.xDouble, where.yDouble, where.zDouble,
+    vel.xDouble, vel.yDouble, vel.zDouble
+  )
 }
