@@ -2,15 +2,11 @@ package mod.iceandshadow3.spatial
 
 import java.util.Random
 
-// Salvaged from IaS2 by its author.
+import mod.iceandshadow3.util.IntBitUtils
 
 object RandomXZ {
 	def calculateSeed(seedIn: Long, modifierIn: Int, xIn: Int, zIn: Int) = {
-		val x = java.lang.Double.doubleToLongBits(Math.expm1(xIn)).toInt
-		val z = java.lang.Double.doubleToLongBits(Math.expm1(zIn)).toInt
-		val modifier = new Random(modifierIn.toLong + (x * z).toLong + x + z).nextInt
-		val tempseed = (seedIn >>> (modifier & 63)) | (seedIn << (64 - (modifier & 63)))
-		tempseed ^ ((modifier ^ x) | ((~modifier ^ z).toLong << 32))
+		seedIn ^ new Random(~modifierIn ^ IntBitUtils.mixIntBits(xIn, zIn)).nextLong()
 	}
 }
 import RandomXZ._

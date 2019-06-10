@@ -1,6 +1,5 @@
 package mod.iceandshadow3.compat.block.`type`
 
-import mod.iceandshadow3.compat.block.BBlockType
 import net.minecraft.block.BlockSnowLayer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks

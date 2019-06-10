@@ -1,6 +1,6 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.basics.block.{BlockShape, BlockSides}
+import mod.iceandshadow3.basics.block.BlockShape
 import mod.iceandshadow3.compat.block.{BCompatLogicBlock, BMateria, BinderBlock, WBlockRef, WBlockView}
 import mod.iceandshadow3.compat.entity.WEntity
 import mod.iceandshadow3.compat.item.WItemStack
@@ -10,6 +10,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	with BinderBlock.TKey
 {
 	BinderBlock.add(this)
+	override def resistsExousia(variant: Int) = mat.resistsExousia
 
 	/** Whether or not the surfaces of the block have any visible holes in them.
 		* Controls the rendering layer in conjunction with the materia.
@@ -20,7 +21,10 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	def canBeAt(block: WBlockView, preexisting: Boolean) = true
 	//TODO: Separate collision shape from selection shape.
 	def shape: BlockShape = BlockShape.FULL_CUBE
+	def isDiscrete = false
+
 	def onInside(block: WBlockRef, who: WEntity): Unit = {}
+	def onNeighborChanged(us: WBlockRef, them: WBlockRef): Unit = {}
 }
 
 abstract class BLogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {

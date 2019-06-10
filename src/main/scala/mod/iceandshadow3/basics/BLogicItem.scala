@@ -18,6 +18,7 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
 	override def getLogic() = this
+	override def resistsExousia(variant: Int) = false
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String) extends BLogicItem(dom, name) {

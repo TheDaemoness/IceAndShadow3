@@ -3,8 +3,7 @@ package mod.iceandshadow3.world.dim_nyx
 import java.util.Random
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.compat.block.BBlockType
-import mod.iceandshadow3.compat.block.`type`.{BlockTypeSimple, BlockTypeSnow}
+import mod.iceandshadow3.compat.block.`type`.{BBlockType, BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.gen.{BChunkSource, Cellmaker, TerrainMap}
 import mod.iceandshadow3.spatial.RandomXZ
 import mod.iceandshadow3.util.MathUtils
@@ -16,6 +15,7 @@ object ChunkSourceNyx {
 	val navistra = new BlockTypeSimple(navistra_stone, 0)
 	val bedrock = new BlockTypeSimple(navistra_bedrock, 0)
 	val icicles = new BlockTypeSimple(DomainNyx.Blocks.icicles, 0)
+	val exousia = new BlockTypeSimple(DomainNyx.Blocks.exousia, 0)
 }
 class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int)
 	extends BChunkSource(xFrom, zFrom, xWidth, zWidth)
@@ -62,15 +62,23 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 		})
 	}
 
+	def getAir(y: Int)= {
+		if(y <= 9) ChunkSourceNyx.exousia
+		else null
+	}
+
 	override def getColumn(x: Int, z: Int): Array[BBlockType] = {
 		val finalheight = heightmap(x,z)*32
 		lazy val caves = cavemap(x,z)
-		val colNoise = new RandomXZ(noises.seed, 31920, x, z).nextInt(2)
+		val colRng = new RandomXZ(noises.seed, 31920, x, z)
+		val colNoise = colRng.nextInt(2)
+		val noIcicles = colRng.nextInt(icicleInfrequency)
 		val retval = Array.tabulate[BBlockType](256)(y => {
 			val delta = finalheight-y
 			if(y == 0) ChunkSourceNyx.bedrock
-			else if(finalheight < 48) null
-			else if(y < yCaveMax && caves(y) > (1-MathUtils.attenuateThrough(yFull, y, yCaveMax)*0.25)) null
+			else if(y == 1) ChunkSourceNyx.navistra
+			else if(finalheight < 48) getAir(y)
+			else if(y < yCaveMax && caves(y) > (1-MathUtils.attenuateThrough(yFull, y, yCaveMax)*0.25)) getAir(y)
 			else if(delta > 2) {
 				if(y<=11+colNoise && (y <= 1+colNoise || finalheight <= 64 || caves(y) > 0.4)) {
 					ChunkSourceNyx.navistra
@@ -103,7 +111,7 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 			} else if(doIcicles) {
 				if(retval(y) == null) {
 					doIcicles = false
-					if(new Random(noises.seed ^ 0xff928ff823749377L).nextInt(icicleInfrequency) == 0) {
+					if(noIcicles == 0) {
 						//TODO: Check if it can stay here.
 						retval(y) = ChunkSourceNyx.icicles
 					}

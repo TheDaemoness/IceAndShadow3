@@ -1,6 +1,6 @@
 package mod.iceandshadow3.gen
 
-import mod.iceandshadow3.compat.block.BBlockType
+import mod.iceandshadow3.compat.block.`type`.BBlockType
 
 /** The actual world generator for IaS3 dimensions.
 	*

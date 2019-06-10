@@ -21,6 +21,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
 
@@ -86,6 +88,13 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		} else super.getDrops(state, drops, world, pos, fortune);
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@Override
+	public boolean isSideInvisible(IBlockState state, IBlockState abs, EnumFacing side) {
+		return !logic.isDiscrete() && logic.getMateria().isTransparent() && abs.getBlock() == this ||
+			super.isSideInvisible(state, abs, side);
+	}
+
 	@Override
 	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
 		return defaultShape;
@@ -115,14 +124,19 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		return logic.canBeAt(new WBlockView(worldIn, pos), false);
 	}
 
+	@Nonnull
 	@Override
 	public IBlockState updatePostPlacement(
 		@Nonnull IBlockState stateIn, EnumFacing facing, IBlockState facingState,
 		IWorld worldIn, BlockPos currentPos, BlockPos facingPos
 	) {
 		//TODO: BlockType on breakage.
-		return !logic.canBeAt(new WBlockView(worldIn, currentPos), true) ? Blocks.AIR.getDefaultState() :
-			super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		if(!logic.canBeAt(new WBlockView(worldIn, currentPos), true)) return Blocks.AIR.getDefaultState();
+		else {
+			WBlockRef us = new WBlockRef(worldIn, currentPos, stateIn);
+			logic.onNeighborChanged(us, new WBlockRef(worldIn, facingPos, facingState));
+			return us.exposeBS();
+		}
 	}
 
 	@Override

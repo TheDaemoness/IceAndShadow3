@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;
-import mod.iceandshadow3.compat.block.BBlockType;
+import mod.iceandshadow3.compat.block.type.BBlockType;
 import mod.iceandshadow3.gen.BChunkSource;
 import mod.iceandshadow3.gen.BWorldSource;
 import net.minecraft.block.state.IBlockState;

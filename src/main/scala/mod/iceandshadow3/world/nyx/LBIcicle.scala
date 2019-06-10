@@ -18,6 +18,8 @@ class LBIcicle extends BLogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 		new AdjacentBlocks.Above(block).areSidesSolid
 	}
 
+	override def isDiscrete = true
+
 	override val shape: BlockShape = BlockShape(BlockSides.UNEVEN, true, BlockSubCuboid(11, 3, 14))
 
 	override def onInside(block: WBlockRef, who: WEntity): Unit = {

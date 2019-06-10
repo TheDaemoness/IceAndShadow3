@@ -4,7 +4,7 @@ import mod.iceandshadow3.basics.BLogicBlock
 import mod.iceandshadow3.compat.{CNVVec3, ILogicBlockProvider, TWLogical}
 import mod.iceandshadow3.compat.entity.TEffectSource
 import mod.iceandshadow3.damage.Attack
-import mod.iceandshadow3.spatial.{IPositional, IVec3}
+import mod.iceandshadow3.spatial.IPositional
 import net.minecraft.block.state.{BlockFaceShape, IBlockState}
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
@@ -50,5 +50,11 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	override protected def exposeCompoundOrNull() = {
 		val tileentity = Option(ibr.getTileEntity(pos))
 		tileentity.fold[NBTTagCompound](null)(tent => {tent.getTileData})
+	}
+
+	def resistsExousia: Boolean = {
+		val lp = getLogicPair
+		if(lp == null) getHardness < 0f || getHardness >= 150f
+		else lp.logic.resistsExousia(lp.variant)
 	}
 }

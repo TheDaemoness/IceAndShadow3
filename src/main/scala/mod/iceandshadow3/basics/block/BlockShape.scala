@@ -4,5 +4,5 @@ case class BlockShape(sides: BlockSides, isPole: Boolean, boxes: BlockSubCuboid*
 
 object BlockShape {
 	val FULL_CUBE = BlockShape(BlockSides.FULL, false, BlockSubCuboid())
-	val DECO = BlockShape(BlockSides.UNEVEN, false)
+	val EMPTY = BlockShape(BlockSides.UNEVEN, false)
 }

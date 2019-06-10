@@ -57,6 +57,12 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 			)
 		)
 
+	def impulse(x: Double, y: Double, z: Double): Unit = entity.addVelocity(x, y, z)
+	def slow(x: Double, y: Double, z: Double): Unit = {
+		entity.motionX /= (1+x)
+		entity.motionY /= (1+y)
+		entity.motionZ /= (1+z)
+	}
 	def items(): Iterator[WItemStack] = new IteratorEmpty[WItemStack]
 
 	def extinguish(): Unit = entity.extinguish()
@@ -70,5 +76,6 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 		entity.attackEntityFrom(new ADamageSource(how), how.baseDamage(multiplier)
 		)
 	} else false
+	def remove(): Unit = entity.remove()
 }
 

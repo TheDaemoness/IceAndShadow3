@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.block
+package mod.iceandshadow3.compat.block.`type`
 
 import net.minecraft.block.state.IBlockState
 

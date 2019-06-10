@@ -6,6 +6,7 @@ import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDomain
 import mod.iceandshadow3.spatial.IVec3
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
 import net.minecraftforge.registries.{ForgeRegistries, IForgeRegistry}
 
@@ -16,7 +17,7 @@ case class WSound(@Nullable private val soundevent: SoundEvent) {
 	def play(world: TWWorld, place: IVec3, volume: Float, freqshift: Float): Unit = {
 		if(soundevent == null) return
 		world.exposeWorld().playSound(null,
-			place.xDouble, place.yDouble, place.zDouble,
+			new BlockPos(place.xDouble, place.yDouble, place.zDouble),
 			soundevent, SoundCategory.MASTER, volume, freqshift
 		)
 	}
@@ -40,6 +41,6 @@ object WSound {
 		for(soundevent <- newsounds.asScala) registry.register(soundevent)
 		newsounds = Collections.emptyList()
 	}
-	implicit def lookup(id: String): WSound =
+	def lookup(id: String): WSound =
 		WSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(id)))
 }

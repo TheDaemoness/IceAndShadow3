@@ -19,5 +19,5 @@ trait TLogic {
 		val varname = getVariantName(variant)
 		if(varname == null) getName else getName+'_'+varname
 	}
-	final def resistsExousia(variant: Int): Boolean = false
+	def resistsExousia(variant: Int): Boolean
 }

@@ -1,9 +1,10 @@
 package mod.iceandshadow3.forge.handlers
 
-import mod.iceandshadow3.compat.entity.{CNVEntity, Statuses}
+import mod.iceandshadow3.compat.entity.CNVEntity
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
 import mod.iceandshadow3.util.MathUtils
+import mod.iceandshadow3.world.status.Statuses
 import mod.iceandshadow3.world.{DimensionNyx, DomainNyx}
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent

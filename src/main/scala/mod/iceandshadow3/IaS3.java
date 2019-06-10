@@ -1,6 +1,6 @@
 package mod.iceandshadow3;
 
-import mod.iceandshadow3.compat.entity.Statuses$;
+import mod.iceandshadow3.compat.entity.BinderStatusEffect$;
 import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.EventFisherman$;
@@ -53,7 +53,7 @@ public class IaS3 {
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		Statuses$.MODULE$.addVanillaEffects();
+		BinderStatusEffect$.MODULE$.addVanillaEffects();
 		Multiverse.initEarly();
 	}
 
