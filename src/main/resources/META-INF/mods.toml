@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[@forge@,)"
+loaderVersion="@forgerange@"
 issueTrackerURL="https://github.com/TheDaemoness/IceAndShadow3/issues"
 logoFile="ias3logo.png"
 
@@ -18,7 +18,7 @@ A brutal post-endgame dimension.
 [[dependencies.iceandshadow3]]
 modId="forge"
 mandatory=true
-versionRange="[@forge@,)"
+versionRange="@forgerange@"
 ordering="NONE"
 side="BOTH"
 

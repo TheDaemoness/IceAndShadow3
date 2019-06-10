@@ -17,7 +17,7 @@ plugins {
     id "scala"
     id "idea"
     id "eclipse"
-    id "de.undercouch.download" version "3.4.3"
+    //id "de.undercouch.download" version "3.4.3"
 }
 wrapper {
     gradleVersion = '4.10.3'
@@ -26,9 +26,12 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'bloop'
 
 def version_minecraft = '1.13.2'
-def version_forge_req='25'
-def version_forge_suffix='.0.218'
-def version_forge="${version_forge_req}${version_forge_suffix}"
+def version_forge_maj=25
+def version_forge_min=0
+def version_forge_patch=219
+def version_forge_req="${version_forge_maj}.${version_forge_min}"
+def version_forge="${version_forge_req}.${version_forge_patch}"
+def mappings_id='20180921-1.13'
 
 apply from: 'config.gradle'
 
@@ -43,14 +46,14 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20180921-1.13'
+    mappings channel: 'snapshot', version: "${mappings_id}"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
 
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             mods {
                 iceandshadow3 {
@@ -60,7 +63,7 @@ minecraft {
         }
         server {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             mods {
                 iceandshadow3 {
@@ -82,7 +85,7 @@ dependencies {
     // About the minecraft dependency: If this has any group other then 'net.minecraft',
     // it is assumed that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft "net.minecraftforge:forge:$version_minecraft-$version_forge"
+    minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
     testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 
@@ -100,7 +103,7 @@ processResources {
       filter(ReplaceTokens, tokens: [
          'version':version.toString(),
          'minecraft':version_minecraft.toString(),
-         'forge':version_forge_req.toString()
+         'forgerange':"[$version_forge_req,${version_forge_maj+1})".toString()
       ])
    }
 }
