@@ -2,6 +2,8 @@ _Here be Navistra-scaled dragons. This mod is heavily WIP and should be consider
 
 _Until then, this every 0.0.x version should be considered backward-incompatible, and every 0.0.0.x version forwards-incompatible._
 
+_Abandon hope, all ye who try to run this on the dedicated server._
+
 # Ice and Shadow III
 __A brutal post-endgame dimension mod for Minecraft 1.13 + Forge.__
 

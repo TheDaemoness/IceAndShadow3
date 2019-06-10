@@ -34,16 +34,20 @@ public class AModDimension extends ModDimension {
 		this.setRegistryName(name);
 		this.dimbiome = new ABiome(name, what);
 	}
+	@SuppressWarnings("deprecation")
 	public void enable() {
 		//Forge marks the registry for internal use only.
 		//I'd like to know how else they want us to get DimensionTypes out of DimensionManager besides register.
+		DimensionType dimtype;
 		if(DimensionManager.getRegistry().func_212607_c(name)) {
-			dimlogic.coord_$eq(WDimensionCoord.apply(DimensionManager.getRegistry().func_212608_b(name)));
+			dimtype = DimensionManager.getRegistry().func_212608_b(name);
 		} else {
-			DimensionType dimtype = DimensionManager.registerDimension(name, this, null);
-			//TODO: The third arg can be null, but probably shouldn't be.
-			dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
+			dimtype = DimensionManager.registerDimension(
+				name, this,
+				null //TODO: Can be null, but probably shouldn't.
+			);
 		}
+		dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
 	}
 	//TODO: We probably need a disable function for server unload.
 	public BDimension getIaSDimension() {

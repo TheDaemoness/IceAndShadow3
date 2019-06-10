@@ -32,9 +32,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-//NOTE: The deprecation warnings in here are because the methods are supposed to be called indirectly via IBlockState.
+//NOTE: The deprecation suppression is here because the methods are supposed to be called indirectly via IBlockState.
 //Overriding them is fine.
 
+@SuppressWarnings("deprecation")
 public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	
 	private final BLogicBlock logic;
@@ -103,6 +104,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 			super.isSideInvisible(state, abs, side);
 	}
 
+	@Nonnull
 	@Override
 	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
 		return defaultShape;
@@ -113,6 +115,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		return logic.shape().sides().isFullCube();
 	}
 
+	@Nonnull
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		//TODO: More dynamic EnumFacing -> BlockSides val mapping.

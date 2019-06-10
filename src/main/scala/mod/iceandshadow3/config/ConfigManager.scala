@@ -74,7 +74,7 @@ class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) exten
 				IaS3.logger().warn(
 					filename() +
 					" is of a different major version than this mod supports. Delete/rename the current config to generate a new one. Expect configuration errors.")
-			} else if (file_minor_version > config.versionMajor) {
+			} else if (file_minor_version > config.versionMinor) {
 				IaS3.logger().warn(
 					filename() +
 					" is of a newer minor version than this mod supports. Expect configuration errors.")

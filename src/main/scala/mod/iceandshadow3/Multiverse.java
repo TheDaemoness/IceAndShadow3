@@ -17,6 +17,7 @@ import mod.iceandshadow3.world.DomainNyx$;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -86,6 +87,25 @@ public final class Multiverse {
 
 	static void enableDimensions() {
 		for(AModDimension dim : dimensions) dim.enable();
+	}
+
+	static void primeDimensions(MinecraftServer server) {
+		//TODO: ALL OF THIS IS A TEMPORARY HACK. COME UP WITH SOMETHING BETTER!
+		class RestartRequired extends RuntimeException {
+			private RestartRequired() {
+				super("Please restart the dedicated server.");
+			}
+		}
+
+		boolean foundOne = false;
+		for(AModDimension dim : dimensions) {
+			final BDimension iasdim = dim.getIaSDimension();
+			if(iasdim.coord() == null) {
+				dim.enable();
+				foundOne = true;
+			}
+		}
+		if(foundOne) throw new RestartRequired();
 	}
 
 	static void initLate() {

@@ -21,6 +21,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
@@ -75,6 +76,8 @@ public class IaS3 {
 		weIsClient = true;
 	}
 
+
+
 	private void enqueueIMC(final InterModEnqueueEvent event) {
 		ModSynergy$.MODULE$.imcSend();
 	}
@@ -120,11 +123,21 @@ public class IaS3 {
 	@SubscribeEvent
 	public void onServerLoading(FMLServerAboutToStartEvent event) {
 		getCfgServer().seal();
+		if(event.getServer().isDedicatedServer()) {
+			BEAVER.error("Ice and Shadow III is currently UNSTABLE on dedicated servers. YOU HAVE BEEN WARNED!");
+		}
 	}
 
 	@SubscribeEvent
 	public void onRegisterDimensions(RegisterDimensionsEvent event) {
 		Multiverse.enableDimensions();
+	}
+
+	@SubscribeEvent
+	public void onServerStarting(FMLServerStartingEvent event) {
+		if(event.getServer().isDedicatedServer()) {
+			Multiverse.primeDimensions(event.getServer());
+		}
 	}
 
 	@SubscribeEvent

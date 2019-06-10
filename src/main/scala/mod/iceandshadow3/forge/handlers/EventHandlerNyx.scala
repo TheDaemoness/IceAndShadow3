@@ -20,7 +20,7 @@ class EventHandlerNyx extends BEventHandler {
 	})
 	@SubscribeEvent
 	def onPoorInnocentSoulUpdate(victim: LivingUpdateEvent): Unit = {
-		if(DimensionNyx.coord == null || victim.getEntityLiving.dimension != DimensionNyx.coord.dimtype) return
+		if(victim.getEntityLiving.dimension != DimensionNyx.coord.dimtype) return
 		val who = CNVEntity.wrap(victim.getEntityLiving)
 		if(who.getShadowPresence >= 1f) {
 			who.setStatus(Statuses.blind, 55)
