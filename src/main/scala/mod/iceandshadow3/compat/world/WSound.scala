@@ -5,8 +5,10 @@ import java.util.Collections
 import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDomain
+import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
 import net.minecraftforge.registries.{ForgeRegistries, IForgeRegistry}
 
@@ -20,6 +22,9 @@ case class WSound(@Nullable private val soundevent: SoundEvent) {
 			new BlockPos(place.xDouble, place.yDouble, place.zDouble),
 			soundevent, SoundCategory.MASTER, volume, freqshift
 		)
+	}
+	def play(who: WEntityPlayer, volume: Float, freqshift: Float): Unit = {
+		who.player.playSound(soundevent, volume, freqshift)
 	}
 }
 

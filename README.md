@@ -5,7 +5,7 @@ _Until then, this every 0.0.x version should be considered backward-incompatible
 _Abandon hope, all ye who try to run this on the dedicated server._
 
 # Ice and Shadow III
-__A brutal post-endgame dimension mod for Minecraft 1.13 + Forge.__
+__A brutal post-endgame dimension mod for Minecraft 1.14.2 + Forge.__
 
 This is a rewrite of the rewrite of the original Ice and Shadow mod to both rework its content and be a bit more future-proof for a change.
 

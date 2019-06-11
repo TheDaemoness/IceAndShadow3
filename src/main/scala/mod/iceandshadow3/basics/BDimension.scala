@@ -4,7 +4,7 @@ import mod.iceandshadow3.Multiverse
 import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.compat.dimension.WDimensionCoord
 import mod.iceandshadow3.compat.entity.WEntity
-import mod.iceandshadow3.compat.world.WWorld
+import mod.iceandshadow3.compat.world.{WSound, WWorld}
 import mod.iceandshadow3.gen.BWorldSource
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3}
 import mod.iceandshadow3.util.Color
@@ -32,7 +32,8 @@ abstract class BDimension(val name: String) extends BBiome {
 	override def baseAltitude = seaLevel/128f
 	override def baseHilliness = (peakLevel/seaLevel)/128f
 
-	def placeVisitor(world: WWorld, who: WEntity, yaw: Float)
+	def handleArrival(world: WWorld, who: WEntity): IVec3
+	def handleEscape(who: WEntity, where: WDimensionCoord): Boolean = false
 
 	def getWorldSource(seed: Long): BWorldSource
 

@@ -7,11 +7,13 @@ import mod.iceandshadow3.compat.block.BinderBlock$;
 import mod.iceandshadow3.compat.client.AParticleType;
 import mod.iceandshadow3.compat.client.BinderParticle$;
 import mod.iceandshadow3.compat.dimension.AModDimension;
+import mod.iceandshadow3.compat.dimension.WDimensionCoord;
 import mod.iceandshadow3.compat.entity.AStatusEffect;
 import mod.iceandshadow3.compat.entity.BinderStatusEffect$;
 import mod.iceandshadow3.compat.item.AItem;
 import mod.iceandshadow3.compat.item.AItemBlock;
 import mod.iceandshadow3.compat.item.BinderItem$;
+import mod.iceandshadow3.forge.Teleporter$;
 import mod.iceandshadow3.world.DimensionNyx$;
 import mod.iceandshadow3.world.DomainAlien$;
 import mod.iceandshadow3.world.DomainGaia$;
@@ -23,6 +25,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.registries.IForgeRegistry;
 import scala.Tuple2;
@@ -94,6 +97,14 @@ public final class Multiverse {
 		}
 	}
 
+	public static BDimension lookup(DimensionType where) {
+		for(AModDimension dim: dimensions) {
+			WDimensionCoord wdc = dim.getIaSDimension().coord();
+			if(wdc != null && wdc.dimtype() == where) return dim.getIaSDimension();
+		}
+		return null;
+	}
+
 	static void enableDimensions() {
 		for(AModDimension dim : dimensions) dim.enable();
 	}
@@ -118,6 +129,7 @@ public final class Multiverse {
 	}
 
 	static void initLate() {
+		Teleporter$.MODULE$.registerSelf();
 		for(BDomain domain : domains) domain.initLate();
 	}
 }

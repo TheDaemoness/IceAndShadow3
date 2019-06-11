@@ -4,12 +4,12 @@ import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.compat.entity.WEntity
 import mod.iceandshadow3.compat.world.WWorld
-import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, UnitVec3s, Vec3Fixed}
+import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
 import mod.iceandshadow3.util.Color
 import mod.iceandshadow3.world.dim_nyx.WorldSourceNyx
 
 object DimensionNyx extends BDimension("nyx") {
-	override def getSkyBrightness(partialTicks: Float) = 0f
+	override def getSkyBrightness(partialTicks: Float) = 1f/15
 	override def getWorldSpawn = new Vec3Fixed(0, 64, 0)
 	override def findSpawn(where: IPosChunk, check: Boolean) = null
 	override def cloudLevel = 192f
@@ -24,13 +24,13 @@ object DimensionNyx extends BDimension("nyx") {
 	override def baseDownfall = 0f
 	override def baseTemperature = 0f
 
-	override def placeVisitor(here: WWorld, who: WEntity, yaw: Float): Unit = {
+	override def handleArrival(here: WWorld, who: WEntity): IVec3 = {
 		//TODO: Bit shoddy. Come up with something better.
 		val topopt = here.topSolid(UnitVec3s.ZERO)
 		val teleloc = if(topopt.isEmpty) UnitVec3s.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
 		//DomainNyx.snd_arrival.play(here, teleloc, 1f, 1f)
 		//TODO: ^ Research if there's a way to override the vanilla teleport sound.
-		who.teleport(teleloc)
+		teleloc
 	}
 
 	override def getWorldSource(seed: Long) = new WorldSourceNyx(seed)
