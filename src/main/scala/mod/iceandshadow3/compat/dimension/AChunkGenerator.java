@@ -11,8 +11,6 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
@@ -62,7 +60,6 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 		} catch(Exception e) {
 			IaS3.bug(e, "Worldgen failure on "+dim.name());
 		}
-		if(chunk instanceof ChunkPrimer) ((ChunkPrimer)chunk).setStatus(ChunkStatus.FEATURES);
 	}
 
 	@Override
@@ -89,7 +86,7 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 	@Override
 	public int func_222529_a(int i, int i1, @Nonnull Heightmap.Type type) {
 		//TODO: Determine what this does.
-		return 0;
+		return dim.peakLevel();
 	}
 
 	@Nullable

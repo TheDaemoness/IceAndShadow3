@@ -4,13 +4,12 @@ import mod.iceandshadow3.Multiverse
 import mod.iceandshadow3.compat.CNVVec3
 import mod.iceandshadow3.compat.dimension.WDimensionCoord
 import mod.iceandshadow3.compat.entity.CNVEntity
-import mod.iceandshadow3.compat.world.{WSound, WWorld}
+import mod.iceandshadow3.compat.world.WWorld
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.network.play.server.{SPlayEntityEffectPacket, SPlaySoundEventPacket, SPlayerAbilitiesPacket, SRespawnPacket, SServerDifficultyPacket}
-import net.minecraft.util.math.BlockPos
+import net.minecraft.network.play.server.{SPlayEntityEffectPacket, SPlayerAbilitiesPacket, SRespawnPacket, SServerDifficultyPacket}
 import net.minecraft.world.ServerWorld
 import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.MinecraftForge

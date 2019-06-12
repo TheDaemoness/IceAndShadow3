@@ -5,11 +5,9 @@ import mod.iceandshadow3.basics.BStatusEffect;
 import mod.iceandshadow3.util.E3vl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -85,15 +83,15 @@ public class AStatusEffect extends Effect {
 		gui.blit(x, y, xSpriteSheet, ySpriteSheet, 18, 18);
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	@Override
-	public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
-		draw(gui, x+6, y+7);
-	}
+	//@OnlyIn(Dist.CLIENT)
+	//@Override
+	//public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
+		//draw(gui, x+6, y+7);
+	//}
 
-	@OnlyIn(Dist.CLIENT)
-	@Override
-	public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
-		draw(gui, x+3, y+3);
-	}
+	//@OnlyIn(Dist.CLIENT)
+	//@Override
+	//public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
+	//	draw(gui, x+3, y+3);
+	//}
 }

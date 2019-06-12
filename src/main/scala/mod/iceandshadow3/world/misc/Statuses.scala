@@ -7,8 +7,8 @@ object Statuses {
 	val slow = new StatusEffectPlaceholder
 	val blind = new StatusEffectPlaceholder
 	val wither = new StatusEffectPlaceholder
+	val regen = new StatusEffectPlaceholder
 	//NOTE: Make sure these are also in BinderStatusEffect.populate
 
-	//WARNING: Begin IaS3 statuses. DO NOT REORDER!
 	val frost = new StatusFrost
 }

@@ -46,11 +46,12 @@ public class AModDimension extends ModDimension {
 			dimtype = DimensionManager.registerDimension(
 				name, this,
 				null, //TODO: Can be null, but probably shouldn't.
-				dimlogic.getSkyBrightness(0f) >= 0f
+				dimlogic.getSkyBrightness(-1f) >= 0f
 			);
 		}
 		dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
 	}
+
 	//TODO: We probably need a disable function for server unload.
 	public BDimension getIaSDimension() {
 		return dimlogic;
@@ -66,6 +67,11 @@ public class AModDimension extends ModDimension {
 		ADimension(World w, DimensionType type) {
 			super(w, type);
 			this.type = type;
+		}
+
+		@Override
+		public boolean hasSkyLight() {
+			return dimlogic.getSkyBrightness(-1f) >= 0f;
 		}
 
 		@Nonnull

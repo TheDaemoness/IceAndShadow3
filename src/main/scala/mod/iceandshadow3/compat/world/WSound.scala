@@ -8,7 +8,6 @@ import mod.iceandshadow3.basics.BDomain
 import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.registry.Registry
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
 import net.minecraftforge.registries.{ForgeRegistries, IForgeRegistry}
 
