@@ -1,8 +1,8 @@
-package mod.iceandshadow3.compat.item;
+package mod.iceandshadow3.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicBlock;
-import mod.iceandshadow3.compat.block.ABlock;
+import mod.iceandshadow3.compat.block.impl.ABlock;
 import net.minecraft.item.BlockItem;
 
 public class AItemBlock extends BlockItem {

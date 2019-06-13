@@ -4,7 +4,7 @@ import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityPlayer}
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.CNVVec3._
-import mod.iceandshadow3.compat.dimension.WDimensionCoord
+import mod.iceandshadow3.compat.world.WDimensionCoord
 import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.world.DomainNyx
 import net.minecraft.block.Blocks

@@ -1,1 +1,6 @@
-{"parent": "item/generated", "textures": {"layer0": "iceandshadow3:item/nyx_icicle"}}
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "iceandshadow3:item/nyx_icicle"
+	}
+}

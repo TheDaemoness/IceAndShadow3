@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.item;
+package mod.iceandshadow3.compat.item.impl;
 
 import mod.iceandshadow3.basics.BDomain;
 import mod.iceandshadow3.compat.BLogic;
@@ -17,7 +17,7 @@ public abstract class BCompatLogicCommon extends BLogic {
 		final Item.Properties retval = new Item.Properties();
 		retval.maxStackSize(this.stackLimit(variant));
 		retval.rarity(getDomain().tierToRarity(getTier(variant)).rarity);
-		if(!isTechnical(variant)) retval.group(CreativeTab$.MODULE$);
+		if(!isTechnical()) retval.group(CreativeTab$.MODULE$);
 		return retval;
 	}
 }

@@ -16,5 +16,5 @@ my $handle;
 IaS3Dev::add_common_block_files($blockname);
 
 $handle = IaS3Dev::open_new("$assets_prefix/models/block/$blockname.json");
-print $handle "{\"parent\": \"block/tinted_cross\", \"textures\": {\"cross\": \"iceandshadow3:block/$blockname\"}}";
+print $handle "{\"parent\": \"block/cube_all\", \"textures\": {\"all\": \"iceandshadow3:block/$blockname\"}}";
 close($handle);

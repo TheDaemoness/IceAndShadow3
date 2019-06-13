@@ -1,8 +1,8 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.basics.StatusEffect
-import mod.iceandshadow3.compat.dimension.WDimension
 import mod.iceandshadow3.compat.item.WItemStack
+import mod.iceandshadow3.compat.world.WDimension
 import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.util.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.LivingEntity

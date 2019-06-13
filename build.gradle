@@ -95,6 +95,7 @@ dependencies {
 }
 
 
+import groovy.json.*
 import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
@@ -105,6 +106,16 @@ processResources {
          'minecraft':version_minecraft.toString(),
          'forgerange':"[$version_forge_req,${version_forge_maj+1})".toString()
       ])
+   }
+   doLast {
+       JsonOutput output = new JsonOutput()
+       JsonSlurper input = new JsonSlurper(type: JsonParserType.LAX)
+       fileTree(include: "**/*.json", dir: outputs.files.asPath).each {
+           File json -> json.text = output.toJson(input.parse(json))
+       }
+       fileTree(include: "**/*.mcmeta", dir: outputs.files.asPath).each {
+           File json -> json.text = output.toJson(input.parse(json))
+       }
    }
 }
 jar {

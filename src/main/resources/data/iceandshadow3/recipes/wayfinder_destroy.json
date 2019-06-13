@@ -1,10 +1,10 @@
 {
-  "type": "minecraft:smelting",
-  "group": "wayfinder",
-  "ingredient": {
-    "item": "iceandshadow3:nyx_wayfinder"
-  },
-  "result": "minecraft:lapis_lazuli",
-  "experience": 13.0,
-  "cookingtime": 400
+	"type": "minecraft:smelting",
+	"group": "wayfinder",
+	"ingredient": {
+		"item": "iceandshadow3:nyx_wayfinder"
+	},
+	"result": "minecraft:lapis_lazuli",
+	"experience": 13,
+	"cookingtime": 400
 }

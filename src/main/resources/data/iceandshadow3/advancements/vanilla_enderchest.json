@@ -1,18 +1,22 @@
 {
-  "display": {
-    "icon": {
-      "item": "minecraft:ender_chest"
-    },
-    "title": "Ender's Mailbox",
-    "description": "Acquire an ender chest."
-  },
-  "parent": "minecraft:story/form_obsidian",
-  "criteria": {
-    "gotchest": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [{"item": "minecraft:ender_chest"}]
-      }
-    }
-  }
+	"display": {
+		"icon": {
+			"item": "minecraft:ender_chest"
+		},
+		"title": "Ender's Mailbox",
+		"description": "Acquire an ender chest."
+	},
+	"parent": "minecraft:story/form_obsidian",
+	"criteria": {
+		"gotchest": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "minecraft:ender_chest"
+					}
+				]
+			}
+		}
+	}
 }

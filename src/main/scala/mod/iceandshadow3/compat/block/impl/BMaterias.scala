@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.block
+package mod.iceandshadow3.compat.block.impl
 
 import mod.iceandshadow3.basics.block.ECommonBlockType._
 import mod.iceandshadow3.basics.block.HarvestMethod

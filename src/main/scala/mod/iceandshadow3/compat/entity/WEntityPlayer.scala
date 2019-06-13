@@ -2,9 +2,8 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.CNVVec3._
-import mod.iceandshadow3.compat.dimension.WDimension
 import mod.iceandshadow3.compat.item.{WInventory, WItemStack}
-import mod.iceandshadow3.compat.world.WSound
+import mod.iceandshadow3.compat.world.{WDimension, WSound}
 import mod.iceandshadow3.spatial.IVec3
 import mod.iceandshadow3.util.{E3vl, IteratorConcat}
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}

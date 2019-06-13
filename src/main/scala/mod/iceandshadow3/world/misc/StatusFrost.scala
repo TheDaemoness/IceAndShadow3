@@ -17,7 +17,7 @@ class StatusFrost extends BStatusEffect("frost", E3vl.FALSE, new Color(0x5079ff)
 	}
 	override def onTick(who: WEntityLiving, amp: Int): Unit = {
 		val dmg = if(who.sprinting) amp-1 else {
-			//who.setStatus(Statuses.regen, 0) //TODO: Decide between this or just denying healing.
+			//who.setStatus(Statuses.regen, 0) //TODO: Decide between this or just reducing healing.
 			amp
 		}
 		if(dmg <= 0) return

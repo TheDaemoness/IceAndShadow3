@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.block.`type`
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.basics.BLogicBlock
-import mod.iceandshadow3.compat.block.BinderBlock
+import mod.iceandshadow3.compat.block.impl.BinderBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks

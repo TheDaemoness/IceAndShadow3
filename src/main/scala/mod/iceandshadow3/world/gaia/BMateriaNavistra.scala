@@ -1,8 +1,8 @@
 package mod.iceandshadow3.world.gaia
 
-import mod.iceandshadow3.compat.block.BMateriaStone
 import mod.iceandshadow3.basics.block.ECommonBlockType._
 import mod.iceandshadow3.basics.block.IMateria
+import mod.iceandshadow3.compat.block.impl.BMateriaStone
 
 abstract class BMateriaNavistra extends BMateriaStone {
 	override def getBaseBlastResist: Float = IMateria.indestructibleByBlast

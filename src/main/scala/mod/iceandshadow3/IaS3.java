@@ -6,6 +6,7 @@ import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.forge.EventFisherman$;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
@@ -31,6 +32,7 @@ import org.apache.logging.log4j.Logger;
 
 /** The mod class for Ice and Shadow III. If you're looking for main, this is roughly it.
  */
+@SuppressWarnings("unused")
 @Mod(IaS3.MODID)
 public class IaS3 {
 	/// The value here should match the entry in the META-INF/mods.toml file
@@ -77,8 +79,6 @@ public class IaS3 {
 		weIsClient = true;
 	}
 
-
-
 	private void enqueueIMC(final InterModEnqueueEvent event) {
 		ModSynergy$.MODULE$.imcSend();
 	}
@@ -102,6 +102,10 @@ public class IaS3 {
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
 			Multiverse.registerItems(reg.getRegistry());
+		}
+		@SubscribeEvent
+		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> reg) {
+			Multiverse.registerEntities(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerPots(final RegistryEvent.Register<Effect> reg) {

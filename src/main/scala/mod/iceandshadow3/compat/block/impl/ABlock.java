@@ -1,10 +1,13 @@
-package mod.iceandshadow3.compat.block;
+package mod.iceandshadow3.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicBlock;
 import mod.iceandshadow3.basics.block.HarvestMethod$;
 import mod.iceandshadow3.basics.util.LogicPair;
 import mod.iceandshadow3.compat.ILogicBlockProvider;
+import mod.iceandshadow3.compat.block.CNVBlockShape$;
+import mod.iceandshadow3.compat.block.WBlockRef;
+import mod.iceandshadow3.compat.block.WBlockView;
 import mod.iceandshadow3.compat.entity.CNVEntity$;
 import mod.iceandshadow3.compat.world.WWorld;
 import net.minecraft.block.Block;
@@ -14,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -21,7 +25,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IShearable;
@@ -49,6 +52,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	}
 
 	private final VoxelShape defaultShape;
+	private final ResourceLocation lootTable;
 
 	public ABlock(BLogicBlock blocklogic, int variant) {
 		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
@@ -60,6 +64,13 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		else layer = BlockRenderLayer.SOLID;
 
 		defaultShape = CNVBlockShape$.MODULE$.toVoxelShape(logic);
+		lootTable = new ResourceLocation(IaS3.MODID,"blocks/"+logic.getName(variant));
+	}
+
+	@Nonnull
+	@Override
+	public ResourceLocation getLootTable() {
+		return lootTable;
 	}
 
 	@Nonnull
@@ -80,13 +91,9 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		return Collections.emptyList();
 	}
 
-
-
-	@Nonnull
 	@Override
-	public List<ItemStack> getDrops(@Nonnull BlockState bs, @Nonnull LootContext.Builder loottable) {
-		//TODO: Currently no-op.
-		return super.getDrops(bs, loottable);
+	public int getExpDrop(BlockState state, IWorldReader world, BlockPos pos, int fortune, int silktouch) {
+		return logic.harvestXP(variant, new WBlockView(world, pos, state), silktouch > 0);
 	}
 
 	@OnlyIn(Dist.CLIENT)

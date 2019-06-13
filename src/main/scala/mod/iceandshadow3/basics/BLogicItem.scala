@@ -4,6 +4,7 @@ import mod.iceandshadow3.basics.item.BItemProperty
 import mod.iceandshadow3.compat.WNbtTree
 import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.compat.item._
+import mod.iceandshadow3.compat.item.impl.{BCompatLogicItem, BinderItem}
 import mod.iceandshadow3.forge.fish.IEventFishOwner
 import mod.iceandshadow3.util.E3vl
 
@@ -21,15 +22,29 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	override def resistsExousia(variant: Int) = false
 }
 
-sealed abstract class BLogicItemSimple(dom: BDomain, name: String) extends BLogicItem(dom, name) {
+sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: Seq[(String, Int)])
+	extends BLogicItem(dom, name)
+{
 	type StateDataType = BStateData
 	override final def getDefaultStateData(variant: Int): BStateData = null
+
+	override def countVariants = variants.size
+	override protected def getVariantName(variant: Int) = variants(variant)._1
+	override def getTier(variant: Int) = variants(variant)._2
 }
-class LogicItemMulti(dom: BDomain, name: String) extends BLogicItemSimple(dom, name) {
+
+class LogicItemMulti(dom: BDomain, name: String, variants: (String, Int)*)
+	extends BLogicItemSimple(dom, name, variants)
+{
+	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, (null, tier))
 	override def stackLimit(variant: Int) = 64
 	override final def damageLimit(variant: Int) = 0
 }
-class LogicItemSingle(dom: BDomain, name: String) extends BLogicItemSimple(dom, name) {
+
+class LogicItemSingle(dom: BDomain, name: String, variants: (String, Int)*)
+	extends BLogicItemSimple(dom, name, variants)
+{
+	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, (null, tier))
 	override final def stackLimit(variant: Int) = 1
 	override def damageLimit(variant: Int) = 0
 }

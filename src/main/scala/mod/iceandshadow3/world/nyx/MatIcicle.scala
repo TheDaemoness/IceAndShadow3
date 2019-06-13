@@ -1,7 +1,7 @@
 package mod.iceandshadow3.world.nyx
 
 import mod.iceandshadow3.basics.block.ECommonBlockType._
-import mod.iceandshadow3.compat.block.BMateriaIce
+import mod.iceandshadow3.compat.block.impl.BMateriaIce
 
 object MatIcicle extends BMateriaIce {
 	override def getName = "icicle"

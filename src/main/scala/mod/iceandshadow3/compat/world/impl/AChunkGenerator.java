@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.dimension;
+package mod.iceandshadow3.compat.world.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;

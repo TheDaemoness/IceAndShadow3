@@ -1,1 +1,7 @@
-{"variants": {"": { "model": "iceandshadow3:block/nyx_exousia" }}}
+{
+	"variants": {
+		"": {
+			"model": "iceandshadow3:block/nyx_exousia"
+		}
+	}
+}

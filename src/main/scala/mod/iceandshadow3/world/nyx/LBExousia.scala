@@ -3,7 +3,8 @@ package mod.iceandshadow3.world.nyx
 import mod.iceandshadow3.basics.BLogicBlockSimple
 import mod.iceandshadow3.basics.block.{BlockShape, IMateria}
 import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
-import mod.iceandshadow3.compat.block.{BMateriaPlasma, WBlockRef}
+import mod.iceandshadow3.compat.block.WBlockRef
+import mod.iceandshadow3.compat.block.impl.BMateriaPlasma
 import mod.iceandshadow3.compat.entity.{WEntity, WEntityLiving, WProjectile}
 import mod.iceandshadow3.compat.world.WSound
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeExousic}
@@ -40,7 +41,7 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 		}
 	}
 
-	override def isTechnical(variant: Int) = true
+	override def isTechnical = true
 
 	lazy val blocktype = new BlockTypeSimple(this, 0)
 	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): Unit = {

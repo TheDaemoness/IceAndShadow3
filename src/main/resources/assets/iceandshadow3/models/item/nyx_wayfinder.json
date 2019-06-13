@@ -1,11 +1,21 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "iceandshadow3:item/nyx_wayfinder.off"
-    },
-    "overrides": [
-        { "predicate": { "iceandshadow3:blink": 0.5 }, "model": "iceandshadow3:item/nyx_wayfinder.unset" },
-        { "predicate": { "iceandshadow3:hotness": 0.8 }, "model": "iceandshadow3:item/nyx_wayfinder.on" }
-    ]
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "iceandshadow3:item/nyx_wayfinder.off"
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"iceandshadow3:blink": 0.5
+			},
+			"model": "iceandshadow3:item/nyx_wayfinder.unset"
+		},
+		{
+			"predicate": {
+				"iceandshadow3:hotness": 0.8
+			},
+			"model": "iceandshadow3:item/nyx_wayfinder.on"
+		}
+	]
 }
 

@@ -1,7 +1,7 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "iceandshadow3:item/nyx_wayfinder.off"
-    }
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "iceandshadow3:item/nyx_wayfinder.off"
+	}
 }
 

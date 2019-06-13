@@ -1,20 +1,24 @@
 {
-  "display": {
-    "icon": {
-      "item": "iceandshadow3:nyx_wayfinder"
-    },
-    "title": "A Strange Compass",
-    "description": "Receive a wayfinder.",
-    "announce_to_chat": false,
-    "hidden": true
-  },
-  "parent": "iceandshadow3:vanilla_enderchest",
-  "criteria": {
-    "gotwayfinder": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [{"item": "iceandshadow3:nyx_wayfinder"}]
-      }
-    }
-  }
+	"display": {
+		"icon": {
+			"item": "iceandshadow3:nyx_wayfinder"
+		},
+		"title": "A Strange Compass",
+		"description": "Receive a wayfinder.",
+		"announce_to_chat": false,
+		"hidden": true
+	},
+	"parent": "iceandshadow3:vanilla_enderchest",
+	"criteria": {
+		"gotwayfinder": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "iceandshadow3:nyx_wayfinder"
+					}
+				]
+			}
+		}
+	}
 }

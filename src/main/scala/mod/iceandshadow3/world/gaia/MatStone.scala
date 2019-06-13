@@ -1,6 +1,6 @@
 package mod.iceandshadow3.world.gaia
 
-import mod.iceandshadow3.compat.block.BMateriaStone
+import mod.iceandshadow3.compat.block.impl.BMateriaStone
 
 object MatStone extends BMateriaStone {
 	def getName = "livingstone"

@@ -1,1 +1,6 @@
-{"parent": "block/cube_all", "textures": {"all": "iceandshadow3:block/nyx_exousia"}}
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "iceandshadow3:block/nyx_exousia"
+	}
+}

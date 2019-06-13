@@ -2,9 +2,8 @@ package mod.iceandshadow3.forge
 
 import mod.iceandshadow3.Multiverse
 import mod.iceandshadow3.compat.CNVVec3
-import mod.iceandshadow3.compat.dimension.WDimensionCoord
 import mod.iceandshadow3.compat.entity.CNVEntity
-import mod.iceandshadow3.compat.world.WWorld
+import mod.iceandshadow3.compat.world.{WDimensionCoord, WWorld}
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.entity.Entity

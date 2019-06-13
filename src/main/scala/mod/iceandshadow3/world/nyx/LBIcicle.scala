@@ -10,9 +10,7 @@ import mod.iceandshadow3.world.DomainNyx
 class LBIcicle extends BLogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 	override def areSurfacesFull(variant: Int) = false
 
-	override def harvestXP(variant: Int): Int = 2
-	override def harvestOverride(variant: Int, block: WBlockRef, fortune: Int) =
-		Array(WItemStack.make(DomainNyx.Items.icicle, 0).changeCount(block.rng(2, 2+fortune)))
+	override def harvestXP(variant: Int, what: WBlockView, silktouch: Boolean): Int = if(silktouch) 0 else 2
 
 	override def canBeAt(variant: Int, block: WBlockView, preexisting: Boolean) = {
 		new AdjacentBlocks.Above(block).areSidesSolid

@@ -10,6 +10,8 @@ sealed trait TLogicProvider[LogicType <: BLogic] {
 
 trait ILogicBlockProvider extends TLogicProvider[BLogicBlock]
 trait ILogicItemProvider extends TLogicProvider[BLogicItem]
+trait ILogicEntityProvider extends TLogicProvider[BLogicCommonEntity]
+trait ILogicMobProvider extends TLogicProvider[BLogicMob]
 
 trait TLogicStateProvider[LogicType <: BLogic] {
 	this: TLogicProvider[LogicType] =>

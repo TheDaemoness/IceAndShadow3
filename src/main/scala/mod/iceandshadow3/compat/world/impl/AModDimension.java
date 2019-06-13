@@ -1,8 +1,9 @@
-package mod.iceandshadow3.compat.dimension;
+package mod.iceandshadow3.compat.world.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;
 import mod.iceandshadow3.compat.CNVVec3;
+import mod.iceandshadow3.compat.world.WDimensionCoord;
 import mod.iceandshadow3.spatial.IPosChunk;
 import mod.iceandshadow3.spatial.IPosColumn;
 import mod.iceandshadow3.spatial.IVec3;

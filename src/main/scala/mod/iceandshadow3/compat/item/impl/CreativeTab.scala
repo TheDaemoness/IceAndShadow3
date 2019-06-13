@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.item
+package mod.iceandshadow3.compat.item.impl
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.world.DomainNyx

@@ -3,6 +3,7 @@ package mod.iceandshadow3.compat.item
 import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityLiving}
+import mod.iceandshadow3.compat.item.impl.BinderItem
 import mod.iceandshadow3.compat.{ILogicItemProvider, SRandom, TWLogical}
 import mod.iceandshadow3.util.Casting._
 import net.minecraft.entity.LivingEntity

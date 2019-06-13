@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.block;
+package mod.iceandshadow3.compat.block.impl;
 
 import mod.iceandshadow3.basics.block.IMateria;
 import net.minecraft.block.SoundType;

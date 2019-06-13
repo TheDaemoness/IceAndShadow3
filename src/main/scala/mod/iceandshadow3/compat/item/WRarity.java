@@ -9,7 +9,7 @@ public enum WRarity implements Comparable<WRarity> {
 	RARE(Rarity.RARE),
 	EPIC(Rarity.EPIC);
 	
-	final Rarity rarity;
+	public final Rarity rarity;
 
 	static WRarity get(Rarity r) {
 		return WRarity.values()[r.ordinal()];

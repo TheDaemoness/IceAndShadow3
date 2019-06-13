@@ -6,8 +6,8 @@ trait TLogic {
 	type StateDataType <: BStateData
 
 	def countVariants: Int = 1
-	def isTechnical(variant: Int): Boolean = false
-	def getTier(variant: Int): Int = 1
+	def isTechnical: Boolean = false
+	def getTier(variant: Int): Int
 	def getDomain: BDomain
 	def getDefaultStateData(variant: Int): StateDataType
 

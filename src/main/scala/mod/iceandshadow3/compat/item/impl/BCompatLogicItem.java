@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.item;
+package mod.iceandshadow3.compat.item.impl;
 
 import mod.iceandshadow3.basics.BDomain;
 import net.minecraft.item.Item;

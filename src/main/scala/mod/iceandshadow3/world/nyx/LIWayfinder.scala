@@ -5,10 +5,9 @@ import mod.iceandshadow3.basics.item.BItemProperty
 import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.basics.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.compat.WNbtTree
-import mod.iceandshadow3.compat.dimension.WDimensionCoord
 import mod.iceandshadow3.compat.entity.{WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.compat.item.WItemStack
-import mod.iceandshadow3.compat.world.{TWWorld, WSound}
+import mod.iceandshadow3.compat.world.{TWWorld, WDimensionCoord, WSound}
 import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{IEventFishOwnerDeath, IEventFishOwnerToss}
 import mod.iceandshadow3.spatial.{IVec3, PerDimensionVec3}
@@ -34,6 +33,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	with IEventFishOwnerDeath
 	with IEventFishOwnerToss
 {
+	override def getTier(variant: Int): Int = 2
 	protected def getDefaultCoord(who: WEntityLiving): IVec3 =
 		who.home(who.dimension).getOrElse(who.position)
 

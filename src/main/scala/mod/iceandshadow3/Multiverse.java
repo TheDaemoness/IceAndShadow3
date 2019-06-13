@@ -2,23 +2,28 @@ package mod.iceandshadow3;
 
 import mod.iceandshadow3.basics.BDimension;
 import mod.iceandshadow3.basics.BDomain;
-import mod.iceandshadow3.compat.block.ABlock;
-import mod.iceandshadow3.compat.block.BinderBlock$;
+import mod.iceandshadow3.compat.block.impl.ABlock;
+import mod.iceandshadow3.compat.block.impl.BinderBlock$;
 import mod.iceandshadow3.compat.client.AParticleType;
 import mod.iceandshadow3.compat.client.BinderParticle$;
-import mod.iceandshadow3.compat.dimension.AModDimension;
-import mod.iceandshadow3.compat.dimension.WDimensionCoord;
+import mod.iceandshadow3.compat.world.impl.AModDimension;
+import mod.iceandshadow3.compat.world.WDimensionCoord;
 import mod.iceandshadow3.compat.entity.AStatusEffect;
 import mod.iceandshadow3.compat.entity.BinderStatusEffect$;
-import mod.iceandshadow3.compat.item.AItem;
-import mod.iceandshadow3.compat.item.AItemBlock;
-import mod.iceandshadow3.compat.item.BinderItem$;
+import mod.iceandshadow3.compat.entity.impl.AMob;
+import mod.iceandshadow3.compat.entity.impl.BBinderEntity;
+import mod.iceandshadow3.compat.entity.impl.BBinderEntity$;
+import mod.iceandshadow3.compat.entity.impl.BinderMob$;
+import mod.iceandshadow3.compat.item.impl.AItem;
+import mod.iceandshadow3.compat.item.impl.AItemBlock;
+import mod.iceandshadow3.compat.item.impl.BinderItem$;
 import mod.iceandshadow3.forge.Teleporter$;
 import mod.iceandshadow3.world.DimensionNyx$;
 import mod.iceandshadow3.world.DomainAlien$;
 import mod.iceandshadow3.world.DomainGaia$;
 import mod.iceandshadow3.world.DomainNyx$;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -42,6 +47,7 @@ public final class Multiverse {
 	public static final DimensionNyx$ DIM_NYX = DimensionNyx$.MODULE$;
 	private static boolean sealDomains = false, sealDimensions = false;
 	private static Tuple2<ABlock, AItemBlock>[][] blockBindings;
+	private static EntityType<? extends AMob>[] mobs;
 
 	/** Called by BDomains during construction to self-enable.
 	 */
@@ -59,6 +65,7 @@ public final class Multiverse {
 		for(BDomain domain : domains) domain.initEarly();
 		sealDomains = true;
 		blockBindings = BinderBlock$.MODULE$.freeze();
+		mobs = BinderMob$.MODULE$.freeze();
 	}
 	static void registerBlocks(IForgeRegistry<Block> reg) {
 		for(Tuple2<ABlock, AItemBlock>[] bindings : blockBindings) {
@@ -74,6 +81,20 @@ public final class Multiverse {
 		for(Tuple2<ABlock, AItemBlock>[] bindings : blockBindings) {
 			for(Tuple2<ABlock, AItemBlock> binding : bindings) {
 				if(binding._2() != null) reg.register(binding._2());
+			}
+		}
+		//TODO: Spawn eggs.
+	}
+
+	static void registerEntities(IForgeRegistry<EntityType<?>> reg) {
+		for(EntityType<? extends AMob> amob: mobs) {
+			reg.register(amob);
+		}
+		for(BBinderEntity binder : BBinderEntity$.MODULE$.binders()) {
+			if(!binder.frozen()) {
+				for(Object et : binder.freeze()) {
+					reg.register((EntityType<?>)et);
+				}
 			}
 		}
 	}

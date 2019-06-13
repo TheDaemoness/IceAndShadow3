@@ -3,7 +3,8 @@ package mod.iceandshadow3.basics
 import java.util.Random
 
 import mod.iceandshadow3.basics.block.BlockShape
-import mod.iceandshadow3.compat.block.{BCompatLogicBlock, BMateria, BinderBlock, WBlockRef, WBlockView}
+import mod.iceandshadow3.compat.block.impl.{BCompatLogicBlock, BMateria, BinderBlock}
+import mod.iceandshadow3.compat.block.{WBlockRef, WBlockView}
 import mod.iceandshadow3.compat.entity.WEntity
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.world.WWorld
@@ -13,14 +14,16 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	with BinderBlock.TKey
 {
 	BinderBlock.add(this)
+
 	override def resistsExousia(variant: Int) = mat.resistsExousia
 
-	/** Whether or not the surfaces of the block have any visible holes in them.
+	/** Whether or not the surfaces of the blocks have any visible holes in them.
 		* Controls the rendering layer in conjunction with the materia.
 		*/
+	override def getTier(variant: Int): Int = 1
 	def areSurfacesFull(variant: Int) = true
 	def harvestOverride(variant: Int, block: WBlockRef, fortune: Int): Array[WItemStack] = null
-	def harvestXP(variant: Int): Int = 0
+	def harvestXP(variant: Int, what: WBlockView, silktouch: Boolean): Int = 0
 	def canBeAt(variant: Int, block: WBlockView, preexisting: Boolean) = true
 	//TODO: Separate collision shape from selection shape.
 	def shape: BlockShape = BlockShape.FULL_CUBE

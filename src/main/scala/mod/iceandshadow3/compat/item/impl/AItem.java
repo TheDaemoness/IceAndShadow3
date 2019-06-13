@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.item;
+package mod.iceandshadow3.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicItem;
@@ -8,6 +8,7 @@ import mod.iceandshadow3.compat.ILogicItemProvider;
 import mod.iceandshadow3.compat.WNbtTree;
 import mod.iceandshadow3.compat.entity.CNVEntity;
 import mod.iceandshadow3.compat.entity.WEntityPlayer;
+import mod.iceandshadow3.compat.item.WItemStack;
 import mod.iceandshadow3.compat.world.WWorld;
 import mod.iceandshadow3.util.E3vl;
 import net.minecraft.entity.LivingEntity;

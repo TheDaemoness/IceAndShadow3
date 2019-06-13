@@ -1,9 +1,9 @@
-package mod.iceandshadow3.compat.block;
+package mod.iceandshadow3.compat.block.impl;
 
 import mod.iceandshadow3.basics.BDomain;
 import mod.iceandshadow3.basics.block.HarvestMethod;
 import mod.iceandshadow3.basics.block.IMateria;
-import mod.iceandshadow3.compat.item.BCompatLogicCommon;
+import mod.iceandshadow3.compat.item.impl.BCompatLogicCommon;
 import net.minecraft.block.Block;
 
 public abstract class BCompatLogicBlock extends BCompatLogicCommon {

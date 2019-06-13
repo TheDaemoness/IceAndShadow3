@@ -1,19 +1,19 @@
 {
-  "display": {
-    "icon": {
-      "item": "minecraft:bedrock"
-    },
-    "title": "The Call of the Void",
-    "description": "Fall out of the world... and survive.",
-    "frame": "goal",
-    "show_toast": false,
-    "announce_to_chat": false,
-    "hidden": true
-  },
-  "parent": "minecraft:end/root",
-  "criteria": {
-    "outtahere": {
-      "trigger": "minecraft:impossible"
-    }
-  }
+	"display": {
+		"icon": {
+			"item": "minecraft:bedrock"
+		},
+		"title": "The Call of the Void",
+		"description": "Fall out of the world... and survive.",
+		"frame": "goal",
+		"show_toast": false,
+		"announce_to_chat": false,
+		"hidden": true
+	},
+	"parent": "minecraft:end/root",
+	"criteria": {
+		"outtahere": {
+			"trigger": "minecraft:impossible"
+		}
+	}
 }
