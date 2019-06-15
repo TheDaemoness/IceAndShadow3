@@ -28,7 +28,7 @@ Otherwise, you will run into problems when you try to run the gradle wrapper.
 2. Clone/extract this repository into an empty directory.
 3. Get a compatible copy of the gradle wrapper (4.9 up to and excluding 5.0). You can either:
 	* (Recommended) If you have gradle installed, run `gradle wrapper` in the project directory.
-	* Extract a copy of the Forge MDK (version 25.0 up to and excluding 26.0) into the same directory *without overwriting any existing files*.
+	* Extract a copy of the Forge MDK (version 26.0 up to and excluding 27.0) into the same directory *without overwriting any existing files*.
 4. Use the gradle wrapper as usual with a compatible version of Java.
     1. You may generate Intellij IDEA project files using the `idea` task. Generating an Eclipse project with `eclipse` is left in as an option but is not recommended,
     as the main Scala plugin is outdated to the point of instability on recent versions of Eclipse.
