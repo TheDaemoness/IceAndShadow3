@@ -7,10 +7,12 @@ import mod.iceandshadow3.basics.{BLogicCommonEntity, BLogicEntity, BLogicMob, BL
 import mod.iceandshadow3.util.BinderLazy
 import net.minecraft.entity.{Entity, EntityClassification, EntityType}
 import net.minecraft.world.World
+
+import scala.collection.mutable.ListBuffer
 import scala.reflect.{ClassTag, classTag}
 
 object BBinderEntity {
-	private[iceandshadow3] val binders = new java.util.LinkedList[BBinderEntity[_, _ <: Entity]]
+	private[iceandshadow3] val binders = new ListBuffer[BBinderEntity[_, _ <: Entity]]
 }
 sealed class BBinderEntity[K <: BLogicCommonEntity: ClassTag, V <: Entity: ClassTag](classification: EntityClassification)
 extends BinderLazy[K, K, EntityType[_ <: V]](logic => {
@@ -28,7 +30,7 @@ extends BinderLazy[K, K, EntityType[_ <: V]](logic => {
 	etype.setRegistryName(IaS3.MODID, logic.getName)
 	etype
 }) {
-	BBinderEntity.binders.add(this)
+	BBinderEntity.binders += this
 }
 
 object BinderEntity extends BBinderEntity[BLogicEntity, AEntity](EntityClassification.MISC)

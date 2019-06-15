@@ -4,7 +4,7 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicBlock;
 import mod.iceandshadow3.basics.block.HarvestMethod$;
 import mod.iceandshadow3.basics.util.LogicPair;
-import mod.iceandshadow3.compat.ILogicBlockProvider;
+import mod.iceandshadow3.basics.util.ILogicBlockProvider;
 import mod.iceandshadow3.compat.block.CNVBlockShape$;
 import mod.iceandshadow3.compat.block.WBlockRef;
 import mod.iceandshadow3.compat.block.WBlockView;

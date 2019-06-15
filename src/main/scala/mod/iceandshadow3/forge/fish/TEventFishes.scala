@@ -5,15 +5,14 @@ import mod.iceandshadow3.basics.util.BLogic
 
 /** IaS3-friendly class for adding event-handling logic to BLogics.
   */
-trait IEventFish {
-  type Logic <: BLogic
-  def getLogic(): Logic
+trait TEventFish {
+  this: BLogic =>
 }
-trait IEventFishItem extends IEventFish {
-  override type Logic = BLogicItem
+trait TEventFishItem extends TEventFish {
+  this: BLogicItem =>
 }
-trait IEventFishOwner extends IEventFish {
-  override type Logic = BLogicItem
+trait TEventFishOwner extends TEventFish {
+  this: BLogicItem =>
 }
 
 //NOTE: Not using self-type in the above specifically to keep our options open.

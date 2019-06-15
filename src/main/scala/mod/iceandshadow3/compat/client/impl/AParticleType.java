@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.client;
+package mod.iceandshadow3.compat.client.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BParticleType;

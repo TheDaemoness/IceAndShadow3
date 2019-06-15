@@ -2,24 +2,23 @@ package mod.iceandshadow3.world.dim_nyx
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.common.LogicItemChameleon
-import mod.iceandshadow3.basics.util.LogicPair
-import mod.iceandshadow3.basics.{BLogicItem, BStateData}
-import mod.iceandshadow3.compat.ResourceMap
+import mod.iceandshadow3.basics.BStateData
 import mod.iceandshadow3.compat.entity.WEntityPlayer
-import mod.iceandshadow3.compat.item.WItemStack
+import mod.iceandshadow3.compat.item.{ItemQueries, WItemStack}
+import mod.iceandshadow3.compat.misc.ResourceMap
 import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.world.DomainAlien
 
 class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
 	override def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean) = {
-		if(!user.dimension.isHellish) {
-			user.message("iced_over")
-			E3vl.FALSE
-		} else {
-			user.give(new WItemStack(stack.exposeNbtTree().chroot(IaS3.MODID).chroot("itemstack"), null))
-			stack.destroy()
-			E3vl.TRUE
-		}
+		val hellish = E3vl.fromBool(user.dimension.isHellish)
+		hellish.forBoolean({
+			if(_) {
+				user.give(new WItemStack(stack.exposeNbtTree().chroot(IaS3.MODID).chroot("itemstack"), null))
+				stack.destroy()
+			} else user.message("iced_over")
+		})
+		hellish
 	}
 
 	override def addTooltip(variant: Int, what: WItemStack) = "iceandshadow3.tooltip.iced_over"
@@ -58,14 +57,13 @@ object LIFrozen {
 	itemFreezes("minecraft:clay_ball")
 	itemFreezes("minecraft:campfire")
 
-	private val pair = new LogicPair[BLogicItem](DomainAlien.frozen, 0)
 	def freeze(input: WItemStack): WItemStack = {
 		val name = input.registryName
 		if(name == null) return input //Also checks if the stack is empty.
 		val resultNameOption = unusualFreezeMap.get(name)
 		if(resultNameOption.isEmpty) {
 			if(input.getDomain.resistsFreezing) input
-			else if(input.getBurnTicks > 0 || input.isFoodOrDrink || input.isPotion) {
+			else if(input.getBurnTicks > 0 || input.isAny(ItemQueries.food, ItemQueries.drink, ItemQueries.compostable)) {
 				LogicItemChameleon.createFrom(input, DomainAlien.frozen)
 			} else input
 		} else {

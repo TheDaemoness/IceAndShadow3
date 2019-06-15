@@ -1,7 +1,8 @@
-package mod.iceandshadow3.compat.client;
+package mod.iceandshadow3.compat.client.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BParticleType;
+import mod.iceandshadow3.compat.client.IParticle;
 import mod.iceandshadow3.spatial.IVec3;
 import mod.iceandshadow3.util.Color;
 import net.minecraft.client.particle.IParticleFactory;

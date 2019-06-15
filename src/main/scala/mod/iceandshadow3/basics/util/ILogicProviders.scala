@@ -1,8 +1,7 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.basics.util
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.basics._
-import mod.iceandshadow3.basics.util.{BLogic, LogicPair, LogicTriad}
 import mod.iceandshadow3.world.DomainAlien
 
 sealed trait TLogicProvider[LogicType <: BLogic] {

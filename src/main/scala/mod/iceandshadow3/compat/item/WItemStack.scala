@@ -1,10 +1,11 @@
 package mod.iceandshadow3.compat.item
 
 import mod.iceandshadow3.basics.BLogicItem
-import mod.iceandshadow3.basics.util.LogicPair
+import mod.iceandshadow3.basics.util.{ILogicItemProvider, LogicPair}
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.compat.item.impl.BinderItem
-import mod.iceandshadow3.compat.{ILogicItemProvider, SRandom, TNamed, TWLogical, WNbtTree}
+import mod.iceandshadow3.compat.misc.WNbtTree
+import mod.iceandshadow3.compat.{SRandom, TNamed, TWLogical, IWrapper}
 import mod.iceandshadow3.data.INbtRW
 import mod.iceandshadow3.util.Casting._
 import net.minecraft.entity.LivingEntity
@@ -21,6 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries
 	*/
 class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends TWLogical[BLogicItem]
+	with IWrapper[ItemStack]
 	with ILogicItemProvider
 	with TNamed
 	with INbtRW
@@ -40,15 +42,13 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
 	def hasOwner: Boolean = owner != null
 	def getOwner: WEntityLiving = if(hasOwner) CNVEntity.wrap(owner) else null
-	def canDamage: Boolean = is.fold(false){_.isDamageable}
-	def isDamaged: Boolean = is.fold(false){_.isDamaged}
 	def getDamage: Int = is.fold(0){_.getDamage}
 	def getDamageMax: Int = is.fold(0){_.getMaxDamage}
-	def isShiny: Boolean = is.fold(false){_.hasEffect}
+
 	def isComplex: Boolean = is.fold(false){_.hasTag}
 
+	override protected[compat] def expose() = is.orNull
 	def exposeItems(): ItemStack = is.getOrElse(ItemStack.EMPTY)
-	def exposeItemsOrNull(): ItemStack = is.orNull
 
 	protected[item] def move(): ItemStack = {
 		val retval = exposeItems().copy()
@@ -125,17 +125,6 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 		if(result < 0) AbstractFurnaceTileEntity.func_214001_f().getOrDefault(items.getItem, 0)
 		else result
 	})
-
-	//TODO: Remove when there's a general way of checking if an underlying item stack matches certain criteria.
-
-	@Deprecated
-	def isFoodOrDrink = is.fold(false)(itemstack => {
-		val useaction = itemstack.getUseAction
-		useaction == UseAction.EAT || useaction == UseAction.DRINK
-	})
-
-	@Deprecated
-	def isPotion = is.fold(false)(_.getItem.isInstanceOf[PotionItem])
 
 	override protected[compat] def getNameTextComponent = exposeItems().getTextComponent
 

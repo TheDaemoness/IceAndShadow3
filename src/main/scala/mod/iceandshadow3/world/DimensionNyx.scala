@@ -2,9 +2,9 @@ package mod.iceandshadow3.world
 
 import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.basics.item.IItemStorage
-import mod.iceandshadow3.compat.ResourceMap
 import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityPlayer}
+import mod.iceandshadow3.compat.misc.ResourceMap
 import mod.iceandshadow3.compat.world.WWorld
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
 import mod.iceandshadow3.util.{Color, StringMap}

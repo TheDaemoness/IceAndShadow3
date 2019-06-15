@@ -4,6 +4,8 @@ import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.{BlockPos, Vec3d}
 
+import scala.language.implicitConversions
+
 object CNVVec3 {
 	implicit def toBlockPos(vec3: IVec3): BlockPos = new BlockPos(vec3.xBlock, vec3.yBlock, vec3.zBlock)
 	implicit def fromBlockPos(bp: BlockPos): IVec3 = new IVec3 {

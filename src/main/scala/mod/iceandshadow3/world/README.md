@@ -7,7 +7,7 @@ Items, blocks, mobs, and more all go into subpackages here.
 `BDomain` objects go into this package specifically, not their respective subpackage.
 `BDimension` objects also go here.
 
-Remember to add both to `iceandshadow3.Multiverse`!
+Remember to add both to `iceandshadow3.InitCommon`!
 
 ## Type Name Prefixes
 

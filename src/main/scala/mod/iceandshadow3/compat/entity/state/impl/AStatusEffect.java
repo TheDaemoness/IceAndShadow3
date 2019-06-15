@@ -1,8 +1,8 @@
-package mod.iceandshadow3.compat.entity;
+package mod.iceandshadow3.compat.entity.state.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BStatusEffect;
-import mod.iceandshadow3.util.E3vl;
+import mod.iceandshadow3.compat.entity.CNVEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
@@ -27,8 +27,8 @@ public class AStatusEffect extends Effect {
 	private final int textureIndex;
 	public AStatusEffect(BStatusEffect fx) {
 		super(
-			fx.isBeneficial() == E3vl.TRUE ? EffectType.BENEFICIAL : (
-				fx.isBeneficial() == E3vl.FALSE ? EffectType.HARMFUL : EffectType.NEUTRAL
+			fx.isBeneficial().isTrue() ? EffectType.BENEFICIAL : (
+				fx.isBeneficial().isFalse() ? EffectType.HARMFUL : EffectType.NEUTRAL
 			),
 			fx.color().colorcode()
 		);

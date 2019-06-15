@@ -3,7 +3,7 @@ package mod.iceandshadow3.basics.common
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.{BDomain, BLogicItemComplex, BStateData}
 import mod.iceandshadow3.compat.item.WItemStack
-import mod.iceandshadow3.compat.text.TextUtils
+import mod.iceandshadow3.compat.misc.TextUtils
 
 /** An item that pretends to be whole stacks of other items.
 	*/

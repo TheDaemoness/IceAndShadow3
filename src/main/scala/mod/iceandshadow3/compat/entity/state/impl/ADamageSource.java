@@ -1,6 +1,7 @@
-package mod.iceandshadow3.compat.entity;
+package mod.iceandshadow3.compat.entity.state.impl;
 
 import mod.iceandshadow3.IaS3;
+import mod.iceandshadow3.compat.TEffectSource;
 import mod.iceandshadow3.damage.Attack;
 import mod.iceandshadow3.damage.AttackForm;
 import net.minecraft.entity.Entity;

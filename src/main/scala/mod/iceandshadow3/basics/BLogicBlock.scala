@@ -37,7 +37,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	/** Called to provide purely client-side (decorative) effects.
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.
 		*/
-	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random) = {}
+	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random): Unit = {}
 }
 
 abstract class BLogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {

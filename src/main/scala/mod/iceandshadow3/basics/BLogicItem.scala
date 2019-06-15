@@ -1,16 +1,16 @@
 package mod.iceandshadow3.basics
 
 import mod.iceandshadow3.basics.item.BItemProperty
-import mod.iceandshadow3.compat.WNbtTree
 import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.compat.item._
 import mod.iceandshadow3.compat.item.impl.{BCompatLogicItem, BinderItem}
-import mod.iceandshadow3.forge.fish.IEventFishOwner
+import mod.iceandshadow3.compat.misc.WNbtTree
+import mod.iceandshadow3.forge.fish.TEventFishOwner
 import mod.iceandshadow3.util.E3vl
 
 sealed abstract class BLogicItem(dom: BDomain, name: String)
 	extends BCompatLogicItem(dom, name)
-	with IEventFishOwner
+	with TEventFishOwner
 	with BinderItem.TKey
 {
 	BinderItem.add(this)
@@ -18,9 +18,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	//TODO: Expand when we have our own text formatting stuff.
 	def addTooltip(variant: Int, what: WItemStack): String = ""
 	def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) = false
-	def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
+	def onUse(variant: Int, state: StateDataType, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
-	override def getLogic() = this
 	override def resistsExousia(variant: Int) = false
 }
 

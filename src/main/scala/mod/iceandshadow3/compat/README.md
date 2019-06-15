@@ -9,3 +9,6 @@ though there is a ban on directly inheriting from anything in `net.minecraftforg
 
 Subpackages may in turn contain `impl` subpackages,
 which contain classes and objects primarily related to the implementation of IaS3 logic.
+They generally shouldn't be referenced wherever their associated Minecraft types shouldn't be referenced.
+
+Files in this package specifically are not meant to be used outside of the general `compat` package tree.

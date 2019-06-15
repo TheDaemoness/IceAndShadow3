@@ -4,8 +4,8 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicItem;
 import mod.iceandshadow3.basics.item.BItemProperty;
 import mod.iceandshadow3.basics.util.LogicPair;
-import mod.iceandshadow3.compat.ILogicItemProvider;
-import mod.iceandshadow3.compat.WNbtTree;
+import mod.iceandshadow3.basics.util.ILogicItemProvider;
+import mod.iceandshadow3.compat.misc.WNbtTree;
 import mod.iceandshadow3.compat.entity.CNVEntity;
 import mod.iceandshadow3.compat.entity.WEntityPlayer;
 import mod.iceandshadow3.compat.item.WItemStack;
@@ -35,11 +35,7 @@ import java.util.List;
 public class AItem extends Item implements ILogicItemProvider {
 
 	private ActionResultType toEActionResult(E3vl in) {
-		switch(in) {
-			case TRUE: return ActionResultType.SUCCESS;
-			case FALSE: return ActionResultType.FAIL;
-			default: return ActionResultType.PASS;
-		}
+		return in.remap(ActionResultType.SUCCESS, ActionResultType.PASS, ActionResultType.FAIL);
 	}
 
 	@Override

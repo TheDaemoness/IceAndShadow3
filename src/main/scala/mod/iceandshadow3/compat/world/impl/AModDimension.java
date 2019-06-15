@@ -24,9 +24,16 @@ import net.minecraftforge.common.ModDimension;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiFunction;
 
 public class AModDimension extends ModDimension {
+	private static final Map<AModDimension, BDimension> reverseMap = new HashMap<>();
+	public static BDimension lookup(final ModDimension dim) {
+		if(dim instanceof AModDimension) return reverseMap.getOrDefault(dim, null);
+		else return null;
+	}
 	private final BDimension dimlogic; //Couldn't resist.
 	private final ResourceLocation name;
 	public final ABiome dimbiome;
@@ -35,6 +42,7 @@ public class AModDimension extends ModDimension {
 		name = new ResourceLocation(IaS3.MODID, what.name());
 		this.setRegistryName(name);
 		this.dimbiome = new ABiome(name, what);
+		reverseMap.put(this, what);
 	}
 	@SuppressWarnings("deprecation")
 	public void enable() {

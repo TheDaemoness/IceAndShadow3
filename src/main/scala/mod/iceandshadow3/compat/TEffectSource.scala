@@ -1,6 +1,5 @@
-package mod.iceandshadow3.compat.entity
+package mod.iceandshadow3.compat
 
-import mod.iceandshadow3.compat.TNamed
 import mod.iceandshadow3.damage.Attack
 import net.minecraft.entity.Entity
 

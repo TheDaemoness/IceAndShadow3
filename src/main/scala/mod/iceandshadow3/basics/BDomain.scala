@@ -1,8 +1,6 @@
 package mod.iceandshadow3.basics
 
-import javax.annotation.Nullable
-import mod.iceandshadow3.Multiverse
-import mod.iceandshadow3.compat.TLogicProvider
+import mod.iceandshadow3.basics.util.TLogicProvider
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.damage.EDeathPolicy
 import mod.iceandshadow3.util.Color
@@ -13,8 +11,6 @@ import mod.iceandshadow3.world.DomainAlien
 	* This affects their IDs as well a number of other (important) properties.
 	*/
 abstract class BDomain(val name: java.lang.String) {
-	Multiverse.addDomain(this)
-	
 	protected[iceandshadow3] def initEarly(): Unit = {}
 	protected[iceandshadow3] def initLate(): Unit = {}
 

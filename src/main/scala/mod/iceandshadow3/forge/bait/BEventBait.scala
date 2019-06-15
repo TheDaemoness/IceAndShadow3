@@ -2,7 +2,7 @@ package mod.iceandshadow3.forge.bait
 
 import mod.iceandshadow3.basics.util.{BLogic, LogicTriad}
 import mod.iceandshadow3.compat.TWLogical
-import mod.iceandshadow3.forge.fish.IEventFish
+import mod.iceandshadow3.forge.fish.TEventFish
 import mod.iceandshadow3.forge.handlers.BEventHandler
 import net.minecraftforge.eventbus.api.{Event, EventPriority, IEventBus}
 
@@ -23,7 +23,7 @@ abstract class BEventBait[EventType <: Event :ClassTag] extends BEventHandler {
 
 	protected def handle(event: EventType)
 
-	protected def forEventFish[FishType <: IEventFish: ClassTag, L <: BLogic, T](
+	protected def forEventFish[FishType <: TEventFish: ClassTag, L <: BLogic, T](
 		ref: TWLogical[L], fn: (LogicTriad[L], FishType) => T): Option[T] =
 	{
 		ref.getLogicTriad.foreach(triad => {

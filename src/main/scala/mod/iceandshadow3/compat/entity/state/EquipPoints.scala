@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat.entity
+package mod.iceandshadow3.compat.entity.state
 
 import mod.iceandshadow3.compat.item.WItemStack
 import net.minecraft.entity.LivingEntity

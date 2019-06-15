@@ -1,7 +1,7 @@
 package mod.iceandshadow3.compat.world
 
 import mod.iceandshadow3.basics.ParticleType
-import mod.iceandshadow3.compat.client.BinderParticle
+import mod.iceandshadow3.compat.client.impl.BinderParticle
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.world.IWorld
 

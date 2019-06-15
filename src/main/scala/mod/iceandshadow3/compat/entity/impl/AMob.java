@@ -2,7 +2,7 @@ package mod.iceandshadow3.compat.entity.impl;
 
 import mod.iceandshadow3.basics.BLogicMob;
 import mod.iceandshadow3.basics.util.LogicPair;
-import mod.iceandshadow3.compat.ILogicMobProvider;
+import mod.iceandshadow3.basics.util.ILogicMobProvider;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.world.World;

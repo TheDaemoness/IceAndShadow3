@@ -1,10 +1,11 @@
 package mod.iceandshadow3.forge.fish
 
-import mod.iceandshadow3.basics.BStateData
+import mod.iceandshadow3.basics.{BLogicItem, BStateData}
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.util.E3vl
 
-trait IEventFishOwnerDeath extends IEventFishOwner {
+trait TEventFishOwnerDeath extends TEventFishOwner {
+  this: BLogicItem =>
   /** Called before an owner of a certain item dies.
     * The attached item is guaranteed to have an owner.
     * @return FALSE if the owner does NOT die.

@@ -1,7 +1,5 @@
 package mod.iceandshadow3.compat.world
 
-import java.util.Collections
-
 import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDomain
@@ -9,9 +7,9 @@ import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
-import net.minecraftforge.registries.{ForgeRegistries, IForgeRegistry}
+import net.minecraftforge.registries.ForgeRegistries
 
-import scala.collection.JavaConverters._
+import scala.collection.mutable.ListBuffer
 
 case class WSound(@Nullable private val soundevent: SoundEvent) {
 	private[compat] def event: Option[SoundEvent] = Option(soundevent)
@@ -28,22 +26,23 @@ case class WSound(@Nullable private val soundevent: SoundEvent) {
 }
 
 object WSound {
-	private var newsounds: java.util.List[SoundEvent] = new java.util.LinkedList[SoundEvent]
+	private var newsounds = new ListBuffer[SoundEvent]
 	def addSound(domain: BDomain, name: String): WSound = {
-		try {
-			val location = new ResourceLocation(IaS3.MODID, s"${domain.name}_$name")
-			val soundevent = new SoundEvent(location)
+		val location = new ResourceLocation(IaS3.MODID, s"${domain.name}_$name")
+		val soundevent = new SoundEvent(location)
+		if(newsounds != null) {
+			newsounds += soundevent
 			soundevent.setRegistryName(location)
-			newsounds.add(soundevent)
-			return WSound(soundevent)
-		} catch {
-			case e: UnsupportedOperationException => IaS3.bug(e, "Attempt add a sound name too late.")
+			WSound(soundevent)
+		} else {
+			IaS3.bug(domain, "Attempt add a sound name too late.")
+			WSound(null)
 		}
-		WSound(null)
 	}
-	private[iceandshadow3] def registerSounds(registry: IForgeRegistry[SoundEvent]): Unit = {
-		for(soundevent <- newsounds.asScala) registry.register(soundevent)
-		newsounds = Collections.emptyList()
+	private[iceandshadow3] def freeze(): Iterable[SoundEvent] = {
+		val retval = newsounds
+		newsounds = null
+		retval
 	}
 	def lookup(id: String): WSound =
 		WSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(id)))

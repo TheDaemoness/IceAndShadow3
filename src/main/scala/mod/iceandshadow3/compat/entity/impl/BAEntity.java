@@ -4,7 +4,7 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BLogicCommonEntity;
 import mod.iceandshadow3.basics.BStateData;
 import mod.iceandshadow3.basics.util.LogicPair;
-import mod.iceandshadow3.compat.ILogicEntityProvider;
+import mod.iceandshadow3.basics.util.ILogicEntityProvider;
 import mod.iceandshadow3.data.DataTreeMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

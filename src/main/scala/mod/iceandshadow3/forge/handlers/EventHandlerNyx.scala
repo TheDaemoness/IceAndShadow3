@@ -75,7 +75,7 @@ class EventHandlerNyx extends BEventHandler {
 					val frozen = LIFrozen.freeze(initial, None)
 					frozen.foreach(newitems => {
 						if(newitems.isEmpty) event.setCanceled(true)
-						else ei.setItem(newitems.exposeItemsOrNull())
+						else ei.setItem(newitems.exposeItems())
 					})
 				case _ =>
 			}

@@ -1,10 +1,6 @@
 package mod.iceandshadow3;
 
-import mod.iceandshadow3.compat.client.BinderParticle$;
-import mod.iceandshadow3.compat.entity.BinderStatusEffect$;
-import mod.iceandshadow3.compat.world.WSound$;
 import mod.iceandshadow3.config.ConfigManager;
-import mod.iceandshadow3.forge.EventFisherman$;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -12,8 +8,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
@@ -22,9 +17,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
+import net.minecraftforge.fml.event.server.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +39,8 @@ public class IaS3 {
 
 	private static boolean weIsClient = false;
 
+	private static InitCommon$ init = InitCommon$.MODULE$;
+
 	public IaS3() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		//net.minecraftforge.fml.event.lifecycle event handlers here ONLY!
@@ -58,18 +53,16 @@ public class IaS3 {
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		BinderStatusEffect$.MODULE$.populate();
-		BinderParticle$.MODULE$.populate();
-		Multiverse.initEarly();
+		init.populateBinders();
+		init.initEarly();
 	}
 
 	private void initRegistries(final RegistryEvent.NewRegistry event) {
-		ModSynergy$.MODULE$.makeRegistries();
+		InitModSynergy$.MODULE$.makeRegistries();
 	}
 	
 	private void initCommon(final FMLCommonSetupEvent event) {
-		Multiverse.initLate();
-		EventFisherman$.MODULE$.baitHooks();
+		init.initLate();
 		getCfgServer();
 	}
 
@@ -80,52 +73,51 @@ public class IaS3 {
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
-		ModSynergy$.MODULE$.imcSend();
+		InitModSynergy$.MODULE$.imcSend();
 	}
 
 	private void processIMC(final InterModProcessEvent event) {
-		ModSynergy$.MODULE$.imcRecv(event.getIMCStream());
+		InitModSynergy$.MODULE$.imcRecv(event.getIMCStream());
 	}
 
 	private void initFinal(final FMLLoadCompleteEvent event) {
-		if(weIsClient) {
-			InitClient.finishParticles();
-		} else BinderParticle$.MODULE$.freeze();
+		if(weIsClient) init.initFinalClient();
+		else init.initFinalServer();
 	}
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> reg) {
-			Multiverse.registerBlocks(reg.getRegistry());
+			init.registerBlocks(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
-			Multiverse.registerItems(reg.getRegistry());
+			init.registerItems(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> reg) {
-			Multiverse.registerEntities(reg.getRegistry());
+			init.registerEntities(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerPots(final RegistryEvent.Register<Effect> reg) {
-			Multiverse.registerPots(reg.getRegistry());
+			init.registerPots(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> reg) {
-			Multiverse.registerParticles(reg.getRegistry());
+			init.registerParticles(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {
-			WSound$.MODULE$.registerSounds(reg.getRegistry());
+			init.registerSounds(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerBiomes(final RegistryEvent.Register<Biome> reg) {
-			Multiverse.registerBiomes(reg.getRegistry());
+			init.registerBiomes(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerDimensions(final RegistryEvent.Register<ModDimension> reg) {
-			Multiverse.registerDimensions(reg.getRegistry());
+			init.registerDimensions(reg.getRegistry());
 		}
 	}
 
@@ -139,13 +131,13 @@ public class IaS3 {
 
 	@SubscribeEvent
 	public void onRegisterDimensions(RegisterDimensionsEvent event) {
-		Multiverse.enableDimensions();
+		init.enableDimensions();
 	}
 
 	@SubscribeEvent
 	public void onServerStarting(FMLServerStartingEvent event) {
 		if(event.getServer().isDedicatedServer()) {
-			Multiverse.primeDimensions(event.getServer());
+			init.primeDimensions(event.getServer());
 		}
 	}
 

@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.compat.misc
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.data._

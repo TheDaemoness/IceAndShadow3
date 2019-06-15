@@ -1,6 +1,8 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.basics.StatusEffect
+import mod.iceandshadow3.compat.entity.state.EquipPoint
+import mod.iceandshadow3.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.world.WDimension
 import mod.iceandshadow3.damage.Attack

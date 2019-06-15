@@ -1,8 +1,8 @@
 package mod.iceandshadow3.compat.block
 
 import mod.iceandshadow3.basics.BLogicBlock
-import mod.iceandshadow3.compat.{CNVVec3, ILogicBlockProvider, TWLogical}
-import mod.iceandshadow3.compat.entity.TEffectSource
+import mod.iceandshadow3.basics.util.ILogicBlockProvider
+import mod.iceandshadow3.compat.{CNVVec3, TEffectSource, TWLogical}
 import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.spatial.IPositional
 import net.minecraft.block.BlockState

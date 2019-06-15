@@ -6,8 +6,10 @@ public enum E3vl {
 	TRUE(true) {
 		@Override
 		public E3vl not() {return FALSE;}
+		@Override
+		public <T> T remap(T yes, T maybe, T no) {return yes;}
 	},
-	NEUTRAL(null) {
+	NEUTRAL(false) {
 		@Override
 		public E3vl not() {return NEUTRAL;}
 		@Override
@@ -20,14 +22,23 @@ public enum E3vl {
 		public E3vl unlessFalse(boolean which) {
 			return which?this:FALSE;
 		}
+		@Override
+		public <T> T remap(T yes, T maybe, T no) {return maybe;}
 	},
 	FALSE(false) {
 		@Override
 		public E3vl not() {return TRUE;}
+		@Override
+		public <T> T remap(T yes, T maybe, T no) {return no;}
 	};
 
-	public final Boolean value;
-	E3vl(Boolean v) {
+	public boolean isTrue() {return this == TRUE;}
+	public boolean isNeutral() {return this == NEUTRAL;}
+	public boolean isFalse() {return this == FALSE;}
+	public abstract <T> T remap(T yes, T maybe, T no);
+
+	private final boolean value;
+	E3vl(boolean v) {
 		value = v;
 	}
 

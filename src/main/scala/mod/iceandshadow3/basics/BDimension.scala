@@ -1,15 +1,13 @@
 package mod.iceandshadow3.basics
 
-import mod.iceandshadow3.Multiverse
 import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.compat.entity.WEntity
-import mod.iceandshadow3.compat.world.{WDimensionCoord, WSound, WWorld}
+import mod.iceandshadow3.compat.world.{WDimensionCoord, WWorld}
 import mod.iceandshadow3.gen.BWorldSource
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3}
 import mod.iceandshadow3.util.Color
 
 abstract class BDimension(val name: String) extends BBiome {
-	Multiverse.addDimension(this)
 	var isEnabled = false
 	private var _coord: WDimensionCoord = _
 	def coord = _coord

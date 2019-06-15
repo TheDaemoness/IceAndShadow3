@@ -1,4 +1,4 @@
-package mod.iceandshadow3.compat
+package mod.iceandshadow3.compat.misc
 
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries

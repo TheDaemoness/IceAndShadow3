@@ -1,14 +1,15 @@
 package mod.iceandshadow3.forge
 
-import mod.iceandshadow3.Multiverse
 import mod.iceandshadow3.compat.CNVVec3
 import mod.iceandshadow3.compat.entity.CNVEntity
+import mod.iceandshadow3.compat.world.impl.AModDimension
 import mod.iceandshadow3.compat.world.{WDimensionCoord, WWorld}
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.network.play.server.{SPlayEntityEffectPacket, SPlayerAbilitiesPacket, SRespawnPacket, SServerDifficultyPacket}
+import net.minecraft.network.play.server.{SPlayEntityEffectPacket, SPlaySoundEventPacket, SPlayerAbilitiesPacket, SRespawnPacket, SServerDifficultyPacket}
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.ServerWorld
 import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.MinecraftForge
@@ -27,7 +28,7 @@ object Teleporter {
 	def onTeleportFrom(event: EntityTravelToDimensionEvent): Unit = {
 		val from = event.getEntity.dimension
 		val to = event.getDimension
-		val iasfrom = Multiverse.lookup(from)
+		val iasfrom = AModDimension.lookup(from.getModType)
 		val traveler = event.getEntity
 		if(iasfrom != null) {
 			if(!iasfrom.handleEscape(CNVEntity.wrap(traveler), WDimensionCoord(to))) {
@@ -44,7 +45,7 @@ object Teleporter {
 	@SubscribeEvent
 	def onTeleportTo(event: EntityTravelToDimensionEvent): Unit = {
 		val to = event.getDimension
-		val iasto = Multiverse.lookup(to)
+		val iasto = AModDimension.lookup(to.getModType)
 		if(iasto != null) {
 			event.setCanceled(true)
 			val traveler = event.getEntity
@@ -107,8 +108,10 @@ object Teleporter {
 			new SPlayEntityEffectPacket(p.getEntityId, effect)
 		)
 		//;_; There's no good way to override this sound effect. Those numbers are mapped via switch statement.
-		//The best we can do is shut it off.
-		//p.connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false))
+		//We can disable it, but that makes the teleport feel off.
+		p.connection.sendPacket(
+			new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false)
+		)
 		//Also the variables for last Experience, Heath, and FoodLevel are private.
 		net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerChangedDimensionEvent(p, from, to)
 	}

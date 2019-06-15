@@ -2,7 +2,8 @@ package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDimension
-import mod.iceandshadow3.compat.CNVVec3
+import mod.iceandshadow3.compat.entity.state.impl.ADamageSource
+import mod.iceandshadow3.compat.{CNVVec3, TEffectSource}
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.world.{TWWorldPlace, WDimensionCoord}
 import mod.iceandshadow3.damage.Attack
