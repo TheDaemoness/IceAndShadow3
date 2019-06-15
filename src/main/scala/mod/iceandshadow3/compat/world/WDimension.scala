@@ -12,5 +12,6 @@ class WDimension(private[compat] val dim: Dimension) extends TWWorld {
 	def getWorldSpawn: IVec3 = if(canRespawnHere) dim.getWorld.getSpawnPoint else null
   def getCoord: WDimensionCoord = WDimensionCoord(dim.getType)
   def isVanilla: Boolean = dim.getType.isVanilla //Convenience method.
+	def isHellish = dim.doesWaterVaporize
   override protected[compat] def exposeWorld() = dim.getWorld
 }

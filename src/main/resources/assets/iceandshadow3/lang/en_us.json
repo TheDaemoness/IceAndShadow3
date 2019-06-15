@@ -15,4 +15,9 @@
 	"block.iceandshadow3.nyx_icicles": "Nyxian Icicles",
 
 	"effect.iceandshadow3.frost": "Deadly Frost",
+
+	"iceandshadow3.tooltip.iced_over": "Iced-Over",
+
+	"iceandshadow3.message.item_freezes": "Your %s freezes!",
+	"iceandshadow3.message.iced_over": "It should thaw in the Nether. Maybe."
 }

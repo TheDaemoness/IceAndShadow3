@@ -25,6 +25,11 @@ class DataTreeList[Element <: IDataTreeRW[_ <: BDataTree[_]]] extends BDataTreeB
 	override protected def copyFrom(list: java.util.List[Element]): Unit =
 		datum = new java.util.ArrayList(list)
 	override def get(key: Int) = if(key < datum.size()) Some(datum.get(key)) else None
+
+	def add(what: Element): this.type = {
+		datum.add(what)
+		this
+	}
 	
 	override def iterator = ((0 until datum.size) zip datum.asScala).iterator
 

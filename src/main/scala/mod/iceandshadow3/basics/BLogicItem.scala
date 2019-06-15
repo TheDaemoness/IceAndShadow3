@@ -15,6 +15,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 {
 	BinderItem.add(this)
 
+	//TODO: Expand when we have our own text formatting stuff.
+	def addTooltip(variant: Int, what: WItemStack): String = ""
 	def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) = false
 	def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
@@ -51,6 +53,6 @@ class LogicItemSingle(dom: BDomain, name: String, variants: (String, Int)*)
 
 abstract class BLogicItemComplex(dom: BDomain, name: String) extends BLogicItem(dom, name) {
 	//TODO: Investigate whether Minecraft actually knows how to handle stacking items with NBT.
-	override final def stackLimit(variant: Int) = 1
+	override def stackLimit(variant: Int) = 1
 	override def damageLimit(variant: Int) = 0
 }

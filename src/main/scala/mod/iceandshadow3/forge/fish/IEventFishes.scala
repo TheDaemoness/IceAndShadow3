@@ -1,7 +1,7 @@
 package mod.iceandshadow3.forge.fish
 
 import mod.iceandshadow3.basics.BLogicItem
-import mod.iceandshadow3.compat.BLogic
+import mod.iceandshadow3.basics.util.BLogic
 
 /** IaS3-friendly class for adding event-handling logic to BLogics.
   */

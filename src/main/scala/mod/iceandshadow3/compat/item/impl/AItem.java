@@ -11,8 +11,10 @@ import mod.iceandshadow3.compat.entity.WEntityPlayer;
 import mod.iceandshadow3.compat.item.WItemStack;
 import mod.iceandshadow3.compat.world.WWorld;
 import mod.iceandshadow3.util.E3vl;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Food;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,12 +22,15 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class AItem extends Item implements ILogicItemProvider {
 
@@ -36,6 +41,7 @@ public class AItem extends Item implements ILogicItemProvider {
 			default: return ActionResultType.PASS;
 		}
 	}
+
 	@Override
 	public boolean hasEffect(ItemStack stack) {
 		return super.hasEffect(stack) || logic.isShiny(
@@ -80,5 +86,30 @@ public class AItem extends Item implements ILogicItemProvider {
 		final WEntityPlayer plai = CNVEntity.wrap(playerIn);
 		final E3vl result = logic.onUse(variant, wri.exposeStateData(getLogicPair()), wri, plai, mainhand);
 		return new ActionResult<>(toEActionResult(result), wri.exposeItems());
+	}
+
+	@Override
+	public void addInformation(
+		ItemStack stack,
+		@Nullable World worldIn,
+		List<ITextComponent> tooltip,
+		ITooltipFlag flagIn)
+	{
+		final String tt = logic.addTooltip(variant, new WItemStack(stack, null));
+		if(!tt.isEmpty()) tooltip.add(new TranslationTextComponent(tt));
+	}
+
+	@Nonnull
+	@Override
+	public String getTranslationKey(ItemStack stack) {
+		final String nameOverride = logic.nameOverride(variant, new WItemStack(stack, null));
+		if(nameOverride == null) return super.getTranslationKey(stack);
+		else return nameOverride;
+	}
+
+	@Nullable
+	@Override
+	public Food func_219967_s() {
+		return super.func_219967_s();
 	}
 }

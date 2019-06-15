@@ -10,11 +10,7 @@
 					"name": "iceandshadow3:gaia_navistra_stone"
 				}
 			],
-			"conditions": [
-				{
-					"condition": "minecraft:survives_explosion"
-				}
-			]
+			"conditions": []
 		}
 	]
 }

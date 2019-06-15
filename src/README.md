@@ -7,7 +7,7 @@ IaS3 uses tabs for indentation everywhere, and spaces (never tabs) for code alig
 The `.json` and `.mcmeta` files in IaS3's source tree get minified using
 [a lax parser](http://docs.groovy-lang.org/docs/latest/html/api/groovy/json/JsonParserType.html#LAX)
 during resource processing. In practice, this means:
-* These files should be indented helpfully.
+* These files should be formatted helpfully.
 * Comments may be used (prefer `#`-style).
 * Trailing commas are permissible.
 * Unquoted or single-quoted keys can be used (but should be avoided).

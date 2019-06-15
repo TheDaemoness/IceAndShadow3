@@ -1,7 +1,5 @@
 package mod.iceandshadow3.basics.util
 
-import mod.iceandshadow3.compat.BLogic
-
 class LogicPair[Logic <: BLogic](l: Logic, v: Int) extends {
 	def logic = l
 	def variant = v

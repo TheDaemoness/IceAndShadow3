@@ -19,6 +19,7 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	def this(w: IBlockReader, p: BlockPos) = {
 		this(w, p, null)
 	}
+	override def registryName: String = exposeBS().getBlock.getRegistryName.toString
 	//TODO: Fluids.
 
 	protected final def exposeBS(): BlockState = {if(bs == null) refresh(); bs}

@@ -3,14 +3,17 @@ package mod.iceandshadow3.world
 import mod.iceandshadow3.basics.BDomain
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.world.dim_nyx.LIFrozen
 
-/** Default domain for anything non-IaS.
- *  Should NOT be used by anything IaS. Assumed to be hostile by other domains.
+/** Default domain for anything non-IaS. A catch-all for everything with no other sensible domain.
  */
-object DomainAlien extends BDomain(null) {
+object DomainAlien extends BDomain("alien") {
 	override def isHostileTo(other: BDomain): Boolean = true
-	override def tierToRarity(tier: Int): WRarity = WRarity.UNCOMMON
+	override def tierToRarity(tier: Int): WRarity = WRarity.COMMON
 
 	override def color = Color.BLUE
 	override protected def baseStrength: Float = 5f
+	override def resistsFreezing = false
+
+	val frozen = new LIFrozen
 }

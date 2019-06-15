@@ -3,6 +3,7 @@ package mod.iceandshadow3.compat.entity
 import mod.iceandshadow3.basics.StatusEffect
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.world.WDimension
+import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.util.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.LivingEntity
@@ -73,4 +74,7 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
     if(amp <= 0) living.removePotionEffect(BinderStatusEffect(status))
     else living.addPotionEffect(new EffectInstance(BinderStatusEffect(status), ticks, amp-1))
   }
+
+  def damageWithStatus(how: Attack, multiplier: Float = 1f, status: StatusEffect, ticks: Int, amp: Int = 1): Unit =
+    if(damage(how, multiplier)) living.addPotionEffect(new EffectInstance(BinderStatusEffect(status), ticks, amp-1))
 }

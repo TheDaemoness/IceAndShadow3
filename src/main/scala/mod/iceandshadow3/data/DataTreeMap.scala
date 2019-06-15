@@ -52,5 +52,8 @@ class DataTreeMap extends BDataTreeBranch[
 	override def get(key: String) =
 		Option(datum.get(key))
 
-	def add(key: String, value: IDataTreeRW[_ <: BDataTree[_]]) = {datum.put(key, value); this}
+	def add(key: String, value: IDataTreeRW[_ <: BDataTree[_]]) = {
+		if(value == null) this
+		else {datum.put(key, value); this}
+	}
 }

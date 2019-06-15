@@ -9,6 +9,7 @@ import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.spatial.{IPositional, IVec3}
 import mod.iceandshadow3.util.IteratorEmpty
 import net.minecraft.entity.Entity
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.world.LightType
 
@@ -36,8 +37,7 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 		entity.setPositionAndUpdate(newpos.xDouble, newpos.yDouble, newpos.zDouble)
 	}
 
-	def teleport(dim: WDimensionCoord): Unit =
-		entity.changeDimension(dim.dimtype)
+	def teleport(dim: WDimensionCoord): Unit = entity.changeDimension(dim.dimtype)
 
 	def teleport(dim: BDimension): Unit = {
 		if (!dim.isEnabled) {

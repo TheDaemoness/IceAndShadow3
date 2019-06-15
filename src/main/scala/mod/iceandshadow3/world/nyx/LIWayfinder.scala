@@ -12,6 +12,7 @@ import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{IEventFishOwnerDeath, IEventFishOwnerToss}
 import mod.iceandshadow3.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.util.E3vl
+import mod.iceandshadow3.world.misc.Statuses
 import mod.iceandshadow3.world.{DimensionNyx, DomainNyx}
 
 sealed class SIWayfinder extends BStateData {
@@ -76,6 +77,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			val owner = item.getOwner
 			if (preventDeath) {
 				owner.setHp()
+				owner.setStatus(Statuses.resistance, 160, 5)
 				owner.extinguish()
 				val where = wayfinderstate.positions.get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
 				if (where != null) {
@@ -113,6 +115,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 					case _ =>
 				}
 				owner.setHp(1)
+				owner.setStatus(Statuses.resistance, 160, 5)
 				if(areweinnyx) owner.teleport(WDimensionCoord.END)
 				else owner.teleport(DimensionNyx)
 				wayfinderstate.charged.set(false)

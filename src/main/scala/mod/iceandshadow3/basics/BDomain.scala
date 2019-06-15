@@ -1,9 +1,12 @@
 package mod.iceandshadow3.basics
 
+import javax.annotation.Nullable
 import mod.iceandshadow3.Multiverse
+import mod.iceandshadow3.compat.TLogicProvider
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.damage.EDeathPolicy
 import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.world.DomainAlien
 
 /** A collection of lore-related blocks/items/mobs/etc.
 	* Every BLogic subtype eventually gets instantiated in and attached to one of these.
@@ -31,4 +34,13 @@ abstract class BDomain(val name: java.lang.String) {
 		if(isBoss) str*3+str*7*tier else str*2+(str*(1+tier))/2
 	}
 	def tierToMobHealthFactor(tier: Int, zone: Int): Float = baseStrength+tier+zone
+	def resistsFreezing = true
+}
+
+object BDomain {
+	def extract(what: Object): BDomain = what match {
+		case nicetry: BDomain => nicetry
+		case lp: TLogicProvider[_] => lp.getDomain
+		case _ => DomainAlien
+	}
 }

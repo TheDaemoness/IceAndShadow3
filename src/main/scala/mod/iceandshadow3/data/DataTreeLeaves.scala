@@ -72,6 +72,15 @@ abstract class DatumIntArray(size: Int = 0) extends BDataTreeLeaf(new Array[Long
 		for(newval <- newarray) if(newval < getMin || newval > getMax) throw new IllegalArgumentException
 		super.set(newarray)
 	}
+	def set(newarray: Array[Int]): Boolean = {
+		this.set(newarray.map{_.toLong})
+	}
+	def set(newarray: Array[Short]): Boolean = {
+		this.set(newarray.map{_.toLong})
+	}
+	def set(newarray: Array[Byte]): Boolean = {
+		this.set(newarray.map{_.toLong})
+	}
 	override protected def readNBT(tag: INBT) = tag match {
 		case bytes: ByteArrayNBT => bytes.getByteArray.map(_.toLong)
 		case ints: IntArrayNBT => ints.getIntArray.map(_.toLong)

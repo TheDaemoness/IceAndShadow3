@@ -1,17 +1,18 @@
 package mod.iceandshadow3.compat
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.data.{BDataTree, IDataTreeRW, INbtRW}
-import net.minecraft.nbt.{NumberNBT, CompoundNBT}
+import mod.iceandshadow3.data._
+import net.minecraft.nbt._
 
-class WNbtTree(val root: CompoundNBT) {
+class WNbtTree(val root: CompoundNBT)
+{
 	def isNull: Boolean = root == null
 	def isEmpty: Boolean = isNull || root.isEmpty
 	def chroot(): WNbtTree = chroot(IaS3.MODID)
 	def chroot(key: String): WNbtTree = try {
 		if(root == null) return this
 		val tags = root.getCompound(key)
-		root.put(key, tags)
+		if(tags.isEmpty) root.put(key, tags)
 		new WNbtTree(tags)
 	} catch {
 		case e: ClassCastException =>
@@ -46,10 +47,46 @@ class WNbtTree(val root: CompoundNBT) {
 		tag.asInstanceOf[NumberNBT] getLong()
 	}
 
+	def getString(key: String): String = {
+		if(root == null) "" else Option(root.get(key)).fold("")(_.getString)
+	}
+
 	def store(key: String, obj: IDataTreeRW[_ <: BDataTree[_]]): Unit =
 		set(key, obj.exposeDataTree())
 	def load[T <: BDataTree[_]] (key: String, obj: IDataTreeRW[T]): Boolean = {
 		val tree: T = obj.exposeDataTree()
 		if(get(key,tree)) obj.fromDataTree(tree) else false
+	}
+
+	protected def matchLeaf(tag: INBT): BDataTreeLeaf[_] = tag match {
+		case tag: EndNBT => null
+		case tag: ByteNBT => new DatumInt8(tag.getByte)
+		case tag: ShortNBT => new DatumInt16(tag.getShort)
+		case tag: IntNBT => new DatumInt32(tag.getInt)
+		case tag: LongNBT => new DatumInt64(tag.getInt)
+		case tag: FloatNBT => new DatumFloat(tag.getFloat, true)
+		case tag: DoubleNBT => new DatumFloat(tag.getDouble, false)
+		case tag: ByteArrayNBT => new DatumInt8Array(tag.getByteArray)
+		case tag: StringNBT => new DatumString(tag.getString)
+		case tag: IntArrayNBT => new DatumInt32Array(tag.getIntArray)
+		case tag: LongArrayNBT => new DatumInt64Array(tag.getAsLongArray)
+		case _ =>
+			val id = tag.getId
+			IaS3.logger().error(s"Unknown NBT tag with type number $id. Corruption, or was there a Minecraft update?")
+			null
+	}
+
+	def toDataTree: DataTreeMap = {
+		val retval = new DataTreeMap()
+		import scala.collection.JavaConverters._
+		for(key <- root.keySet().asScala) {
+			val rawtag = root.get(key)
+			retval.add(key, rawtag match {
+				case tag: ListNBT => new DataTreeList[BDataTree[_]]
+				case tag: CompoundNBT => new WNbtTree(tag).toDataTree
+				case _ => matchLeaf(rawtag)
+			})
+		}
+		retval
 	}
 }

@@ -2,10 +2,15 @@ package mod.iceandshadow3.compat
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.basics._
-import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
+import mod.iceandshadow3.basics.util.{BLogic, LogicPair, LogicTriad}
+import mod.iceandshadow3.world.DomainAlien
 
 sealed trait TLogicProvider[LogicType <: BLogic] {
 	@Nullable def getLogicPair: LogicPair[LogicType]
+	def getDomain: BDomain = {
+		val logos = getLogicPair
+		if(logos == null) DomainAlien else logos.logic.getDomain
+	}
 }
 
 trait ILogicBlockProvider extends TLogicProvider[BLogicBlock]

@@ -1,7 +1,7 @@
 package mod.iceandshadow3.forge.bait
 
-import mod.iceandshadow3.basics.util.LogicTriad
-import mod.iceandshadow3.compat.{TWLogical, BLogic}
+import mod.iceandshadow3.basics.util.{BLogic, LogicTriad}
+import mod.iceandshadow3.compat.TWLogical
 import mod.iceandshadow3.forge.fish.IEventFish
 import mod.iceandshadow3.forge.handlers.BEventHandler
 import net.minecraftforge.eventbus.api.{Event, EventPriority, IEventBus}

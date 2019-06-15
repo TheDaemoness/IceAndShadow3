@@ -4,27 +4,35 @@ import mod.iceandshadow3.basics.BLogicItem
 import mod.iceandshadow3.basics.util.LogicPair
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.compat.item.impl.BinderItem
-import mod.iceandshadow3.compat.{ILogicItemProvider, SRandom, TWLogical}
+import mod.iceandshadow3.compat.{ILogicItemProvider, SRandom, TNamed, TWLogical, WNbtTree}
+import mod.iceandshadow3.data.INbtRW
 import mod.iceandshadow3.util.Casting._
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.inventory.IInventory
-import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.{Hand, IItemProvider}
+import net.minecraft.item.{Item, ItemStack, PotionItem, UseAction}
+import net.minecraft.nbt.{CompoundNBT, INBT}
+import net.minecraft.tileentity.AbstractFurnaceTileEntity
+import net.minecraft.util.IItemProvider
+import net.minecraftforge.registries.ForgeRegistries
 
 /** Null-safe item stack + owner reference.
 	*/
 class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends TWLogical[BLogicItem]
 	with ILogicItemProvider
+	with TNamed
+	with INbtRW
 {
 	private[compat] var is = Option(inputstack)
 	def this() = this(null.asInstanceOf[ItemStack], null.asInstanceOf[LivingEntity])
 	def this(is: Null, owner: LivingEntity) = this(null.asInstanceOf[ItemStack], owner)
 	def this(is: IItemProvider, owner: LivingEntity) = this(new ItemStack(is), owner)
-	//TODO: We can probably make this handle multiple item stacks.
+	def this(itemnbt: WNbtTree, owner: LivingEntity) = this(ItemStack.read(itemnbt.root), owner)
+	override def registryName: String = is.fold[String](null)(
+		items => ForgeRegistries.ITEMS.getKey(items.getItem).toString
+	)
 
 	def copy: WItemStack = new WItemStack(is.fold[ItemStack](null){_.copy()}, owner)
 	def isEmpty: Boolean = is.fold(true){_.getCount == 0}
@@ -48,7 +56,10 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 		retval
 	}
 
-	def changeTo(alternate: WItemStack): WItemStack =
+	/** Changes the item stack referenced by this WItemStack to a copy of a different item stack.
+		* IMPORTANT: This does NOT change the item internally!
+		*/
+	def referenceCopyOf(alternate: WItemStack): WItemStack =
 		{is = Option(alternate.is.fold[ItemStack](null){_.copy}); this}
 	def changeCount(newcount: Int): WItemStack =
 		{is.foreach(is => {if(is.isStackable) is.setCount(Math.min(countMax,newcount))}); this}
@@ -108,6 +119,31 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 			case lp: ILogicItemProvider => return lp.getLogicPair
 			case _ => return null
 		}}
+
+	def getBurnTicks: Int = is.fold(0)(items => {
+		val result = items.getBurnTime
+		if(result < 0) AbstractFurnaceTileEntity.func_214001_f().getOrDefault(items.getItem, 0)
+		else result
+	})
+
+	//TODO: Remove when there's a general way of checking if an underlying item stack matches certain criteria.
+
+	@Deprecated
+	def isFoodOrDrink = is.fold(false)(itemstack => {
+		val useaction = itemstack.getUseAction
+		useaction == UseAction.EAT || useaction == UseAction.DRINK
+	})
+
+	@Deprecated
+	def isPotion = is.fold(false)(_.getItem.isInstanceOf[PotionItem])
+
+	override protected[compat] def getNameTextComponent = exposeItems().getTextComponent
+
+	override def toNBT = exposeItems().serializeNBT()
+	override def fromNBT(tag: INBT) = tag match {
+		case compound: CompoundNBT => is = Some(ItemStack.read(compound)); true
+		case _ => false
+	}
 }
 object WItemStack {
 	def get(inv: IInventory, index: Int): WItemStack = {

@@ -8,7 +8,7 @@ import mod.iceandshadow3.world.nyx._
 
 object DomainNyx extends BDomain("nyx") {
 	val Blocks = new {
-		val icicles = new LBIcicle
+		val icicles = new LBIcicles
 		val exousia = new LBExousia
 	}
 	val Items = new {

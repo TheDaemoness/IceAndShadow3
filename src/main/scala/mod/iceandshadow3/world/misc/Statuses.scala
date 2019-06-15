@@ -8,6 +8,7 @@ object Statuses {
 	val blind = new StatusEffectPlaceholder
 	val wither = new StatusEffectPlaceholder
 	val regen = new StatusEffectPlaceholder
+	val resistance = new StatusEffectPlaceholder
 	//NOTE: Make sure these are also in BinderStatusEffect.populate
 
 	val frost = new StatusFrost

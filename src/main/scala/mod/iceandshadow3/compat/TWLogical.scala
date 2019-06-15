@@ -1,12 +1,16 @@
 package mod.iceandshadow3.compat
 
+import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BStateData
-import mod.iceandshadow3.basics.util.{LogicPair, LogicTriad}
+import mod.iceandshadow3.basics.util.{BLogic, LogicPair, LogicTriad}
 import net.minecraft.nbt.CompoundNBT
 
 trait TWLogical[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
 	this: TLogicProvider[LogicType] =>
+
+	@Nullable
+	def registryName: String
 
 	protected def exposeCompoundOrNull(): CompoundNBT
 

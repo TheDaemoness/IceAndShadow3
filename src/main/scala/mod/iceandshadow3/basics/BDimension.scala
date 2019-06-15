@@ -32,7 +32,7 @@ abstract class BDimension(val name: String) extends BBiome {
 	override def baseHilliness = (peakLevel/seaLevel)/128f
 
 	def handleArrival(world: WWorld, who: WEntity): IVec3
-	def handleEscape(who: WEntity, where: WDimensionCoord): Boolean = false
+	def handleEscape(who: WEntity, where: WDimensionCoord): Boolean = true
 
 	def getWorldSource(seed: Long): BWorldSource
 

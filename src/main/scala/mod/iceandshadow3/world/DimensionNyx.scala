@@ -1,12 +1,14 @@
 package mod.iceandshadow3.world
 
 import mod.iceandshadow3.basics.BDimension
+import mod.iceandshadow3.basics.item.IItemStorage
+import mod.iceandshadow3.compat.ResourceMap
 import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
-import mod.iceandshadow3.compat.entity.WEntity
+import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityPlayer}
 import mod.iceandshadow3.compat.world.WWorld
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
-import mod.iceandshadow3.util.Color
-import mod.iceandshadow3.world.dim_nyx.WorldSourceNyx
+import mod.iceandshadow3.util.{Color, StringMap}
+import mod.iceandshadow3.world.dim_nyx.{LIFrozen, WorldSourceNyx}
 
 object DimensionNyx extends BDimension("nyx") {
 	override def getSkyBrightness(partialTicks: Float) = 1f/15
@@ -25,11 +27,13 @@ object DimensionNyx extends BDimension("nyx") {
 	override def baseTemperature = 0f
 
 	override def handleArrival(here: WWorld, who: WEntity): IVec3 = {
-		//TODO: Bit shoddy. Come up with something better.
+		//TODO: Change once the central fort is back in place.
 		val topopt = here.topSolid(UnitVec3s.ZERO)
 		val teleloc = if(topopt.isEmpty) UnitVec3s.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
-		//DomainNyx.snd_arrival.play(here, teleloc, 1f, 1f)
-		//TODO: ^ Research if there's a way to override the vanilla teleport sound.
+		who match {
+			case player: WEntityPlayer => freezeItems(player.inventory(), player)
+			case _ => //Definitely come up with something for other entities too.
+		}
 		teleloc
 	}
 
@@ -49,5 +53,16 @@ object DimensionNyx extends BDimension("nyx") {
 			val multiplier = lightness+(1-lightness)*Math.cbrt(lightBlock).toFloat
 			colorIn.multiply(multiplier)
 		}
+	}
+
+	def freezeItems(container: IItemStorage, player: WEntityPlayer): Unit = {
+		//Dimension check should be handled elsewhere!
+		if(player.isCreative) return
+		var frozeAnything = false
+		container.transform(original => {
+			val result = LIFrozen.freeze(original, Some(player))
+			frozeAnything |= result.isDefined
+			result.getOrElse(original)
+		})
 	}
 }

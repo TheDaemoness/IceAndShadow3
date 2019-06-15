@@ -1,11 +1,12 @@
 package mod.iceandshadow3.compat.item
 
+import mod.iceandshadow3.basics.item.IItemStorage
 import mod.iceandshadow3.util.E3vl
 import net.minecraft.entity.LivingEntity
 import net.minecraft.inventory.IInventory
 
 //TODO: Incomplete.
-class WInventory(inv: IInventory, owner: LivingEntity = null) extends Iterable[WItemStack] {
+class WInventory(inv: IInventory, owner: LivingEntity = null) extends IItemStorage {
 	def add(what: WItemStack): Boolean = {
 		if (what.isEmpty) return true
 		val whatexposed = what.exposeItems()
@@ -49,6 +50,13 @@ class WInventory(inv: IInventory, owner: LivingEntity = null) extends Iterable[W
 		else {inv.setInventorySlotContents(slot, item.move()); E3vl.TRUE}
 	}
 
+	override def update(idx: Int, elem: WItemStack): Unit = {
+		val stack = elem.exposeItems()
+		if(inv.isItemValidForSlot(idx, stack)) inv.setInventorySlotContents(idx, stack)
+		else inv.removeStackFromSlot(idx)
+	}
+	override def length = inv.getSizeInventory
+	override def apply(idx: Int) = new WItemStack(inv.getStackInSlot(idx), null)
 	override def iterator = new Iterator[WItemStack] {
 		var index = 0
 		override def hasNext = index < inv.getSizeInventory
