@@ -1,10 +1,10 @@
-package mod.iceandshadow3.world
+package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.basics.BDomain
 import mod.iceandshadow3.basics.common.LogicBlockOfMateria
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.util.Color
-import mod.iceandshadow3.world.gaia._
+import mod.iceandshadow3.multiverse.gaia._
 
 object DomainGaia extends BDomain("gaia") {
 	val Blocks = new {

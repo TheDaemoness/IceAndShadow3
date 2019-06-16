@@ -10,7 +10,7 @@ import mod.iceandshadow3.compat.item.impl.BinderItem
 import mod.iceandshadow3.compat.world.WSound
 import mod.iceandshadow3.compat.world.impl.AModDimension
 import mod.iceandshadow3.forge.{EventFisherman, Teleporter}
-import mod.iceandshadow3.world._
+import mod.iceandshadow3.multiverse._
 import net.minecraft.block.Block
 import net.minecraft.entity.{Entity, EntityType}
 import net.minecraft.item.Item

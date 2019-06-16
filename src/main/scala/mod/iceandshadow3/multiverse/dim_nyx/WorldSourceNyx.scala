@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.dim_nyx
+package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.gen.BWorldSource
 

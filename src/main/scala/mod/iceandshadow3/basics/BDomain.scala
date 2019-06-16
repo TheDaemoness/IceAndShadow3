@@ -4,7 +4,7 @@ import mod.iceandshadow3.basics.util.TLogicProvider
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.damage.EDeathPolicy
 import mod.iceandshadow3.util.Color
-import mod.iceandshadow3.world.DomainAlien
+import mod.iceandshadow3.multiverse.DomainAlien
 
 /** A collection of lore-related blocks/items/mobs/etc.
 	* Every BLogic subtype eventually gets instantiated in and attached to one of these.

@@ -1,4 +1,4 @@
-# .world
+# .multiverse
 
 Contains elements of the world(s) of Ice and Shadow III.
 

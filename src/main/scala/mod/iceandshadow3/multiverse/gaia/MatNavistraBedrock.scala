@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.gaia
+package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.basics.block.IMateria
 

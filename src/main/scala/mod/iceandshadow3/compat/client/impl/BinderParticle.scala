@@ -8,7 +8,7 @@ object BinderParticle extends BinderLazy[ParticleType, BParticleType, IParticleD
 	new AParticleType(_)
 }) {
 	def populate(): Unit = {
-		import mod.iceandshadow3.world.misc.Particles._
+		import mod.iceandshadow3.multiverse.misc.Particles._
 		add(smoke_large, ParticleTypes.LARGE_SMOKE)
 	}
 }

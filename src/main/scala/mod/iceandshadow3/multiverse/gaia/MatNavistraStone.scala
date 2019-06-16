@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.gaia
+package mod.iceandshadow3.multiverse.gaia
 
 object MatNavistraStone extends BMateriaNavistra {
 	override def getName = "navistra_stone"

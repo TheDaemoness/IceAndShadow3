@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world
+package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.basics.item.IItemStorage
@@ -8,7 +8,7 @@ import mod.iceandshadow3.compat.misc.ResourceMap
 import mod.iceandshadow3.compat.world.WWorld
 import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
 import mod.iceandshadow3.util.{Color, StringMap}
-import mod.iceandshadow3.world.dim_nyx.{LIFrozen, WorldSourceNyx}
+import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldSourceNyx}
 
 object DimensionNyx extends BDimension("nyx") {
 	override def getSkyBrightness(partialTicks: Float) = 1f/15

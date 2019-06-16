@@ -5,9 +5,9 @@ import mod.iceandshadow3.compat.item
 import mod.iceandshadow3.compat.item.{WContainer, WItemStack}
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
 import mod.iceandshadow3.util.MathUtils
-import mod.iceandshadow3.world.misc.Statuses
-import mod.iceandshadow3.world.DimensionNyx
-import mod.iceandshadow3.world.dim_nyx.LIFrozen
+import mod.iceandshadow3.multiverse.misc.Statuses
+import mod.iceandshadow3.multiverse.DimensionNyx
+import mod.iceandshadow3.multiverse.dim_nyx.LIFrozen
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.util.{ActionResult, ActionResultType}
 import net.minecraftforge.event.entity.EntityJoinWorldEvent

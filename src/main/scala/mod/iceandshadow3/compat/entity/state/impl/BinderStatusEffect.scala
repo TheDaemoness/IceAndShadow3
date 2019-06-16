@@ -7,7 +7,7 @@ import net.minecraft.potion.Effect
 object BinderStatusEffect extends BinderLazy[StatusEffect, BStatusEffect, Effect]({new AStatusEffect(_)}) {
 
 	private[iceandshadow3] def populate(): Unit = {
-		import mod.iceandshadow3.world.misc.Statuses._
+		import mod.iceandshadow3.multiverse.misc.Statuses._
 		//Deobfuscation on Effects seems a bit shaky, so until that gets sorted, we'll get these by ID.
 		add(poison, Effect.getPotionById(19))
 		add(slow, Effect.getPotionById(2))

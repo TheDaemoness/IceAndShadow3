@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.misc
+package mod.iceandshadow3.multiverse.misc
 
 import mod.iceandshadow3.basics.BStatusEffect
 import mod.iceandshadow3.compat.entity.WEntityLiving

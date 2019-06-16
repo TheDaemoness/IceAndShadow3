@@ -1,10 +1,10 @@
-package mod.iceandshadow3.world
+package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.basics.{BDomain, LogicItemMulti}
 import mod.iceandshadow3.compat.item.WRarity
 import mod.iceandshadow3.compat.world.WSound
 import mod.iceandshadow3.util.Color
-import mod.iceandshadow3.world.nyx._
+import mod.iceandshadow3.multiverse.nyx._
 
 object DomainNyx extends BDomain("nyx") {
 	val Blocks = new {

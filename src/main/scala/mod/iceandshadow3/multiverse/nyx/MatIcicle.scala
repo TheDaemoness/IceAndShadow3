@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.nyx
+package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.basics.block.ECommonBlockType._
 import mod.iceandshadow3.compat.block.impl.BMateriaIce

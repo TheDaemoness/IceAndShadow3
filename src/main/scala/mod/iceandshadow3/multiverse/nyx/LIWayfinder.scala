@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.nyx
+package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.item.BItemProperty
@@ -12,8 +12,8 @@ import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
 import mod.iceandshadow3.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.util.E3vl
-import mod.iceandshadow3.world.misc.Statuses
-import mod.iceandshadow3.world.{DimensionNyx, DomainNyx}
+import mod.iceandshadow3.multiverse.misc.Statuses
+import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}
 
 sealed class SIWayfinder extends BStateData {
 	val charged = new DatumBool(false)

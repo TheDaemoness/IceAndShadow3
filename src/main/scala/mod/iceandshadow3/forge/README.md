@@ -15,19 +15,19 @@ Most uses of Forge's events are going to be by `BLogic` subtypes.
 which contain the actual logic for how an event should be handled.
 Why fish? Because we're putting something on Forge's event hooks, and it might as well be fish.
 
-Usually the fish objects returned are the logic objects themselves. The default implementation of `getEventFish`
+The fish objects returned are logic objects themselves. The default implementation of `getEventFish`
 allows `BLogic`s to return themselves in response to requests for certain fish types.
 
 The acquiring and calling of the fish objects is done by specialized Forge event handlers,
 specifically subtypes of `BEventBait` with their type parameters filled in.
 Why bait? Because bait gets put on a hook to get a fish on the hook instead.
 
-BEventBait instances are actually instantiated and registered with the event bus by `SEventFisherman`.
+BEventBait instances are actually instantiated and registered with the event bus by `EventFisherman`.
 Why fisherman? Because a fisherman is what actually puts bait on the hooks.
 
 Why has this metaphor been taken this far? If you're hoping for any reasonable reason, you'll be disappointed.
 
 ## Other Event Handling
 
-Fish-unrelated event handlers should still be instantiated by `SEventFisherman`.
+Fish-unrelated event handlers should still be instantiated by `EventFisherman`.
 

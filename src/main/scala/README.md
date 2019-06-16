@@ -8,7 +8,7 @@ IaS3's codebase can be difficult to understand. This can be attributed to a few 
 * ~~The lead developer is nuts.~~
 
 If you just want to see how X block/item/entity works,
-then what you're looking for is almost certainly in a subpackage of `mod.iceandshadow3.world`.
+then what you're looking for is almost certainly in a subpackage of `mod.iceandshadow3.multiverse`.
 It should be easy to find from there.
 
 For everyone else, it's recommended to have a look a the READMEs in each package.
@@ -35,10 +35,13 @@ Where possible (and where it'd be remotely sane to do),
 these restrictions should be enforced using package-level access.
 
 This restriction is the cause for a lot of added complexity in IaS3's codebase,
-however it's also necessary to avoid breakage (which as any seasoned modder will tell you happens BIGTIME between Minecraft versions) spreading uncontrollably to the rest of IaS3's codebase.
+however it's also necessary to avoid breakage
+(which as any seasoned modder will tell you happens BIGTIME between Minecraft versions)
+spreading uncontrollably to the rest of IaS3's codebase.
 
 Exceptions are on a package-by-package basis.
-Subpackages of `mod.iceandshadow3` where you will definitely NOT find such exceptions are `basics`, `util`, and `world`.
+Subpackages of `mod.iceandshadow3` where you will definitely NOT find such exceptions are
+`basics`, `util`, and `multiverse`.
 
 ## Type Name Prefixes
 Two or more adjacent capital letters at the start of a class/file name are indicative of a type name prefix.
@@ -74,7 +77,7 @@ Scala: an unsealed `trait` that could be losslessly translated to a Java 8 inter
 Always written in Scala. A trait that does NOT fit the criteria for the `I` prefix. Often a mixin.
 
 ### "W" - Wrapper
-Formerly prefixed with "C". Always written in Scala.
+Formerly prefixed with "C".
 Takes Minecraft objects (or their data) and exposes an IaS3-controlled interface to them.
 
 Usually exposes the objects it's hiding with `protected[compat]` or `private[compat]` visibility, sometimes narrower.

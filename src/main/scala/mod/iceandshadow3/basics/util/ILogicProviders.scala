@@ -2,7 +2,7 @@ package mod.iceandshadow3.basics.util
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.basics._
-import mod.iceandshadow3.world.DomainAlien
+import mod.iceandshadow3.multiverse.DomainAlien
 
 sealed trait TLogicProvider[LogicType <: BLogic] {
 	@Nullable def getLogicPair: LogicPair[LogicType]

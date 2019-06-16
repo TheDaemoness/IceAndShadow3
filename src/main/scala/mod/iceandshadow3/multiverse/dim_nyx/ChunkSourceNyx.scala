@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.dim_nyx
+package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
@@ -7,8 +7,8 @@ import mod.iceandshadow3.compat.block.`type`.{BBlockType, BlockTypeSimple, Block
 import mod.iceandshadow3.gen.{BChunkSource, Cellmaker, TerrainMap}
 import mod.iceandshadow3.spatial.RandomXZ
 import mod.iceandshadow3.util.MathUtils
-import mod.iceandshadow3.world.DomainGaia.Blocks._
-import mod.iceandshadow3.world.DomainNyx
+import mod.iceandshadow3.multiverse.DomainGaia.Blocks._
+import mod.iceandshadow3.multiverse.DomainNyx
 
 object ChunkSourceNyx {
 	val stone = new BlockTypeSimple(livingstone, 0)

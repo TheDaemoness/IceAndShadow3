@@ -1,4 +1,4 @@
-package mod.iceandshadow3.world.dim_nyx
+package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.common.LogicItemChameleon
@@ -7,7 +7,7 @@ import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.compat.item.{ItemQueries, WItemStack}
 import mod.iceandshadow3.compat.misc.ResourceMap
 import mod.iceandshadow3.util.E3vl
-import mod.iceandshadow3.world.DomainAlien
+import mod.iceandshadow3.multiverse.DomainAlien
 
 class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
 	override def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean) = {
