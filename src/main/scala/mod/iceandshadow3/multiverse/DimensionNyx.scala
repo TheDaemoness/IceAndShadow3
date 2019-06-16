@@ -3,17 +3,24 @@ package mod.iceandshadow3.multiverse
 import mod.iceandshadow3.basics.BDimension
 import mod.iceandshadow3.basics.item.IItemStorage
 import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
-import mod.iceandshadow3.compat.entity.{CNVEntity, WEntity, WEntityPlayer}
-import mod.iceandshadow3.compat.misc.ResourceMap
-import mod.iceandshadow3.compat.world.WWorld
-import mod.iceandshadow3.spatial.{IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
-import mod.iceandshadow3.util.{Color, StringMap}
+import mod.iceandshadow3.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
+import mod.iceandshadow3.compat.item.WItemStack
+import mod.iceandshadow3.compat.world.{TWWorld, WWorld}
+import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
+import mod.iceandshadow3.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
+import mod.iceandshadow3.util.{Color, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldSourceNyx}
+import mod.iceandshadow3.multiverse.misc.Statuses
 
 object DimensionNyx extends BDimension("nyx") {
 	override def getSkyBrightness(partialTicks: Float) = 1f/15
-	override def getWorldSpawn = new Vec3Fixed(0, 64, 0)
-	override def findSpawn(where: IPosChunk, check: Boolean) = null
+
+	override def getRespawnDim = coord
+	override def getWorldSpawn(world: TWWorld) = new IPosBlock {
+		override def yBlock = world.height(this)+1
+		override def xBlock = 0
+		override def zBlock = 0
+	}
 	override def cloudLevel = 192f
 	override def seaLevel = 8
 
@@ -31,7 +38,9 @@ object DimensionNyx extends BDimension("nyx") {
 		val topopt = here.topSolid(UnitVec3s.ZERO)
 		val teleloc = if(topopt.isEmpty) UnitVec3s.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
 		who match {
-			case player: WEntityPlayer => freezeItems(player.inventory(), player)
+			case player: WEntityPlayer =>
+				player.setSpawnPoint(teleloc)
+				freezeItems(player.inventory(), player)
 			case _ => //Definitely come up with something for other entities too.
 		}
 		teleloc
@@ -64,5 +73,29 @@ object DimensionNyx extends BDimension("nyx") {
 			frozeAnything |= result.isDefined
 			result.getOrElse(original)
 		})
+	}
+
+	val placesHighAttack = new Attack("windchill", AttackForm.VOLUME, new BDamage with TDmgTypeCold {
+		override def baseDamage = 1f
+
+		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
+	})
+	val placesDarkAttack = new Attack("darkness", AttackForm.CURSE, new BDamage with TDmgTypeShadow {
+		override def baseDamage = 4f
+
+		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
+	})
+
+	override def onEntityLivingUpdate(who: WEntityLiving): Unit = {
+		if (who.getShadowPresence >= 1f) {
+			who.setStatus(Statuses.blind, 55)
+			who.damage(placesDarkAttack)
+		}
+		val height = who.posFine.yBlock
+		if (height >= 192) who.damageWithStatus(
+			placesHighAttack,
+			4f - MathUtils.attenuateThrough(192, height, 255) * 3f,
+			Statuses.frost, 115
+		)
 	}
 }

@@ -3,7 +3,7 @@ package mod.iceandshadow3.forge.handlers
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityPlayer}
 import mod.iceandshadow3.compat.item.WItemStack
-import mod.iceandshadow3.compat.CNVVec3._
+import mod.iceandshadow3.compat.CNVSpatial._
 import mod.iceandshadow3.compat.world.WDimensionCoord
 import mod.iceandshadow3.multiverse.DomainNyx
 import net.minecraft.block.Blocks

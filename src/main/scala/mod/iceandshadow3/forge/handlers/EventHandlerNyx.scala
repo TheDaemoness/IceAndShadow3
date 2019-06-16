@@ -17,58 +17,31 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 class EventHandlerNyx extends BEventHandler {
-	//TODO: Most of this is stretching The Rule. Fix if/when IaS3 adds more than one dimension.
-
-	//CRITICAL: Make sure each of these have dimension checks!
-
-	val placesHighAttack = new Attack("windchill", AttackForm.VOLUME, new BDamage with TDmgTypeCold {
-		override def baseDamage = 1f
-
-		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
-	})
-	val placesDarkAttack = new Attack("darkness", AttackForm.CURSE, new BDamage with TDmgTypeShadow {
-		override def baseDamage = 4f
-
-		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
-	})
+	//TODO: Most of this is stretching The Rule.
 
 	@SubscribeEvent
-	def onPoorInnocentSoulUpdate(victim: LivingUpdateEvent): Unit = {
-		if (victim.getEntityLiving.dimension != DimensionNyx.coord.dimtype) return
-		val who = CNVEntity.wrap(victim.getEntityLiving)
-		if (who.getShadowPresence >= 1f) {
-			who.setStatus(Statuses.blind, 55)
-			who.damage(placesDarkAttack)
+	def onPlayerExposesContainerToTheElements(oops: PlayerContainerEvent.Open): Unit =
+		if (DimensionNyx.coord.worldIs(oops.getEntity)) {
+			val container = new WContainer(oops.getContainer)
+			val player = CNVEntity.wrap(oops.getEntityPlayer)
+			DimensionNyx.freezeItems(container, player)
 		}
-		val height = who.position.yBlock
-		if (height >= 192) who.damageWithStatus(
-			placesHighAttack,
-			4f - MathUtils.attenuateThrough(192, height, 255) * 3f,
-			Statuses.frost, 115
-		)
-	}
 
 	@SubscribeEvent
-	def onPlayerExposesContainerToTheElements(oops: PlayerContainerEvent.Open): Unit = {
-		val container = new WContainer(oops.getContainer)
-		val player = CNVEntity.wrap(oops.getEntityPlayer)
-		if (player.dimensionCoord == DimensionNyx.coord) DimensionNyx.freezeItems(container, player)
-	}
-
-	@SubscribeEvent
-	def onInteract(event: PlayerInteractEvent): Unit = {
-		//Countermeasure against having another way of obtaining a banned item and using it.
-		val what = new WItemStack(event.getItemStack, event.getEntityPlayer)
-		val frozen = LIFrozen.freeze(what, Some(CNVEntity.wrap(event.getEntityPlayer)))
-		if(frozen.isDefined) {
-			event.setCancellationResult(ActionResultType.FAIL)
-			event.getEntityPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
+	def onInteract(event: PlayerInteractEvent): Unit =
+		if (DimensionNyx.coord.worldIs(event.getWorld)) {
+			//Countermeasure against having another way of obtaining a banned item and using it.
+			val what = new WItemStack(event.getItemStack, event.getEntityPlayer)
+			val frozen = LIFrozen.freeze(what, Some(CNVEntity.wrap(event.getEntityPlayer)))
+			if(frozen.isDefined) {
+				event.setCancellationResult(ActionResultType.FAIL)
+				event.getEntityPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
+			}
 		}
-	}
 
 	@SubscribeEvent
 	def onEntityItemJoin(event: EntityJoinWorldEvent): Unit =
-		if (event.getWorld.getDimension.getType == DimensionNyx.coord.dimtype) {
+		if (DimensionNyx.coord.worldIs(event.getWorld)) {
 			event.getEntity match {
 				case ei: ItemEntity =>
 					val initial = new WItemStack(ei.getItem, null)

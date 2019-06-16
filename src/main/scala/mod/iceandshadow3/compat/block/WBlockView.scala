@@ -2,22 +2,26 @@ package mod.iceandshadow3.compat.block
 
 import mod.iceandshadow3.basics.BLogicBlock
 import mod.iceandshadow3.basics.util.ILogicBlockProvider
-import mod.iceandshadow3.compat.{CNVVec3, TEffectSource, TWLogical}
+import mod.iceandshadow3.compat.{CNVSpatial, TEffectSource, TWLogical}
 import mod.iceandshadow3.damage.Attack
-import mod.iceandshadow3.spatial.IPositional
+import mod.iceandshadow3.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockReader
 
 class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, private var bs: BlockState)
-	extends IPositional
+	extends IPositionalFine
 	with ILogicBlockProvider
 	with TEffectSource
+	with IPosBlock
 	with TWLogical[BLogicBlock]
 {
 	def this(w: IBlockReader, p: BlockPos) = {
 		this(w, p, null)
+	}
+	def this(w: IBlockReader, p: IPosBlock) = {
+		this(w, new BlockPos(p.xBlock, p.yBlock, p.zBlock), null)
 	}
 	override def registryName: String = exposeBS().getBlock.getRegistryName.toString
 	//TODO: Fluids.
@@ -25,7 +29,7 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	protected final def exposeBS(): BlockState = {if(bs == null) refresh(); bs}
 	protected def acquireBS(): BlockState = ibr.getBlockState(pos)
 	final def refresh(): Unit = {bs = acquireBS();}
-	override def position = CNVVec3.fromBlockPos(pos)
+	override def posFine = CNVSpatial.fromBlockPos(pos)
 
 	def getHardness: Float = exposeBS().getBlockHardness(ibr, pos)
 	def getOpacity: Int = exposeBS().getOpacity(ibr, pos)
@@ -57,4 +61,8 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	}
 
 	def isAir: Boolean = exposeBS().isAir(ibr, pos)
+
+	override def yBlock = pos.getY
+	override def xBlock = pos.getX
+	override def zBlock = pos.getZ
 }

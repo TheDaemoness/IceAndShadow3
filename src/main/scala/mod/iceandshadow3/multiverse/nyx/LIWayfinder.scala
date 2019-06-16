@@ -36,7 +36,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 {
 	override def getTier(variant: Int): Int = 2
 	protected def getDefaultCoord(who: WEntityLiving): IVec3 =
-		who.home(who.dimension).getOrElse(who.position)
+		who.home(who.dimension).getOrElse(who.posFine)
 
 	override type StateDataType = SIWayfinder
 	override def getDefaultStateData(variant: Int) = new SIWayfinder
@@ -57,7 +57,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 					} else E3vl.FALSE
 				} else E3vl.FALSE
 			} else if(user.sneaking) {
-				state.positions.set(user.dimensionCoord, user.position)
+				state.positions.set(user.dimensionCoord, user.posFine)
 				//TODO: More feedback.
 				E3vl.TRUE
 			} else E3vl.NEUTRAL
@@ -91,7 +91,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 				}
 				state.charged.set(false)
 			} else {
-				state.positions.set(owner.dimensionCoord, owner.position)
+				state.positions.set(owner.dimensionCoord, owner.posFine)
 			}
 			E3vl.FALSE.unlessFalse(preventDeath)
 		})
@@ -103,7 +103,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		val state = s.asInstanceOf[StateDataType]
 		val result = item.forStateData(state, ()=> {
 			val owner = item.getOwner
-			val preventDeath = !isCanceled && state.charged.get && owner.position.yBlock < -60
+			val preventDeath = !isCanceled && state.charged.get && owner.posFine.yBlock < -60
 			if (preventDeath) {
 				val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
 				owner match {
@@ -151,7 +151,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			override def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) 0f
 				else {
-					def angle = owner.facingH.angle(owner.position.delta(point.get))/Math.PI
+					def angle = owner.facingH.angle(owner.posFine.delta(point.get))/Math.PI
 					Math.max(0f, 1f - angle.abs.toFloat)
 				}
 			}

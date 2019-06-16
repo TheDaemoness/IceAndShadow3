@@ -9,5 +9,5 @@ class WProjectile protected[entity](protected[compat] val missile: Entity with I
 	def aim(where: IVec3, speed: Float, deviation: Float): Unit =
 		missile.shoot(where.xDouble, where.yDouble, where.zDouble, speed, deviation)
 	def aim(who: WEntity, speed: Float, deviation: Float): Unit =
-		aim(who.position, speed, deviation) //TODO: Assign targets for IaS homing projectiles.
+		aim(who.posFine, speed, deviation) //TODO: Assign targets for IaS homing projectiles.
 }

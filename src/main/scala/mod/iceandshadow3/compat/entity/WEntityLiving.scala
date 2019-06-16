@@ -72,11 +72,16 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
     new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, new IteratorEmpty[ItemStack])
   override def items(): Iterator[WItemStack] = itemsEquipped()
 
+  /** Add/remove a status effect.
+    * WARNING: amp counts from 1 (as opposed to Minecraft intensity, which counts from 0). Pass 0 to clear an effect.
+    */
   def setStatus(status: StatusEffect, ticks: Int, amp: Int = 1): Unit = if(this.isServerSide) {
     if(amp <= 0) living.removePotionEffect(BinderStatusEffect(status))
     else living.addPotionEffect(new EffectInstance(BinderStatusEffect(status), ticks, amp-1))
   }
 
+  /** As setStatus if an attack causes damage.
+    */
   def damageWithStatus(how: Attack, multiplier: Float = 1f, status: StatusEffect, ticks: Int, amp: Int = 1): Unit =
-    if(damage(how, multiplier)) living.addPotionEffect(new EffectInstance(BinderStatusEffect(status), ticks, amp-1))
+    if(damage(how, multiplier)) setStatus(status, ticks, amp)
 }

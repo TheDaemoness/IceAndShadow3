@@ -1,6 +1,6 @@
 package mod.iceandshadow3.compat.world
 
-import mod.iceandshadow3.compat.CNVVec3
+import mod.iceandshadow3.compat.CNVSpatial
 import mod.iceandshadow3.spatial.{IPosColumn, IVec3}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{Difficulty, IWorld}
@@ -17,7 +17,7 @@ class WWorld(private[compat] val worldobj: IWorld) extends TWWorld {
 			val y = 255-yit
 			val z = where.zBlock.toInt
 			mbp.setPos(x, y, z)
-			if(chunk.getBlockState(mbp).isSolid) return Some(CNVVec3.fromBlockPos(new BlockPos(x, y, z)))
+			if(chunk.getBlockState(mbp).isSolid) return Some(CNVSpatial.fromBlockPos(new BlockPos(x, y, z)))
 		}
 		None
 	}

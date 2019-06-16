@@ -23,7 +23,7 @@ import IVec3._
 */
 trait IVec3
 	extends Comparable[IVec3]
-	with IPositional
+	with IPositionalFine
 	with IPosBlock
 {
 	def xRaw: Long
@@ -84,6 +84,6 @@ trait IVec3
 
 	override def toString: String = s"<$xDouble,$yDouble,$zDouble>"
 	override def compareTo(b: IVec3): Int = java.lang.Long.compare(magRaw, b.magRaw)
-	override def position = this
+	override def posFine = this
 }
 

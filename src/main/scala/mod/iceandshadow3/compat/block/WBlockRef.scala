@@ -1,9 +1,9 @@
 package mod.iceandshadow3.compat.block
 
-import mod.iceandshadow3.compat.CNVVec3
+import mod.iceandshadow3.compat.CNVSpatial
 import mod.iceandshadow3.compat.block.`type`.BBlockType
 import mod.iceandshadow3.compat.world.TWWorldPlace
-import mod.iceandshadow3.spatial.IVec3
+import mod.iceandshadow3.spatial.{IPosBlock, IVec3}
 import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld
@@ -15,8 +15,8 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 	override protected def acquireBS() = chunk.getBlockState(pos)
 	override protected[compat] def exposeWorld(): IWorld = chunk.getWorldForge
 
-	def this(w: IWorld, v: IVec3) {
-		this(w.getChunk(v.xChunk, v.zChunk), CNVVec3.toBlockPos(v), null)
+	def this(w: IWorld, v: IPosBlock) {
+		this(w.getChunk(v.xChunk, v.zChunk), CNVSpatial.toBlockPos(v), null)
 	}
 
 	def this(w: IWorld, p: BlockPos) = {

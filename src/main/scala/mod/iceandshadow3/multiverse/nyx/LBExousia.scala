@@ -45,9 +45,9 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 
 	lazy val blocktype = new BlockTypeSimple(this, 0)
 	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): Unit = {
-		if(them.position.yBlock <= us.position.yBlock && !them.resistsExousia) {
+		if(them.posFine.yBlock <= us.posFine.yBlock && !them.resistsExousia) {
 			if(!them.isAir) {
-				them.particle(Particles.smoke_large, UnitVec3s.ZERO)
+				//TODO: Previous particle effects were placeholder AND looked bad. Make better ones.
 				them.playSound(WSound.lookup("minecraft:entity.generic.burn"), 1f, them.rng(0.9f, 0.2f))
 			}
 			them.set(blocktype)

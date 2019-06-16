@@ -2,12 +2,15 @@ package mod.iceandshadow3.compat.world.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.basics.BDimension;
-import mod.iceandshadow3.compat.CNVVec3;
+import mod.iceandshadow3.compat.CNVSpatial;
+import mod.iceandshadow3.compat.block.WBlockView;
 import mod.iceandshadow3.compat.world.WDimensionCoord;
+import mod.iceandshadow3.compat.world.WWorld;
+import mod.iceandshadow3.spatial.IPosBlock;
 import mod.iceandshadow3.spatial.IPosChunk;
 import mod.iceandshadow3.spatial.IPosColumn;
-import mod.iceandshadow3.spatial.IVec3;
 import mod.iceandshadow3.util.Color;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -72,10 +75,17 @@ public class AModDimension extends ModDimension {
 	}
 
 	class ADimension extends Dimension {
+		private final WWorld worldWrapped;
 		private final DimensionType type;
 		ADimension(World w, DimensionType type) {
 			super(w, type);
 			this.type = type;
+			worldWrapped = new WWorld(w);
+		}
+
+		@Override
+		public BlockPos getSpawnPoint() {
+			return CNVSpatial.toBlockPos(dimlogic.getWorldSpawn(worldWrapped));
 		}
 
 		@Override
@@ -91,9 +101,9 @@ public class AModDimension extends ModDimension {
 
 		@Nullable
 		public BlockPos getSpawnCoordinate() {
-			final IVec3 where = dimlogic.getWorldSpawn();
+			final IPosBlock where = dimlogic.getWorldSpawn(worldWrapped);
 			if(where == null) return null;
-			else return CNVVec3.toBlockPos(where);
+			else return CNVSpatial.toBlockPos(where);
 		}
 
 		@Override
@@ -106,24 +116,39 @@ public class AModDimension extends ModDimension {
 			return false;
 		}
 
+		@Override
+		public DimensionType getRespawnDimension(ServerPlayerEntity player) {
+			return dimlogic.getRespawnDim().dimtype();
+		}
+
+		@Nullable
+		private BlockPos doFindSpawn(IPosColumn xz, boolean checkValid) {
+			final IPosBlock where = dimlogic.findSpawn(worldWrapped, xz);
+			if(!checkValid || dimlogic.checkSpawn(new WBlockView(worldWrapped.exposeWorld(), where))) {
+				return new BlockPos(where.xBlock(), where.yBlock(), where.zBlock());
+			} else return null;
+		}
+
 		@Nullable
 		@Override
-		public BlockPos findSpawn(ChunkPos cp, boolean checkValid) {
-			return findSpawn(cp.x, cp.z, checkValid);
+		public BlockPos findSpawn(@Nonnull ChunkPos cp, boolean checkValid) {
+			return doFindSpawn(dimlogic.findSpawn(worldWrapped, new IPosChunk() {
+				@Override
+				public int xChunk() { return cp.x; }
+				@Override
+				public int zChunk() { return cp.z; }
+			}), checkValid);
 		}
 
 		@Nullable
 		@Override
 		public BlockPos findSpawn(int x, int z, boolean checkValid) {
-			final IVec3 where = dimlogic.findSpawn(new IPosChunk() {
+			return doFindSpawn(new IPosColumn() {
 				@Override
-				public int xChunk() {return x;}
-
+				public long xBlock() { return x; }
 				@Override
-				public int zChunk() {return z;}
+				public long zBlock() { return z; }
 			}, checkValid);
-			if(where == null) return null;
-			else return CNVVec3.toBlockPos(where);
 		}
 
 		@OnlyIn(Dist.CLIENT)
@@ -150,7 +175,7 @@ public class AModDimension extends ModDimension {
 
 		@Override
 		public boolean canRespawnHere() {
-			return dimlogic.getWorldSpawn() != null;
+			return dimlogic.getRespawnDim() == dimlogic.coord();
 		}
 
 		@Override

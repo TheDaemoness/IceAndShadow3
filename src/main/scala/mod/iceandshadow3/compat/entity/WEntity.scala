@@ -1,29 +1,28 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.basics.BDimension
+import mod.iceandshadow3.basics.{BDimension, ParticleType}
 import mod.iceandshadow3.compat.entity.state.impl.ADamageSource
-import mod.iceandshadow3.compat.{CNVVec3, TEffectSource}
+import mod.iceandshadow3.compat.{CNVSpatial, TEffectSource}
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.world.{TWWorldPlace, WDimensionCoord}
 import mod.iceandshadow3.damage.Attack
-import mod.iceandshadow3.spatial.{IPositional, IVec3}
+import mod.iceandshadow3.spatial.{IPositionalFine, IVec3}
 import mod.iceandshadow3.util.IteratorEmpty
 import net.minecraft.entity.Entity
-import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.world.LightType
 
 class WEntity protected[entity](protected[compat] val entity: Entity)
 	extends TWWorldPlace
 		with TEffectSource
-		with IPositional {
+		with IPositionalFine {
 	override def getEffectSourceEntity: Entity = entity
-	override def sunlight: Int = exposeWorld().getLightFor(LightType.SKY, CNVVec3.toBlockPos(position).add(0,1,0))
+	override def sunlight: Int = exposeWorld().getLightFor(LightType.SKY, CNVSpatial.toBlockPos(posFine).add(0,1,0))
 
 	override def getNameTextComponent: ITextComponent = entity.getDisplayName
 
-	override def position = CNVVec3.fromEntity(entity)
+	override def posFine = CNVSpatial.fromEntity(entity)
 
 	override protected[compat] def exposeWorld(): net.minecraft.world.World = entity.world
 
@@ -66,5 +65,7 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 		)
 	} else false
 	def remove(): Unit = entity.remove()
+
+	def particle(what: ParticleType, vel: IVec3): Unit = super.particle(what, posFine, vel)
 }
 

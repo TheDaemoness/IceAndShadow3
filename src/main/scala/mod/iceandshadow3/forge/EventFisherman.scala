@@ -13,6 +13,7 @@ object EventFisherman {
     classOf[EventBaitOwnerDeath],
     classOf[EventBaitOwnerToss],
     classOf[EventHandlerEnderChest],
+    classOf[EventHandlerDimension],
     classOf[EventHandlerNyx]
   )
   var triggered = false
@@ -29,7 +30,7 @@ object EventFisherman {
       case e: ExceptionInInitializerError =>
         IaS3.bug(e.getCause, "Initialization due to "+classe.getSimpleName+" threw.")
       case e: SecurityException =>
-        IaS3.logger().error("Security threw a hissy fit in SEventFisherman: "+e.getMessage)
+        IaS3.logger().error(s"Security threw a hissy fit in $this: "+e.getMessage)
       case e: Exception =>
         IaS3.bug(e, classe.getSimpleName+" couldn't be default-constructed.")
     }

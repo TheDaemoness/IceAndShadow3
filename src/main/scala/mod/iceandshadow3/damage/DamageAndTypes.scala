@@ -2,12 +2,10 @@ package mod.iceandshadow3.damage
 
 import mod.iceandshadow3.compat.entity.WEntityLiving
 import mod.iceandshadow3.compat.item.WItemStack
-
-
 sealed trait TDmgType {
 	def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack): Float
 	def onDamage(dmg: Float, dmgResisted: Float, who: WEntityLiving): Float = dmgResisted
-	def resistancePotMult(amp: Int): Float = Math.max(0, 1-amp/5f)
+	def multStatusResist(amp: Int): Float = Math.max(0, 1-amp/5f)
 }
 
 abstract class BDamage extends TDmgType {
@@ -41,6 +39,6 @@ trait TDmgTypeIce extends TDmgTypeSharp with TDmgTypeCold {this: BDamage => over
 }
 
 trait TDmgTypeEldritch extends TDmgTypeOmni {this: BDamage => override def name = "eldritch"
-	override def resistancePotMult(amp: Int): Float = 1f
+	override def multStatusResist(amp: Int): Float = 1f
 }
 trait TDmgTypeShadow extends TDmgTypeEldritch {this: BDamage => override def name = "shadow"}

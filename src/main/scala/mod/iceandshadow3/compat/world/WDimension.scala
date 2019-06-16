@@ -1,6 +1,6 @@
 package mod.iceandshadow3.compat.world
 
-import mod.iceandshadow3.compat.CNVVec3._
+import mod.iceandshadow3.compat.CNVSpatial._
 import mod.iceandshadow3.spatial.IVec3
 import net.minecraft.world.dimension.Dimension
 

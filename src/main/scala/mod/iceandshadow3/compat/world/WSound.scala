@@ -3,9 +3,9 @@ package mod.iceandshadow3.compat.world
 import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.basics.BDomain
+import mod.iceandshadow3.compat.CNVSpatial
 import mod.iceandshadow3.compat.entity.WEntityPlayer
-import mod.iceandshadow3.spatial.IVec3
-import net.minecraft.util.math.BlockPos
+import mod.iceandshadow3.spatial.IPosBlock
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
 import net.minecraftforge.registries.ForgeRegistries
 
@@ -13,10 +13,10 @@ import scala.collection.mutable.ListBuffer
 
 case class WSound(@Nullable private val soundevent: SoundEvent) {
 	private[compat] def event: Option[SoundEvent] = Option(soundevent)
-	def play(world: TWWorld, place: IVec3, volume: Float, freqshift: Float): Unit = {
+	def play(world: TWWorld, place: IPosBlock, volume: Float, freqshift: Float): Unit = {
 		if(soundevent == null) return
 		world.exposeWorld().playSound(null,
-			new BlockPos(place.xDouble, place.yDouble, place.zDouble),
+			CNVSpatial.toBlockPos(place),
 			soundevent, SoundCategory.MASTER, volume, freqshift
 		)
 	}

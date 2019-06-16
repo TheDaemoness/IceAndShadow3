@@ -1,10 +1,10 @@
 package mod.iceandshadow3.compat.entity
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.compat.CNVVec3._
-import mod.iceandshadow3.compat.TNamed
+import mod.iceandshadow3.compat.CNVSpatial._
+import mod.iceandshadow3.compat.{CNVSpatial, TNamed}
 import mod.iceandshadow3.compat.item.{WInventory, WItemStack}
-import mod.iceandshadow3.compat.world.WDimension
+import mod.iceandshadow3.compat.world.{WDimension, WDimensionCoord}
 import mod.iceandshadow3.spatial.IVec3
 import mod.iceandshadow3.util.{E3vl, IteratorConcat}
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
@@ -69,4 +69,9 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 	}
 
 	def give(what: WItemStack) = player.inventory.addItemStackToInventory(what.exposeItems())
+
+	def setSpawnPoint(where: IVec3, dim: WDimensionCoord): Unit =
+		player.setSpawnPoint(CNVSpatial.toBlockPos(where), true, dim.dimtype)
+	def setSpawnPoint(where: IVec3): Unit =
+		setSpawnPoint(where, dimensionCoord)
 }

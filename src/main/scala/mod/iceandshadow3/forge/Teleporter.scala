@@ -1,6 +1,6 @@
 package mod.iceandshadow3.forge
 
-import mod.iceandshadow3.compat.CNVVec3
+import mod.iceandshadow3.compat.CNVSpatial
 import mod.iceandshadow3.compat.entity.CNVEntity
 import mod.iceandshadow3.compat.world.impl.AModDimension
 import mod.iceandshadow3.compat.world.{WDimensionCoord, WWorld}
@@ -73,7 +73,7 @@ object Teleporter {
 		val newcomer = traveler.getClass.cast(traveler.getType.create(worldTo))
 		if (newcomer != null) {
 			newcomer.copyDataFromOld(traveler)
-			newcomer.moveToBlockPosAndAngles(CNVVec3.toBlockPos(where), newcomer.rotationYaw, newcomer.rotationPitch)
+			newcomer.moveToBlockPosAndAngles(CNVSpatial.toBlockPos(where), newcomer.rotationYaw, newcomer.rotationPitch)
 			newcomer.setMotion(traveler.getMotion)
 			worldTo.func_217460_e(newcomer)
 		}
@@ -97,7 +97,7 @@ object Teleporter {
 		p.setWorld(worldTo)
 		worldTo.func_217447_b(p)
 		CriteriaTriggers.CHANGED_DIMENSION.trigger(p, from, to)
-		p.moveToBlockPosAndAngles(CNVVec3.toBlockPos(where), p.rotationYaw, p.rotationPitch)
+		p.moveToBlockPosAndAngles(CNVSpatial.toBlockPos(where), p.rotationYaw, p.rotationPitch)
 		p.connection.setPlayerLocation(p.posX, p.posY, p.posZ, p.rotationYaw, p.rotationPitch)
 		p.interactionManager.setWorld(worldTo)
 		p.connection.sendPacket(new SPlayerAbilitiesPacket(p.playerAbilities))
