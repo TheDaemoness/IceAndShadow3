@@ -12,13 +12,14 @@ class Cellmaker3d(
 	protected val scaleY: Int
 ) {
 	protected val totalScale = Math.sqrt(scaleXZ*scaleXZ + scaleY*scaleY)
+	private val totalScaleInv = 1f/totalScale
+
 	def cellToPoint(xCell: Int, yCell: Int, zCell: Int, rng: Random): TriadXYZ = {
 		val x = rng.nextInt(scaleXZ) + xCell*scaleXZ - (scaleXZ>>1)
 		val y = rng.nextInt(scaleY) + yCell*scaleY - (scaleY>>1)
 		val z = rng.nextInt(scaleXZ) + zCell*scaleXZ - (scaleXZ>>1)
 		TriadXYZ(x,y,z)
 	}
-
 	def apply(x: Int, y: Int, z: Int): Result = {
 		apply(x, x+1, y, y+1, z, z+1)(0)(0)(0)
 	}
@@ -32,7 +33,7 @@ class Cellmaker3d(
 		val xCellCount = Cellmaker.rescale(xUntil, scaleXZ)-xCellLowest+1
 		val yCellCount = Cellmaker.rescale(yUntil, scaleY)-yCellLowest+1
 		val zCellCount = Cellmaker.rescale(zUntil, scaleXZ)-zCellLowest+1
-		val cellPoints = Array.tabulate[TriadXYZ](xCellCount+2, yCellCount+2, zCellCount+2)((xit, yit, zit) => {
+		val cells = new Collection3d[TriadXYZ](xCellCount+2, yCellCount+2, zCellCount+2, (xit, yit, zit) => {
 			val xc = xit+xCellLowest-1
 			val yc = yit+yCellLowest-1
 			val zc = zit+zCellLowest-1
@@ -43,19 +44,19 @@ class Cellmaker3d(
 			val x = xRela+xFrom
 			val y = yRela+yFrom
 			val z = zRela+zFrom
-			val xCellIndex = Cellmaker.rescale(x, scaleXZ)-xCellLowest+1
-			val yCellIndex = Cellmaker.rescale(y, scaleY)-yCellLowest+1
-			val zCellIndex = Cellmaker.rescale(z, scaleXZ)-zCellLowest+1
+			val xCellBase = Cellmaker.rescale(x, scaleXZ)-1
+			val yCellBase = Cellmaker.rescale(y, scaleY)-1
+			val zCellBase = Cellmaker.rescale(z, scaleXZ)-1
 			val result = new Result()
-			for(xit <- xCellIndex-1 to xCellIndex+1) {
-				for(yit <- yCellIndex-1 to yCellIndex+1) {
-					for(zit <- zCellIndex-1 to zCellIndex+1) {
-						val point = cellPoints(xit)(yit)(zit)
+			for(yi <- 0 to 2) {
+				for(xi <- 0 to 2) {
+					for(zi <- 0 to 2) {
+						val point = cells(xi, yi, zi)
 						val xDelta = point.x - x
 						val yDelta = point.y - y
 						val zDelta = point.z - z
-						val value = (xDelta*xDelta + yDelta*yDelta + zDelta*zDelta)/totalScale
-						result.update(value, xit+xCellLowest-1, yit+yCellLowest-1, zit+zCellLowest-1)
+						val value = (xDelta*xDelta + yDelta*yDelta + zDelta*zDelta) * totalScaleInv
+						result.update(value, xi+xCellBase, yi+yCellBase, zi+zCellBase)
 					}
 				}
 			}

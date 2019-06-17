@@ -8,9 +8,9 @@ import mod.iceandshadow3.spatial.PairXZ
 
 class NoisesNyx(val seed: Long) {
 	val isleMaker = new Cellmaker2d(seed, 9967, 1200) {
-		override def cellToPoint(cell: PairXZ, rng: Random) = {
-			if(cell.x == 0 && cell.z == 0) PairXZ(0,0)
-			else super.cellToPoint(cell, rng)
+		override def cellToPoint(xCell: Int, zCell: Int, rng: Random) = {
+			if(xCell == 0 && zCell == 0) PairXZ(0,0)
+			else super.cellToPoint(xCell, zCell, rng)
 		}
 	}
 	val noisemakerDip = new NoiseTransformLayered(1,
@@ -22,6 +22,6 @@ class NoisesNyx(val seed: Long) {
 	val noisemakerRidge = new Noise2dCell(seed, 6872, 230)
 	val noisemakerHills = new Noise2dCell(seed, 7053, 125)
 
-	val cavemakerA = new Cellmaker3d(seed, 2391, 100, 14)
-	val cavemakerB = new Cellmaker3d(seed, 4672, 150, 19)
+	val fissuremakerA = new Cellmaker3d(seed, 2391, 50, 14)
+	val fissuremakerB = new Cellmaker3d(seed, 4672, 150, 19)
 }

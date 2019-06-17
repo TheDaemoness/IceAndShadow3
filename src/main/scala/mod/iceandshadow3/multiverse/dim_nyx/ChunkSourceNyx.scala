@@ -1,7 +1,5 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import java.util.Random
-
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.compat.block.`type`.{BBlockType, BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.gen.{BChunkSource, Cellmaker, TerrainMap}
@@ -23,7 +21,8 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 	val yBald = 188
 	val yThinning = 176
 	val yFull = 168
-	val yCaveMax = 180
+	val yFissureFull = 148
+	val yFissureMax = 172
 	val smoothsnow = IaS3.getCfgServer.smooth_snow.get
 	val icicleInfrequency = 24
 
@@ -50,11 +49,11 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 			retval.toFloat
 	})
 
-	lazy val cavemap = {
-		val caveresultsA = noises.cavemakerA(xFrom, 0, zFrom, xFrom+xWidth, yCaveMax, zFrom+zWidth)
-		val caveresultsB = noises.cavemakerB(xFrom, 0, zFrom, xFrom+xWidth, yCaveMax, zFrom+zWidth)
+	lazy val fissuremap = {
+		val caveresultsA = noises.fissuremakerA(xFrom, 0, zFrom, xFrom+xWidth, yFissureMax, zFrom+zWidth)
+		val caveresultsB = noises.fissuremakerB(xFrom, 0, zFrom, xFrom+xWidth, yFissureMax, zFrom+zWidth)
 		new TerrainMap[Array[Float]](xFrom, zFrom, xWidth, zWidth, (x, z) => {
-			Array.tabulate[Float](yCaveMax)(y => (
+			Array.tabulate[Float](yFissureMax)(y => (
 					Cellmaker.distance(caveresultsA(x-xFrom)(y)(z-zFrom)) *
 					Cellmaker.distance(caveresultsB(x-xFrom)(y)(z-zFrom))
 				).toFloat
@@ -69,16 +68,17 @@ class ChunkSourceNyx(noises: NoisesNyx, xFrom: Int, zFrom: Int, xWidth: Int, zWi
 
 	override def getColumn(x: Int, z: Int): Array[BBlockType] = {
 		val finalheight = heightmap(x,z)*32
-		lazy val caves = cavemap(x,z)
+		lazy val caves = fissuremap(x,z)
 		val colRng = new RandomXZ(noises.seed, 31920, x, z)
 		val colNoise = colRng.nextInt(2)
 		val noIcicles = colRng.nextInt(icicleInfrequency)
 		val retval = Array.tabulate[BBlockType](256)(y => {
 			val delta = finalheight-y
+			val fissureAtten = Math.sqrt(MathUtils.attenuateThrough(yFissureFull, y, yFissureMax))
 			if(y == 0) ChunkSourceNyx.bedrock
 			else if(y == 1) ChunkSourceNyx.navistra
 			else if(finalheight < 48) getAir(y)
-			else if(y < yCaveMax && caves(y) > (1-MathUtils.attenuateThrough(yFull, y, yCaveMax)*0.25)) getAir(y)
+			else if(y < yFissureMax && caves(y) > (1-fissureAtten*0.1)) getAir(y)
 			else if(delta > 2) {
 				if(y<=11+colNoise && (y <= 1+colNoise || finalheight <= 64 || caves(y) > 0.4)) {
 					ChunkSourceNyx.navistra
