@@ -1,6 +1,6 @@
 ext {
     version_revision = 0
     version_major = 0
-    version_minor = 12
+    version_minor = 13
     version_patch = 0
 }

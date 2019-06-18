@@ -24,4 +24,7 @@ class NoisesNyx(val seed: Long) {
 
 	val fissuremakerA = new Cellmaker3d(seed, 2391, 50, 14)
 	val fissuremakerB = new Cellmaker3d(seed, 4672, 150, 19)
+
+	val cavemakerA = new Cellmaker3d(seed, 2928, 30, 60)
+	val cavemakerB = new Cellmaker3d(seed, 9478, 50, 75)
 }
