@@ -2,7 +2,7 @@ package mod.iceandshadow3.gen
 
 import scala.reflect.ClassTag
 
-class TerrainMap[T: ClassTag](xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int, compute: (Int,Int) => T) {
+class FixedMap2d[T: ClassTag](xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int, compute: (Int,Int) => T) {
 	val values = new Array[T](xWidth*zWidth)
 	for(xit <- 0 until xWidth) {
 		for(zit <- 0 until zWidth) {

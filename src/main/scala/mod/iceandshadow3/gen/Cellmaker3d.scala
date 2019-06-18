@@ -33,7 +33,7 @@ class Cellmaker3d(
 		val xCellCount = Cellmaker.rescale(xUntil, scaleXZ)-xCellLowest+1
 		val yCellCount = Cellmaker.rescale(yUntil, scaleY)-yCellLowest+1
 		val zCellCount = Cellmaker.rescale(zUntil, scaleXZ)-zCellLowest+1
-		val cells = new Collection3d[TriadXYZ](xCellCount+2, yCellCount+2, zCellCount+2, (xit, yit, zit) => {
+		val cells = new FixedMap3d[TriadXYZ](xCellCount+2, yCellCount+2, zCellCount+2, (xit, yit, zit) => {
 			val xc = xit+xCellLowest-1
 			val yc = yit+yCellLowest-1
 			val zc = zit+zCellLowest-1

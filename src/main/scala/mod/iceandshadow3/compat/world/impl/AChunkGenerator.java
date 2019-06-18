@@ -53,7 +53,7 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 					for (int yit = 0; yit < 256; ++yit) {
 						mbp.setPos(xit, yit, zit);
 						BBlockType bt = column[yit];
-						chunk.setBlockState(mbp, (bt != null ? bt : bcs.getDefaultAir(yit)).state(), false);
+						chunk.setBlockState(mbp, (bt != null ? bt : bcs.getDefault(yit)).state(), false);
 					}
 				}
 			}

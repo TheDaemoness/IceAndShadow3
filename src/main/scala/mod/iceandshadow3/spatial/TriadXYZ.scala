@@ -13,6 +13,8 @@ case class TriadXYZ(private var _x: Int, private var _y: Int, private var _z: In
 		_z = newZ
 	}
 
+	override def toString() = s"[$x,$y,$z]"
+
 	override def iterator: Iterator[Int] = new Iterator[Int]() {
 		var index: Int = 0
 		override def hasNext = index < 3

@@ -7,5 +7,5 @@ package mod.iceandshadow3.gen
 	* That applies to all of their methods and fields.
 	*/
 abstract class BWorldSource {
-	def getTerrainChunk(xFrom: Int, zFrom: Int, xLast: Int, zLast: Int): BChunkSource
+	def getTerrainChunk(xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int): BChunkSource
 }
