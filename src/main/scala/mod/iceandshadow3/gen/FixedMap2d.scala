@@ -1,14 +1,19 @@
 package mod.iceandshadow3.gen
 
+import scala.collection.parallel.mutable.ParArray
 import scala.reflect.ClassTag
 
-class FixedMap2d[T: ClassTag](xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int, compute: (Int,Int) => T) {
-	val values = new Array[T](xWidth*zWidth)
-	for(xit <- 0 until xWidth) {
-		for(zit <- 0 until zWidth) {
-			values(xit+zit*xWidth) = compute(xFrom+xit, zFrom+zit)
-		}
-	}
+/** A read-only parallel-computed associative map, mapping 2d coordinates to values in O(1) time.
+	*/
+class FixedMap2d[T: ClassTag](
+	val xFrom: Int, val zFrom: Int,
+	val xWidth: Int, val zWidth: Int,
+	compute: (Int,Int) => T
+) {
+	def this(xWidth: Int, zWidth: Int, compute: (Int,Int) => T) = this(0, 0, xWidth, zWidth, compute)
+	val values = ParArray.tabulate[T](xWidth*zWidth)((i: Int) => {
+		compute(xFrom+(i%xWidth), zFrom+(i/xWidth))
+	})
 
 	def apply(x:Int, z:Int): T = values((x-xFrom)+(z-zFrom)*xWidth)
 }

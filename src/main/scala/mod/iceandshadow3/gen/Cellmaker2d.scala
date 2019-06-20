@@ -16,8 +16,8 @@ class Cellmaker2d(
 ) {
 	protected val scaleInv = 1f/scale
 	def cellToPoint(xCell: Int, zCell: Int, rng: Random): PairXZ = {
-		val x = rng.nextInt(scale) + xCell*scale - (scale>>1)
-		val z = rng.nextInt(scale) + zCell*scale - (scale>>1)
+		val x = rng.nextInt(scale) + Cellmaker.cellEdge(scale, xCell)
+		val z = rng.nextInt(scale) + Cellmaker.cellEdge(scale, zCell)
 		PairXZ(x,z)
 	}
 	val cache = CacheBuilder.newBuilder().
@@ -30,14 +30,12 @@ class Cellmaker2d(
 		}
 	)
 	def getInverseWeightForCell(xCell:Int, zCell:Int): Double = 1d
-	def apply(x: Int, z: Int): Result = apply(x, z, x+1, z+1)(0)(0)
+	def apply(x: Int, z: Int): Result = apply(x, z, 1, 1)(x, z)
 	def apply(
 		xFrom: Int, zFrom: Int,
-		xUntil: Int, zUntil: Int
-	): Array[Array[Result]] = {
-		Array.tabulate[Result](xUntil-xFrom, zUntil-zFrom)((xRela: Int, zRela: Int) => {
-			val x = xRela+xFrom
-			val z = zRela+zFrom
+		xWidth: Int, zWidth: Int
+	): FixedMap2d[Result] = {
+		new FixedMap2d[Result](xFrom, zFrom, xWidth, zWidth, (x: Int, z: Int) => {
 			val xCellBase = Cellmaker.rescale(x, scale)
 			val zCellBase = Cellmaker.rescale(z, scale)
 			val result = new Result()
@@ -46,10 +44,12 @@ class Cellmaker2d(
 					val point = cache.get(PairXZ(xit, zit))
 					val xDelta = point.x - x
 					val zDelta = point.z - z
-					val value = (xDelta*xDelta + zDelta*zDelta) * getInverseWeightForCell(xit, zit) * scaleInv
-					result.update(value, xit, 0, zit)
+					val distance = (xDelta*xDelta + zDelta*zDelta) * getInverseWeightForCell(xit, zit)
+					result.update(distance, xit, 0, zit)
 				}
 			}
+			result.distanceClosest *= scaleInv
+			result.distanceSecond *= scaleInv
 			result
 		})
 	}

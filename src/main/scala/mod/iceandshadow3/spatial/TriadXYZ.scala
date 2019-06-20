@@ -12,6 +12,7 @@ case class TriadXYZ(private var _x: Int, private var _y: Int, private var _z: In
 		_y = newY
 		_z = newZ
 	}
+	def set(b: TriadXYZ): Unit = set(b.x, b.y, b.z)
 
 	override def toString() = s"[$x,$y,$z]"
 

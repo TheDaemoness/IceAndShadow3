@@ -21,45 +21,44 @@ class Cellmaker3d(
 		TriadXYZ(x,y,z)
 	}
 	def apply(x: Int, y: Int, z: Int): Result = {
-		apply(x, x+1, y, y+1, z, z+1)(0)(0)(0)
+		apply(x, x+1, y, y+1, z, z+1)(x, y, z)
 	}
 	def apply(
 		xFrom: Int, yFrom: Int, zFrom: Int,
-		xUntil: Int, yUntil: Int, zUntil: Int
-	): Array[Array[Array[Result]]] = {
+		xWidth: Int, yWidth: Int, zWidth: Int
+	): FixedMap3d[Result] = {
 		val xCellLowest = Cellmaker.rescale(xFrom, scaleXZ)
 		val yCellLowest = Cellmaker.rescale(yFrom, scaleY)
 		val zCellLowest = Cellmaker.rescale(zFrom, scaleXZ)
-		val xCellCount = Cellmaker.rescale(xUntil, scaleXZ)-xCellLowest+1
-		val yCellCount = Cellmaker.rescale(yUntil, scaleY)-yCellLowest+1
-		val zCellCount = Cellmaker.rescale(zUntil, scaleXZ)-zCellLowest+1
-		val cells = new FixedMap3d[TriadXYZ](xCellCount+2, yCellCount+2, zCellCount+2, (xit, yit, zit) => {
-			val xc = xit+xCellLowest-1
-			val yc = yit+yCellLowest-1
-			val zc = zit+zCellLowest-1
-			val rng = new RandomXYZ(seed, mod, xc, yc, zc)
-			cellToPoint(xc, yc, zc, rng)
+		val xCellCount = Cellmaker.rescale(xFrom+xWidth, scaleXZ)-xCellLowest+1
+		val yCellCount = Cellmaker.rescale(yFrom+yWidth, scaleY)-yCellLowest+1
+		val zCellCount = Cellmaker.rescale(zFrom+zWidth, scaleXZ)-zCellLowest+1
+		val cells = new FixedMap3d[TriadXYZ](
+			xCellLowest-1, yCellLowest-1, zCellLowest-1,
+			xCellCount+2, yCellCount+2, zCellCount+2,
+			(xit, yit, zit) => {
+			val rng = new RandomXYZ(seed, mod, xit, yit, zit)
+			cellToPoint(xit, yit, zit, rng)
 		})
-		Array.tabulate[Result](xUntil-xFrom, yUntil-yFrom, zUntil-zFrom)((xRela: Int, yRela: Int, zRela: Int) => {
-			val x = xRela+xFrom
-			val y = yRela+yFrom
-			val z = zRela+zFrom
-			val xCellBase = Cellmaker.rescale(x, scaleXZ)-1
-			val yCellBase = Cellmaker.rescale(y, scaleY)-1
-			val zCellBase = Cellmaker.rescale(z, scaleXZ)-1
+		new FixedMap3d[Result](xFrom, yFrom, zFrom, xWidth, yWidth, zWidth, (x: Int, y: Int, z: Int) => {
+			val xCellBase = Cellmaker.rescale(x, scaleXZ)
+			val yCellBase = Cellmaker.rescale(y, scaleY)
+			val zCellBase = Cellmaker.rescale(z, scaleXZ)
 			val result = new Result()
-			for(yi <- 0 to 2) {
-				for(xi <- 0 to 2) {
-					for(zi <- 0 to 2) {
-						val point = cells(xi, yi, zi)
+			for(yit <- yCellBase-1 to yCellBase+1) {
+				for(xit <- xCellBase-1 to xCellBase+1) {
+					for(zit <- zCellBase-1 to zCellBase+1) {
+						val point = cells(xit, yit, zit)
 						val xDelta = point.x - x
 						val yDelta = point.y - y
 						val zDelta = point.z - z
-						val value = (xDelta*xDelta + yDelta*yDelta + zDelta*zDelta) * totalScaleInv
-						result.update(value, xi+xCellBase, yi+yCellBase, zi+zCellBase)
+						val value = xDelta*xDelta + yDelta*yDelta + zDelta*zDelta
+						result.update(value, xit, yit, zit)
 					}
 				}
 			}
+			result.distanceClosest *= totalScaleInv
+			result.distanceSecond *= totalScaleInv
 			result
 		})
 	}
