@@ -4,21 +4,16 @@ import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.util.StringMap
 import net.minecraft.util.ResourceLocation
 
-class ResourceMap[T] extends scala.collection.mutable.Map[String, T] {
-	val realmap = new StringMap[T]
-	override def +=(kv: (String, T)) = {
-		val resourceloc = new ResourceLocation(kv._1)
+/** Resource location map for NON-IAS resources.
+	*/
+class ResourceMap[T] extends StringMap[T] {
+	override def isValidKey(key: String) = {
+		val resourceloc = new ResourceLocation(key)
 		if(resourceloc.getNamespace.contentEquals(IaS3.MODID)) {
-			IaS3.logger().warn(s"Attempted to illegally add an IaS3 resource ($resourceloc) to $this")
-		} else if(canAdd(resourceloc)) {
-			realmap.put(kv._1, kv._2)
-		} else {
-			IaS3.logger().warn(s"Cannot add ($resourceloc) to $this")
-		}
-		this
+			IaS3.bug(null,"Cannot add iceandshadow3 resources to ResourceMaps")
+			false
+		} else canAdd(resourceloc)
 	}
+
 	def canAdd(what: ResourceLocation) = true
-	override def -=(key: String) = {realmap.remove(key); this}
-	override def get(key: String) = Option(realmap.get(key))
-	override def iterator = realmap.iterator
 }

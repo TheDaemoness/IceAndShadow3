@@ -1,20 +1,27 @@
 package mod.iceandshadow3.util
 
 import scala.collection.JavaConverters._
+import scala.collection.mutable
 
-//TODO: Quick-n-dirty implementation that will need polishing later.
-class StringMap[T] extends Iterable[(String, T)] with java.util.Map[String, T] {
+class StringMap[T] extends mutable.Map[String, T] with TQuietFailing {
+	//TODO: Quick-n-dirty implementation that will need polishing later, likely conversion to a trie.
 	private val map = new java.util.HashMap[String, T]
+
+	def isValidKey(key: String): Boolean = true
 	def iterator = map.asScala.iterator
-	def clear() = map.clear()
-	def containsKey(key: Any): Boolean = map.containsKey(key)
-	def containsValue(value: Any): Boolean = map.containsValue(value)
-	def entrySet(): java.util.Set[java.util.Map.Entry[String,T]] = map.entrySet
-	def get(key: Any): T = map.get(key)
-	def keySet(): java.util.Set[String] = map.keySet
-	def put(key: String, value: T): T = map.put(key, value)
-	def putAll(other: java.util.Map[_ <: String, _ <: T]): Unit = map.putAll(other)
-	def remove(key: Any): T = map.remove(key)
-	def values(): java.util.Collection[T] = map.values
-	override def toString = map.toString
+
+	/** Inserts a key-value pair if the key is valid. */
+	override def +=(kv: (String, T)) = {
+		val canput = isValidKey(kv._1)
+		if(canput) map.put(kv._1, kv._2)
+		setFailure(!canput, new IllegalArgumentException(s"Invalid key for $this: ${kv._1}"))
+		this
+	}
+	override def -=(key: String) = {map.remove(key); this}
+	override def get(key: String) = Option(map.getOrDefault(key, null.asInstanceOf[T]))
+	override def clear(): Unit = map.clear()
+
+	override def apply(key: String) = map.get(key)
+	override def size = map.size()
+	override def isDefinedAt(key: String) = map.containsKey(key)
 }

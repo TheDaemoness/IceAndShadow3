@@ -5,6 +5,8 @@ import java.util.Random
 import mod.iceandshadow3.spatial.{RandomXYZ, TriadXYZ}
 import Cellmaker._
 
+import scala.reflect.ClassTag
+
 class Cellmaker3d(
 	protected val seed: Long,
 	protected val mod: Int,
@@ -25,8 +27,13 @@ class Cellmaker3d(
 	}
 	def apply(
 		xFrom: Int, yFrom: Int, zFrom: Int,
-		xWidth: Int, yWidth: Int, zWidth: Int
-	): FixedMap3d[Result] = {
+		xWidth: Int, yWidth: Int, zWidth: Int,
+	): FixedMap3d[Result] = apply(xFrom, yFrom, zFrom, xWidth, yWidth, zWidth, in => in)
+	def apply[T: ClassTag](
+		xFrom: Int, yFrom: Int, zFrom: Int,
+		xWidth: Int, yWidth: Int, zWidth: Int,
+		transform: Result => T
+	): FixedMap3d[T] = {
 		val xCellLowest = Cellmaker.rescale(xFrom, scaleXZ)
 		val yCellLowest = Cellmaker.rescale(yFrom, scaleY)
 		val zCellLowest = Cellmaker.rescale(zFrom, scaleXZ)
@@ -40,7 +47,7 @@ class Cellmaker3d(
 			val rng = new RandomXYZ(seed, mod, xit, yit, zit)
 			cellToPoint(xit, yit, zit, rng)
 		})
-		new FixedMap3d[Result](xFrom, yFrom, zFrom, xWidth, yWidth, zWidth, (x: Int, y: Int, z: Int) => {
+		new FixedMap3d[T](xFrom, yFrom, zFrom, xWidth, yWidth, zWidth, (x: Int, y: Int, z: Int) => {
 			val xCellBase = Cellmaker.rescale(x, scaleXZ)
 			val yCellBase = Cellmaker.rescale(y, scaleY)
 			val zCellBase = Cellmaker.rescale(z, scaleXZ)
@@ -59,7 +66,7 @@ class Cellmaker3d(
 			}
 			result.distanceClosest *= totalScaleInv
 			result.distanceSecond *= totalScaleInv
-			result
+			transform(result)
 		})
 	}
 }

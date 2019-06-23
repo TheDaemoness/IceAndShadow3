@@ -19,7 +19,7 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
 	}
 	final def add(ias: TKey, adapter: ValueType): Unit = {
 		if(mutable == null) {
-			IaS3.bug(ias, s"add() called after $this was frozen")
+			IaS3.bug(ias, s"add called after $this was frozen")
 			return
 		}
 		ias.binderIndex = mutable.size
@@ -27,13 +27,13 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
 	}
 	final def apply(ias: TKey): ValueType = {
 		if(immutable == null) {
-			IaS3.bug(ias, s"apply() called before $this was frozen")
+			IaS3.bug(ias, s"apply called before $this was frozen")
 			return null.asInstanceOf[ValueType]
 		}
 		val index = ias.binderIndex
 		if(index >= 0) immutable(index)
 		else {
-			IaS3.bug(ias, "Unbound key provided to apply()")
+			IaS3.bug(ias, s"Unbound key provided to $this.apply")
 			null.asInstanceOf[ValueType]
 		}
 	}

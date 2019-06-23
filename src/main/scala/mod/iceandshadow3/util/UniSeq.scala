@@ -1,6 +1,6 @@
 package mod.iceandshadow3.util
 
-/** An immutable wrapper for a single element, pretending (badly) to be a sequence of n such identical elements.
+/** An immutable wrapper for a single element, pretending to be a sequence of [n,posinf) such identical elements.
 	*/
 class UniSeq[+T](val length: Int, value: T) extends Seq[T] {
 	override def apply(idx: Int) = value

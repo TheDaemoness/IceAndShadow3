@@ -51,7 +51,7 @@ abstract class BCsNyxIsle(noises: NoisesNyx, protected val cells: FixedMap2d[Res
 			else if(delta > 1) {
 				if(finalheight <= yThinning) BlockTypeSnow.SNOWS.last
 				else {
-					val snowmod = MathUtils.attenuateThrough(yThinning, y, yBald)
+					val snowmod = MathUtils.ratioBelow(yThinning, y, yBald)
 					if(snowmod != 0) BlockTypeSnow.fromFloat(snowmod) else null
 				}
 			} else null

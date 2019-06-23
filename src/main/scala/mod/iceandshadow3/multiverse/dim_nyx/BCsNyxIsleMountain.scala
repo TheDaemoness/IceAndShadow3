@@ -22,7 +22,7 @@ abstract class BCsNyxIsleMountain(noises: NoisesNyx, cells: FixedMap2d[Result])
 				if (in(y - 1) != null) {
 					doSnow = false
 					val delta = height - y
-					val snowmod = MathUtils.attenuateThrough(yFull, y, yThinning)
+					val snowmod = MathUtils.ratioBelow(yFull, y, yThinning)
 					in(y) = if (snowmod != 0) {
 						val snowdelta = if (smoothsnow) delta else if (delta > 2f / 3) 5d / 7 else 1d / 7
 						BlockTypeSnow.fromFloat(snowmod * snowdelta)
@@ -40,12 +40,12 @@ abstract class BCsNyxIsleMountain(noises: NoisesNyx, cells: FixedMap2d[Result])
 
 	override def genHeight(islevalue: Double, x: Int, z: Int) = {
 		import noises._
-		val ridgescale = Math.sqrt(1-noisemakerRidgeScale(x,z)(0))
-		var cratervalue = noisemakerDip(x,z)(0)
+		val ridgescale = Math.sqrt(1-noisemakerRidgeScale(x,z))
+		var cratervalue = noisemakerDip(x,z)
 		cratervalue *= Math.cbrt(cratervalue)/(4-ridgescale)
-		val mountainvalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerMountain(x,z)(0)*Math.PI)))/2
-		val ridgevalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerRidge(x,z)(0)*Math.PI)))/2
-		var hillvalue = MathUtils.sinelike(1-noisemakerHills(x,z)(0))
+		val mountainvalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerMountain(x,z)*Math.PI)))/2
+		val ridgevalue = (1-Math.cbrt(Math.cos(ridgescale*noisemakerRidge(x,z)*Math.PI)))/2
+		var hillvalue = MathUtils.sinelike(1-noisemakerHills(x,z))
 		hillvalue *= hillvalue
 		val retval =
 			if(islevalue <= 0.15) 0

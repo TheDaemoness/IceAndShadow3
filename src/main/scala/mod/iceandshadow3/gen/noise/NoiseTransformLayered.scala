@@ -1,18 +1,19 @@
 package mod.iceandshadow3.gen.noise
 
-class NoiseTransformLayered(val maxheight: Int, sources: INoise*) extends INoise {
-	val lowestheight = sources.foldLeft(maxheight)((height: Int, source: INoise) => {Math.min(height, source.height)})
-	override def height = lowestheight
-	override def apply(x: Int, z: Int): Array[Double] = {
-		var total = Array.fill[Double](lowestheight)(0d)
-		var totaldivisor = 0d
-		for(i <- sources.indices) {
-			val divisor = 1d/(2 << i)
-			totaldivisor += divisor
-			val noisiness = sources(i)(x,z)
-			for(yit <- total.indices) total(yit) += noisiness(yit)*divisor
-		}
-		total.transform(_/totaldivisor)
-		total
+import mod.iceandshadow3.gen.FixedMap2d
+
+class NoiseTransformLayered(val maxheight: Int, sources: INoise2d*) extends INoise2d {
+	override def apply(xFrom: Int, zFrom: Int, xWidth: Int = 1, zWidth: Int = 1): FixedMap2d[Double] = {
+		val noises = sources.map(_.apply(xFrom, zFrom, xWidth, zWidth))
+		new FixedMap2d[Double](xFrom, zFrom, xWidth, zWidth, (x, z) => {
+			var totaldivisor = 0d
+			var result = 0d
+			for(i <- noises.indices) {
+				val divisor = 1d/(2 << i)
+				totaldivisor += divisor
+				result += noises(i)(x,z)
+			}
+			result/totaldivisor
+		})
 	}
 }

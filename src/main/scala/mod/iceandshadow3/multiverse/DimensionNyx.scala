@@ -94,7 +94,7 @@ object DimensionNyx extends BDimension("nyx") {
 		val height = who.posFine.yBlock
 		if (height >= 192) who.damageWithStatus(
 			placesHighAttack,
-			4f - MathUtils.attenuateThrough(192, height, 255) * 3f,
+			4f - MathUtils.ratioBelow(192, height, 255) * 3f,
 			Statuses.frost, 115
 		)
 	}

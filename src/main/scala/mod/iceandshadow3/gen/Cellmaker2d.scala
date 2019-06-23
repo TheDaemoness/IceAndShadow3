@@ -9,6 +9,8 @@ import mod.iceandshadow3.spatial.{PairXZ, RandomXZ}
 import Cellmaker._
 import com.google.common.cache.{CacheBuilder, CacheLoader}
 
+import scala.reflect.ClassTag
+
 class Cellmaker2d(
 	protected val seed: Long,
 	protected val mod: Int,
@@ -34,8 +36,13 @@ class Cellmaker2d(
 	def apply(
 		xFrom: Int, zFrom: Int,
 		xWidth: Int, zWidth: Int
-	): FixedMap2d[Result] = {
-		new FixedMap2d[Result](xFrom, zFrom, xWidth, zWidth, (x: Int, z: Int) => {
+	): FixedMap2d[Result] = apply(xFrom, zFrom, xWidth, zWidth, in => in)
+	def apply[T: ClassTag](
+		xFrom: Int, zFrom: Int,
+		xWidth: Int, zWidth: Int,
+		transform: Result => T
+	): FixedMap2d[T] = {
+		new FixedMap2d[T](xFrom, zFrom, xWidth, zWidth, (x: Int, z: Int) => {
 			val xCellBase = Cellmaker.rescale(x, scale)
 			val zCellBase = Cellmaker.rescale(z, scale)
 			val result = new Result()
@@ -50,7 +57,7 @@ class Cellmaker2d(
 			}
 			result.distanceClosest *= scaleInv
 			result.distanceSecond *= scaleInv
-			result
+			transform(result)
 		})
 	}
 }

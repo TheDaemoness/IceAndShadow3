@@ -2,14 +2,14 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.gen.Cellmaker.Result
 import mod.iceandshadow3.gen.FixedMap2d
-import mod.iceandshadow3.util.UniSeq
+import mod.iceandshadow3.util.{MathUtils, UniSeq}
 
 class CsNyxIsleCentral(noises: NoisesNyx, cells: FixedMap2d[Result])
 	extends BCsNyxIsleMountain(noises, cells)
 {
 	override def genHeight(islevalue: Double, x: Int, z: Int) = {
 		val bias = Math.max(islevalue*4 - 3, 0d)
-		(super.genHeight(islevalue, x, z) * (1-bias) + 128 * bias).toFloat
+		MathUtils.interpolate(super.genHeight(islevalue, x, z), bias, 128).toFloat
 	}
 
 	override def caveGen(height: Float, x: Int, z: Int): Seq[Boolean] =

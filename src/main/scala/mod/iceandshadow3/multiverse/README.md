@@ -18,3 +18,8 @@ The following rules apply to subpackages.
 * `LM` - Scala class that extends BLogicMob.
 * `LI` - Scala class that extends BLogicItem.
 * `S*` - BStateData paired with the applicable logic.
+
+## Nyx Item Freezing
+
+The fixed list of vanilla items that freeze (in addition to the freezing behavior in general)
+can be found in `dim_nyx.LIFrozen`.

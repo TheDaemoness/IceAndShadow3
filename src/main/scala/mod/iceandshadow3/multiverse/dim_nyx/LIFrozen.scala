@@ -9,23 +9,27 @@ import mod.iceandshadow3.compat.misc.ResourceMap
 import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.multiverse.DomainAlien
 
-class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
-	override def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean) = {
-		val hellish = E3vl.fromBool(user.dimension.isHellish)
-		hellish.forBoolean({
-			if(_) {
-				user.give(new WItemStack(stack.exposeNbtTree().chroot(IaS3.MODID).chroot("itemstack"), null))
-				stack.destroy()
-			} else user.message("iced_over")
-		})
-		hellish
-	}
-
-	override def addTooltip(variant: Int, what: WItemStack) = "iceandshadow3.tooltip.iced_over"
-
-	//TODO: This could use its own model, one which loads the source model and adds ice textures to it.
-}
 object LIFrozen {
+	itemFreezesAndChanges("minecraft:lava_bucket", "minecraft:obsidian")
+	itemFreezesAndChanges("minecraft:water_bucket", "minecraft:ice")
+	itemFreezesAndChanges("minecraft:cod_bucket", "minecraft:ice")
+	itemFreezesAndChanges("minecraft:salmon_bucket", "minecraft:ice")
+	itemFreezesAndChanges("minecraft:pufferfish_bucket", "minecraft:ice")
+	itemFreezesAndChanges("minecraft:tropical_fish_bucket", "minecraft:ice")
+	itemFreezesAndBreaks("minecraft:blaze_rod")
+	itemFreezesAndBreaks("minecraft:blaze_powder")
+	itemFreezesAndBreaks("minecraft:brewing_stand")
+	itemFreezesAndBreaks("minecraft:fire_charge")
+	itemFreezes("minecraft:flint_and_steel")
+	itemFreezes("minecraft:clay")
+	itemFreezes("minecraft:clay_ball")
+	itemFreezes("minecraft:campfire")
+	itemFreezes("minecraft:torch")
+	itemFreezes("minecraft:firework_rocket")
+	itemFreezes("minecraft:firework_star")
+	itemFreezes("minecraft:gunpowder")
+	//TODO: Also freeze items if they have a banned item in a crafting recipe (and disable this behavior for sticks).
+
 	private val MAGIC_ID_BREAKS = "~:B"
 	private val MAGIC_ID_FREEZES = "~:F"
 	private val MAGIC_ID_RESISTS = "~:R"
@@ -43,20 +47,6 @@ object LIFrozen {
 		//TODO: Check that to is valid.
 		unusualFreezeMap += Tuple2(id, to)
 	}
-	itemFreezesAndChanges("minecraft:lava_bucket", "minecraft:obsidian")
-	itemFreezesAndChanges("minecraft:water_bucket", "minecraft:ice")
-	itemFreezesAndChanges("minecraft:cod_bucket", "minecraft:ice")
-	itemFreezesAndChanges("minecraft:salmon_bucket", "minecraft:ice")
-	itemFreezesAndChanges("minecraft:pufferfish_bucket", "minecraft:ice")
-	itemFreezesAndChanges("minecraft:tropical_fish_bucket", "minecraft:ice")
-	itemFreezesAndBreaks("minecraft:blaze_rod")
-	itemFreezesAndBreaks("minecraft:blaze_powder")
-	itemFreezesAndBreaks("minecraft:brewing_stand")
-	itemFreezes("minecraft:flint_and_steel")
-	itemFreezes("minecraft:clay")
-	itemFreezes("minecraft:clay_ball")
-	itemFreezes("minecraft:campfire")
-
 	def freeze(input: WItemStack): WItemStack = {
 		val name = input.registryName
 		if(name == null) return input //Also checks if the stack is empty.
@@ -83,4 +73,21 @@ object LIFrozen {
 			Some(result)
 		} else None
 	}
+}
+
+class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
+	override def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean) = {
+		val hellish = E3vl.fromBool(user.dimension.isHellish)
+		hellish.forBoolean({
+			if(_) {
+				user.give(new WItemStack(stack.exposeNbtTree().chroot(IaS3.MODID).chroot("itemstack"), null))
+				stack.destroy()
+			} else user.message("iced_over")
+		})
+		hellish
+	}
+
+	override def addTooltip(variant: Int, what: WItemStack) = "iceandshadow3.tooltip.iced_over"
+
+	//TODO: This could use its own model, one which loads the source model and adds ice textures to it.
 }
