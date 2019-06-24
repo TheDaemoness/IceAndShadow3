@@ -10,6 +10,11 @@ import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.multiverse.DomainAlien
 
 object LIFrozen {
+	private val MAGIC_ID_BREAKS = "~:B"
+	private val MAGIC_ID_FREEZES = "~:F"
+	private val MAGIC_ID_RESISTS = "~:R"
+	private val unusualFreezeMap = new ResourceMap[String]
+
 	itemFreezesAndChanges("minecraft:lava_bucket", "minecraft:obsidian")
 	itemFreezesAndChanges("minecraft:water_bucket", "minecraft:ice")
 	itemFreezesAndChanges("minecraft:cod_bucket", "minecraft:ice")
@@ -30,10 +35,6 @@ object LIFrozen {
 	itemFreezes("minecraft:gunpowder")
 	//TODO: Also freeze items if they have a banned item in a crafting recipe (and disable this behavior for sticks).
 
-	private val MAGIC_ID_BREAKS = "~:B"
-	private val MAGIC_ID_FREEZES = "~:F"
-	private val MAGIC_ID_RESISTS = "~:R"
-	private val unusualFreezeMap = new ResourceMap[String]
 	def itemDoesNotFreeze(id: String): Unit = {
 		unusualFreezeMap += Tuple2(id, MAGIC_ID_RESISTS)
 	}

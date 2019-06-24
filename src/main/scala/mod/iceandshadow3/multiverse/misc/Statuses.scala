@@ -3,6 +3,8 @@ package mod.iceandshadow3.multiverse.misc
 import mod.iceandshadow3.basics.StatusEffectPlaceholder
 
 object Statuses {
+	def init(): Unit = ()
+
 	val poison = new StatusEffectPlaceholder
 	val slow = new StatusEffectPlaceholder
 	val blind = new StatusEffectPlaceholder

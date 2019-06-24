@@ -28,14 +28,14 @@ apply plugin: 'bloop'
 def version_minecraft = '1.14.2'
 def version_forge_maj=26
 def version_forge_min=0
-def version_forge_patch=25
+def version_forge_patch=43
 def version_forge_req="${version_forge_maj}.${version_forge_min}"
 def version_forge="${version_forge_req}.${version_forge_patch}"
 def mappings_id='20190608-1.14.2'
 
 apply from: 'config.gradle'
 
-def version_spec = "${version_revision}.${version_major}.${version_minor}"
+def version_spec = "${version_major}.${version_world}.${version_minor}"
 version = "${version_spec}.${version_patch}"
 group = 'mod.iceandshadow3'
 archivesBaseName = "iceandshadow3-${version_minecraft}-${version}"
@@ -86,12 +86,13 @@ dependencies {
     // it is assumed that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+    testCompile 'org.junit.jupiter:junit-jupiter-params:5.1.0'
+    testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.11.1'
     testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 
     shade 'org.scala-lang:scala-library:2.12.8'
-
-    testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.11.1'
 }
 
 

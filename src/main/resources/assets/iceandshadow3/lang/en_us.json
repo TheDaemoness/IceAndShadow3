@@ -6,12 +6,14 @@
 	"death.iceandshadow3.darkness": "%s faded into shadow",
 	"death.iceandshadow3.windchill": "%s froze to death in a very high place",
 
+	"item.iceandshadow3.alien_item_frozen": "Frozen Item Stack",
 	"item.iceandshadow3.nyx_wayfinder": "Mysterious Wayfinder",
 	"item.iceandshadow3.nyx_icicle": "Nyxian Icicle",
 
 	"block.iceandshadow3.gaia_livingstone": "Nyxian Stone",
 	"block.iceandshadow3.gaia_navistra_bedrock": "Navistra Bedrock",
 	"block.iceandshadow3.gaia_navistra_stone": "Navistra Stone",
+	"block.iceandshadow3.nyx_exousia": "Exousia",
 	"block.iceandshadow3.nyx_icicles": "Nyxian Icicles",
 
 	"effect.iceandshadow3.frost": "Deadly Frost",

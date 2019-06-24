@@ -1,5 +1,6 @@
 package mod.iceandshadow3.basics
 
+import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.compat.entity.WEntityLiving
 import mod.iceandshadow3.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.util.{Color, E3vl}
@@ -12,6 +13,10 @@ abstract class BStatusEffect(val name: String, val isBeneficial: E3vl, val color
 	extends StatusEffect
 {
 	BinderStatusEffect.add(this)
+	ContentLists.status.add(this)
+
+	override def toString = s"$name (status)"
+
 	def onStart(who: WEntityLiving, amp: Int)
 	def shouldTick(duration: Int, amp: Int): Boolean
 	def onTick(who: WEntityLiving, amp: Int)

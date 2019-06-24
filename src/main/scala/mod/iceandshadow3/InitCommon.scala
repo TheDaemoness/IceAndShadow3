@@ -11,6 +11,7 @@ import mod.iceandshadow3.compat.world.WSound
 import mod.iceandshadow3.compat.world.impl.AModDimension
 import mod.iceandshadow3.forge.{EventFisherman, Teleporter}
 import mod.iceandshadow3.multiverse._
+import mod.iceandshadow3.multiverse.misc.Statuses
 import net.minecraft.block.Block
 import net.minecraft.entity.{Entity, EntityType}
 import net.minecraft.item.Item
@@ -25,21 +26,25 @@ import net.minecraftforge.registries.IForgeRegistry
 
 private[iceandshadow3] object InitCommon {
 	private val domains = List(DomainAlien, DomainNyx, DomainGaia)
-	private val dimensionsWrapped = List(new AModDimension(DimensionNyx))
-	def populateBinders(): Unit = {
-		BinderStatusEffect.populate()
-		BinderParticle.populate()
-	}
+	private lazy val dimensionsWrapped = List(new AModDimension(DimensionNyx))
 
 	// ---
 
-	private var blockBindings: Array[Array[(ABlock, AItemBlock)]] = _
-	private var mobs: Array[EntityType[_ <: AMob]] = _
+	private lazy val blockBindings: Array[Array[(ABlock, AItemBlock)]] = BinderBlock.freeze()
+	private lazy val mobs: Array[EntityType[_ <: AMob]] = BinderMob.freeze()
+
+	/** Called before initEarly during Forge initialization. */
+	def initNormalNode(): Unit = {
+		BinderStatusEffect.populate()
+		BinderParticle.populate()
+	}
+	/** Called before initEarly during tool mode initialization. */
+	def initToolMode(): Unit = {
+		Statuses.init()
+	}
 
 	def initEarly(): Unit = {
 		for (domain <- domains) {domain.initEarly()}
-		blockBindings = BinderBlock.freeze()
-		mobs = BinderMob.freeze()
 	}
 
 	def registerBlocks(reg: IForgeRegistry[Block]): Unit = for (bindings <- blockBindings) {

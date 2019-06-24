@@ -23,14 +23,14 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 	public boolean isOfMateria(IMateria b) {return b == materia;}
 	
 	final Block.Properties toBlockProperties(int variant) {
-		Block.Properties retval = Block.Properties.create(materia.mcmat);
+		Block.Properties retval = Block.Properties.create(materia.mcmat());
 		retval.hardnessAndResistance(materia.getBaseHardness(), materia.getBaseBlastResist());
 		retval.lightValue(materia.getBaseLuma());
 		retval.slipperiness(materia.getSlipperiness());
 		if(multipleOpacities()) retval.variableOpacity();
 		if(randomlyUpdates()) retval.tickRandomly();
 		if(materia.isNonSolid()) retval.doesNotBlockMovement();
-		retval.sound(materia.snd);
+		retval.sound(materia.sound());
 		//TODO: There's more.
 		return retval;
 	}

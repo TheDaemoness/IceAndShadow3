@@ -8,7 +8,8 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
@@ -41,6 +42,26 @@ public class IaS3 {
 
 	private static InitCommon$ init = InitCommon$.MODULE$;
 
+	private static boolean shouldInit = true;
+
+	/** Tool mode is a partial initialization of IaS3, suitable for testing or tooling. */
+	public static class ToolMode {
+		private static boolean _toolmode = false;
+		public static boolean isActive() {
+			return _toolmode;
+		}
+		public static void init() {
+			if(shouldInit) {
+				_toolmode = true;
+				shouldInit = false;
+				init.initToolMode();
+				init.initEarly();
+			} else if(!_toolmode) {
+				IaS3.bug("Caller of init", "Attempted to enter tool mode after IaS3 was fully initialized.");
+			}
+		}
+	}
+
 	public IaS3() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		//net.minecraftforge.fml.event.lifecycle event handlers here ONLY!
@@ -53,8 +74,12 @@ public class IaS3 {
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		init.populateBinders();
-		init.initEarly();
+		if(!shouldInit) logger().warn("IaS3 initialization attempted more than once.");
+		else {
+			shouldInit = false;
+			init.initNormalNode();
+			init.initEarly();
+		}
 	}
 
 	private void initRegistries(final RegistryEvent.NewRegistry event) {
@@ -83,6 +108,7 @@ public class IaS3 {
 	private void initFinal(final FMLLoadCompleteEvent event) {
 		if(weIsClient) init.initFinalClient();
 		else init.initFinalServer();
+		ContentLists.purge();
 	}
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)

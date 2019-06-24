@@ -5,7 +5,7 @@ import mod.iceandshadow3.compat.entity.{CNVEntity, WEntityPlayer}
 import mod.iceandshadow3.compat.item.WItemStack
 import mod.iceandshadow3.compat.CNVSpatial._
 import mod.iceandshadow3.compat.world.WDimensionCoord
-import mod.iceandshadow3.multiverse.DomainNyx
+import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}
 import net.minecraft.block.Blocks
 import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -20,7 +20,7 @@ class EventHandlerEnderChest extends BEventHandler {
 				case player: WEntityPlayer =>
 					val dim = player.dimensionCoord
 					val mayGiveEarly = IaS3.getCfgServer.early_wayfinder.get && !player.dimension.canRespawnHere
-					if(dim == WDimensionCoord.END || mayGiveEarly) {
+					if(dim == WDimensionCoord.END || DimensionNyx.coord.worldIs(placeevent.getEntity) || mayGiveEarly) {
 						if(player.donateToEnderChest(WItemStack.make(DomainNyx.Items.wayfinder, 0)).isTrue) {
 							DomainNyx.Sounds.portal_subtle.play(player, placeevent.getBlockSnapshot.getPos, 0.4f, 1f)
 							player.advancement("vanilla_wayfinder")

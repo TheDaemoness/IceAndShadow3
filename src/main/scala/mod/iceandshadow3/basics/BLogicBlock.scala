@@ -2,6 +2,7 @@ package mod.iceandshadow3.basics
 
 import java.util.Random
 
+import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.basics.block.BlockShape
 import mod.iceandshadow3.compat.block.impl.{BCompatLogicBlock, BMateria, BinderBlock}
 import mod.iceandshadow3.compat.block.{WBlockRef, WBlockView}
@@ -14,6 +15,9 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	with BinderBlock.TKey
 {
 	BinderBlock.add(this)
+	ContentLists.block.add(this)
+
+	override def getPathPrefix: String = "block"
 
 	override def resistsExousia(variant: Int) = mat.resistsExousia
 

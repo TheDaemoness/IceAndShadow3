@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -6,7 +7,9 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+@DisplayName("Tests for forgetfulness in updating mod metadata.")
 class Metadata {
+	@DisplayName("update.json should contain the version in the processed mods.toml")
 	@Test
 	void updateJsonContainsVersion() throws FileNotFoundException {
 		//Quick and very dirty check to ensure that config.gradle and upgrade.json don't end up desynced.

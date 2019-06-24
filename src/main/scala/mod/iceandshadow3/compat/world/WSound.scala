@@ -1,7 +1,7 @@
 package mod.iceandshadow3.compat.world
 
 import javax.annotation.Nullable
-import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.basics.BDomain
 import mod.iceandshadow3.compat.CNVSpatial
 import mod.iceandshadow3.compat.entity.WEntityPlayer
@@ -28,11 +28,12 @@ case class WSound(@Nullable private val soundevent: SoundEvent) {
 object WSound {
 	private var newsounds = new ListBuffer[SoundEvent]
 	def addSound(domain: BDomain, name: String): WSound = {
-		val location = new ResourceLocation(IaS3.MODID, s"${domain.name}_$name")
+		val fullname = s"${domain.name}_$name"
+		val location = new ResourceLocation(IaS3.MODID, fullname)
 		val soundevent = new SoundEvent(location)
 		if(newsounds != null) {
 			newsounds += soundevent
-			soundevent.setRegistryName(location)
+			ContentLists.soundname.add(fullname)
 			WSound(soundevent)
 		} else {
 			IaS3.bug(domain, "Attempt add a sound name too late.")
@@ -41,6 +42,7 @@ object WSound {
 	}
 	private[iceandshadow3] def freeze(): Iterable[SoundEvent] = {
 		val retval = newsounds
+		for(sound <- retval) sound.setRegistryName(sound.getName)
 		newsounds = null
 		retval
 	}

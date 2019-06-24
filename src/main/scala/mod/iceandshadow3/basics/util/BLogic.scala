@@ -16,7 +16,12 @@ abstract class BLogic(protected val domain: BDomain, protected val name: String)
 	def getDomain: BDomain = domain
 	def getDefaultStateData(variant: Int): StateDataType
 
+	/** Used for both localization and model directory querying. */
+	def getPathPrefix: String
+
 	protected def getVariantName(variant: Int): String = null
+
+	override def toString = s"$getName ($getPathPrefix, $countVariants)"
 
 	final def getName: String = getDomain.name+'_'+getBaseName
 	final def getName(variant: Int): String = {

@@ -1,5 +1,6 @@
 package mod.iceandshadow3.basics
 
+import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.basics.item.BItemProperty
 import mod.iceandshadow3.compat.entity.WEntityPlayer
 import mod.iceandshadow3.compat.item._
@@ -14,6 +15,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	with BinderItem.TKey
 {
 	BinderItem.add(this)
+	ContentLists.item.add(this)
+	override def getPathPrefix: String = "item"
 
 	//TODO: Expand when we have our own text formatting stuff.
 	def addTooltip(variant: Int, what: WItemStack): String = ""
