@@ -4,6 +4,7 @@ import java.util.Random
 
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.basics.block.BlockShape
+import mod.iceandshadow3.basics.util.TLootable
 import mod.iceandshadow3.compat.block.impl.{BCompatLogicBlock, BMateria, BinderBlock}
 import mod.iceandshadow3.compat.block.{WBlockRef, WBlockView}
 import mod.iceandshadow3.compat.entity.WEntity
@@ -13,6 +14,7 @@ import mod.iceandshadow3.compat.world.WWorld
 sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	extends BCompatLogicBlock(dom, name, mat)
 	with BinderBlock.TKey
+	with TLootable
 {
 	BinderBlock.add(this)
 	ContentLists.block.add(this)

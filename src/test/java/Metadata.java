@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-@DisplayName("Tests for forgetfulness in updating mod metadata.")
+@DisplayName("Tests for general mistakes in mod metadata.")
 class Metadata {
 	@DisplayName("update.json should contain the version in the processed mods.toml")
 	@Test

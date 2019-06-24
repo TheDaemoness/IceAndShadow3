@@ -15,7 +15,8 @@ Indefinite survival is possible, though survival on Nyx comes with unique challe
 
 ## Getting Started (As A Player)
 
-__NYI.__
+IaS3 is explorable, but nowhere close to its design goals.
+If you want to play around with it anyway, follow the added advancements.
 
 ## Getting Started (As A Developer)
 [![Travis CI Status](https://travis-ci.org/TheDaemoness/IceAndShadow3.svg?branch=master "Travis CI status (branch: master)")](https://travis-ci.org/TheDaemoness/IceAndShadow3)
@@ -28,7 +29,7 @@ Otherwise, you will run into problems when you try to run the gradle wrapper.
 2. Clone/extract this repository into an empty directory.
 3. Get a compatible copy of the gradle wrapper (4.9 up to and excluding 5.0). You can either:
 	* (Recommended) If you have gradle installed, run `gradle wrapper` in the project directory.
-	* Extract a copy of the Forge MDK (version 26.0 up to and excluding 27.0) into the same directory *without overwriting any existing files*.
+	* Extract a copy of the Forge MDK (26.0 up to and excluding 27.0) into the same directory *without overwriting any existing files*.
 4. Use the gradle wrapper as usual with a compatible version of Java.
     1. You may generate Intellij IDEA project files using the `idea` task, and Eclipse project files with `eclipse`. Note that Eclipse's Scala plugin has been abandoned and is known to be unstable on Eclipse 4.11.
     2. You may run the client and/or dedicated server with the `runClient` and `runServer` tasks respectively.

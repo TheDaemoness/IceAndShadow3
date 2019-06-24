@@ -24,6 +24,8 @@ public enum E3vl {
 		}
 		@Override
 		public <T> T remap(T yes, T maybe, T no) {return maybe;}
+		@Override
+		public boolean isOpposite(boolean value) {return false;}
 	},
 	FALSE(false) {
 		@Override
@@ -35,6 +37,7 @@ public enum E3vl {
 	public boolean isTrue() {return this == TRUE;}
 	public boolean isNeutral() {return this == NEUTRAL;}
 	public boolean isFalse() {return this == FALSE;}
+	public boolean isOpposite(boolean value) {return this.value != value;}
 	public abstract <T> T remap(T yes, T maybe, T no);
 
 	private final boolean value;

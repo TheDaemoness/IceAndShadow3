@@ -11,6 +11,7 @@ import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeExousic}
 import mod.iceandshadow3.spatial.UnitVec3s
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.misc.{Particles, Statuses}
+import mod.iceandshadow3.util.E3vl
 
 class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasma {
 	override def getName = "exousia"
@@ -53,6 +54,8 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 			them.set(blocktype)
 		}
 	}
+
+	override def shouldHaveLootTable = E3vl.FALSE
 
 	//TODO: Exousia spreading, fogging.
 }
