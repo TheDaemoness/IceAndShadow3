@@ -2,9 +2,9 @@ package mod.iceandshadow3;
 
 //Keep this in Java for convenience. This is used by tests written in Java.
 
-import mod.iceandshadow3.basics.BLogicBlock;
-import mod.iceandshadow3.basics.BLogicItem;
-import mod.iceandshadow3.basics.BStatusEffect;
+import mod.iceandshadow3.lib.BLogicBlock;
+import mod.iceandshadow3.lib.BLogicItem;
+import mod.iceandshadow3.lib.BStatusEffect;
 
 import java.util.LinkedList;
 import java.util.List;

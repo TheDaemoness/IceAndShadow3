@@ -1,8 +1,8 @@
 package mod.iceandshadow3.multiverse
 
-import mod.iceandshadow3.basics.BDomain
-import mod.iceandshadow3.basics.common.LogicBlockOfMateria
-import mod.iceandshadow3.compat.item.WRarity
+import mod.iceandshadow3.lib.BDomain
+import mod.iceandshadow3.lib.subtype.LogicBlockOfMateria
+import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.util.{Color, E3vl}
 import mod.iceandshadow3.multiverse.gaia._
 

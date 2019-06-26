@@ -1,11 +1,11 @@
 package mod.iceandshadow3.multiverse
 
-import mod.iceandshadow3.basics.BDimension
-import mod.iceandshadow3.basics.item.IItemStorage
-import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
-import mod.iceandshadow3.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
-import mod.iceandshadow3.compat.item.WItemStack
-import mod.iceandshadow3.compat.world.{TWWorld, WWorld}
+import mod.iceandshadow3.lib.BDimension
+import mod.iceandshadow3.lib.item.IItemStorage
+import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
+import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
 import mod.iceandshadow3.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
 import mod.iceandshadow3.util.{Color, MathUtils}

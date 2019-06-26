@@ -1,25 +1,13 @@
 package mod.iceandshadow3
 
-import mod.iceandshadow3.compat.block.impl.ABlock
-import mod.iceandshadow3.compat.block.impl.BinderBlock
-import mod.iceandshadow3.compat.client.impl.{AParticleType, BinderParticle}
-import mod.iceandshadow3.compat.entity.impl.{AMob, BBinderEntity, BinderMob}
-import mod.iceandshadow3.compat.entity.state.impl.{AStatusEffect, BinderStatusEffect}
-import mod.iceandshadow3.compat.item.impl.AItemBlock
-import mod.iceandshadow3.compat.item.impl.BinderItem
-import mod.iceandshadow3.compat.world.WSound
-import mod.iceandshadow3.compat.world.impl.AModDimension
-import mod.iceandshadow3.forge.{EventFisherman, Teleporter}
+import mod.iceandshadow3.lib.compat.Binders
+import mod.iceandshadow3.lib.compat.client.impl.BinderParticle
+import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
+import mod.iceandshadow3.lib.compat.world.impl.AModDimension
+import mod.iceandshadow3.lib.forge.{EventFisherman, Teleporter}
 import mod.iceandshadow3.multiverse._
 import mod.iceandshadow3.multiverse.misc.Statuses
-import net.minecraft.block.Block
-import net.minecraft.entity.{Entity, EntityType}
-import net.minecraft.item.Item
-import net.minecraft.particles.IParticleData
-import net.minecraft.particles.ParticleType
-import net.minecraft.potion.Effect
 import net.minecraft.server.MinecraftServer
-import net.minecraft.util.SoundEvent
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.ModDimension
 import net.minecraftforge.registries.IForgeRegistry
@@ -30,13 +18,9 @@ private[iceandshadow3] object InitCommon {
 
 	// ---
 
-	private lazy val blockBindings: Array[Array[(ABlock, AItemBlock)]] = BinderBlock.freeze()
-	private lazy val mobs: Array[EntityType[_ <: AMob]] = BinderMob.freeze()
-
 	/** Called before initEarly during Forge initialization. */
 	def initNormalNode(): Unit = {
-		BinderStatusEffect.populate()
-		BinderParticle.populate()
+		Binders.prepopulate()
 	}
 	/** Called before initEarly during tool mode initialization. */
 	def initToolMode(): Unit = {
@@ -47,56 +31,12 @@ private[iceandshadow3] object InitCommon {
 		for (domain <- domains) {domain.initEarly()}
 	}
 
-	def registerBlocks(reg: IForgeRegistry[Block]): Unit = for (bindings <- blockBindings) {
-		for (binding <- bindings) reg.register(binding._1)
-	}
-
-	def registerItems(reg: IForgeRegistry[Item]): Unit = {
-		for (items <- BinderItem.freeze()) {
-			for (item <- items) {reg.register(item)}
-		}
-		for (bindings <- blockBindings) {
-			for (binding <- bindings) {
-				if (binding._2 != null) reg.register(binding._2)
-			}
-		}
-		//TODO: Spawn eggs.
-	}
-
-	def registerEntities(reg: IForgeRegistry[EntityType[_ <: Entity]]): Unit = {
-		for (amob <- mobs) {
-			reg.register(amob)
-		}
-		for (binder <- BBinderEntity.binders) {
-			if (!binder.frozen) for (et <- binder.freeze()) {
-				reg.register(et.asInstanceOf[EntityType[_ <: Entity]])
-			}
-		}
-	}
-
 	def registerDimensions(reg: IForgeRegistry[ModDimension]): Unit = {
 		for (dim <- dimensionsWrapped) reg.register(dim)
 	}
 
 	def registerBiomes(reg: IForgeRegistry[Biome]): Unit = {
 		for (dim <- dimensionsWrapped) reg.register(dim.dimbiome)
-	}
-
-	def registerPots(reg: IForgeRegistry[Effect]): Unit = {
-		for (fx <- BinderStatusEffect.freeze()) {
-			if (fx.isInstanceOf[AStatusEffect]) reg.register(fx)
-		}
-	}
-
-	def registerSounds(reg: IForgeRegistry[SoundEvent]): Unit = {
-		for(snd <- WSound.freeze()) reg.register(snd)
-	}
-
-	def registerParticles(reg: IForgeRegistry[ParticleType[_ <: IParticleData]]): Unit = {
-		for (fx <- BinderParticle.freeze()) fx match {
-			case registerable: AParticleType => reg.register(registerable)
-			case _ =>
-		}
 	}
 
 	def initLate(): Unit = {

@@ -1,15 +1,11 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import java.util.Random
-
-import mod.iceandshadow3.gen.noise.{Noise2dCell, NoiseTransformLayered}
-import mod.iceandshadow3.gen.{Cellmaker2d, Cellmaker3d}
-import mod.iceandshadow3.spatial.PairXZ
+import mod.iceandshadow3.gen.{Cellmaker3d, Noise2dCell, Noise2dTfLayered}
 
 /** A collection of all the number generators Nyx worldgen is likely to need.
 	*/
 class NoisesNyx(val seed: Long) {
-	val noisemakerDip = new NoiseTransformLayered(1,
+	val noisemakerDip = new Noise2dTfLayered(1,
 		new Noise2dCell(seed, 4921, 45),
 		new Noise2dCell(seed, 1936, 60)
 	)

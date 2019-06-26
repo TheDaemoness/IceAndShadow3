@@ -1,6 +1,7 @@
 package mod.iceandshadow3.gen
 
 import mod.iceandshadow3.gen.Cellmaker.Result
+import mod.iceandshadow3.util.collect.FixedMap2d
 
 /** Mixes (but does not blend) columns from multiple chunk sources based on cellmaker results.
 	* Useful for districts or biomes.

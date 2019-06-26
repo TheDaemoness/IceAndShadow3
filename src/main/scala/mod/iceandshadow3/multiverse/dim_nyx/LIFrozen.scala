@@ -1,11 +1,11 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.basics.common.LogicItemChameleon
-import mod.iceandshadow3.basics.BStateData
-import mod.iceandshadow3.compat.entity.WEntityPlayer
-import mod.iceandshadow3.compat.item.{ItemQueries, WItemStack}
-import mod.iceandshadow3.compat.misc.ResourceMap
+import mod.iceandshadow3.lib.subtype.LogicItemChameleon
+import mod.iceandshadow3.lib.BStateData
+import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
+import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack}
+import mod.iceandshadow3.lib.compat.misc.ResourceMap
 import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.multiverse.DomainAlien
 
@@ -15,15 +15,16 @@ object LIFrozen {
 	private val MAGIC_ID_RESISTS = "~:R"
 	private val unusualFreezeMap = new ResourceMap[String]
 
+	itemFreezesAndBreaks("minecraft:blaze_rod")
+	itemFreezesAndBreaks("minecraft:blaze_powder")
+	itemFreezesAndBreaks("minecraft:brewing_stand")
+	// TODO: Consider permitting the above three to exist and work normally in Nyx.
 	itemFreezesAndChanges("minecraft:lava_bucket", "minecraft:obsidian")
 	itemFreezesAndChanges("minecraft:water_bucket", "minecraft:ice")
 	itemFreezesAndChanges("minecraft:cod_bucket", "minecraft:ice")
 	itemFreezesAndChanges("minecraft:salmon_bucket", "minecraft:ice")
 	itemFreezesAndChanges("minecraft:pufferfish_bucket", "minecraft:ice")
 	itemFreezesAndChanges("minecraft:tropical_fish_bucket", "minecraft:ice")
-	itemFreezesAndBreaks("minecraft:blaze_rod")
-	itemFreezesAndBreaks("minecraft:blaze_powder")
-	itemFreezesAndBreaks("minecraft:brewing_stand")
 	itemFreezesAndBreaks("minecraft:fire_charge")
 	itemFreezes("minecraft:flint_and_steel")
 	itemFreezes("minecraft:clay")

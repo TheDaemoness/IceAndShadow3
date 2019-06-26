@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.gaia
 
-import mod.iceandshadow3.basics.block.IMateria
+import mod.iceandshadow3.lib.block.IMateria
 
 object MatNavistraBedrock extends BMateriaNavistra {
 	override def getName = "navistra_bedrock"

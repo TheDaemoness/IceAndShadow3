@@ -2,11 +2,12 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
-import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.gen.Cellmaker.Result
-import mod.iceandshadow3.gen.{BChunkSourceCelled, BWorldSource, Cellmaker2d, FixedMap2d}
+import mod.iceandshadow3.gen.{BChunkSourceCelled, BWorldSource, Cellmaker2d}
 import mod.iceandshadow3.multiverse.dim_nyx.BCsNyxIsle.exousia
 import mod.iceandshadow3.spatial.PairXZ
+import mod.iceandshadow3.util.collect.FixedMap2d
 
 class WorldSourceNyx(seed: Long) extends BWorldSource {
 	private val noises = new NoisesNyx(seed)

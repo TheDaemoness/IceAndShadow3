@@ -2,10 +2,10 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
-import mod.iceandshadow3.compat.block.`type`.{BBlockType, BlockTypeSnow}
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSnow}
 import mod.iceandshadow3.gen.Cellmaker.Result
-import mod.iceandshadow3.gen.FixedMap2d
 import mod.iceandshadow3.util.MathUtils
+import mod.iceandshadow3.util.collect.FixedMap2d
 
 abstract class BCsNyxIsleMountain(noises: NoisesNyx, cells: FixedMap2d[Result])
 	extends BCsNyxIsle(noises, cells) {

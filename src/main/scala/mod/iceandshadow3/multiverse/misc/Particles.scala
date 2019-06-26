@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.misc
 
-import mod.iceandshadow3.basics.ParticleTypePlaceholder
+import mod.iceandshadow3.lib.ParticleTypePlaceholder
 
 object Particles {
 	val smoke_large = new ParticleTypePlaceholder

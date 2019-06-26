@@ -1,9 +1,9 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.basics.BLogicBlockSimple
-import mod.iceandshadow3.basics.block.{BlockShape, BlockSides, BlockSubCuboid}
-import mod.iceandshadow3.compat.block.{AdjacentBlocks, WBlockRef, WBlockView}
-import mod.iceandshadow3.compat.entity.WEntity
+import mod.iceandshadow3.lib.BLogicBlockSimple
+import mod.iceandshadow3.lib.block.{BlockShape, BlockSides, BlockSubCuboid}
+import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, WBlockRef, WBlockView}
+import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.multiverse.DomainNyx
 
 class LBIcicles extends BLogicBlockSimple(DomainNyx, "icicles", MatIcicle) {

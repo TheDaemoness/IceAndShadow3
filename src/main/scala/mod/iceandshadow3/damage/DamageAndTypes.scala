@@ -1,7 +1,7 @@
 package mod.iceandshadow3.damage
 
-import mod.iceandshadow3.compat.entity.WEntityLiving
-import mod.iceandshadow3.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.entity.WEntityLiving
+import mod.iceandshadow3.lib.compat.item.WItemStack
 sealed trait TDmgType {
 	def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack): Float
 	def onDamage(dmg: Float, dmgResisted: Float, who: WEntityLiving): Float = dmgResisted

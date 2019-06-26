@@ -3,12 +3,13 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import java.util.Random
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.compat.block.`type`.{BBlockType, BlockTypeSimple, BlockTypeSnow}
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.gen.Cellmaker.Result
-import mod.iceandshadow3.gen.{BChunkSource, Cellmaker, FixedMap2d}
+import mod.iceandshadow3.gen.{BChunkSource, Cellmaker}
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.spatial.RandomXZ
 import mod.iceandshadow3.util.MathUtils
+import mod.iceandshadow3.util.collect.FixedMap2d
 
 object BCsNyxIsle {
 	import mod.iceandshadow3.multiverse.DomainGaia.Blocks._

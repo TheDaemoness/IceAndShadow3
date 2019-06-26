@@ -1,13 +1,13 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.basics.BLogicBlockSimple
-import mod.iceandshadow3.basics.block.{BlockShape, IMateria}
-import mod.iceandshadow3.compat.block.`type`.BlockTypeSimple
-import mod.iceandshadow3.compat.block.WBlockRef
-import mod.iceandshadow3.compat.block.impl.BMateriaPlasma
-import mod.iceandshadow3.compat.entity.{WEntity, WEntityLiving, WProjectile}
-import mod.iceandshadow3.compat.world.WSound
+import mod.iceandshadow3.lib.BLogicBlockSimple
+import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
+import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.block.WBlockRef
+import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WProjectile}
+import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeExousic}
+import mod.iceandshadow3.lib.compat.block.impl.BMateriaPlasma
 import mod.iceandshadow3.spatial.UnitVec3s
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.misc.{Particles, Statuses}

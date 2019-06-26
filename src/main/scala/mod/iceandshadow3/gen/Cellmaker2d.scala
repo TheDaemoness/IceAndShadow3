@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit
 import mod.iceandshadow3.spatial.{PairXZ, RandomXZ}
 import Cellmaker._
 import com.google.common.cache.{CacheBuilder, CacheLoader}
+import mod.iceandshadow3.util.collect.FixedMap2d
 
 import scala.reflect.ClassTag
 

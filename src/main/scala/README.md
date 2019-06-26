@@ -15,7 +15,7 @@ For everyone else, it's recommended to have a look a the READMEs in each package
 
 ## Type Usage Restrictions
 This is important to understand why parts of the codebase are fairly convoluted
-(e.g. all extensions of `mod.iceandshadow3.basics.util.BLogic`).
+(e.g. all extensions of `mod.iceandshadow3.lib.util.BLogic`).
 
 Unless a package's README specifies otherwise, anything originating from one of the following packages
 (or subpackages thereof):
@@ -41,7 +41,7 @@ spreading uncontrollably to the rest of IaS3's codebase.
 
 Exceptions are on a package-by-package basis.
 Subpackages of `mod.iceandshadow3` where you will definitely NOT find such exceptions are
-`basics`, `util`, and `multiverse`.
+`util`, `multiverse`, and `lib` (except `lib.compat` and `lib.forge`).
 
 ## Type Name Prefixes
 Two or more adjacent capital letters at the start of a class/file name are indicative of a type name prefix.

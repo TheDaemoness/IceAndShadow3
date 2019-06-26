@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.misc
 
-import mod.iceandshadow3.basics.StatusEffectPlaceholder
+import mod.iceandshadow3.lib.StatusEffectPlaceholder
 
 object Statuses {
 	def init(): Unit = ()

@@ -1,6 +1,7 @@
 package mod.iceandshadow3;
 
 import mod.iceandshadow3.config.ConfigManager;
+import mod.iceandshadow3.lib.compat.Registrar$;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -113,29 +114,30 @@ public class IaS3 {
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
+		private static Registrar$ registrar = Registrar$.MODULE$;
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> reg) {
-			init.registerBlocks(reg.getRegistry());
+			registrar.registerBlocks(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
-			init.registerItems(reg.getRegistry());
+			registrar.registerItems(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> reg) {
-			init.registerEntities(reg.getRegistry());
+			registrar.registerEntities(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerPots(final RegistryEvent.Register<Effect> reg) {
-			init.registerPots(reg.getRegistry());
+			registrar.registerPots(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> reg) {
-			init.registerParticles(reg.getRegistry());
+			registrar.registerParticles(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerSounds(final RegistryEvent.Register<SoundEvent> reg) {
-			init.registerSounds(reg.getRegistry());
+			registrar.registerSounds(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerBiomes(final RegistryEvent.Register<Biome> reg) {

@@ -1,13 +1,13 @@
 package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.basics.item.BItemProperty
-import mod.iceandshadow3.basics.util.LogicPair
-import mod.iceandshadow3.basics.{BLogicItemComplex, BStateData}
-import mod.iceandshadow3.compat.entity.{WEntityLiving, WEntityPlayer}
-import mod.iceandshadow3.compat.item.WItemStack
-import mod.iceandshadow3.compat.misc.WNbtTree
-import mod.iceandshadow3.compat.world.{TWWorld, WDimensionCoord, WSound}
+import mod.iceandshadow3.lib.item.BItemProperty
+import mod.iceandshadow3.lib.util.LogicPair
+import mod.iceandshadow3.lib.{BLogicItemComplex, BStateData}
+import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer}
+import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.misc.WNbtTree
+import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WSound}
 import mod.iceandshadow3.data._
 import mod.iceandshadow3.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
 import mod.iceandshadow3.spatial.{IVec3, PerDimensionVec3}

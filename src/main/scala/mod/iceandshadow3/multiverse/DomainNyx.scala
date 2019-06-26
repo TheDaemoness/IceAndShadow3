@@ -1,8 +1,8 @@
 package mod.iceandshadow3.multiverse
 
-import mod.iceandshadow3.basics.{BDomain, LogicItemMulti}
-import mod.iceandshadow3.compat.item.WRarity
-import mod.iceandshadow3.compat.world.WSound
+import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
+import mod.iceandshadow3.lib.compat.item.WRarity
+import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.util.Color
 import mod.iceandshadow3.multiverse.nyx._
 

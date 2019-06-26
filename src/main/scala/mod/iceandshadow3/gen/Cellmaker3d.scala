@@ -4,6 +4,7 @@ import java.util.Random
 
 import mod.iceandshadow3.spatial.{RandomXYZ, TriadXYZ}
 import Cellmaker._
+import mod.iceandshadow3.util.collect.FixedMap3d
 
 import scala.reflect.ClassTag
 
