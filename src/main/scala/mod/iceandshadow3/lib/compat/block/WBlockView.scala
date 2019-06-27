@@ -3,11 +3,11 @@ package mod.iceandshadow3.lib.compat.block
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.util.ILogicBlockProvider
 import mod.iceandshadow3.damage.Attack
-import mod.iceandshadow3.lib.block.IMateria
-import mod.iceandshadow3.lib.compat.util.{CNVCompat, TEffectSource, TWLogical}
+import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.util.{CNVCompat, IWrapperDefault, TEffectSource, TWLogical}
+import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
-import net.minecraft.item.BlockItemUseContext
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockReader
@@ -18,6 +18,7 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	with TEffectSource
 	with IPosBlock
 	with TWLogical[BLogicBlock]
+	with IWrapperDefault[WBlockView]
 {
 	def this(w: IBlockReader, p: BlockPos) = {
 		this(w, p, null)
@@ -28,22 +29,15 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	override def registryName: String = exposeBS().getBlock.getRegistryName.toString
 	//TODO: Fluids.
 
+	override final protected def expose() = this
 	protected[compat] final def exposeBS(): BlockState = {if(bs == null) refresh(); bs}
 	protected def acquireBS(): BlockState = ibr.getBlockState(pos)
 	final def refresh(): Unit = {bs = acquireBS();}
+
 	override def posFine = CNVCompat.fromBlockPos(pos)
 
 	def getHardness: Float = exposeBS().getBlockHardness(ibr, pos)
 	def getOpacity: Int = exposeBS().getOpacity(ibr, pos)
-
-	def isSolid = exposeBS().isSolid
-
-	def isMateria(materia: Class[_ <: IMateria]): Boolean = {
-		val lpo = Option(this.getLogicPair)
-		lpo.fold(false)({
-			_.logic.isOfMateria(materia)
-		})
-	}
 
 	override protected[compat] def getNameTextComponent = exposeBS().getBlock.getNameTextComponent
 	override def getAttack: Attack = null
@@ -51,6 +45,7 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	def atOffset(x: Int, y: Int, z: Int): WBlockView =
 		new WBlockView(ibr, pos.add(x, y, z))
 
+	def isPlain = exposeBS().isOpaqueCube(ibr, pos)
 	def isComplex = ibr.getTileEntity(pos) != null
 
 	override def getLogicPair = exposeBS().getBlock match {
@@ -74,4 +69,13 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	override def yBlock = pos.getY
 	override def xBlock = pos.getX
 	override def zBlock = pos.getZ
+
+	def typeDefault = new BlockTypeSimple(exposeBS().getBlock.getDefaultState)
+	def typeThis = new BlockTypeSimple(exposeBS())
+
+	def soundVolume = exposeBS().getSoundType.volume
+	def soundPitch = exposeBS().getSoundType.pitch
+	def soundDig = WSound(exposeBS().getSoundType.getHitSound)
+	def soundBreak = WSound(exposeBS().getSoundType.getBreakSound)
+	def soundPlace = WSound(exposeBS().getSoundType.getPlaceSound)
 }

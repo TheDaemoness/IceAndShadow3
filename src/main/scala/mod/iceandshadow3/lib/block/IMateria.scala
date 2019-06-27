@@ -8,7 +8,7 @@ trait IMateria {
 	def getName: String
 	def isToolClassEffective(m: HarvestMethod): Boolean
 	def getBaseHardness: Float
-	def getBaseBlastResist: Float
+	def getBaseBlastResist: Float = getBaseHardness*5f
 	def getBaseHarvestResist: Int
 	def getBaseLuma: Int = 0
 	def getBaseOpacity: Int

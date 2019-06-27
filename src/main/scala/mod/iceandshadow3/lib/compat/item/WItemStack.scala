@@ -6,7 +6,7 @@ import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.data.INbtRW
-import mod.iceandshadow3.lib.compat.util.{IWrapper, SRandom, TNamed, TWLogical}
+import mod.iceandshadow3.lib.compat.util.{IWrapperDefault, SRandom, TNamed, TWLogical}
 import mod.iceandshadow3.util.Casting._
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -22,7 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries
 	*/
 class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends TWLogical[BLogicItem]
-	with IWrapper[ItemStack]
+	with IWrapperDefault[ItemStack]
 	with ILogicItemProvider
 	with TNamed
 	with INbtRW

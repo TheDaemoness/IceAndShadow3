@@ -84,6 +84,11 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		return logic.isToolClassEffective(variant, HarvestMethod$.MODULE$.get(tool));
 	}
 
+	@Override
+	public int getHarvestLevel(BlockState state) {
+		return logic.getMateria().getBaseHarvestResist();
+	}
+
 	@Nonnull
 	@Override
 	public List<ItemStack> onSheared(@Nonnull ItemStack item, IWorld world, BlockPos pos, int fortune) {

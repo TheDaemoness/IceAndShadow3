@@ -1,15 +1,6 @@
 package mod.iceandshadow3.lib.compat.util
 
 trait IWrapper[T] {
-	protected[compat] def expose(): T
-	def isAny(queries: (T => Boolean)*): Boolean = {
-		val what = expose()
-		if(what == null) false
-		else queries.exists(_(what))
-	}
-	def isAll(queries: (T => Boolean)*): Boolean = {
-		val what = expose()
-		if(what == null) false
-		else queries.forall(_(what))
-	}
+	def isAny(queries: (T => Boolean)*): Boolean
+	def isAll(queries: (T => Boolean)*): Boolean
 }

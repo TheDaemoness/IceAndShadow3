@@ -1,8 +1,8 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.lib.compat.block.`type`.BBlockType
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple}
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.lib.compat.world.TWWorldPlace
+import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
 import mod.iceandshadow3.spatial.{IPosBlock, IVec3}
 import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
@@ -36,6 +36,12 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 			refresh()
 		}
 	}
+	def place(what: BBlockType): Boolean = {
+		val state = what.state()
+		val retval = what.state().isValidPosition(exposeWorld(), pos)
+		if(retval) set(what)
+		retval
+	}
 	def break(drops: Boolean): Unit = {
 		//TODO: Block type on breakage.
 		if(isServerSide) {
@@ -47,4 +53,6 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 		if(getHardness <= ifNoHarderThan) {break(drops); true}
 		else false
 	}
+
+	def playSound(sound: WSound): Unit = sound.play(this, this.posCoarse, this.soundVolume, this.soundPitch)
 }

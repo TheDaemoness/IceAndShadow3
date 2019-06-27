@@ -1,12 +1,12 @@
 package mod.iceandshadow3.lib.compat.entity
 
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.lib.compat.util.IWrapper
+import mod.iceandshadow3.lib.compat.util.IWrapperDefault
 import net.minecraft.entity.item.ItemEntity
 import net.minecraft.item.ItemStack
 
 class WEntityItem protected[entity](protected[compat] val entityitem: ItemEntity) extends WEntity(entityitem)
-	with IWrapper[ItemStack]
+	with IWrapperDefault[ItemStack]
 {
 	def ttl = entityitem.lifespan
 	override protected[compat] def expose() = entityitem.getItem
