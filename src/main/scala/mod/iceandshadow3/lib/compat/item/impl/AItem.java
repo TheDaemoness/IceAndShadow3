@@ -2,22 +2,19 @@ package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicItem;
-import mod.iceandshadow3.lib.item.BItemProperty;
-import mod.iceandshadow3.lib.util.LogicPair;
-import mod.iceandshadow3.lib.util.ILogicItemProvider;
-import mod.iceandshadow3.lib.compat.misc.WNbtTree;
-import mod.iceandshadow3.lib.compat.entity.CNVEntity;
-import mod.iceandshadow3.lib.compat.entity.WEntityPlayer;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
+import mod.iceandshadow3.lib.compat.item.WUseContextBlock;
+import mod.iceandshadow3.lib.compat.item.WUseContext;
+import mod.iceandshadow3.lib.compat.misc.WNbtTree;
 import mod.iceandshadow3.lib.compat.world.WWorld;
+import mod.iceandshadow3.lib.item.BItemProperty;
+import mod.iceandshadow3.lib.util.ILogicItemProvider;
+import mod.iceandshadow3.lib.util.LogicPair;
 import mod.iceandshadow3.util.E3vl;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Food;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -78,10 +75,9 @@ public class AItem extends Item implements ILogicItemProvider {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
 		final boolean mainhand = handIn == Hand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
-		final WItemStack wri = new WItemStack(is, playerIn);
-		final WEntityPlayer plai = CNVEntity.wrap(playerIn);
-		final E3vl result = logic.onUse(variant, wri.exposeStateData(getLogicPair()), wri, plai, mainhand);
-		return new ActionResult<>(toEActionResult(result), wri.exposeItems());
+		final WUseContext context = new WUseContext(getLogicPair(), is, playerIn, handIn, playerIn.isSneaking());
+		final E3vl result = logic.onUseGeneral(variant, context);
+		return new ActionResult<>(toEActionResult(result), context.stack().expose());
 	}
 
 	@Override
@@ -101,6 +97,14 @@ public class AItem extends Item implements ILogicItemProvider {
 		final String nameOverride = logic.nameOverride(variant, new WItemStack(stack, null));
 		if(nameOverride == null) return super.getTranslationKey(stack);
 		else return nameOverride;
+	}
+
+	@Override
+	@Nonnull
+	public ActionResultType onItemUse(ItemUseContext contextIn) {
+		final WUseContextBlock context = new WUseContextBlock(getLogicPair(), contextIn);
+		final E3vl result = logic.onUseBlock(variant, context);
+		return toEActionResult(result);
 	}
 
 	@Nullable

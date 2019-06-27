@@ -4,6 +4,7 @@ import java.util.Random
 
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.block.BlockShape
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple}
 import mod.iceandshadow3.lib.util.TLootable
 import mod.iceandshadow3.lib.compat.block.impl.{BCompatLogicBlock, BMateria, BinderBlock}
 import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockView}
@@ -44,6 +45,10 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.
 		*/
 	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random): Unit = {}
+
+	def makeBlockType(variant: Int): BBlockType = new BlockTypeSimple(this, variant)
+	lazy val _blocktypes = Array.tabulate(countVariants)(makeBlockType)
+	def apply(variant: Int) = _blocktypes(variant)
 }
 
 abstract class BLogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {

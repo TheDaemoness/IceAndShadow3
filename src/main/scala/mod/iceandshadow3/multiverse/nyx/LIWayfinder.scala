@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.util.LogicPair
 import mod.iceandshadow3.lib.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer}
-import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.item.{WItemStack, WUseContext}
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WSound}
 import mod.iceandshadow3.data._
@@ -44,20 +44,21 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	override def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) =
 		tags.chroot(IaS3.MODID).getLong("charged") > 0
 		
-	override def onUse(variant: Int, state: SIWayfinder, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean): E3vl = {
-		stack.forStateData(state, ()=>{
-			if (!mainhand) {
+	override def onUseGeneral(variant: Int, context: WUseContext): E3vl = {
+		val state = context.state.asInstanceOf[SIWayfinder]
+		context.stack.forStateData(state, ()=>{
+			if (!context.mainhand) {
 				if (!state.charged.get) {
-					val found = user.findItem("minecraft:totem_of_undying", restrictToHands = true)
+					val found = context.user.findItem("minecraft:totem_of_undying", restrictToHands = true)
 					if (!found.isEmpty) {
 						found.consume()
-						user.playSound(WSound.lookup("minecraft:item.totem.use"), 0.5f, 1f)
+						context.user.playSound(WSound.lookup("minecraft:item.totem.use"), 0.5f, 1f)
 						state.charged.set(true)
 						E3vl.TRUE
 					} else E3vl.FALSE
 				} else E3vl.FALSE
-			} else if(user.sneaking) {
-				state.positions.set(user.dimensionCoord, user.posFine)
+			} else if(context.sneaking) {
+				state.positions.set(context.user.dimensionCoord, context.user.posFine)
 				//TODO: More feedback.
 				E3vl.TRUE
 			} else E3vl.NEUTRAL

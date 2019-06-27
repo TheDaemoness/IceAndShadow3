@@ -2,9 +2,8 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.subtype.LogicItemChameleon
-import mod.iceandshadow3.lib.BStateData
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
-import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack}
+import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack, WUseContext}
 import mod.iceandshadow3.lib.compat.misc.ResourceMap
 import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.multiverse.DomainAlien
@@ -15,10 +14,9 @@ object LIFrozen {
 	private val MAGIC_ID_RESISTS = "~:R"
 	private val unusualFreezeMap = new ResourceMap[String]
 
-	itemFreezesAndBreaks("minecraft:blaze_rod")
-	itemFreezesAndBreaks("minecraft:blaze_powder")
-	itemFreezesAndBreaks("minecraft:brewing_stand")
-	// TODO: Consider permitting the above three to exist and work normally in Nyx.
+	itemDoesNotFreeze("minecraft:blaze_rod")
+	itemDoesNotFreeze("minecraft:blaze_powder")
+	itemDoesNotFreeze("minecraft:brewing_stand")
 	itemFreezesAndChanges("minecraft:lava_bucket", "minecraft:obsidian")
 	itemFreezesAndChanges("minecraft:water_bucket", "minecraft:ice")
 	itemFreezesAndChanges("minecraft:cod_bucket", "minecraft:ice")
@@ -26,6 +24,10 @@ object LIFrozen {
 	itemFreezesAndChanges("minecraft:pufferfish_bucket", "minecraft:ice")
 	itemFreezesAndChanges("minecraft:tropical_fish_bucket", "minecraft:ice")
 	itemFreezesAndBreaks("minecraft:fire_charge")
+	itemFreezesAndBreaks("minecraft:magma_cream")
+	itemFreezesAndBreaks("minecraft:magma_block")
+	itemFreezes("minecraft:slime_ball")
+	itemFreezes("minecraft:slime_block")
 	itemFreezes("minecraft:flint_and_steel")
 	itemFreezes("minecraft:clay")
 	itemFreezes("minecraft:clay_ball")
@@ -78,13 +80,13 @@ object LIFrozen {
 }
 
 class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
-	override def onUse(variant: Int, state: BStateData, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean) = {
-		val hellish = E3vl.fromBool(user.dimension.isHellish)
+	override def onUseGeneral(variant: Int, context: WUseContext) = {
+		val hellish = E3vl.fromBool(context.user.dimension.isHellish)
 		hellish.forBoolean({
 			if(_) {
-				user.give(new WItemStack(stack.exposeNbtTree().chroot(IaS3.MODID).chroot("itemstack"), null))
-				stack.destroy()
-			} else user.message("iced_over")
+				context.user.give(new WItemStack(context.stack.exposeNbtTree().chroot(IaS3.MODID).chroot("itemstack"), null))
+				context.stack.destroy()
+			} else context.user.message("iced_over")
 		})
 		hellish
 	}

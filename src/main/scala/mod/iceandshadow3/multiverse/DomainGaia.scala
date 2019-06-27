@@ -14,6 +14,9 @@ object DomainGaia extends BDomain("gaia") {
 		}
 		val navistra_stone = new LogicBlockOfMateria(DomainGaia, MatNavistraStone)
 	}
+	val Items = new {
+		val minerals = new LIMinerals
+	}
 
 	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx
 	override def tierToRarity(tier: Int): WRarity = WRarity.COMMON

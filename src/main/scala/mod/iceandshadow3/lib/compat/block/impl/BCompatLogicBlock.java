@@ -3,7 +3,6 @@ package mod.iceandshadow3.lib.compat.block.impl;
 import mod.iceandshadow3.lib.BDomain;
 import mod.iceandshadow3.lib.block.HarvestMethod;
 import mod.iceandshadow3.lib.block.IMateria;
-import mod.iceandshadow3.lib.compat.block.impl.BMateria;
 import mod.iceandshadow3.lib.compat.item.impl.BCompatLogicCommon;
 import net.minecraft.block.Block;
 
@@ -21,7 +20,7 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 	protected boolean multipleOpacities() {return false;}
 	
 	protected IMateria getMateria() {return materia;}
-	public boolean isOfMateria(IMateria b) {return b == materia;}
+	public boolean isOfMateria(Class<? extends IMateria> b) {return b.isInstance(materia);}
 	
 	final Block.Properties toBlockProperties(int variant) {
 		Block.Properties retval = Block.Properties.create(materia.mcmat());

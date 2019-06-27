@@ -21,7 +21,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	//TODO: Expand when we have our own text formatting stuff.
 	def addTooltip(variant: Int, what: WItemStack): String = ""
 	def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) = false
-	def onUse(variant: Int, state: StateDataType, stack: WItemStack, user: WEntityPlayer, mainhand: Boolean): E3vl = E3vl.NEUTRAL
+	def onUseGeneral(variant: Int, context: WUseContext) = E3vl.NEUTRAL
+	def onUseBlock(variant: Int, context: WUseContextBlock) = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
 	override def resistsExousia(variant: Int) = false
 }

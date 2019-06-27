@@ -3,9 +3,11 @@ package mod.iceandshadow3.lib.compat.block
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.util.ILogicBlockProvider
 import mod.iceandshadow3.damage.Attack
+import mod.iceandshadow3.lib.block.IMateria
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, TEffectSource, TWLogical}
 import mod.iceandshadow3.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
+import net.minecraft.item.BlockItemUseContext
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockReader
@@ -26,7 +28,7 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	override def registryName: String = exposeBS().getBlock.getRegistryName.toString
 	//TODO: Fluids.
 
-	protected final def exposeBS(): BlockState = {if(bs == null) refresh(); bs}
+	protected[compat] final def exposeBS(): BlockState = {if(bs == null) refresh(); bs}
 	protected def acquireBS(): BlockState = ibr.getBlockState(pos)
 	final def refresh(): Unit = {bs = acquireBS();}
 	override def posFine = CNVCompat.fromBlockPos(pos)
@@ -35,6 +37,13 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	def getOpacity: Int = exposeBS().getOpacity(ibr, pos)
 
 	def isSolid = exposeBS().isSolid
+
+	def isMateria(materia: Class[_ <: IMateria]): Boolean = {
+		val lpo = Option(this.getLogicPair)
+		lpo.fold(false)({
+			_.logic.isOfMateria(materia)
+		})
+	}
 
 	override protected[compat] def getNameTextComponent = exposeBS().getBlock.getNameTextComponent
 	override def getAttack: Attack = null

@@ -12,5 +12,8 @@
 		"madeit": {
 			"trigger": "minecraft:impossible"
 		}
+	},
+	"rewards": {
+		"experience": 50
 	}
 }

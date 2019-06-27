@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.block.ECommonBlockType._
 import mod.iceandshadow3.lib.block.IMateria
 import mod.iceandshadow3.lib.compat.block.impl.BMateriaStone
 
-abstract class BMateriaNavistra extends BMateriaStone {
+abstract class BMateriaNavistra extends BMateriaStoneLiving {
 	override def getBaseBlastResist: Float = IMateria.indestructibleByBlast
 	override def getBaseHarvestResist: Int = 5
 	override final def isNonSolid = false

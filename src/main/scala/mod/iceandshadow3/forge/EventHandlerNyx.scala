@@ -12,8 +12,6 @@ import net.minecraftforge.event.entity.player.{PlayerContainerEvent, PlayerInter
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 class EventHandlerNyx extends BEventHandler {
-	//TODO: Most of this is stretching The Rule.
-
 	@SubscribeEvent
 	def onPlayerExposesContainerToTheElements(oops: PlayerContainerEvent.Open): Unit =
 		if (DimensionNyx.coord.worldIs(oops.getEntity)) {
@@ -23,17 +21,17 @@ class EventHandlerNyx extends BEventHandler {
 		}
 
 	@SubscribeEvent
-	def onInteract(event: PlayerInteractEvent): Unit =
-		if (DimensionNyx.coord.worldIs(event.getWorld)) {
-			//Countermeasure against having another way of obtaining a banned item and using it.
+	def onInteract(event: PlayerInteractEvent): Unit = {
+		val player = CNVEntity.wrap(event.getEntityPlayer)
+		if (DimensionNyx.coord.worldIs(event.getWorld) && !player.isCreative) {
 			val what = new WItemStack(event.getItemStack, event.getEntityPlayer)
-			val frozen = LIFrozen.freeze(what, Some(CNVEntity.wrap(event.getEntityPlayer)))
+			val frozen = LIFrozen.freeze(what, Some(player))
 			if(frozen.isDefined) {
 				event.setCancellationResult(ActionResultType.FAIL)
 				event.getEntityPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
 			}
 		}
-
+	}
 	@SubscribeEvent
 	def onEntityItemJoin(event: EntityJoinWorldEvent): Unit =
 		if (DimensionNyx.coord.worldIs(event.getWorld)) {

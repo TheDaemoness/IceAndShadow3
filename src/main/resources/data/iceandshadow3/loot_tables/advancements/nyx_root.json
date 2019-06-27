@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:advancement_reward",
+	"pools": [
+		{
+			"name": "standard",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:totem_of_undying"
+				}
+			],
+			"conditions": []
+		}
+	]
+}
