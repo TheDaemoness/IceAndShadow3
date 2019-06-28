@@ -17,10 +17,7 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static mod.iceandshadow3.IaS3.MODID;
@@ -33,8 +30,14 @@ class JSONResources {
 	private JSONObject soundjson;
 
 	private static class AssetFile extends File {
-		private static File[] getFilesInDir(String dir, FileFilter filter) {
+		private static File[] getAssetsInDir(String dir, FileFilter filter) {
 			return new File("./main/assets/" + MODID, dir).listFiles(filter);
+		}
+		private static File[] getDataInDir(String dir, FileFilter filter) {
+			return new File("./main/data/" + MODID, dir).listFiles(filter);
+		}
+		private static Stream<AssetFile> stream(File[] files, String dir) {
+			return Arrays.stream(files).map(f -> new AssetFile(f, dir));
 		}
 		private final String parent;
 		private AssetFile(File f, String parent) {
@@ -81,15 +84,20 @@ class JSONResources {
 		IaS3.ToolMode.init();
 		return ContentLists.soundname.stream();
 	}
+	static Stream<AssetFile> streamAdvancements() {
+		FileFilter fileFilter = new WildcardFileFilter("*.json");
+		File[] adv = Objects.requireNonNull(AssetFile.getDataInDir("advancements", fileFilter));
+		return AssetFile.stream(adv, "advancements");
+	}
 
 	static Stream<AssetFile> streamIcon() {
 		FileFilter fileFilter = new WildcardFileFilter("*.png");
-		File[] block = Objects.requireNonNull(AssetFile.getFilesInDir("textures/block", fileFilter));
-		File[] item = Objects.requireNonNull(AssetFile.getFilesInDir("textures/item", fileFilter));
-		ArrayList<AssetFile> total = new ArrayList<>(block.length+item.length);
-		for(File f: block) total.add(new AssetFile(f, "textures/block"));
-		for(File f: item) total.add(new AssetFile(f, "textures/item"));
-		return total.stream();
+		File[] block = Objects.requireNonNull(AssetFile.getAssetsInDir("textures/block", fileFilter));
+		File[] item = Objects.requireNonNull(AssetFile.getAssetsInDir("textures/item", fileFilter));
+		return Stream.concat(
+			AssetFile.stream(block, "textures/block"),
+			AssetFile.stream(item, "textures/item")
+		);
 	}
 
 	@ParameterizedTest(name = "{0} should have localized names.")
@@ -195,6 +203,47 @@ class JSONResources {
 			}
 		} catch(IOException e) {
 			fail("Cannot read "+icon.getPath());
+		}
+	}
+
+	@ParameterizedTest(name = "{0} should have a localized title and description")
+	@MethodSource("streamAdvancements")
+	void advancementHasI18n(AssetFile adv) {
+		final String naem = adv.getName();
+		final String id = "iceandshadow3.advancement."+naem.substring(0, naem.lastIndexOf('.'));
+		for(Map.Entry<String, JSONObject> lang : langfiles.entrySet()) {
+			try {
+				lang.getValue().getString(id+".title");
+				lang.getValue().getString(id+".description");
+			}
+			catch(JSONException e) { fail(lang.getKey()+": "+e.getMessage()); }
+		}
+	}
+
+	private void checkAdvancementDisplayText(AssetFile adv, JSONObject display, String id, String type) {
+		try {
+			final String title = display.getJSONObject(type).getString("translate");
+			final String titleWanted = id + '.' + type;
+			if (!title.equals(titleWanted)) fail(adv + ": Illegal "+type+" translation key - should be " + titleWanted);
+		} catch(JSONException e) {
+			fail(adv+": Malformed "+type+" - "+e.getMessage());
+		}
+	}
+
+	@ParameterizedTest(name = "{0} should use translation")
+	@MethodSource("streamAdvancements")
+	void advancementUsesI18n(AssetFile adv) {
+		final String naem = adv.getName();
+		final String id = "iceandshadow3.advancement."+naem.substring(0, naem.lastIndexOf('.'));
+		try(final FileInputStream fis = new FileInputStream(adv)) {
+			final JSONObject advancement = new JSONObject(new JSONTokener(fis));
+			JSONObject display = null;
+			try { display = advancement.getJSONObject("display"); }
+			catch(JSONException e) { fail(adv+": Non-displaying advancements should be in a subfolder."); }
+			checkAdvancementDisplayText(adv, display, id, "title");
+			checkAdvancementDisplayText(adv, display, id, "description");
+		} catch (IOException e) {
+			fail("Cannot read "+adv.getPath());
 		}
 	}
 }

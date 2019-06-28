@@ -4,8 +4,8 @@
 			"item": "iceandshadow3:nyx_wayfinder",
 			"nbt": "{iceandshadow3:{charged:true}}"
 		},
-		"title": "Screw This, I'm Leaving!",
-		"description": "Teleport before death using an Undying-charged wayfinder.",
+		"title": {"translate": "iceandshadow3.advancement.vanilla_wayfinder_charged.title"},
+		"description": {"translate": "iceandshadow3.advancement.vanilla_wayfinder_charged.description"},
 		"announce_to_chat": false
 	},
 	"parent": "iceandshadow3:vanilla_wayfinder",

@@ -22,5 +22,18 @@
 	"iceandshadow3.tooltip.iced_over": "Iced-Over",
 
 	"iceandshadow3.message.item_freezes": "Your %s freezes!",
-	"iceandshadow3.message.iced_over": "It should thaw in the Nether. Maybe."
+	"iceandshadow3.message.iced_over": "It should thaw in the Nether. Maybe.",
+
+	"iceandshadow3.advancement.vanilla_enderchest.title": "Ender's Mailbox",
+	"iceandshadow3.advancement.vanilla_enderchest.description": "Acquire an ender chest.",
+	"iceandshadow3.advancement.vanilla_wayfinder.title": "A Strange Compass",
+	"iceandshadow3.advancement.vanilla_wayfinder.description": "Receive a wayfinder.",
+	"iceandshadow3.advancement.vanilla_wayfinder_charged.title": "Life Assurance",
+	"iceandshadow3.advancement.vanilla_wayfinder_charged.description": "Charge a wayfinder with a Totem of Undying.",
+	"iceandshadow3.advancement.vanilla_outworlder.title": "The Call of the Void",
+	"iceandshadow3.advancement.vanilla_outworlder.description": "Fall out of the world without dying.",
+	"iceandshadow3.advancement.nyx_root.title": "Ice and Shadow",
+	"iceandshadow3.advancement.nyx_root.description": "Arrive in Nyx.",
+	"iceandshadow3.advancement.nyx_escape.title": "Freedom!",
+	"iceandshadow3.advancement.nyx_escape.description": "Escape Nyx!"
 }

@@ -52,6 +52,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 					val found = context.user.findItem("minecraft:totem_of_undying", restrictToHands = true)
 					if (!found.isEmpty) {
 						found.consume()
+						context.user.advancement("vanilla_wayfinder_charged")
 						context.user.playSound(WSound.lookup("minecraft:item.totem.use"), 0.5f, 1f)
 						state.charged.set(true)
 						E3vl.TRUE
@@ -82,10 +83,6 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 				val where = state.positions.get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
 				if (where != null) {
 					owner.teleport(where)
-					owner match {
-						case player: WEntityPlayer => player.advancement("vanilla_wayfinder_save")
-						case _ =>
-					}
 					item.getOwner.playSound(WSound.lookup(
 						"minecraft:item.chorus_fruit.teleport"
 					), 1f, 0.9f)
@@ -110,8 +107,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 				owner match {
 					case player: WEntityPlayer =>
 						player.advancement("vanilla_outworlder")
-						player.advancement(if(areweinnyx) "nyx_escape" else "nyx_root")
-						//TODO: The nyx root advancement should not have to be manually triggered.
+						//player.advancement(if(areweinnyx) "nyx_escape" else "nyx_root")
 					case _ =>
 				}
 				owner.setHp(1)

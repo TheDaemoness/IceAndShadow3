@@ -3,8 +3,8 @@
 		"icon": {
 			"item": "iceandshadow3:nyx_wayfinder"
 		},
-		"title": "A Strange Compass",
-		"description": "Receive a wayfinder.",
+		"title": {"translate": "iceandshadow3.advancement.vanilla_wayfinder.title"},
+		"description": {"translate": "iceandshadow3.advancement.vanilla_wayfinder.description"},
 		"announce_to_chat": false,
 		"hidden": true
 	},

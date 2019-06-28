@@ -3,8 +3,8 @@
 		"icon": {
 			"item": "minecraft:ender_chest"
 		},
-		"title": "Ender's Mailbox",
-		"description": "Acquire an ender chest."
+		"title": {"translate": "iceandshadow3.advancement.vanilla_enderchest.title"},
+		"description": {"translate": "iceandshadow3.advancement.vanilla_enderchest.description"}
 	},
 	"parent": "minecraft:story/form_obsidian",
 	"criteria": {

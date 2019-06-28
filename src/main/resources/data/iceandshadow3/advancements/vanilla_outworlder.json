@@ -3,17 +3,19 @@
 		"icon": {
 			"item": "minecraft:bedrock"
 		},
-		"title": "The Call of the Void",
-		"description": "Fall out of the world... and survive.",
+		"title": {"translate": "iceandshadow3.advancement.vanilla_outworlder.title"},
+		"description": {"translate": "iceandshadow3.advancement.vanilla_outworlder.description"},
 		"frame": "goal",
 		"show_toast": false,
-		"announce_to_chat": false,
-		"hidden": true
+		"announce_to_chat": false
 	},
-	"parent": "minecraft:end/root",
+	"parent": "iceandshadow3:vanilla_wayfinder_charged",
 	"criteria": {
 		"outtahere": {
 			"trigger": "minecraft:impossible"
 		}
+	},
+	"rewards": {
+		"loot": ["iceandshadow3:advancements/vanilla_outworlder"]
 	}
 }

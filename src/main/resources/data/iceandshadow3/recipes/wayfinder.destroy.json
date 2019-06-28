@@ -1,6 +1,6 @@
 {
 	"type": "minecraft:smelting",
-	"group": "wayfinder",
+	"group": "iceandshadow3",
 	"ingredient": {
 		"item": "iceandshadow3:nyx_wayfinder"
 	},

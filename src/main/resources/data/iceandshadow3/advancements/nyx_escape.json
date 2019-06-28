@@ -3,14 +3,19 @@
 		"icon": {
 			"item": "minecraft:totem_of_undying"
 		},
-		"title": "Freedom!",
-		"description": "Escape Nyx!",
+		"title": {"translate": "iceandshadow3.advancement.nyx_escape.title"},
+		"description": {"translate": "iceandshadow3.advancement.nyx_escape.description"},
 		"announce_to_chat": false
 	},
 	"parent": "iceandshadow3:nyx_root",
 	"criteria": {
 		"madeit": {
-			"trigger": "minecraft:impossible"
+			"trigger": "minecraft:changed_dimension",
+			"conditions": {
+				"from": "iceandshadow3:nyx",
+				"to": "the_end"
+			}
+
 		}
 	},
 	"rewards": {

@@ -9,7 +9,8 @@ sub open_new {
     return $handle
 }
 
-our $loot_prefix = "src/main/resources/data/iceandshadow3/loot_tables";
+our $data_prefix = "src/main/resources/data/iceandshadow3";
+our $loot_prefix = "$data_prefix/loot_tables";
 our $assets_prefix = "src/main/resources/assets/iceandshadow3";
 
 sub add_common_block_files {
