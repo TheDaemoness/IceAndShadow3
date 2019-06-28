@@ -1,4 +1,4 @@
-package mod.iceandshadow3.forge.fish
+package mod.iceandshadow3.lib.forge.fish
 
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.util.BLogic

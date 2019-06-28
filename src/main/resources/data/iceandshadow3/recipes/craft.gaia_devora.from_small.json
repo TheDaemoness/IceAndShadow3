@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"group": "iceandshadow3",
+	"pattern": [
+		"###",
+		"###",
+		"###"
+	],
+	"key": {
+		"#": {
+			"item": "iceandshadow3:gaia_devora_small"
+		}
+	},
+	"result": {
+		"item": "iceandshadow3:gaia_devora"
+	}
+}

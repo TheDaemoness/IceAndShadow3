@@ -1,0 +1,30 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"iceandshadow3:$RECIPE"
+		]
+	},
+	"criteria": {
+		"i": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+$INPUT_ADVANCEMENT
+				]
+			}
+		},
+		"r": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:$RECIPE"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"r",
+			"i"
+		]
+	]
+}

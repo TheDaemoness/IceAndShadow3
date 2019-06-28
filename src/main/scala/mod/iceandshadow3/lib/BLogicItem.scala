@@ -2,11 +2,10 @@ package mod.iceandshadow3.lib
 
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.item.BItemProperty
-import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.{BCompatLogicItem, BinderItem}
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
-import mod.iceandshadow3.forge.fish.TEventFishOwner
+import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
 import mod.iceandshadow3.util.E3vl
 
 sealed abstract class BLogicItem(dom: BDomain, name: String)
@@ -24,6 +23,7 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	def onUseGeneral(variant: Int, context: WUseContext) = E3vl.NEUTRAL
 	def onUseBlock(variant: Int, context: WUseContextBlock) = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
+	def getBurnTicks(variant: Int, stack: WItemStack) = 0
 	override def resistsExousia(variant: Int) = false
 }
 

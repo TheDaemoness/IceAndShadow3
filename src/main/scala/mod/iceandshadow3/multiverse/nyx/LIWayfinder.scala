@@ -9,7 +9,7 @@ import mod.iceandshadow3.lib.compat.item.{WItemStack, WUseContext}
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WSound}
 import mod.iceandshadow3.data._
-import mod.iceandshadow3.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
+import mod.iceandshadow3.lib.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
 import mod.iceandshadow3.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.util.E3vl
 import mod.iceandshadow3.multiverse.misc.Statuses

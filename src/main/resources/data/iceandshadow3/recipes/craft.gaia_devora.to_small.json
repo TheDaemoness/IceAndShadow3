@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "iceandshadow3",
+	"ingredients": [
+		{
+			"item": "iceandshadow3:gaia_devora"
+		}
+	],
+	"result": {
+		"item": "iceandshadow3:gaia_devora_small",
+		"count": 9
+	}
+}

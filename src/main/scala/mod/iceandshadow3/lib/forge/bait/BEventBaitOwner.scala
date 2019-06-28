@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.util.{LogicPair, LogicTriad}
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.forge.fish.TEventFishOwner
+import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
 import net.minecraftforge.event.entity.living.LivingEvent
 
 import scala.reflect.ClassTag

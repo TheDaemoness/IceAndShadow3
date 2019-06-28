@@ -15,26 +15,29 @@ my $amount = $ARGV[2];
 my @inputs = @ARGV[3..$#ARGV];
 my $recipename="craft.$output.$method";
 
-my $handle;
-sub printitems {
-    print $handle "{\"item\":\"$inputs[0]\"}";
-    print $handle ",{\"item\":\"$_\"}" for @inputs[1..$#inputs];
+sub gen_inputstring {
+    my ($prefix) = @_;
+    my $inputstring = "${prefix}{\"item\": \"$inputs[0]\"}";
+    for (@inputs[1..$#inputs]) {$inputstring .= ",\n${prefix}{\"item\": \"$_\"}";};
+    return $inputstring;
 }
 
-$handle = IaS3Dev::open_new("$IaS3Dev::data_prefix/recipes/$recipename.json");
-print $handle '{"type":"minecraft:crafting_shapeless","group":"iceandshadow3","ingredients":[';
-printitems();
-print $handle "],\"result\":{\"item\":\"iceandshadow3:$output\"";
-print $handle ",\"count\":$amount" if($amount > 1);
-print $handle "}}";
-close($handle);
+my %remap = (
+    RECIPE => $recipename,
+    OUTPUT => $output,
+    INPUT_RECIPE => gen_inputstring("\t\t"),
+    INPUT_ADVANCEMENT => gen_inputstring("\t\t\t\t\t"),
+    COUNT => ($amount>1 ? ",\n\t\t\"count\":$amount" : "")
+);
 
-$handle = IaS3Dev::open_new("$IaS3Dev::data_prefix/advancements/recipes/$recipename.json");
-print $handle '{"parent":"minecraft:recipes/root","rewards":{"recipes":["';
-print $handle "iceandshadow3:$recipename";
-print $handle '"]},"criteria":{"i":{"trigger": "minecraft:inventory_changed","conditions":{"items":[';
-printitems();
-print $handle ']}},"r":{"trigger": "minecraft:recipe_unlocked","conditions":{"recipe":"';
-print $handle "iceandshadow3:$recipename";
-print $handle '"}}},"requirements":[["r","i"]]}';
-close($handle);
+IaS3Dev::write_template(
+    "$IaS3Dev::data_prefix/recipes/$recipename.json",
+    "recipes/shapeless.json",
+    %remap
+);
+
+IaS3Dev::write_template(
+    "$IaS3Dev::data_prefix/advancements/recipes/$recipename.json",
+    "advancements/recipes/shapeless.json",
+    %remap
+);

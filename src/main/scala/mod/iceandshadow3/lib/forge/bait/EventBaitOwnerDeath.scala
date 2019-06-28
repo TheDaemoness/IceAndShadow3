@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.forge.bait
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.util.{LogicPair, LogicTriad}
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.forge.fish.TEventFishOwnerDeath
+import mod.iceandshadow3.lib.forge.fish.TEventFishOwnerDeath
 import net.minecraft.util.DamageSource
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 

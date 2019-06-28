@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "iceandshadow3",
+	"ingredients": [
+		{
+			"item": "iceandshadow3:nyx_nifelhium"
+		}
+	],
+	"result": {
+		"item": "iceandshadow3:nyx_nifelhium_small",
+		"count": 9
+	}
+}

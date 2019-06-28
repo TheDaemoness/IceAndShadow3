@@ -1,0 +1,51 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"iceandshadow3:craft.nyx_nifelhium.from_small",
+			"iceandshadow3:craft.nyx_nifelhium.to_small"
+		]
+	},
+	"criteria": {
+		"i1": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "iceandshadow3:nyx_nifelhium"
+					}
+				]
+			}
+		},
+		"i2": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "iceandshadow3:nyx_nifelhium_small"
+					}
+				]
+			}
+		},
+		"r1": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:craft.nyx_nifelhium.from_small"
+			}
+		},
+		"r2": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:craft.nyx_nifelhium.to_small"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"r1",
+			"i1",
+			"r2",
+			"i2"
+		]
+	]
+}

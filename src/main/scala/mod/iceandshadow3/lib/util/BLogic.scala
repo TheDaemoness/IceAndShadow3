@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.util
 import javax.annotation.Nullable
 import mod.iceandshadow3.lib.{BDomain, BStateData}
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.forge.fish.TEventFish
+import mod.iceandshadow3.lib.forge.fish.TEventFish
 
 import scala.reflect.{ClassTag, classTag}
 

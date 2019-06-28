@@ -112,4 +112,9 @@ public class AItem extends Item implements ILogicItemProvider {
 	public Food func_219967_s() {
 		return super.func_219967_s();
 	}
+
+	@Override
+	public int getBurnTime(ItemStack itemStack) {
+		return logic.getBurnTicks(variant, new WItemStack(itemStack, null));
+	}
 }

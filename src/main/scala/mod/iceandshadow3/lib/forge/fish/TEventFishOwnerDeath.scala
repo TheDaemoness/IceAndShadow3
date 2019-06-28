@@ -1,4 +1,4 @@
-package mod.iceandshadow3.forge.fish
+package mod.iceandshadow3.lib.forge.fish
 
 import mod.iceandshadow3.lib.{BLogicItem, BStateData}
 import mod.iceandshadow3.lib.compat.item.WItemStack

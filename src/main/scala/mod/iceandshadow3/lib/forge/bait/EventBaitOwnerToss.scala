@@ -2,7 +2,7 @@ package mod.iceandshadow3.lib.forge.bait
 
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.forge.fish.TEventFishOwnerToss
+import mod.iceandshadow3.lib.forge.fish.TEventFishOwnerToss
 import net.minecraftforge.event.entity.item.ItemTossEvent
 
 //WARNING: Despite the name, this event needs to be handled very differently from the other Owner events.

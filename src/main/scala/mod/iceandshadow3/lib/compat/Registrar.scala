@@ -23,13 +23,13 @@ object Registrar {
 	}
 
 	def registerItems(reg: IForgeRegistry[Item]): Unit = {
-		for (items <- BinderItem.freeze()) {
-			for (item <- items) {reg.register(item)}
-		}
 		for (bindings <- blockBindings) {
 			for (binding <- bindings) {
 				if (binding._2 != null) reg.register(binding._2)
 			}
+		}
+		for (items <- BinderItem.freeze()) {
+			for (item <- items) {reg.register(item)}
 		}
 		//TODO: Spawn eggs.
 	}

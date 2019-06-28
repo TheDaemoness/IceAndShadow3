@@ -13,7 +13,7 @@ import net.minecraftforge.common.ModDimension
 import net.minecraftforge.registries.IForgeRegistry
 
 private[iceandshadow3] object InitCommon {
-	private val domains = List(DomainAlien, DomainNyx, DomainGaia)
+	private val domains = List(DomainAlien, DomainGaia, DomainNyx)
 	private lazy val dimensionsWrapped = List(new AModDimension(DimensionNyx))
 
 	// ---

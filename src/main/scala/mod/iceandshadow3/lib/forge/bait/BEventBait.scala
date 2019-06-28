@@ -1,9 +1,9 @@
 package mod.iceandshadow3.lib.forge.bait
 
 import mod.iceandshadow3.lib.util.{BLogic, LogicTriad}
-import mod.iceandshadow3.forge.fish.TEventFish
 import mod.iceandshadow3.lib.compat.util.TWLogical
 import mod.iceandshadow3.lib.forge.BEventHandler
+import mod.iceandshadow3.lib.forge.fish.TEventFish
 import net.minecraftforge.eventbus.api.{Event, EventPriority, IEventBus}
 
 import scala.reflect.{ClassTag, classTag}

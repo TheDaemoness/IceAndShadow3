@@ -1,0 +1,51 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"iceandshadow3:$RECIPE_A",
+			"iceandshadow3:$RECIPE_B"
+		]
+	},
+	"criteria": {
+		"i1": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "$LARGER"
+					}
+				]
+			}
+		},
+		"i2": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "$SMALLER"
+					}
+				]
+			}
+		},
+		"r1": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:$RECIPE_A"
+			}
+		},
+		"r2": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:$RECIPE_B"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"r1",
+			"i1",
+			"r2",
+			"i2"
+		]
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "iceandshadow3",
+	"ingredients": [
+$INPUT_RECIPE
+	],
+	"result": {
+		"item": "iceandshadow3:$OUTPUT"$COUNT
+	}
+}

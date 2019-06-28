@@ -8,12 +8,7 @@ use IaS3Dev;
 
 $#ARGV == 0 or die "Invalid argument count: expected 1";
 
-my $itemname = $ARGV[0];
+my $naem = $ARGV[0];
+IaS3Dev::write_template("$IaS3Dev::assets_prefix/models/item/$naem.json", "model_item/default.json", (ITEM => $naem));
 
-my $assets_prefix = $IaS3Dev::assets_prefix;
-my $handle;
-
-$handle = IaS3Dev::open_new("$assets_prefix/models/item/$itemname.json");
-print $handle "{\"parent\": \"item/generated\", \"textures\": {\"layer0\": \"iceandshadow3:item/$itemname\"}}";
-close($handle);
 
