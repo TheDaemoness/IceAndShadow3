@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.compat.entity
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.compat.item.{WInventory, WItemStack}
-import mod.iceandshadow3.lib.compat.util.{CNVCompat, TNamed}
+import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized}
 import mod.iceandshadow3.lib.compat.world.{WDimension, WDimensionCoord}
 import mod.iceandshadow3.spatial.IVec3
 import mod.iceandshadow3.util.E3vl
@@ -19,10 +19,10 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f
 	def deshield(force: Boolean = true): Unit = player.disableShield(force)
 	def bed: IVec3 = player.getBedLocation(this.dimensionCoord.dimtype)
-	def message(msg: String, actionBar: Boolean, names: TNamed*): Unit = player.sendStatusMessage(
+	def message(msg: String, actionBar: Boolean, names: TLocalized*): Unit = player.sendStatusMessage(
 		new TranslationTextComponent(
 			s"${IaS3.MODID}.message.$msg",
-			names.map(_.getNameTextComponent):_*
+			names.map(_.getLocalizedName):_*
 		), actionBar
 	)
 	def message(msg: String): Unit = message(msg, true)

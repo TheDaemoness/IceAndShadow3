@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material
 
 object BlockQueries {
 	def stone(bv: WBlockView) = bv.exposeBS().getMaterial == Material.ROCK
+	def sand(bv: WBlockView): Boolean = bv.exposeBS().getMaterial == Material.SAND
 	def solid(bv: WBlockView) = bv.exposeBS().isSolid
 	def power(bv: WBlockView) = bv.exposeBS().canProvidePower
 	def mineableByWood(bv: WBlockView) = bv.exposeBS().getHarvestLevel <= 0

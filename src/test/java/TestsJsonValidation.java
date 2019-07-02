@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-class JSONValidation {
+class TestsJsonValidation {
 	class JSONValidator implements Consumer<Path> {
 		private Schema schema;
 		int issues = 0;

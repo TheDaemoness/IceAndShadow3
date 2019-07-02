@@ -1,11 +1,11 @@
 package mod.iceandshadow3.lib.compat.world
 
-import mod.iceandshadow3.lib.compat.util.TNamed
+import mod.iceandshadow3.lib.compat.util.TLocalized
 import net.minecraft.world.biome.Biome
 
 //TODO: Manually-generated class stub.
-class WBiome(private[world] val biome: Biome) extends TNamed {
-  override protected[compat] def getNameTextComponent = biome.getDisplayName
+class WBiome(private[world] val biome: Biome) extends TLocalized {
+  override protected[compat] def getLocalizedName = biome.getDisplayName
   def temperature: Float = biome.getDefaultTemperature
   def downfall: Float = biome.getDownfall
   def isVeryHumid: Boolean = biome.isHighHumidity

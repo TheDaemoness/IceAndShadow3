@@ -13,12 +13,13 @@ class LIMinerals extends LogicItemMulti(DomainGaia, "minerals", 1) {
 		val b = context.block
 		if(
 			b.isPlain &&
-			b.isAll(stone, mineableByStone) &&
-			b.isAny(notHarder(2f), materia(classOf[BMateriaStoneLiving]))
+				b.isAny(stone, sand) &&
+				b.isAll(mineableByStone) &&
+				b.isAny(notHarder(2f), materia(classOf[BMateriaStoneLiving]))
 		) {
 			if(context.canReplaceSide) {
 				if(context.side.place(context.block.typeDefault)) {
-					context.user.playSound(WSound.lookup("minecraft:block.gravel.hit"), 0.3f, 1.1f)
+					context.user.playSound(WSound("minecraft:block.gravel.hit"), 0.3f, 1.1f)
 					context.block.playSound(context.block.soundDig) //Behavior intentional, not a bug.
 					context.stack.consume()
 				}

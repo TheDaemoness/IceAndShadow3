@@ -25,6 +25,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /** The mod class for Ice and Shadow III. If you're looking for main, this is roughly it.
  */
 @SuppressWarnings("unused")
@@ -33,6 +35,7 @@ public class IaS3 {
 	/// The value here should match the entry in the META-INF/mods.toml file
 	public static final String MODID = "iceandshadow3";
 	public static final int VER_CFG_FMT = 1;
+	private static AtomicBoolean didBug = new AtomicBoolean(false);
 	private static final Logger BEAVER = LogManager.getLogger();
 	private static final Level BUG_LEVEL = Level.forName("BUG", 150);
 
@@ -176,7 +179,9 @@ public class IaS3 {
 	}
 	
 	public static Logger logger() {return BEAVER;}
+	public static boolean bugged() { return didBug.get(); }
 	public static void bug(Object what, Object... args) {
+		didBug.set(true);
 		StringBuilder sb = new StringBuilder();
 		sb.append("Please make sure the IaS3 developers know about the following problem:");
 		if(args.length > 0) sb.append("\n");

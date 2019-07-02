@@ -43,7 +43,7 @@ public class ADamageSource extends DamageSource {
 		if(source != null) return new TranslationTextComponent(
 			s+".attacker",
 			elb.getDisplayName(),
-			source.getNameTextComponent()
+			source.getLocalizedName()
 		);
 		else return new TranslationTextComponent(s, elb.getDisplayName());
 	}

@@ -39,7 +39,7 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	def getHardness: Float = exposeBS().getBlockHardness(ibr, pos)
 	def getOpacity: Int = exposeBS().getOpacity(ibr, pos)
 
-	override protected[compat] def getNameTextComponent = exposeBS().getBlock.getNameTextComponent
+	override protected[compat] def getLocalizedName = exposeBS().getBlock.getNameTextComponent
 	override def getAttack: Attack = null
 
 	def atOffset(x: Int, y: Int, z: Int): WBlockView =

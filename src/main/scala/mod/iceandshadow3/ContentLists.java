@@ -5,9 +5,11 @@ package mod.iceandshadow3;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
+import mod.iceandshadow3.lib.util.BLogic;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /** Static lists of IaS3's content objects.
  * Purged at the end of normal init, or kept indefinitely in tool mode.
@@ -22,5 +24,12 @@ public class ContentLists {
 		block.clear();
 		status.clear();
 		soundname.clear();
+	}
+	//TODO: Make this instead a stream of item names (and change the relevant test).
+	public static Stream<BLogic> logicsWithItems() {
+		return Stream.concat(
+			item.stream(),
+			block.stream().filter(l -> !l.isTechnical())
+		);
 	}
 }

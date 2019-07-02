@@ -29,7 +29,7 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 	override val shape: BlockShape = BlockShape.EMPTY
 
 	override def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {
-		who.playSound(WSound.lookup("minecraft:entity.generic.burn"), 0.5f, who.rng(0.9f, 0.2f))
+		who.playSound(WSound("minecraft:entity.generic.burn"), 0.5f, who.rng(0.9f, 0.2f))
 		//TODO: Damage resistance check.
 		who.particle(Particles.smoke_large, UnitVec3s.ZERO)
 		who.damage(damage)
@@ -49,7 +49,7 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 		if(them.posFine.yBlock <= us.posFine.yBlock && !them.resistsExousia) {
 			if(!them.isAir) {
 				//TODO: Previous particle effects were placeholder AND looked bad. Make better ones.
-				them.playSound(WSound.lookup("minecraft:entity.generic.burn"), 1f, them.rng(0.9f, 0.2f))
+				them.playSound(WSound("minecraft:entity.generic.burn"), 1f, them.rng(0.9f, 0.2f))
 			}
 			them.set(blocktype)
 		}

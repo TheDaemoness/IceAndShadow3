@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.forge.fish.TEventFish
 
 import scala.reflect.{ClassTag, classTag}
 
-abstract class BLogic(protected val domain: BDomain, protected val name: String) {
+abstract class BLogic(protected val domain: BDomain, protected val name: String) extends INamed {
 	type StateDataType <: BStateData
 
 	def countVariants: Int = 1
@@ -37,4 +37,6 @@ abstract class BLogic(protected val domain: BDomain, protected val name: String)
 	}
 	@Nullable
 	def nameOverride(variant: Int, stack: WItemStack): String = null
+
+	override final def getNames = Array.tabulate(countVariants)(i => getName(i))
 }

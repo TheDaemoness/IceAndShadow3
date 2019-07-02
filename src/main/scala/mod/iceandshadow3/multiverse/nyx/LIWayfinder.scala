@@ -53,7 +53,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 					if (!found.isEmpty) {
 						found.consume()
 						context.user.advancement("vanilla_wayfinder_charged")
-						context.user.playSound(WSound.lookup("minecraft:item.totem.use"), 0.5f, 1f)
+						context.user.playSound(WSound("minecraft:item.totem.use"), 0.5f, 1f)
 						state.charged.set(true)
 						E3vl.TRUE
 					} else E3vl.FALSE
@@ -83,9 +83,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 				val where = state.positions.get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
 				if (where != null) {
 					owner.teleport(where)
-					item.getOwner.playSound(WSound.lookup(
-						"minecraft:item.chorus_fruit.teleport"
-					), 1f, 0.9f)
+					item.getOwner.playSound(WSound("minecraft:item.chorus_fruit.teleport"), 1f, 0.9f)
 				}
 				state.charged.set(false)
 			} else {
@@ -105,9 +103,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			if (preventDeath) {
 				val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
 				owner match {
-					case player: WEntityPlayer =>
-						player.advancement("vanilla_outworlder")
-						//player.advancement(if(areweinnyx) "nyx_escape" else "nyx_root")
+					case player: WEntityPlayer => player.advancement("vanilla_outworlder")
 					case _ =>
 				}
 				owner.setHp(1)
@@ -124,9 +120,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 
 	override def onOwnerToss(variant: Int, s: BStateData, item: WItemStack): E3vl = {
 		val result = E3vl.FALSE.unlessFalse(teleportItem(item))
-		if(result.isFalse) item.getOwner.playSound(WSound.lookup(
-			"minecraft:item.chorus_fruit.teleport"
-		), 0.5f, 1.1f)
+		if(result.isFalse) item.getOwner.playSound(WSound("minecraft:item.chorus_fruit.teleport"), 0.5f, 1.1f)
 		result
 	}
 

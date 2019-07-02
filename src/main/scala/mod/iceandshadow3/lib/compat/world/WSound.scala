@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries
 
 import scala.collection.mutable.ListBuffer
 
-case class WSound(@Nullable private val soundevent: SoundEvent) {
+case class WSound protected(@Nullable private val soundevent: SoundEvent) {
 	private[compat] def event: Option[SoundEvent] = Option(soundevent)
 	def play(world: TWWorld, place: IPosBlock, volume: Float, freqshift: Float): Unit = {
 		if(soundevent == null) return
@@ -37,7 +37,7 @@ object WSound {
 			WSound(soundevent)
 		} else {
 			IaS3.bug(domain, "Attempt add a sound name too late.")
-			WSound(null)
+			WSound.silent
 		}
 	}
 	private[iceandshadow3] def freeze(): Iterable[SoundEvent] = {
@@ -46,6 +46,7 @@ object WSound {
 		newsounds = null
 		retval
 	}
-	def lookup(id: String): WSound =
+	def apply(id: String): WSound =
 		WSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(id)))
+	val silent: WSound = WSound(null.asInstanceOf[SoundEvent])
 }

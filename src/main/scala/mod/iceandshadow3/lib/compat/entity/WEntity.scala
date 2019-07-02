@@ -20,7 +20,7 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 	override def getEffectSourceEntity: Entity = entity
 	override def sunlight: Int = exposeWorld().getLightFor(LightType.SKY, CNVCompat.toBlockPos(posFine).add(0,1,0))
 
-	override def getNameTextComponent: ITextComponent = entity.getDisplayName
+	override def getLocalizedName: ITextComponent = entity.getDisplayName
 
 	override def posFine = CNVCompat.fromEntity(entity)
 

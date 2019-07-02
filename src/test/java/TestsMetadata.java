@@ -8,7 +8,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("Tests for general mistakes in mod metadata.")
-class Metadata {
+class TestsMetadata {
 	@DisplayName("update.json should contain the version in the processed mods.toml")
 	@Test
 	void updateJsonContainsVersion() throws FileNotFoundException {

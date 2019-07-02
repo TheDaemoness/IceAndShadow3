@@ -1,4 +1,5 @@
 import mod.iceandshadow3.ContentLists;
+import mod.iceandshadow3.ExtensionToolMode;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
@@ -9,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -25,7 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("Tests for forgetfulness in adding/updating asset/data JSON files.")
-class JSONResources {
+@ExtendWith({ExtensionToolMode.class})
+class TestsResources {
 	private final Map<String, JSONObject> langfiles = new TreeMap<>();
 	private JSONObject soundjson;
 
@@ -51,7 +54,7 @@ class JSONResources {
 		}
 	}
 
-	JSONResources() {
+	TestsResources() {
 		final File langdir = new File("./main/assets/" + MODID + "/lang");
 		for(File lang : Objects.requireNonNull(langdir.listFiles())) {
 			try(final FileInputStream fis = new FileInputStream(lang)) {
@@ -69,19 +72,15 @@ class JSONResources {
 	}
 
 	static Stream<BLogicBlock> streamLogicBlock() {
-		IaS3.ToolMode.init();
 		return ContentLists.block.stream();
 	}
 	static Stream<BLogicItem> streamLogicItem() {
-		IaS3.ToolMode.init();
 		return ContentLists.item.stream();
 	}
 	static Stream<BStatusEffect> streamStatus() {
-		IaS3.ToolMode.init();
 		return ContentLists.status.stream();
 	}
 	static Stream<String> streamSoundName() {
-		IaS3.ToolMode.init();
 		return ContentLists.soundname.stream();
 	}
 	static Stream<AssetFile> streamAdvancements() {

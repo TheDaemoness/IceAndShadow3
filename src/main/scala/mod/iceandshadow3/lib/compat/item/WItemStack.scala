@@ -6,7 +6,7 @@ import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.data.INbtRW
-import mod.iceandshadow3.lib.compat.util.{IWrapperDefault, SRandom, TNamed, TWLogical}
+import mod.iceandshadow3.lib.compat.util.{IWrapperDefault, SRandom, TLocalized, TWLogical}
 import mod.iceandshadow3.util.Casting._
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -24,7 +24,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends TWLogical[BLogicItem]
 	with IWrapperDefault[ItemStack]
 	with ILogicItemProvider
-	with TNamed
+	with TLocalized
 	with INbtRW
 {
 	private[compat] var is = Option(inputstack)
@@ -126,7 +126,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 		else result
 	})
 
-	override protected[compat] def getNameTextComponent = exposeItems().getTextComponent
+	override protected[compat] def getLocalizedName = exposeItems().getTextComponent
 
 	override def toNBT = exposeItems().serializeNBT()
 	override def fromNBT(tag: INBT) = tag match {
