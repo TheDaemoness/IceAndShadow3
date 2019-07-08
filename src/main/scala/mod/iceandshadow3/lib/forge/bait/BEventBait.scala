@@ -21,7 +21,7 @@ abstract class BEventBait[EventType <: Event :ClassTag] extends BEventHandler {
 		)
 	}
 
-	protected def handle(event: EventType)
+	protected def handle(event: EventType): Unit
 
 	protected def forEventFish[FishType <: TEventFish: ClassTag, L <: BLogic, T](
 		ref: TWLogical[L], fn: (LogicTriad[L], FishType) => T): Option[T] =

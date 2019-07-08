@@ -2,7 +2,7 @@ package mod.iceandshadow3.util.collect
 
 import mod.iceandshadow3.util.TQuietFailing
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 class StringMap[T] extends mutable.Map[String, T] with TQuietFailing {
@@ -13,13 +13,13 @@ class StringMap[T] extends mutable.Map[String, T] with TQuietFailing {
 	def iterator = map.asScala.iterator
 
 	/** Inserts a key-value pair if the key is valid. */
-	override def +=(kv: (String, T)) = {
+	override def addOne(kv: (String, T)) = {
 		val canput = isValidKey(kv._1)
 		if(canput) map.put(kv._1, kv._2)
 		setFailure(!canput, new IllegalArgumentException(s"Invalid key for $this: ${kv._1}"))
 		this
 	}
-	override def -=(key: String) = {map.remove(key); this}
+	override def subtractOne(key: String) = {map.remove(key); this}
 	override def get(key: String) = Option(map.getOrDefault(key, null.asInstanceOf[T]))
 	override def clear(): Unit = map.clear()
 

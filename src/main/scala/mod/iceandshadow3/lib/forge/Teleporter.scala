@@ -69,7 +69,8 @@ object Teleporter {
 		worldFrom: ServerWorld, worldTo: ServerWorld, where: IVec3
 	): Unit = {
 		traveler.dimension = to
-		traveler.func_213319_R() //Dismount everyone.
+		traveler.removePassengers()
+		traveler.stopRiding()
 		val newcomer = traveler.getClass.cast(traveler.getType.create(worldTo))
 		if (newcomer != null) {
 			newcomer.copyDataFromOld(traveler)
@@ -100,10 +101,10 @@ object Teleporter {
 		p.moveToBlockPosAndAngles(CNVCompat.toBlockPos(where), p.rotationYaw, p.rotationPitch)
 		p.connection.setPlayerLocation(p.posX, p.posY, p.posZ, p.rotationYaw, p.rotationPitch)
 		p.interactionManager.setWorld(worldTo)
-		p.connection.sendPacket(new SPlayerAbilitiesPacket(p.playerAbilities))
+		p.connection.sendPacket(new SPlayerAbilitiesPacket(p.abilities))
 		playerlist.sendWorldInfo(p, worldTo)
 		playerlist.sendInventory(p)
-		import scala.collection.JavaConverters._
+		import scala.jdk.CollectionConverters._
 		for (effect <- p.getActivePotionEffects.asScala) p.connection.sendPacket(
 			new SPlayEntityEffectPacket(p.getEntityId, effect)
 		)

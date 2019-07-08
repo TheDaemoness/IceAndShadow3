@@ -30,7 +30,7 @@ class CsNyxIsleStandard(noises: NoisesNyx, cells: FixedMap2d[Result])
 		val fissures = fissuremap(x,z)
 		val caves = cavemap(x,z)
 		val caveLimitReal = Math.min(yCaveMax, height-4).toInt
-		Array.tabulate(256)(y => {
+		Array.tabulate[Boolean](256)(y => {
 			val fissureAttenUpper = Math.sqrt(MathUtils.ratioBelow(yFissureFull, y, yFissureMax))
 			val fissureAttenLower = 1-MathUtils.ratioBelow((height*0.6f).toInt, y, (height*0.8f).toInt)
 			val caveAtten = MathUtils.ratioBelow(Math.max(0, caveLimitReal - 10), y, caveLimitReal)
@@ -38,6 +38,6 @@ class CsNyxIsleStandard(noises: NoisesNyx, cells: FixedMap2d[Result])
 				y < yFissureMax && fissures(y)*fissureAttenLower > (1 - fissureAttenUpper * 0.2) ||
 					y < yCaveMax && caves(y) > (1 - caveAtten * 0.2)
 			}
-		)
+		).toIndexedSeq
 	}
 }

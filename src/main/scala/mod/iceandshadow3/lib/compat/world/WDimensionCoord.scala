@@ -15,7 +15,7 @@ case class WDimensionCoord(dimtype: DimensionType) {
   def worldIs(entity: Entity) = entity.dimension  == this.dimtype
 }
 object WDimensionCoord {
-  val OVERWORLD = WDimensionCoord(DimensionType.OVERWORLD)
-  val NETHER = WDimensionCoord(DimensionType.NETHER)
-  val END = WDimensionCoord(DimensionType.THE_END)
+  val OVERWORLD = WDimensionCoord(DimensionType.field_223227_a_)
+  val NETHER = WDimensionCoord(DimensionType.field_223228_b_)
+  val END = WDimensionCoord(DimensionType.field_223229_c_)
 }

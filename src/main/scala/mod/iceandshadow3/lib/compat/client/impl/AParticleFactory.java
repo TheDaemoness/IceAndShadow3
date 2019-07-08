@@ -51,11 +51,10 @@ public class AParticleFactory implements IParticleFactory<BasicParticleType> {
 			//TODO: Implement.
 		}
 
-		@Nonnull
 		@Override
-		public IParticleRenderType func_217558_b() {
-			//TODO: The below is a no-op. Return something meaningful.
-			return IParticleRenderType.field_217606_f;
+		public IParticleRenderType getRenderType() {
+			//TODO: The below is a lie. Return something useful later.
+			return IParticleRenderType.NO_RENDER;
 		}
 
 		@Override

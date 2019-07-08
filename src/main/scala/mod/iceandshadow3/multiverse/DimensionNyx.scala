@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlaye
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
-import mod.iceandshadow3.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3, UnitVec3s, Vec3Fixed}
+import mod.iceandshadow3.spatial.{IPosBlock, IPosColumn, IVec3, UnitVec3s}
 import mod.iceandshadow3.util.{Color, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldSourceNyx}
 import mod.iceandshadow3.multiverse.misc.Statuses
@@ -17,7 +17,7 @@ object DimensionNyx extends BDimension("nyx") {
 
 	override def getRespawnDim = coord
 	override def getWorldSpawn(world: TWWorld) = new IPosBlock {
-		override def yBlock = world.height(this)+1
+		override def yBlock = 1 + world.height(this)
 		override def xBlock = 0
 		override def zBlock = 0
 	}
@@ -68,7 +68,7 @@ object DimensionNyx extends BDimension("nyx") {
 		//Dimension check should be handled elsewhere!
 		if(player.isCreative) return
 		var frozeAnything = false
-		container.transform(original => {
+		container.mapInPlace(original => {
 			val result = LIFrozen.freeze(original, Some(player))
 			frozeAnything |= result.isDefined
 			result.getOrElse(original)

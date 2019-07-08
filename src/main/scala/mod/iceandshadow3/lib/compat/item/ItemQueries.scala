@@ -10,5 +10,5 @@ object ItemQueries {
 	def shiny(is: ItemStack) = is.hasEffect
 	def damageable(is: ItemStack) = is.isDamageable
 	def damaged(is: ItemStack) = is.isDamaged
-	def compostable(is: ItemStack) = ComposterBlock.field_220299_b.containsKey(is.getItem)
+	def compostable(is: ItemStack) = ComposterBlock.CHANCES.containsKey(is.getItem)
 }

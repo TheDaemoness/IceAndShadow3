@@ -44,7 +44,7 @@ class WNbtTree(val root: CompoundNBT)
 		if(root == null) return 0
 		val tag = root.get(key)
 		if(!tag.isInstanceOf[NumberNBT]) return 0
-		tag.asInstanceOf[NumberNBT] getLong()
+		tag.asInstanceOf[NumberNBT].getLong
 	}
 
 	def getString(key: String): String = {
@@ -78,7 +78,7 @@ class WNbtTree(val root: CompoundNBT)
 
 	def toDataTree: DataTreeMap = {
 		val retval = new DataTreeMap()
-		import scala.collection.JavaConverters._
+		import scala.jdk.CollectionConverters._
 		for(key <- root.keySet().asScala) {
 			val rawtag = root.get(key)
 			retval.add(key, rawtag match {

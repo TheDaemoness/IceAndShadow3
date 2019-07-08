@@ -3,7 +3,7 @@ package mod.iceandshadow3.data
 import mod.iceandshadow3.IaS3
 import net.minecraft.nbt._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class DataTreeList[Element <: IDataTreeRW[_ <: BDataTree[_]]] extends BDataTreeBranch[java.util.List[Element], Int](new java.util.ArrayList) {
 	override def fromNBT(tag: INBT): Boolean = {

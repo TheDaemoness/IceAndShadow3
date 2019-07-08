@@ -122,7 +122,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	def getBurnTicks: Int = is.fold(0)(items => {
 		val result = items.getBurnTime
-		if(result < 0) AbstractFurnaceTileEntity.func_214001_f().getOrDefault(items.getItem, 0)
+		if(result < 0) AbstractFurnaceTileEntity.getBurnTimes.getOrDefault(items.getItem, 0)
 		else result
 	})
 

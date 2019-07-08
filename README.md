@@ -5,7 +5,7 @@ _Until then, this every 0.0.x version should be considered backward-incompatible
 _Abandon hope, all ye who try to run this on the dedicated server._
 
 # Ice and Shadow III
-__A brutal post-endgame dimension mod for Minecraft 1.14.2 + Forge.__
+__A brutal post-endgame dimension mod for Minecraft 1.14.3 + Forge.__
 
 This is a rewrite of the rewrite of the original Ice and Shadow mod to both rework its content and be a bit more future-proof for a change.
 
@@ -21,7 +21,8 @@ If you want to play around with it anyway, follow the added advancements.
 ## Getting Started (As A Developer)
 [![Travis CI Status](https://travis-ci.org/TheDaemoness/IceAndShadow3.svg?branch=master "Travis CI status (branch: master)")](https://travis-ci.org/TheDaemoness/IceAndShadow3)
 
-IaS3 uses Gradle, but does not include a gradle wrapper in VCS for largely philosophical reasons.
+IaS3 is written in Scala 2.13 and Java 8. It uses Gradle,
+but does not include a gradle wrapper in VCS for largely philosophical reasons.
 
 To get a usable development environment:
 1. Ensure you are using Java **8 or later, up to and excluding 11**.
@@ -29,11 +30,12 @@ Otherwise, you will run into problems when you try to run the gradle wrapper.
 2. Clone/extract this repository into an empty directory.
 3. Get a compatible copy of the gradle wrapper (4.9 up to and excluding 5.0). You can either:
 	* (Recommended) If you have gradle installed, run `gradle wrapper` in the project directory.
-	* Extract a copy of the Forge MDK (26.0 up to and excluding 27.0) into the same directory *without overwriting any existing files*.
+	* Extract a copy of the Forge MDK (27.0 up to and excluding 28.0) into the same directory *without overwriting any existing files*.
 4. Use the gradle wrapper as usual with a compatible version of Java.
-    1. You may generate Intellij IDEA project files using the `idea` task, and Eclipse project files with `eclipse`. Note that Eclipse's Scala plugin has been abandoned and is known to be unstable on Eclipse 4.11.
-    2. You may run the client and/or dedicated server with the `runClient` and `runServer` tasks respectively.
-    3. Remember to run `check` frequently!
+	1. You may generate Intellij IDEA project files using the `idea` task, and Eclipse project files with `eclipse`.
+	Note that Eclipse's Scala plugin has been abandoned and is known to be unstable on Eclipse 4.11.
+	2. You may run the client and/or dedicated server with the `runClient` and `runServer` tasks respectively.
+	3. Remember to run `check` frequently!
 
 Refer to the READMEs under the `src` directory for more information.
 

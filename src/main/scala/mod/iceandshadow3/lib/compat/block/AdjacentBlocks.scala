@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.compat.util.IWrapper
 import mod.iceandshadow3.util.collect.IteratorConcat
 import net.minecraft.util.Direction
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 sealed abstract class AdjacentBlocks(val central: WBlockView, protected val whats: (WBlockView, Direction)*)
 	extends Iterable[WBlockView]

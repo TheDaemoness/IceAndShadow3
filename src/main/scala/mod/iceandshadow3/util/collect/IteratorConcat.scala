@@ -7,7 +7,7 @@ class IteratorConcat[In, Out](
   converter: In => Out,
   iters: java.util.Iterator[In] *
 ) extends Iterator[Out] {
-  private val listiter = iters.toIterator
+  private val listiter = iters.iterator
   private var currentiter = listiter.next
 
   override def hasNext: Boolean = {

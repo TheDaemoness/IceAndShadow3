@@ -3,7 +3,7 @@ package mod.iceandshadow3.data
 import mod.iceandshadow3.IaS3
 import net.minecraft.nbt._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class DataTreeMap extends BDataTreeBranch[
 	java.util.Map[String, IDataTreeRW[_ <: BDataTree[_]]],

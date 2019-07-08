@@ -2,6 +2,6 @@ language: scala
 dist: xenial
 jdk: openjdk8
 scala:
-  - "2.12.8"
+  - "2.13.0"
 install: gradle wrapper --gradle-version 4.10.2
 script: ./gradlew check

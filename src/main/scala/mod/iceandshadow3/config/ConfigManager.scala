@@ -5,7 +5,7 @@ import java.util.Scanner
 
 import mod.iceandshadow3.IaS3
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** A re-solving of a long-solved problem. Well, depending on who you ask.
 */

@@ -109,8 +109,8 @@ public class AItem extends Item implements ILogicItemProvider {
 
 	@Nullable
 	@Override
-	public Food func_219967_s() {
-		return super.func_219967_s();
+	public Food getFood() {
+		return super.getFood();
 	}
 
 	@Override

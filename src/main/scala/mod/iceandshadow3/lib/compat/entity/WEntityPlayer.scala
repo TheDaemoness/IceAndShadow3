@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.TranslationTextComponent
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity) extends WEntityLiving(player) {
 	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f

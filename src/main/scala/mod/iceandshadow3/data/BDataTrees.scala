@@ -17,7 +17,7 @@ abstract class BDataTree[Value](protected var datum: Value) extends INbtRW with 
 }
 
 abstract class BDataTreeBranch[Container, Key](c: Container) extends BDataTree(c) with Iterable[Key Tuple2 IDataTreeRW[_]] {
-	protected def copyFrom(c: Container)
+	protected def copyFrom(c: Container): Unit
 	override final def fromDataTree(newval: BDataTree[Container]) = {if(newval != this) copyFrom(newval.get); true}
 	
 	def get(key: Key): Option[IDataTreeRW[_ <: BDataTree[_]]]

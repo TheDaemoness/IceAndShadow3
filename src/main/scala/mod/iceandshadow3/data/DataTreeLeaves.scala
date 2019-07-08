@@ -2,13 +2,13 @@ package mod.iceandshadow3.data
 
 import net.minecraft.nbt._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 sealed trait TBounded[T <: AnyVal] {
 	def getMin: T
 	def getMax: T
 	protected final def testLimits(tester: T => Boolean): Boolean = {
-		Seq(getMin, getMax).prefixLength(tester) == 2
+		Seq(getMin, getMax).forall(tester)
 	}
 }
 sealed trait TIntBounded extends TBounded[Long] {
@@ -84,7 +84,7 @@ abstract class DatumIntArray(size: Int = 0) extends BDataTreeLeaf(new Array[Long
 	override protected def readNBT(tag: INBT) = tag match {
 		case bytes: ByteArrayNBT => bytes.getByteArray.map(_.toLong)
 		case ints: IntArrayNBT => ints.getIntArray.map(_.toLong)
-		case _ => tag.asInstanceOf[LongArrayNBT].getAsLongArray.toArray //the toArray is deliberate.
+		case _ => Array.from(tag.asInstanceOf[LongArrayNBT].getAsLongArray) //Copy deliberate.
 	}
 	override protected def writeNBT(value: Array[Long]) = {
 		if(testLimits {_.isValidByte}) new ByteArrayNBT(value.map(_.toByte))

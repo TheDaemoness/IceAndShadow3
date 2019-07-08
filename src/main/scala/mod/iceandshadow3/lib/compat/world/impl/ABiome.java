@@ -11,7 +11,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 class ABiome extends Biome {
 	ABiome(ResourceLocation dimname, BBiome b) {
 		super(new Biome.Builder().
-			surfaceBuilder(new ConfiguredSurfaceBuilder<>(SurfaceBuilder.field_215407_R, SurfaceBuilder.field_215422_s)).
+			surfaceBuilder(new ConfiguredSurfaceBuilder<>(SurfaceBuilder.NOPE, SurfaceBuilder.AIR_CONFIG)).
 			category(Category.NONE).
 			downfall(b.baseDownfall()).
 			temperature(b.baseTemperature()).

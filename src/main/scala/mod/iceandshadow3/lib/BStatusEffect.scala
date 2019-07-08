@@ -19,10 +19,10 @@ abstract class BStatusEffect(val name: String, val isBeneficial: E3vl, val color
 
 	override def toString = s"$name (status)"
 
-	def onStart(who: WEntityLiving, amp: Int)
+	def onStart(who: WEntityLiving, amp: Int): Unit
 	def shouldTick(duration: Int, amp: Int): Boolean
-	def onTick(who: WEntityLiving, amp: Int)
-	def onEnd(who: WEntityLiving, amp: Int)
+	def onTick(who: WEntityLiving, amp: Int): Unit
+	def onEnd(who: WEntityLiving, amp: Int): Unit
 
 	override final def getNames = Array(name)
 }
