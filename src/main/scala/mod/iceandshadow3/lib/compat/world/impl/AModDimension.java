@@ -6,7 +6,9 @@ import mod.iceandshadow3.lib.compat.block.WBlockView;
 import mod.iceandshadow3.lib.compat.util.CNVCompat$;
 import mod.iceandshadow3.lib.compat.world.WDimensionCoord;
 import mod.iceandshadow3.lib.compat.world.WWorld;
-import mod.iceandshadow3.spatial.*;
+import mod.iceandshadow3.spatial.IPosBlock;
+import mod.iceandshadow3.spatial.IPosChunk;
+import mod.iceandshadow3.spatial.IPosColumn;
 import mod.iceandshadow3.util.Color;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -18,7 +20,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraftforge.api.distmarker.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
 
@@ -49,9 +52,8 @@ public class AModDimension extends ModDimension {
 		//Forge marks the registry for internal use only.
 		//I'd like to know how else they want us to get DimensionTypes out of DimensionManager besides register.
 		DimensionType dimtype;
-		if(DimensionManager.getRegistry().containsKey(name)) {
-			dimtype = DimensionManager.getRegistry().getOrDefault(name);
-		} else {
+		dimtype = DimensionManager.getRegistry().getOrDefault(name);
+		if(dimtype == null) {
 			dimtype = DimensionManager.registerDimension(
 				name, this,
 				null, //TODO: Can be null, but probably shouldn't.

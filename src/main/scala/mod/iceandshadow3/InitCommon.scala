@@ -1,15 +1,13 @@
 package mod.iceandshadow3
 
 import mod.iceandshadow3.lib.compat.Binders
-import mod.iceandshadow3.lib.compat.client.impl.BinderParticle
-import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.forge.{EventFisherman, Teleporter}
 import mod.iceandshadow3.multiverse._
 import mod.iceandshadow3.multiverse.misc.Statuses
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.biome.Biome
-import net.minecraftforge.common.ModDimension
+import net.minecraftforge.common.{DimensionManager, ModDimension}
 import net.minecraftforge.registries.IForgeRegistry
 
 private[iceandshadow3] object InitCommon {
@@ -49,7 +47,6 @@ private[iceandshadow3] object InitCommon {
 		InitClient.finishParticles()
 	}
 	def initFinalServer(): Unit = {
-		BinderParticle.freeze()
 	}
 
 	def enableDimensions(): Unit = {
@@ -57,16 +54,15 @@ private[iceandshadow3] object InitCommon {
 	}
 
 	def primeDimensions(server: MinecraftServer): Unit = {
-		//TODO: ALL OF THIS IS A TEMPORARY HACK. COME UP WITH SOMETHING BETTER!
-		class RestartRequired extends RuntimeException("Please restart the dedicated server.") {}
+		//class RestartRequired extends RuntimeException("Please restart the dedicated server.") {}
 		var foundOne = false
 		for (dim <- dimensionsWrapped) {
 			val iasdim = dim.getIaSDimension
-			if (iasdim.coord == null) {
+			if (!iasdim.isEnabled) {
 				dim.enable()
 				foundOne = true
 			}
 		}
-		if (foundOne) throw new RestartRequired
+		//if (foundOne && fatal) throw new RestartRequired
 	}
 }

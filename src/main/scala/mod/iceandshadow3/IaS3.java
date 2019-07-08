@@ -157,6 +157,7 @@ public class IaS3 {
 		getCfgServer().seal();
 		if(event.getServer().isDedicatedServer()) {
 			BEAVER.error("Ice and Shadow III is currently UNSTABLE on dedicated servers. YOU HAVE BEEN WARNED!");
+			init.primeDimensions(event.getServer());
 		}
 	}
 
@@ -166,11 +167,7 @@ public class IaS3 {
 	}
 
 	@SubscribeEvent
-	public void onServerStarting(FMLServerStartingEvent event) {
-		if(event.getServer().isDedicatedServer()) {
-			init.primeDimensions(event.getServer());
-		}
-	}
+	public void onServerStarting(FMLServerStartingEvent event) { }
 
 	@SubscribeEvent
 	public void onServerStopped(FMLServerStoppedEvent event) {

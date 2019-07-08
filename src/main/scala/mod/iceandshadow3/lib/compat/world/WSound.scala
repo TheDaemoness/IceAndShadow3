@@ -27,14 +27,17 @@ case class WSound protected(@Nullable private val soundevent: SoundEvent) {
 
 object WSound {
 	private var newsounds = new ListBuffer[SoundEvent]
+	private var newnames = new ListBuffer[ResourceLocation]
 	def addSound(domain: BDomain, name: String): WSound = {
 		val fullname = s"${domain.name}_$name"
 		val location = new ResourceLocation(IaS3.MODID, fullname)
 		val soundevent = new SoundEvent(location)
-		if(newsounds != null) {
-			newsounds += soundevent
+		if(newsounds != null && newnames != null) {
 			ContentLists.soundname.add(fullname)
-			WSound(soundevent)
+			val retval = WSound(soundevent)
+			newsounds += soundevent
+			newnames += location
+			retval
 		} else {
 			IaS3.bug(domain, "Attempt add a sound name too late.")
 			WSound.silent
@@ -42,8 +45,9 @@ object WSound {
 	}
 	private[iceandshadow3] def freeze(): Iterable[SoundEvent] = {
 		val retval = newsounds
-		for(sound <- retval) sound.setRegistryName(sound.getName)
+		for(i <- newsounds.indices) newsounds(i).setRegistryName(newnames(i))
 		newsounds = null
+		newnames = null
 		retval
 	}
 	def apply(id: String): WSound =

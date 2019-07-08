@@ -9,10 +9,10 @@ import mod.iceandshadow3.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3}
 import mod.iceandshadow3.util.Color
 
 abstract class BDimension(val name: String) extends BBiome {
-	var isEnabled = false
-	private var _coord: WDimensionCoord = _
+	private var _coord: WDimensionCoord = WDimensionCoord.VOID
+	def isEnabled = _coord != WDimensionCoord.VOID
 	def coord = _coord
-	def coord_= (where: WDimensionCoord): Unit = {_coord = where; isEnabled = true;}
+	def coord_= (where: WDimensionCoord): Unit = {_coord = Option(where).getOrElse(WDimensionCoord.VOID)}
 
 	def getRespawnDim: WDimensionCoord
 	def getWorldSpawn(world: TWWorld): IPosBlock

@@ -28,7 +28,7 @@ gradle
 # Other
 *.jar
 eclipse
-run
+run/*
 sandbox
 .*/*
 
@@ -37,3 +37,6 @@ CREDITS.txt
 changelog.txt
 forge*.zip
 forge*changelog.txt
+
+# Whitelist
+!run/server.properties
