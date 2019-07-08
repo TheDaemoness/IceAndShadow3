@@ -52,17 +52,4 @@ private[iceandshadow3] object InitCommon {
 	def enableDimensions(): Unit = {
 		for (dim <- dimensionsWrapped) dim.enable()
 	}
-
-	def primeDimensions(server: MinecraftServer): Unit = {
-		//class RestartRequired extends RuntimeException("Please restart the dedicated server.") {}
-		var foundOne = false
-		for (dim <- dimensionsWrapped) {
-			val iasdim = dim.getIaSDimension
-			if (!iasdim.isEnabled) {
-				dim.enable()
-				foundOne = true
-			}
-		}
-		//if (foundOne && fatal) throw new RestartRequired
-	}
 }

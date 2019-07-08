@@ -59,7 +59,7 @@ public class AModDimension extends ModDimension {
 				null, //TODO: Can be null, but probably shouldn't.
 				dimlogic.getSkyBrightness(-1f) >= 0f
 			);
-		}
+		} else IaS3.logger().debug("Dimension "+name+" is already enabled. Using registry value.");
 		dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
 	}
 

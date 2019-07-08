@@ -3,11 +3,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-@DisplayName("Tests for general mistakes in mod metadata.")
+@DisplayName("Tests for general mistakes in metadata + configuration files in the repo.")
 class TestsMetadata {
 	@DisplayName("update.json should contain the version in the processed mods.toml")
 	@Test
@@ -35,6 +36,16 @@ class TestsMetadata {
 			}
 		}
 		fail("update.json needs to contain the version "+versioninfo+".");
+	}
+
+	@DisplayName("The bundled server.properties should not include comments")
+	@Test
+	void serverPropertiesCleaned() {
+		try(final Scanner serverfile = new Scanner(new File("../../run/server.properties"))) {
+			while(serverfile.hasNextLine()) {
+				if(serverfile.nextLine().charAt(0) == '#') fail("Remove any full-line comments from server.properties!");
+			}
+		} catch (IOException e) { /* No readable server.properties? No problem. */ }
 	}
 
 }

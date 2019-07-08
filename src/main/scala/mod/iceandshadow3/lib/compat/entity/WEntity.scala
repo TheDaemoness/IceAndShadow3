@@ -37,13 +37,16 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 		entity.setPositionAndUpdate(newpos.xDouble, newpos.yDouble, newpos.zDouble)
 	}
 
-	def teleport(dim: WDimensionCoord): Unit = entity.changeDimension(dim.dimtype)
-
-	def teleport(dim: BDimension): Unit = {
-		if (!dim.isEnabled) {
-			IaS3.bug(new NullPointerException, s"Attempted to teleport to a disabled BDimension $dim.")
-		} else teleport(dim.coord)
+	def teleport(dim: WDimensionCoord): Unit = {
+		if(isServerSide) {
+			if(WDimensionCoord.isVoid(dim)) IaS3.bug(
+				"Caller of teleport",
+				"Passed an invalid dimension to teleport. Is the desired dimension enabled?"
+			) else entity.changeDimension(dim.dimtype)
+		}
 	}
+
+	def teleport(dim: BDimension): Unit = teleport(dim.coord)
 
 	def impulse(x: Double, y: Double, z: Double): Unit = entity.addVelocity(x, y, z)
 	def slow(x: Double, y: Double, z: Double): Unit = {

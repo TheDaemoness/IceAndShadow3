@@ -17,6 +17,7 @@ case class WDimensionCoord(dimtype: DimensionType) {
   def worldIs(entity: Entity) = entity.dimension  == this.dimtype
 }
 object WDimensionCoord {
+  def isVoid(what: WDimensionCoord) = what == null || what == VOID
   val VOID = new WDimensionCoord(null) {
     override val isVanilla = false
     override val resourceLocation = new ResourceLocation("", "")
