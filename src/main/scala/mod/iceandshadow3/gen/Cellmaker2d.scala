@@ -23,15 +23,6 @@ class Cellmaker2d(
 		val z = rng.nextInt(scale) + Cellmaker.cellEdge(scale, zCell)
 		PairXZ(x,z)
 	}
-	val cache = CacheBuilder.newBuilder().
-		expireAfterWrite(1, TimeUnit.MINUTES).maximumSize(25).build(
-		new CacheLoader[PairXZ, PairXZ] {
-			override def load(key: PairXZ) = {
-				val rng = new RandomXZ(seed, mod, key.x, key.z)
-				cellToPoint(key.x, key.z, rng)
-			}
-		}
-	)
 	def getInverseWeightForCell(xCell:Int, zCell:Int): Double = 1d
 	def apply(x: Int, z: Int): Result = apply(x, z, 1, 1)(x, z)
 	def apply(
@@ -49,7 +40,7 @@ class Cellmaker2d(
 			val result = new Result()
 			for(xit <- xCellBase-1 to xCellBase+1) {
 				for(zit <- zCellBase-1 to zCellBase+1) {
-					val point = cache.get(PairXZ(xit, zit))
+					val point = cellToPoint(xit, zit, new RandomXZ(seed, mod, xit, zit))
 					val xDelta = point.x - x
 					val zDelta = point.z - z
 					val distance = (xDelta*xDelta + zDelta*zDelta) * getInverseWeightForCell(xit, zit)

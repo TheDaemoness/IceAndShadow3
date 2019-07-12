@@ -25,16 +25,17 @@ public class IntBitUtils {
 	}
 
 	private static long spreadBits(int value) {
-		final long init = Integer.toUnsignedLong(value);
-		long retval = 0;
-		for(int i = 31; i >= 0; --i) {
-			long mask = 1L << i;
-			retval |= (init & mask) << i;
-		}
+		//Ripped from https://lemire.me/blog/2018/01/08/how-fast-can-you-bit-interleave-32-bit-integers/
+		long retval = Integer.toUnsignedLong(value);
+		retval = (retval^(retval << 16)) & 0x0000ffff0000ffffL;
+		retval = (retval^(retval <<  8)) & 0x00ff00ff00ff00ffL;
+		retval = (retval^(retval <<  4)) & 0x0f0f0f0f0f0f0f0fL;
+		retval = (retval^(retval <<  2)) & 0x3333333333333333L;
+		retval = (retval^(retval <<  1)) & 0x5555555555555555L;
 		return retval;
 	}
 
 	public static long mixIntBits(int higher, int lower) {
-		return spreadBits(higher) << 1 | spreadBits(lower);
+		return (spreadBits(higher) << 1) | spreadBits(lower);
 	}
 }
