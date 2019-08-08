@@ -1,10 +1,10 @@
 package mod.iceandshadow3.lib
 
 import mod.iceandshadow3.ContentLists
+import mod.iceandshadow3.lib.base.INamed
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
-import mod.iceandshadow3.lib.util.INamed
-import mod.iceandshadow3.util.{Color, E3vl}
+import mod.iceandshadow3.lib.util.{Color, E3vl}
 
 sealed abstract class StatusEffect extends BinderStatusEffect.TKey {}
 

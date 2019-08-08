@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.subtype.LogicItemChameleon
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack, WUseContext}
 import mod.iceandshadow3.lib.compat.misc.ResourceMap
-import mod.iceandshadow3.util.E3vl
+import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainAlien
 
 object LIFrozen {

@@ -5,7 +5,7 @@ package mod.iceandshadow3;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
-import mod.iceandshadow3.lib.util.BLogic;
+import mod.iceandshadow3.lib.base.BLogic;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -6,8 +6,8 @@ import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WDimension
 import mod.iceandshadow3.damage.Attack
-import mod.iceandshadow3.spatial.{IVec3, Vec3Mutable}
-import mod.iceandshadow3.util.collect.{IteratorConcat, IteratorEmpty}
+import mod.iceandshadow3.lib.spatial.{IVec3, Vec3Mutable}
+import mod.iceandshadow3.lib.util.collect.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.potion.EffectInstance

@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.compat.world
 import mod.iceandshadow3.lib.compat.block.WBlockRef
 import mod.iceandshadow3.lib.compat.block.`type`.BBlockType
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.spatial.{IPosColumn, IVec3}
+import mod.iceandshadow3.lib.spatial.{IPosColumn, IVec3}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{Difficulty, IWorld}
 

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib
 
-import mod.iceandshadow3.lib.util.{BLogic, TLootable}
+import mod.iceandshadow3.lib.base.{BLogic, TLootable}
 
 sealed abstract class BLogicCommonEntity(dom: BDomain, name: String) extends BLogic(dom, name) {
 	def canBurn: Boolean

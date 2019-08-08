@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.world
 
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
-import mod.iceandshadow3.spatial.IPositionalCoarse
+import mod.iceandshadow3.lib.spatial.IPositionalCoarse
 import net.minecraft.world.LightType
 
 trait TWWorldPlace extends TWWorld {

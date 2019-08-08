@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.compat.util.IWrapper
-import mod.iceandshadow3.util.collect.IteratorConcat
+import mod.iceandshadow3.lib.util.collect.IteratorConcat
 import net.minecraft.util.Direction
 
 import scala.jdk.CollectionConverters._

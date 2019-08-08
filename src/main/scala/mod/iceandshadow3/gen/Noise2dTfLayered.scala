@@ -1,6 +1,6 @@
 package mod.iceandshadow3.gen
 
-import mod.iceandshadow3.util.collect.FixedMap2d
+import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 class Noise2dTfLayered(val maxheight: Int, sources: INoise2d*) extends INoise2d {
 	override def apply(xFrom: Int, zFrom: Int, xWidth: Int = 1, zWidth: Int = 1): FixedMap2d[Double] = {

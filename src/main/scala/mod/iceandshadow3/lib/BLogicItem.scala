@@ -6,7 +6,7 @@ import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.{BCompatLogicItem, BinderItem}
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
-import mod.iceandshadow3.util.E3vl
+import mod.iceandshadow3.lib.util.E3vl
 
 sealed abstract class BLogicItem(dom: BDomain, name: String)
 	extends BCompatLogicItem(dom, name)

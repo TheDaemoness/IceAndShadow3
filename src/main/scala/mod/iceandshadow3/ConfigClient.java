@@ -1,7 +1,7 @@
 package mod.iceandshadow3;
 
 import mod.iceandshadow3.config.ConfigReflective;
-import mod.iceandshadow3.data.DatumBool;
+import mod.iceandshadow3.lib.data.DatumBool;
 
 //IMPORTANT: DO NOT TRANSLATE TO SCALA!
 public class ConfigClient extends ConfigReflective {

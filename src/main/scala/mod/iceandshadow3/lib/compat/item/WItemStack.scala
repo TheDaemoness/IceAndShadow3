@@ -1,18 +1,17 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.util.{ILogicItemProvider, LogicPair}
+import mod.iceandshadow3.lib.base.{ILogicItemProvider, LogicPair}
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
-import mod.iceandshadow3.data.INbtRW
 import mod.iceandshadow3.lib.compat.util.{IWrapperDefault, SRandom, TLocalized, TWLogical}
-import mod.iceandshadow3.util.Casting._
+import mod.iceandshadow3.lib.data.INbtRW
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.inventory.IInventory
-import net.minecraft.item.{Item, ItemStack, PotionItem, UseAction}
+import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.{CompoundNBT, INBT}
 import net.minecraft.tileentity.AbstractFurnaceTileEntity
 import net.minecraft.util.IItemProvider
@@ -77,6 +76,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 		val is = this.is.get //Warning: shadowing.
 		//TODO: There's no reason why IaS3 items can't have an override for this.
 		if(is.isDamageable) {
+			import mod.iceandshadow3.lib.util.Casting._
 			val dmg = Math.max(0, getDamageMax - getDamage - count) //Intended: ignoring the actual durability increase.
 			val multiplayer = cast[ServerPlayerEntity](owner).orNull
 			if (is.attemptDamageItem(count, SRandom.getRNG(owner), multiplayer)) {

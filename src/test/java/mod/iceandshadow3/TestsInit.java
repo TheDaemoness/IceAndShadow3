@@ -1,6 +1,6 @@
 package mod.iceandshadow3;
 
-import mod.iceandshadow3.lib.util.INamed;
+import mod.iceandshadow3.lib.base.INamed;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

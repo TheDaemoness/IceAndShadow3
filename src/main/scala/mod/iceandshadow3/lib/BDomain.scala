@@ -1,9 +1,9 @@
 package mod.iceandshadow3.lib
 
-import mod.iceandshadow3.lib.util.TLogicProvider
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.damage.EDeathPolicy
-import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.lib.base.TLogicProvider
+import mod.iceandshadow3.lib.util.Color
 import mod.iceandshadow3.multiverse.DomainAlien
 
 /** A collection of lore-related blocks/items/mobs/etc.

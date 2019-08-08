@@ -1,12 +1,12 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.util.ILogicBlockProvider
 import mod.iceandshadow3.damage.Attack
+import mod.iceandshadow3.lib.base.ILogicBlockProvider
 import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, IWrapperDefault, TEffectSource, TWLogical}
 import mod.iceandshadow3.lib.compat.world.WSound
-import mod.iceandshadow3.spatial.{IPosBlock, IPositionalFine}
+import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.math.BlockPos

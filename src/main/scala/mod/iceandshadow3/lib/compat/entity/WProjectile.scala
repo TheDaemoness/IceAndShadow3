@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.entity
 
-import mod.iceandshadow3.spatial.IVec3
+import mod.iceandshadow3.lib.spatial.IVec3
 import net.minecraft.entity.{Entity, IProjectile}
 
 //NOTE: Doesn't cover fireballs.

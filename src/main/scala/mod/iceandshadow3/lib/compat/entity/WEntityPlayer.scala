@@ -5,9 +5,9 @@ import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.compat.item.{WInventory, WItemStack}
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized}
 import mod.iceandshadow3.lib.compat.world.{WDimension, WDimensionCoord}
-import mod.iceandshadow3.spatial.IVec3
-import mod.iceandshadow3.util.E3vl
-import mod.iceandshadow3.util.collect.IteratorConcat
+import mod.iceandshadow3.lib.spatial.IVec3
+import mod.iceandshadow3.lib.util.E3vl
+import mod.iceandshadow3.lib.util.collect.IteratorConcat
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation

@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.compat.world.{WDimensionCoord, WWorld}
-import mod.iceandshadow3.spatial.IVec3
+import mod.iceandshadow3.lib.spatial.IVec3
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity

@@ -7,8 +7,8 @@ import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WDimensionCoord}
 import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, TEffectSource}
-import mod.iceandshadow3.spatial.{IPositionalFine, IVec3}
-import mod.iceandshadow3.util.collect.IteratorEmpty
+import mod.iceandshadow3.lib.spatial.{IPositionalFine, IVec3}
+import mod.iceandshadow3.lib.util.collect.IteratorEmpty
 import net.minecraft.entity.Entity
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.world.LightType

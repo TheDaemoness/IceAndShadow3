@@ -1,9 +1,10 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import mod.iceandshadow3.gen.Cellmaker.Result
-import mod.iceandshadow3.gen.{Cellmaker, Cellmaker3d}
-import mod.iceandshadow3.util.MathUtils
-import mod.iceandshadow3.util.collect.FixedMap2d
+import mod.iceandshadow3.lib.spatial.Cells.Result
+import mod.iceandshadow3.gen.Cellmaker3d
+import mod.iceandshadow3.lib.spatial.Cells
+import mod.iceandshadow3.lib.util.MathUtils
+import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 class CsNyxIsleStandard(noises: NoisesNyx, cells: FixedMap2d[Result])
 	extends BCsNyxIsleMountain(noises, cells)
@@ -13,8 +14,8 @@ class CsNyxIsleStandard(noises: NoisesNyx, cells: FixedMap2d[Result])
 	def yFissureFull = 148
 
 	private def combine(a: Cellmaker3d, b: Cellmaker3d, limit: Int, fn: (Double, Double) => Float) = {
-		val resultsA = a(xFrom, 0, zFrom, xWidth, limit, zWidth, Cellmaker.distance)
-		val resultsB = b(xFrom, 0, zFrom, xWidth, limit, zWidth, Cellmaker.distance)
+		val resultsA = a(xFrom, 0, zFrom, xWidth, limit, zWidth, Cells.distance)
+		val resultsB = b(xFrom, 0, zFrom, xWidth, limit, zWidth, Cells.distance)
 		new FixedMap2d[Array[Float]](xFrom, zFrom, xWidth, zWidth, (x, z) => {
 			Array.tabulate[Float](limit)(y => fn(resultsA(x, y, z), resultsB(x, y, z)))
 		})

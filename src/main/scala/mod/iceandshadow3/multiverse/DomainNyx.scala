@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.lib.subtype.LogicItemTwoForm
-import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.lib.util.Color
 import mod.iceandshadow3.multiverse.nyx._
 
 object DomainNyx extends BDomain("nyx") {

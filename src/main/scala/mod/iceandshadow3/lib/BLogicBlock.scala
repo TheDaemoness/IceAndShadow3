@@ -3,9 +3,9 @@ package mod.iceandshadow3.lib
 import java.util.Random
 
 import mod.iceandshadow3.ContentLists
+import mod.iceandshadow3.lib.base.TLootable
 import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple}
-import mod.iceandshadow3.lib.util.TLootable
 import mod.iceandshadow3.lib.compat.block.impl.{BCompatLogicBlock, BMateria, BinderBlock}
 import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity

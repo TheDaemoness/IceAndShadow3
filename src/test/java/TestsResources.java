@@ -4,7 +4,7 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
-import mod.iceandshadow3.lib.util.BLogic;
+import mod.iceandshadow3.lib.base.BLogic;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.json.JSONException;
 import org.json.JSONObject;

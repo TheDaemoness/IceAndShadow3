@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.misc
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.data._
+import mod.iceandshadow3.lib.data._
 import net.minecraft.nbt._
 
 class WNbtTree(val root: CompoundNBT)

@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.forge.bait
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.util.{LogicPair, LogicTriad}
+import mod.iceandshadow3.lib.base.{LogicPair, LogicTriad}
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner

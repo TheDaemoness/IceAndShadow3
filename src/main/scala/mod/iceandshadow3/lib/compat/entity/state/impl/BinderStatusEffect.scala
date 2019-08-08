@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.entity.state.impl
 
+import mod.iceandshadow3.lib.util.collect.BinderLazy
 import mod.iceandshadow3.lib.{BStatusEffect, StatusEffect}
-import mod.iceandshadow3.util.collect.BinderLazy
 import net.minecraft.potion.Effect
 
 private[lib] object BinderStatusEffect

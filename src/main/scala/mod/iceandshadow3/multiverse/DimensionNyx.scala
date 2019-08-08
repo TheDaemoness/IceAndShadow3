@@ -7,8 +7,8 @@ import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlaye
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
-import mod.iceandshadow3.spatial.{IPosBlock, IPosColumn, IVec3, UnitVec3s}
-import mod.iceandshadow3.util.{Color, MathUtils}
+import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3, UnitVec3s}
+import mod.iceandshadow3.lib.util.{Color, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldSourceNyx}
 import mod.iceandshadow3.multiverse.misc.Statuses
 

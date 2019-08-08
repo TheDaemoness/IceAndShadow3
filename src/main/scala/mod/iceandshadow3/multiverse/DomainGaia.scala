@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse
 import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.subtype.{LogicBlockOfMateria, LogicItemTwoForm}
 import mod.iceandshadow3.lib.compat.item.WRarity
-import mod.iceandshadow3.util.{Color, E3vl}
+import mod.iceandshadow3.lib.util.{Color, E3vl}
 import mod.iceandshadow3.multiverse.gaia._
 
 object DomainGaia extends BDomain("gaia") {

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib
 
-import mod.iceandshadow3.data._
+import mod.iceandshadow3.lib.data._
 
 /** Class for storing data that normally gets loaded from/written to NBT.
 	*/

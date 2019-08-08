@@ -3,12 +3,10 @@ package mod.iceandshadow3.gen
 // ~~Makes cells for someone to dwell in.~~
 
 import java.util.Random
-import java.util.concurrent.TimeUnit
 
-import mod.iceandshadow3.spatial.{PairXZ, RandomXZ}
-import Cellmaker._
-import com.google.common.cache.{CacheBuilder, CacheLoader}
-import mod.iceandshadow3.util.collect.FixedMap2d
+import mod.iceandshadow3.lib.spatial.Cells._
+import mod.iceandshadow3.lib.spatial.{Cells, PairXZ, RandomXZ}
+import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 import scala.reflect.ClassTag
 
@@ -19,8 +17,8 @@ class Cellmaker2d(
 ) {
 	protected val scaleInv = 1f/scale
 	def cellToPoint(xCell: Int, zCell: Int, rng: Random): PairXZ = {
-		val x = rng.nextInt(scale) + Cellmaker.cellEdge(scale, xCell)
-		val z = rng.nextInt(scale) + Cellmaker.cellEdge(scale, zCell)
+		val x = rng.nextInt(scale) + Cells.cellEdge(scale, xCell)
+		val z = rng.nextInt(scale) + Cells.cellEdge(scale, zCell)
 		PairXZ(x,z)
 	}
 	def getInverseWeightForCell(xCell:Int, zCell:Int): Double = 1d
@@ -35,8 +33,8 @@ class Cellmaker2d(
 		transform: Result => T
 	): FixedMap2d[T] = {
 		new FixedMap2d[T](xFrom, zFrom, xWidth, zWidth, (x: Int, z: Int) => {
-			val xCellBase = Cellmaker.rescale(x, scale)
-			val zCellBase = Cellmaker.rescale(z, scale)
+			val xCellBase = Cells.rescale(x, scale)
+			val zCellBase = Cells.rescale(z, scale)
 			val result = new Result()
 			for(xit <- xCellBase-1 to xCellBase+1) {
 				for(zit <- zCellBase-1 to zCellBase+1) {

@@ -1,9 +1,9 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple}
+import mod.iceandshadow3.lib.compat.block.`type`.BBlockType
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
-import mod.iceandshadow3.spatial.{IPosBlock, IVec3}
+import mod.iceandshadow3.lib.spatial.IPosBlock
 import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IWorld

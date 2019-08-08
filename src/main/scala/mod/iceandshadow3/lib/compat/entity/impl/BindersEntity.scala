@@ -3,8 +3,8 @@ package mod.iceandshadow3.lib.compat.entity.impl
 //WARNING: ELDRITCH CODE.
 
 import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.lib.util.collect.BinderLazy
 import mod.iceandshadow3.lib.{BLogicCommonEntity, BLogicEntity, BLogicMob, BLogicProjectile}
-import mod.iceandshadow3.util.collect.BinderLazy
 import net.minecraft.entity.{Entity, EntityClassification, EntityType}
 import net.minecraft.world.World
 

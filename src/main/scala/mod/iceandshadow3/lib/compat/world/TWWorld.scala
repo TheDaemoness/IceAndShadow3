@@ -2,9 +2,8 @@ package mod.iceandshadow3.lib.compat.world
 
 import mod.iceandshadow3.lib.ParticleType
 import mod.iceandshadow3.lib.compat.client.impl.BinderParticle
-import mod.iceandshadow3.spatial.{IPosBlock, IPosColumn, IVec3}
+import mod.iceandshadow3.lib.spatial.{IPosColumn, IVec3}
 import net.minecraft.world.IWorld
-import net.minecraft.world.gen.Heightmap
 
 /** Base trait for world references.
   * Written under the realization that under current design, several other references can also function as world references.

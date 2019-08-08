@@ -4,12 +4,12 @@ import java.util.Random
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple, BlockTypeSnow}
-import mod.iceandshadow3.gen.Cellmaker.Result
-import mod.iceandshadow3.gen.{BChunkSource, Cellmaker}
+import mod.iceandshadow3.lib.spatial.Cells.Result
+import mod.iceandshadow3.gen.BChunkSource
+import mod.iceandshadow3.lib.spatial.{Cells, RandomXZ}
+import mod.iceandshadow3.lib.util.MathUtils
+import mod.iceandshadow3.lib.util.collect.FixedMap2d
 import mod.iceandshadow3.multiverse.DomainNyx
-import mod.iceandshadow3.spatial.RandomXZ
-import mod.iceandshadow3.util.MathUtils
-import mod.iceandshadow3.util.collect.FixedMap2d
 
 object BCsNyxIsle {
 	import mod.iceandshadow3.multiverse.DomainGaia.Blocks._
@@ -34,7 +34,7 @@ abstract class BCsNyxIsle(noises: NoisesNyx, protected val cells: FixedMap2d[Res
 
 	override def getColumn(x: Int, z: Int): Array[BBlockType] = {
 		val cell = cells(x, z)
-		val islelevel = 1-Cellmaker.distance(cell)
+		val islelevel = 1-Cells.distance(cell)
 		val finalheight = genHeight(islelevel, x, z)
 		val colRng = new RandomXZ(noises.seed, 31920, x, z)
 		val colNoise = colRng.nextInt(2)

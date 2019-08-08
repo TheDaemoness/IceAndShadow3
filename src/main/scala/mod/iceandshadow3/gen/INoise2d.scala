@@ -1,6 +1,6 @@
 package mod.iceandshadow3.gen
 
-import mod.iceandshadow3.util.collect.FixedMap2d
+import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 trait INoise2d {
 	def apply(x: Int, z: Int): Double = apply(x,z,1,1)(x,z)

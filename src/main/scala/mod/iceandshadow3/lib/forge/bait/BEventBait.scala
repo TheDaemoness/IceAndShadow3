@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.forge.bait
 
-import mod.iceandshadow3.lib.util.{BLogic, LogicTriad}
+import mod.iceandshadow3.lib.base.{BLogic, LogicTriad}
 import mod.iceandshadow3.lib.compat.util.TWLogical
 import mod.iceandshadow3.lib.forge.BEventHandler
 import mod.iceandshadow3.lib.forge.fish.TEventFish

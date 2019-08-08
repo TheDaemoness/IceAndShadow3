@@ -8,10 +8,10 @@ import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WProjectile}
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeExousic}
 import mod.iceandshadow3.lib.compat.block.impl.BMateriaPlasma
-import mod.iceandshadow3.spatial.UnitVec3s
+import mod.iceandshadow3.lib.spatial.UnitVec3s
+import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.misc.{Particles, Statuses}
-import mod.iceandshadow3.util.E3vl
 
 class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasma {
 	override def getName = "exousia"

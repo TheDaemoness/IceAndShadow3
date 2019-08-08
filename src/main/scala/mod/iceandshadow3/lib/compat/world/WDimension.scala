@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.world
 
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
-import mod.iceandshadow3.spatial.IVec3
+import mod.iceandshadow3.lib.spatial.IVec3
 import net.minecraft.world.dimension.Dimension
 
 /** Wrapper for Dimension.

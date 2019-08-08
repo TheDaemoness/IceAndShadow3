@@ -5,7 +5,7 @@ import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.spatial.IPosBlock
+import mod.iceandshadow3.lib.spatial.IPosBlock
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
 import net.minecraftforge.registries.ForgeRegistries
 

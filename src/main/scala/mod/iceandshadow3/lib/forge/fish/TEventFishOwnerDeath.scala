@@ -2,7 +2,7 @@ package mod.iceandshadow3.lib.forge.fish
 
 import mod.iceandshadow3.lib.{BLogicItem, BStateData}
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.util.E3vl
+import mod.iceandshadow3.lib.util.E3vl
 
 trait TEventFishOwnerDeath extends TEventFishOwner {
   this: BLogicItem =>

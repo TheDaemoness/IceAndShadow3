@@ -15,7 +15,7 @@ For everyone else, it's recommended to have a look a the READMEs in each package
 
 ## Type Usage Restrictions
 This is important to understand why parts of the codebase are fairly convoluted
-(e.g. all extensions of `mod.iceandshadow3.lib.util.BLogic`).
+(e.g. all extensions of `mod.iceandshadow3.lib.base.BLogic`).
 
 Unless a package's README specifies otherwise, anything originating from one of the following packages
 (or subpackages thereof):

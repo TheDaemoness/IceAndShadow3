@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib
 
-import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.lib.util.Color
 
 abstract class BBiome {
 	def baseDownfall: Float

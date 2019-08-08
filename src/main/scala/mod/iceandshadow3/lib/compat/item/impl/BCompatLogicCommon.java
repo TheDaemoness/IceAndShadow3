@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.lib.BDomain;
-import mod.iceandshadow3.lib.util.BLogic;
+import mod.iceandshadow3.lib.base.BLogic;
 import net.minecraft.item.Item;
 
 public abstract class BCompatLogicCommon extends BLogic {

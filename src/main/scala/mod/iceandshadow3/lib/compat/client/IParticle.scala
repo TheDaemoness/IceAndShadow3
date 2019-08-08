@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.client
 
-import mod.iceandshadow3.spatial.IVec3
-import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.lib.spatial.IVec3
+import mod.iceandshadow3.lib.util.Color
 
 trait IParticle {
 	def iasSetColor(color: Color): Unit

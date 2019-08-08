@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.client.impl
 
+import mod.iceandshadow3.lib.util.collect.BinderLazy
 import mod.iceandshadow3.lib.{BParticleType, ParticleType}
-import mod.iceandshadow3.util.collect.BinderLazy
 import net.minecraft.particles.{IParticleData, ParticleTypes}
 
 object BinderParticle extends BinderLazy[ParticleType, BParticleType, IParticleData]({

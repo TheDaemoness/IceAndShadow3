@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.misc
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.util.collect.StringMap
+import mod.iceandshadow3.lib.util.collect.StringMap
 import net.minecraft.util.ResourceLocation
 
 /** Resource location map for NON-IAS resources.

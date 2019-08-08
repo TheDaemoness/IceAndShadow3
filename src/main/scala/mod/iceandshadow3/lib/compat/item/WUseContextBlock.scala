@@ -1,9 +1,9 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
+import mod.iceandshadow3.lib.base.LogicPair
 import mod.iceandshadow3.lib.compat.block.WBlockRef
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.lib.util.LogicPair
 import net.minecraft.item.{BlockItemUseContext, ItemUseContext}
 
 class WUseContextBlock(lp: LogicPair[BLogicItem], c: ItemUseContext)

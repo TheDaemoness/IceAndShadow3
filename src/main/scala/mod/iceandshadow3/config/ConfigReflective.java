@@ -1,7 +1,7 @@
 package mod.iceandshadow3.config;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.data.ITextLineRW;
+import mod.iceandshadow3.lib.data.ITextLineRW;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

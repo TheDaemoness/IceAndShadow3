@@ -1,8 +1,8 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import mod.iceandshadow3.gen.Cellmaker.Result
-import mod.iceandshadow3.util.MathUtils
-import mod.iceandshadow3.util.collect.{FixedMap2d, UniSeq}
+import mod.iceandshadow3.lib.spatial.Cells.Result
+import mod.iceandshadow3.lib.util.MathUtils
+import mod.iceandshadow3.lib.util.collect.{FixedMap2d, UniSeq}
 
 class CsNyxIsleCentral(noises: NoisesNyx, cells: FixedMap2d[Result])
 	extends BCsNyxIsleMountain(noises, cells)

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.damage;
 
-import mod.iceandshadow3.util.MathUtils$;
+import mod.iceandshadow3.lib.util.MathUtils$;
 
 public enum EDeathPolicy {
 	ERASE_LOW(Effect.ERASE), 

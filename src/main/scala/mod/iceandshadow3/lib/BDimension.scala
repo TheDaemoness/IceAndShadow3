@@ -5,8 +5,8 @@ import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
 import mod.iceandshadow3.gen.BWorldSource
-import mod.iceandshadow3.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3}
-import mod.iceandshadow3.util.Color
+import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3}
+import mod.iceandshadow3.lib.util.Color
 
 abstract class BDimension(val name: String) extends BBiome {
 	private var _coord: WDimensionCoord = WDimensionCoord.VOID

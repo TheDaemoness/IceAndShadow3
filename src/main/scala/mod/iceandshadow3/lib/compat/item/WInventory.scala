@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.item.IItemStorage
-import mod.iceandshadow3.util.E3vl
+import mod.iceandshadow3.lib.util.E3vl
 import net.minecraft.entity.LivingEntity
 import net.minecraft.inventory.IInventory
 

@@ -2,9 +2,9 @@ package mod.iceandshadow3.gen
 
 import java.util.Random
 
-import mod.iceandshadow3.spatial.{RandomXYZ, TriadXYZ}
-import Cellmaker._
-import mod.iceandshadow3.util.collect.FixedMap3d
+import mod.iceandshadow3.lib.spatial.Cells._
+import mod.iceandshadow3.lib.spatial.{Cells, RandomXYZ, TriadXYZ}
+import mod.iceandshadow3.lib.util.collect.FixedMap3d
 
 import scala.reflect.ClassTag
 
@@ -35,12 +35,12 @@ class Cellmaker3d(
 		xWidth: Int, yWidth: Int, zWidth: Int,
 		transform: Result => T
 	): FixedMap3d[T] = {
-		val xCellLowest = Cellmaker.rescale(xFrom, scaleXZ)
-		val yCellLowest = Cellmaker.rescale(yFrom, scaleY)
-		val zCellLowest = Cellmaker.rescale(zFrom, scaleXZ)
-		val xCellCount = Cellmaker.rescale(xFrom+xWidth, scaleXZ)-xCellLowest+1
-		val yCellCount = Cellmaker.rescale(yFrom+yWidth, scaleY)-yCellLowest+1
-		val zCellCount = Cellmaker.rescale(zFrom+zWidth, scaleXZ)-zCellLowest+1
+		val xCellLowest = Cells.rescale(xFrom, scaleXZ)
+		val yCellLowest = Cells.rescale(yFrom, scaleY)
+		val zCellLowest = Cells.rescale(zFrom, scaleXZ)
+		val xCellCount = Cells.rescale(xFrom+xWidth, scaleXZ)-xCellLowest+1
+		val yCellCount = Cells.rescale(yFrom+yWidth, scaleY)-yCellLowest+1
+		val zCellCount = Cells.rescale(zFrom+zWidth, scaleXZ)-zCellLowest+1
 		val cells = new FixedMap3d[TriadXYZ](
 			xCellLowest-1, yCellLowest-1, zCellLowest-1,
 			xCellCount+2, yCellCount+2, zCellCount+2,
@@ -49,9 +49,9 @@ class Cellmaker3d(
 			cellToPoint(xit, yit, zit, rng)
 		})
 		new FixedMap3d[T](xFrom, yFrom, zFrom, xWidth, yWidth, zWidth, (x: Int, y: Int, z: Int) => {
-			val xCellBase = Cellmaker.rescale(x, scaleXZ)
-			val yCellBase = Cellmaker.rescale(y, scaleY)
-			val zCellBase = Cellmaker.rescale(z, scaleXZ)
+			val xCellBase = Cells.rescale(x, scaleXZ)
+			val yCellBase = Cells.rescale(y, scaleY)
+			val zCellBase = Cells.rescale(z, scaleXZ)
 			val result = new Result()
 			for(yit <- yCellBase-1 to yCellBase+1) {
 				for(xit <- xCellBase-1 to xCellBase+1) {
