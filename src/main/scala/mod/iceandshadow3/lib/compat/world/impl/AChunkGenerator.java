@@ -2,9 +2,10 @@ package mod.iceandshadow3.lib.compat.world.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BDimension;
+import mod.iceandshadow3.lib.base.BWorldGen;
+import mod.iceandshadow3.lib.compat.block.WBlockRef;
 import mod.iceandshadow3.lib.compat.block.type.BBlockType;
-import mod.iceandshadow3.gen.BChunkSource;
-import mod.iceandshadow3.gen.BWorldSource;
+import mod.iceandshadow3.lib.compat.world.BRegionRef;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -25,38 +26,40 @@ import java.util.List;
 public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 	private final long seed;
 	private final BDimension dim;
-	private final BWorldSource realworldgen;
+	private final BWorldGen realworldgen;
 
 	AChunkGenerator(World w, BDimension dim, ABiome dimbiome) {
 		super(w, new ABiomeProvider(dimbiome), AGenerationSettings.instance);
 		this.seed = w.getSeed();
 		this.dim = dim;
-		this.realworldgen = dim.getWorldSource(seed);
+		this.realworldgen = dim.getWorldGen(seed);
 	}
 
 	// WORLDGENERATION LOGIC HERE!
 
 	@Override
 	public void generateSurface(@Nonnull IChunk chunk) {
-		BlockPos.MutableBlockPos mbp = new BlockPos.MutableBlockPos();
 		ChunkPos cp = chunk.getPos();
-		int xFirst = cp.getXStart(), zFirst = cp.getZStart();
-		int xLast = cp.getXEnd(), zLast = cp.getZEnd();
+		final int
+			xFirst = cp.getXStart(),
+			zFirst = cp.getZStart(),
+			xLast = cp.getXEnd(),
+			zLast = cp.getZEnd();
 		try {
-			BChunkSource bcs = realworldgen.getTerrainChunk(
-				xFirst, zFirst,
-				xLast - xFirst + 1, zLast - zFirst + 1
-			);
-			for (int xit = xFirst; xit <= xLast; ++xit) {
-				for (int zit = zFirst; zit <= zLast; ++zit) {
-					final BBlockType[] column = bcs.getColumn(xit, zit);
-					for (int yit = 0; yit < 256; ++yit) {
-						mbp.setPos(xit, yit, zit);
-						BBlockType bt = column[yit];
-						chunk.setBlockState(mbp, (bt != null ? bt : bcs.getDefault(yit)).state(), false);
-					}
+			realworldgen.write(new BRegionRef(xFirst, zFirst, xLast, zLast) {
+				final private BlockPos.MutableBlockPos mbp = new BlockPos.MutableBlockPos();
+				@Override
+				public void update(int xBlock, int yBlock, int zBlock, BBlockType newtype) {
+					mbp.setPos(xBlock, yBlock, zBlock);
+					chunk.setBlockState(mbp, newtype.state(), false);
 				}
-			}
+
+				@Override
+				public WBlockRef apply(int xBlock, int yBlock, int zBlock) {
+					final BlockPos pos = new BlockPos(xBlock, yBlock, zBlock);
+					return new WBlockRef(chunk, pos, chunk.getBlockState(pos));
+				}
+			});
 		} catch(Exception e) {
 			IaS3.bug(e, "Worldgen failure on "+dim.name());
 		}

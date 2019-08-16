@@ -1,10 +1,20 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import mod.iceandshadow3.gen.{Cellmaker3d, Noise2dCell, Noise2dTfLayered}
+import java.util.Random
+
+import mod.iceandshadow3.gen.{Cellmaker2d, Cellmaker3d, Noise2dCell, Noise2dTfLayered}
+import mod.iceandshadow3.lib.spatial.PairXZ
 
 /** A collection of all the number generators Nyx worldgen is likely to need.
 	*/
 class NoisesNyx(val seed: Long) {
+	val isleMaker = new Cellmaker2d(seed, 9967, 1200) {
+		override def cellToPoint(xCell: Int, zCell: Int, rng: Random) = {
+			if (xCell == 0 && zCell == 0) PairXZ(0, 0)
+			else super.cellToPoint(xCell, zCell, rng)
+		}
+	}
+
 	val noisemakerDip = new Noise2dTfLayered(1,
 		new Noise2dCell(seed, 4921, 45),
 		new Noise2dCell(seed, 1936, 60)

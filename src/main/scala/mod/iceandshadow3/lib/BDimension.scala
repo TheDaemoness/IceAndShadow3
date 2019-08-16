@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.compat.block.WBlockView
 import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
-import mod.iceandshadow3.gen.BWorldSource
+import mod.iceandshadow3.lib.base.BWorldGen
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3}
 import mod.iceandshadow3.lib.util.Color
 
@@ -40,7 +40,7 @@ abstract class BDimension(val name: String) extends BBiome {
 	def handleArrival(world: WWorld, who: WEntity): IVec3
 	def handleEscape(who: WEntity, where: WDimensionCoord): Boolean = true
 
-	def getWorldSource(seed: Long): BWorldSource
+	def getWorldGen(seed: Long): BWorldGen
 
 	def brightnessTable(lightBrightnessTable: Array[Float]): Unit
   def modifyLightmap(lightSky: Float, lightBlock: Float, color: Color): Color = color

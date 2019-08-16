@@ -2,7 +2,7 @@ package mod.iceandshadow3.lib.util.collect
 
 import scala.reflect.ClassTag
 
-/** A read-only parallel-computed associative map, mapping 3d coordinates to values in O(1) time.
+/** A read-only associative map, mapping 3d coordinates to values in O(1) time.
 	*/
 class FixedMap3d[T: ClassTag](
 	val xFrom: Int, val yFrom: Int, val zFrom: Int,

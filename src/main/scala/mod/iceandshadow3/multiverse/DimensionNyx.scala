@@ -9,7 +9,7 @@ import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3, UnitVec3s}
 import mod.iceandshadow3.lib.util.{Color, MathUtils}
-import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldSourceNyx}
+import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
 import mod.iceandshadow3.multiverse.misc.Statuses
 
 object DimensionNyx extends BDimension("nyx") {
@@ -46,7 +46,7 @@ object DimensionNyx extends BDimension("nyx") {
 		teleloc
 	}
 
-	override def getWorldSource(seed: Long) = new WorldSourceNyx(seed)
+	override def getWorldGen(seed: Long) = new WorldGenNyx(seed)
 
 	override def brightnessTable(lightBrightnessTable: Array[Float]): Unit = {
 		for(i <- lightBrightnessTable.indices) {
