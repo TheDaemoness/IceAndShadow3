@@ -38,13 +38,13 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 	// WORLDGENERATION LOGIC HERE!
 
 	@Override
-	public void generateSurface(@Nonnull IChunk chunk) {
+	public void makeBase(@Nonnull IWorld iWorld, @Nonnull IChunk chunk) {
 		ChunkPos cp = chunk.getPos();
 		final int
-			xFirst = cp.getXStart(),
-			zFirst = cp.getZStart(),
-			xLast = cp.getXEnd(),
-			zLast = cp.getZEnd();
+				xFirst = cp.getXStart(),
+				zFirst = cp.getZStart(),
+				xLast = cp.getXEnd(),
+				zLast = cp.getZEnd();
 		try {
 			realworldgen.write(new BRegionRef(xFirst, zFirst, xLast, zLast) {
 				final private BlockPos.MutableBlockPos mbp = new BlockPos.MutableBlockPos();
@@ -66,6 +66,11 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 	}
 
 	@Override
+	public void generateSurface(@Nonnull IChunk chunk) {
+		//No-op.
+	}
+
+	@Override
 	public void decorate(@Nonnull WorldGenRegion region) {
 		//No-op.
 	}
@@ -79,11 +84,6 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 	@Override
 	public List<Biome.SpawnListEntry> getPossibleCreatures(@Nonnull EntityClassification a, @Nonnull BlockPos b) {
 		return Collections.emptyList();
-	}
-
-	@Override
-	public void func_222537_b(@Nonnull IWorld iWorld, @Nonnull IChunk iChunk) {
-		//Seems to be used for noise. No-op.
 	}
 
 	@Override

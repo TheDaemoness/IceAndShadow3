@@ -1,6 +1,5 @@
 package mod.iceandshadow3.lib.compat.world
 
-import mod.iceandshadow3.IaS3
 import net.minecraft.entity.Entity
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
@@ -22,7 +21,7 @@ object WDimensionCoord {
     override val isVanilla = false
     override val resourceLocation = new ResourceLocation("", "")
   }
-  val OVERWORLD = WDimensionCoord(DimensionType.field_223227_a_)
-  val NETHER = WDimensionCoord(DimensionType.field_223228_b_)
-  val END = WDimensionCoord(DimensionType.field_223229_c_)
+  val OVERWORLD = WDimensionCoord(DimensionType.OVERWORLD)
+  val NETHER = WDimensionCoord(DimensionType.THE_NETHER)
+  val END = WDimensionCoord(DimensionType.THE_END)
 }

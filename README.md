@@ -1,11 +1,13 @@
-_Here be Navistra-scaled dragons. This mod is heavily WIP and should be considered entirely unfit for purpose until version 0.1.0.0, and mostly incomplete until version 1.0.0.0_
+_Here be Navistra-scaled dragons.
+This mod is heavily WIP and should be considered entirely unfit for purpose until version 0.1.0.0,
+and incomplete until version 1.0.0.0_
 
-_Until then, this every 0.0.x version should be considered backward-incompatible, and every 0.0.0.x version forwards-incompatible._
-
-_Abandon hope, all ye who try to run this on the dedicated server._
+_Until then,
+every 0.0.x version should be considered backward-incompatible,
+and every 0.0.0.x version forwards-incompatible._
 
 # Ice and Shadow III
-__A brutal post-endgame dimension mod for Minecraft 1.14.3 + Forge.__
+__A brutal post-endgame dimension mod for Minecraft 1.14.4 + Forge__
 
 [![Gitter Link](https://badges.gitter.im/IceAndShadow3/community.svg)](https://gitter.im/IceAndShadow3/community)
 
@@ -31,8 +33,8 @@ To get a usable development environment:
 Otherwise, you will run into problems with the Forge Gradle plugin.
 2. Clone/extract this repository into an empty directory.
 3. Get a compatible copy of the Gradle wrapper (4.9 up to and excluding 5.0). You can either:
-	* (Recommended) If you have Gradle installed, run `Gradle wrapper` in the project directory.
-	* Extract a copy of the Forge MDK (27.0 up to and excluding 28.0) into the same directory *without overwriting any existing files*.
+	* (Recommended) If you have Gradle installed, run `gradle wrapper` in the project directory.
+	* Extract a copy of the Forge MDK (28.0 up to and excluding 29.0) into the same directory *without overwriting any existing files*.
 4. Use the Gradle wrapper as usual with a compatible version of Java.
 	1. You may generate Intellij IDEA project files using the `idea` task, and Eclipse project files with `eclipse`.
 	Note that Eclipse's Scala plugin has been abandoned and is known to be unstable on Eclipse 4.11.

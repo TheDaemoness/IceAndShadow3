@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.network.play.server.{SPlayEntityEffectPacket, SPlaySoundEventPacket, SPlayerAbilitiesPacket, SRespawnPacket, SServerDifficultyPacket}
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.ServerWorld
+import net.minecraft.world.server.ServerWorld
 import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent

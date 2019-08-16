@@ -16,19 +16,19 @@ class EventHandlerNyx extends BEventHandler {
 	def onPlayerExposesContainerToTheElements(oops: PlayerContainerEvent.Open): Unit =
 		if (DimensionNyx.coord.worldIs(oops.getEntity)) {
 			val container = new WContainer(oops.getContainer)
-			val player = CNVEntity.wrap(oops.getEntityPlayer)
+			val player = CNVEntity.wrap(oops.getPlayer)
 			DimensionNyx.freezeItems(container, player)
 		}
 
 	@SubscribeEvent
 	def onInteract(event: PlayerInteractEvent): Unit = {
-		val player = CNVEntity.wrap(event.getEntityPlayer)
+		val player = CNVEntity.wrap(event.getPlayer)
 		if (DimensionNyx.coord.worldIs(event.getWorld) && !player.isCreative) {
-			val what = new WItemStack(event.getItemStack, event.getEntityPlayer)
+			val what = new WItemStack(event.getItemStack, event.getPlayer)
 			val frozen = LIFrozen.freeze(what, Some(player))
 			if(frozen.isDefined) {
 				event.setCancellationResult(ActionResultType.FAIL)
-				event.getEntityPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
+				event.getPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
 			}
 		}
 	}
