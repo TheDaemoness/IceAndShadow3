@@ -37,3 +37,6 @@ CREDITS.txt
 changelog.txt
 forge*.zip
 forge*changelog.txt
+
+# Whitelist
+!.github/*

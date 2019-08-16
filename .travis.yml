@@ -3,5 +3,19 @@ dist: xenial
 jdk: openjdk8
 scala:
   - "2.13.0"
-install: gradle wrapper --gradle-version 4.10.2
-script: ./gradlew check
+install:
+  - gradle wrapper --gradle-version 4.10.2
+  - ./gradlew dependencies # Triggers MCP setup
+stages:
+  - compile
+  - test
+  - check
+jobs:
+  include:
+    - stage: compile
+      script: ./gradlew classes
+    - stage: test
+      script: ./gradlew test
+    - stage: check
+      script: ./gradlew check
+# TODO: Caching. Note that ForgeGradle screws up if the snapshot version gets changed.
