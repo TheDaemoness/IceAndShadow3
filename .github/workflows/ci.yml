@@ -14,7 +14,7 @@ jobs:
       - name: Setup Gradle wrapper
         run: gradle wrapper --gradle-version 4.10.2
       - name: Setup MCP Environment
-        run: ./gradlew dependencies # Triggers MCP setup
+        run: ./gradlew dependencies --configuration compile # Triggers MCP setup
       - name: Compile
         run: ./gradlew classes
       - name: Test
