@@ -13,11 +13,5 @@ jobs:
           java-version: 1.8
       - name: Setup Gradle wrapper
         run: gradle wrapper --gradle-version 4.10.2
-      - name: Setup MCP Environment
-        run: ./gradlew dependencies --configuration compile # Triggers MCP setup
-      - name: Compile
-        run: ./gradlew classes
-      - name: Test
-        run: ./gradlew test
-      - name: Perform Quality Checks
+      - name: Compile, Test, and Check
         run: ./gradlew check
