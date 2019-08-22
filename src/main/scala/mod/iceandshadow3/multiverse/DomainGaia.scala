@@ -8,7 +8,7 @@ import mod.iceandshadow3.multiverse.gaia._
 
 object DomainGaia extends BDomain("gaia") {
 	val Blocks = new {
-		val livingstone = new LogicBlockOfMateria(DomainGaia, MatStone)
+		val livingstone = new LBStoneLiving
 		val navistra_bedrock = new LogicBlockOfMateria(DomainGaia, MatNavistraBedrock) {
 			override def shouldHaveLootTable = E3vl.FALSE
 		}
@@ -18,6 +18,7 @@ object DomainGaia extends BDomain("gaia") {
 		val minerals = new LIMinerals
 		val cortra = new LogicItemTwoForm(DomainGaia, "cortra", 2, "dust")
 		val devora = new LIDevora
+		val shale = new LIShale
 	}
 
 	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx
