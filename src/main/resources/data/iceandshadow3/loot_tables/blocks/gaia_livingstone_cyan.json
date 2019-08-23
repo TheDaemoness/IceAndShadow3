@@ -25,7 +25,7 @@
 									}
 								}
 							],
-							"name": "iceandshadow3:gaia_livingstone"
+							"name": "iceandshadow3:gaia_livingstone_cyan"
 						},
 						{
 							"type": "minecraft:item",
@@ -54,7 +54,7 @@
 									]
 								}
 							],
-							"name": "iceandshadow3:gaia_livingshale"
+							"name": "iceandshadow3:gaia_livingshale_cyan"
 						}
 					]
 				}
