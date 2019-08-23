@@ -3,7 +3,7 @@
 	"rewards": {
 		"recipes": [
 			"iceandshadow3:craft.gaia_cortra_dust.crush",
-			"iceandshadow3:smelt.gaia_cortra_dust"
+			"iceandshadow3:smelting.gaia_cortra_dust"
 		]
 	},
 	"criteria": {
@@ -36,7 +36,7 @@
 		"r2": {
 			"trigger": "minecraft:recipe_unlocked",
 			"conditions": {
-				"recipe": "iceandshadow3:smelt.gaia_cortra_dust"
+				"recipe": "iceandshadow3:smelting.gaia_cortra_dust"
 			}
 		}
 	},

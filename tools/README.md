@@ -34,7 +34,7 @@ Generates a shapeless crafting recipe and unlock advancement for it.
 
 Takes the following arguments:
 * A recipe name to disambiguate among recipes with the same output.
-* The output item name (WITHOUT namepsace).
+* The output item name.
 * The output item count.
 * One to nine namespaced item names for inputs.
 
@@ -43,5 +43,15 @@ Generates two crafting recipes for converting 9 of a smaller item to 1 larger it
 Also generates an advancement that unlocks both recipes at the same time.
 
 Takes the following arguments:
-* The un-namespaced name of the larger item.
+* The name (implicit namespace: iceandshadow3) of the larger item.
 * (Optional) The un-namespaced name of the smaller item. If unspecified, concats `_small` onto the larger item name.
+
+### add_recipe_cooking.pl
+Generates a cooking (default: smelting) recipe and advancement to unlock it.
+
+Takes the following arguments:
+* The name of the output item.
+* The name (implicit namespace: iceandshadow3) of the input item.
+* (Optional) The xp yielded by smelting.
+* (Optional) The type of cooking (smelting, blasting, smoking). Campfire cooking is excluded by design.
+* (Optional) The time in ticks it takes for the cooking to finish.

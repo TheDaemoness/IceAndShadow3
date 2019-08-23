@@ -1,6 +1,6 @@
 {
 	"type": "minecraft:crafting_shapeless",
-	"group": "iceandshadow3",
+	"group": "$SMALLER",
 	"ingredients": [
 		{
 			"item": "$LARGER"

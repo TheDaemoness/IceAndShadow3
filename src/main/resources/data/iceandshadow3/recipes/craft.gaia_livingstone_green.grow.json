@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "iceandshadow3:gaia_livingstone",
+	"ingredients": [
+		{"item": "iceandshadow3:gaia_livingshale_green"},
+		{"item": "iceandshadow3:gaia_minerals"}
+	],
+	"result": {
+		"item": "iceandshadow3:gaia_livingstone_green"
+	}
+}

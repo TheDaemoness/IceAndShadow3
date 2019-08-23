@@ -9,8 +9,11 @@ use IaS3Dev;
 $#ARGV >= 3 or die "Invalid argument count: recipe needs at least 1 method name, 1 output, 1 count, and 1 input";
 $#ARGV <= 11 or die "Invalid argument: recipe may have no more than 9 inputs";
 
+($ARGV[1] =~ /([a-z_0-9]+):(.+)/) or die "Invalid output: no namespace";
+
 my $method = $ARGV[0];
-my $output = $ARGV[1];
+my $namespace = $1;
+my $output = $2;
 my $amount = $ARGV[2];
 my @inputs = @ARGV[3..$#ARGV];
 my $recipename="craft.$output.$method";
@@ -24,7 +27,7 @@ sub gen_inputstring {
 
 my %remap = (
     RECIPE => $recipename,
-    OUTPUT => $output,
+    OUTPUT => "$namespace:$output",
     INPUT_RECIPE => gen_inputstring("\t\t"),
     INPUT_ADVANCEMENT => gen_inputstring("\t\t\t\t\t"),
     COUNT => ($amount>1 ? ",\n\t\t\"count\":$amount" : "")

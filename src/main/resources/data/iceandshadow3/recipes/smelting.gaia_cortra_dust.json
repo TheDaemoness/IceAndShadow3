@@ -1,6 +1,6 @@
 {
 	"type": "minecraft:smelting",
-	"group": "iceandshadow3",
+	"group": "iceandshadow3:gaia_cortra",
 	"ingredient": {
 		"item": "iceandshadow3:gaia_cortra_dust"
 	},
