@@ -15,8 +15,13 @@ extends BWorldGenColumn {
 
 	val islevalue = 1-Cells.distance(cell)
 
+	protected def stoneLower: BlockTypeSimple
+	protected def stoneUpper: BlockTypeSimple
+
 	private val array = {
 		import WorldGenNyx._
+		val lowerstone = stoneLower
+		val upperstone = stoneUpper
 		val finalheight = height()
 		val colRng = new RandomXZ(seed, 31920, x, z)
 		val colNoise = colRng.nextInt(2)
@@ -27,7 +32,7 @@ extends BWorldGenColumn {
 			else if(finalheight < 47) null
 			else if(caveSeq(y)) null
 			else if(delta > 2) {
-				if(y<=10+colNoise) navistra else stone
+				if(y<=10+colNoise) navistra else if(y < finalheight/3) lowerstone else upperstone
 			}
 			else if(y > yBald) null
 			else if(delta > 1) {

@@ -22,6 +22,8 @@ extends BWorldGenRegion(xFrom, zFrom) {
 	val scaleMap = noises.noisemakerRidgeScale.apply(xFrom, zFrom, width, width)
 	val hillMap = noises.noisemakerHills.apply(xFrom, zFrom, width, width)
 	val mountainMap = noises.noisemakerMountain.apply(xFrom, zFrom, width, width)
+	//lazy val stoneMapUpper = noises.stonemakerUpper.apply(xFrom, zFrom, width, width)
+	lazy val stoneMapLower = noises.stonemakerLower.apply(xFrom, zFrom, width, width)
 
 	private def combine(a: Cellmaker3d, b: Cellmaker3d, limit: Int, fn: (Double, Double) => Float) = {
 		val resultsA = a(xFrom, 0, zFrom, width, limit, width, Cells.distance)

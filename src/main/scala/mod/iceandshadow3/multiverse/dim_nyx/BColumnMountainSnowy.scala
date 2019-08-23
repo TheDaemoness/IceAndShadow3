@@ -2,11 +2,13 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
-import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSnow}
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple, BlockTypeSnow}
 import mod.iceandshadow3.lib.util.MathUtils
 
 abstract class BColumnMountainSnowy(x: Int, z: Int, region: RegionInterpret, voidhole: Boolean)
 extends BColumnMountain(x, z, region, voidhole) {
+
+	override protected def stoneUpper: BlockTypeSimple = WorldGenNyx.stones(0)
 
 	def icicleInfrequency = 24
 

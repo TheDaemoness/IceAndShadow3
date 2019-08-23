@@ -1,9 +1,13 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
+import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.lib.util.MathUtils
 
 class ColumnMountainSnowyUsual(x: Int, z: Int, region: RegionInterpret)
 extends BColumnMountainSnowy(x, z, region, false) {
+
+	override protected def stoneLower: BlockTypeSimple =
+		WorldGenNyx.stoneCommon(region.stoneMapLower(x, z).makeRandomXZ(region.noises.seed, 40201))
 
 	override protected def caves() = {
 		import WorldGenNyx._

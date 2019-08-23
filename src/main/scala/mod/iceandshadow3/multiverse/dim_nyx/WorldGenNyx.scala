@@ -1,13 +1,16 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
+import java.util.Random
+
 import mod.iceandshadow3.lib.base.BWorldGen
 import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
 import mod.iceandshadow3.lib.util.collect.IMap2d
 import mod.iceandshadow3.multiverse.DomainNyx
+import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
 object WorldGenNyx {
 	import mod.iceandshadow3.multiverse.DomainGaia.Blocks._
-	val stone = new BlockTypeSimple(livingstone, 0)
+	val stones = ELivingstoneTypes.values().map(st => {new BlockTypeSimple(livingstone, st.ordinal())})
 	val navistra = new BlockTypeSimple(navistra_stone, 0)
 	val bedrock = new BlockTypeSimple(navistra_bedrock, 0)
 	val icicles = new BlockTypeSimple(DomainNyx.Blocks.icicles, 0)
@@ -20,6 +23,9 @@ object WorldGenNyx {
 	val yFissureFull = 147
 	val yFissureMax = 171
 	val yCaveMax = 147
+
+	def stoneCommon(rng: Random) = stones(ELivingstoneTypes.getCommon(rng).ordinal())
+	def stoneAny(rng: Random) = stones(ELivingstoneTypes.getAny(rng).ordinal())
 }
 class WorldGenNyx(seed: Long) extends BWorldGen(seed) {
 	override type RegionDataType = RegionInterpret
