@@ -4,7 +4,7 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BDimension;
 import mod.iceandshadow3.lib.base.BWorldGen;
 import mod.iceandshadow3.lib.compat.block.WBlockRef;
-import mod.iceandshadow3.lib.compat.block.type.BBlockType;
+import mod.iceandshadow3.lib.compat.block.type.TBlockStateSource;
 import mod.iceandshadow3.lib.compat.world.BRegionRef;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.math.BlockPos;
@@ -49,9 +49,9 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 			realworldgen.write(new BRegionRef(xFirst, zFirst, xLast, zLast) {
 				final private BlockPos.MutableBlockPos mbp = new BlockPos.MutableBlockPos();
 				@Override
-				public void update(int xBlock, int yBlock, int zBlock, BBlockType newtype) {
+				public void update(int xBlock, int yBlock, int zBlock, TBlockStateSource newtype) {
 					mbp.setPos(xBlock, yBlock, zBlock);
-					chunk.setBlockState(mbp, newtype.state(), false);
+					chunk.setBlockState(mbp, newtype.exposeBS(), false);
 				}
 
 				@Override

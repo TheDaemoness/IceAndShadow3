@@ -14,6 +14,7 @@ object BlockQueries {
 	def mineableByDiamond(bv: WBlockView) = bv.exposeBS().getHarvestLevel <= 3
 	def notHarder(hardness: Float): WBlockView => Boolean = _.getHardness <= hardness
 	def notSofter(hardness: Float): WBlockView => Boolean = _.getHardness >= hardness
+	def crushableBy(what: WBlockView): WBlockView => Boolean = v => { v.getHardness < what.getHardness }
 	def materia(mat: Class[_ <: IMateria]): WBlockView => Boolean = {
 		bv => Option(bv.getLogicPair).fold(false)({_.logic.isOfMateria(mat)})
 	}

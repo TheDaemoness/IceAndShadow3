@@ -4,6 +4,6 @@ import net.minecraft.block.BlockState
 
 /** Block state factory base class.
 	*/
-abstract class BBlockType {
-	protected[compat] def state(): BlockState
+trait TBlockStateSource {
+	protected[compat] def exposeBS(): BlockState
 }

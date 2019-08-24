@@ -5,9 +5,9 @@ import java.util.Random
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.TLootable
 import mod.iceandshadow3.lib.block.{BBlockVar, BlockShape}
-import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockType}
+import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.block.impl.{BCompatLogicBlock, BMateria, BinderBlock}
-import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockView}
+import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
@@ -40,13 +40,16 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 
 	def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {}
 	def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): Unit = {}
+	def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {}
+	def onRandomTick(variant: Int, block: WBlockRef, rng: Random): Boolean = true
+	def onTick(variant: Int, block: WBlockRef, rng: Random): Unit = {}
 
 	/** Called to provide purely client-side (decorative) effects.
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.
 		*/
 	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random): Unit = {}
 
-	def makeBlockType(variant: Int): BBlockType = new BlockType(this, variant)
+	def makeBlockType(variant: Int): TBlockStateSource = new WBlockState(this, variant)
 	lazy val _blocktypes = Array.tabulate(countVariants)(makeBlockType)
 	def apply(variant: Int) = _blocktypes(variant)
 

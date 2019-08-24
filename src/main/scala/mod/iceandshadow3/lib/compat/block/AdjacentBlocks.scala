@@ -48,35 +48,35 @@ object AdjacentBlocks {
 	protected def west(center: WBlockView) =
 		(center.atOffset(-1, 0, 0), Direction.EAST)
 
-	class Above(center: WBlockView) extends AdjacentBlocks(center,
+	case class Above(center: WBlockView) extends AdjacentBlocks(center,
 		up(center)
 	)
-	class Below(center: WBlockView) extends AdjacentBlocks(center,
+	case class Below(center: WBlockView) extends AdjacentBlocks(center,
 		down(center)
 	)
-	class Southern(center: WBlockView) extends AdjacentBlocks(center,
+	case class Southern(center: WBlockView) extends AdjacentBlocks(center,
 		south(center)
 	)
-	class Northern(center: WBlockView) extends AdjacentBlocks(center,
+	case class Northern(center: WBlockView) extends AdjacentBlocks(center,
 		north(center)
 	)
-	class Eastern(center: WBlockView) extends AdjacentBlocks(center,
+	case class Eastern(center: WBlockView) extends AdjacentBlocks(center,
 		east(center)
 	)
-	class Western(center: WBlockView) extends AdjacentBlocks(center,
+	case class Western(center: WBlockView) extends AdjacentBlocks(center,
 		west(center)
 	)
-	class Sandwiching(center: WBlockView) extends AdjacentBlocks(center,
+	case class Sandwiching(center: WBlockView) extends AdjacentBlocks(center,
 		up(center),
 		down(center)
 	)
-	class Beside(center: WBlockView) extends AdjacentBlocks(center,
+	case class Beside(center: WBlockView) extends AdjacentBlocks(center,
 		north(center),
 		east(center),
 		south(center),
 		west(center)
 	)
-	class Surrounding(center: WBlockView) extends AdjacentBlocks(center,
+	case class Surrounding(center: WBlockView) extends AdjacentBlocks(center,
 		up(center),
 		down(center),
 		north(center),
@@ -84,14 +84,14 @@ object AdjacentBlocks {
 		south(center),
 		west(center),
 	)
-	class Capping(center: WBlockView) extends AdjacentBlocks(center,
+	case class Capping(center: WBlockView) extends AdjacentBlocks(center,
 		up(center),
 		north(center),
 		east(center),
 		south(center),
 		west(center),
 	)
-	class Cupping(center: WBlockView) extends AdjacentBlocks(center,
+	case class Cupping(center: WBlockView) extends AdjacentBlocks(center,
 		down(center),
 		north(center),
 		east(center),

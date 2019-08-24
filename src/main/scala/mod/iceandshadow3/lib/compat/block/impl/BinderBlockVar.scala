@@ -1,7 +1,6 @@
 package mod.iceandshadow3.lib.compat.block.impl
 
 import mod.iceandshadow3.lib.block.{BBlockVar, BlockVar}
-import mod.iceandshadow3.lib.compat.block.`type`.AProperty
 import mod.iceandshadow3.lib.util.collect.BinderEarly
 import net.minecraft.block.BlockState
 import net.minecraft.state.IProperty

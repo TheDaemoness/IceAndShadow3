@@ -8,8 +8,8 @@ import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.base.ILogicBlockProvider;
 import mod.iceandshadow3.lib.compat.block.CNVBlockShape$;
 import mod.iceandshadow3.lib.compat.block.WBlockRef;
+import mod.iceandshadow3.lib.compat.block.WBlockState;
 import mod.iceandshadow3.lib.compat.block.WBlockView;
-import mod.iceandshadow3.lib.compat.block.type.AProperty;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import net.minecraft.block.Block;
@@ -170,8 +170,49 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	}
 
 	@Override
+	public void onReplaced(
+			BlockState state,
+			@Nonnull World worldIn,
+			@Nonnull BlockPos pos,
+			@Nonnull BlockState newState,
+			boolean isMoving
+	) {
+		if(state.getBlock() != newState.getBlock()) {
+			logic.onReplaced(
+				variant,
+				new WBlockRef(worldIn, pos, state),
+				new WBlockRef(worldIn, pos, newState),
+				isMoving
+			);
+		}
+		super.onReplaced(state, worldIn, pos, newState, isMoving);
+	}
+
+	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
 		logic.onInside(variant, new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
+	}
+
+	@Override
+	public void randomTick(
+			@Nonnull BlockState state,
+			@Nonnull World worldIn,
+			@Nonnull BlockPos pos,
+			@Nonnull Random random
+	) {
+		if(logic.onRandomTick(variant, new WBlockRef(worldIn, pos, state), random)) {
+			this.tick(state, worldIn, pos, random);
+		}
+	}
+
+	@Override
+	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+		logic.onRandomTick(variant, new WBlockRef(worldIn,pos, state), random);
+	}
+
+	@Override
+	public boolean ticksRandomly(BlockState state) {
+		return logic.randomlyUpdates(new WBlockState(state));
 	}
 }
 

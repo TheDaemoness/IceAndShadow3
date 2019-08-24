@@ -3,20 +3,21 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import java.util.Random
 
 import mod.iceandshadow3.lib.base.BWorldGenColumn
-import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockType, BlockTypeSnow}
+import mod.iceandshadow3.lib.compat.block.WBlockState
+import mod.iceandshadow3.lib.compat.block.`type`.{BlockTypeSnow, CommonBlockTypes, TBlockStateSource}
 import mod.iceandshadow3.lib.spatial.{Cells, RandomXZ}
 import mod.iceandshadow3.lib.util.MathUtils
 
 abstract class BColumn(seed: Long, x: Int, z: Int, cell: Cells.Result, voidhole: Boolean)
 extends BWorldGenColumn {
-	protected def decorate(array: Array[BBlockType], height: Float, r: Random): Unit
+	protected def decorate(array: Array[TBlockStateSource], height: Float, r: Random): Unit
 	protected def height(): Float
 	protected def caves(): Seq[Boolean]
 
 	val islevalue = 1-Cells.distance(cell)
 
-	protected def stoneLower: BlockType
-	protected def stoneUpper: BlockType
+	protected def stoneLower: WBlockState
+	protected def stoneUpper: WBlockState
 
 	private val array = {
 		import WorldGenNyx._
@@ -26,7 +27,7 @@ extends BWorldGenColumn {
 		val colRng = new RandomXZ(seed, 31920, x, z)
 		val colNoise = colRng.nextInt(2)
 		lazy val caveSeq: Seq[Boolean] = caves()
-		val retval = Array.tabulate[BBlockType](255)(y => {
+		val retval = Array.tabulate[TBlockStateSource](255)(y => {
 			val delta = finalheight-y
 			if(y == 0) navistra
 			else if(finalheight < 47) null
@@ -48,12 +49,12 @@ extends BWorldGenColumn {
 		retval
 	}
 
-	protected def blockDefault(i: Int): BBlockType =
-		if (i <= 8) WorldGenNyx.exousia else BlockType.AIR
+	protected def blockDefault(i: Int): TBlockStateSource =
+		if (i <= 8) WorldGenNyx.exousia else CommonBlockTypes.AIR
 	override def apply(i: Int) = {
 		val block = array(i)
 		if(block == null) blockDefault(i) else block
 	}
 
-	override val bedrock = if(voidhole) BlockType.AIR else WorldGenNyx.bedrock
+	override val bedrock = if(voidhole) CommonBlockTypes.AIR else WorldGenNyx.bedrock
 }

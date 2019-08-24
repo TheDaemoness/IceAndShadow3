@@ -2,11 +2,11 @@ package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.lib.BDimension
 import mod.iceandshadow3.lib.item.IItemStorage
-import mod.iceandshadow3.lib.compat.block.`type`.BlockType
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
+import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3, UnitVec3s}
 import mod.iceandshadow3.lib.util.{Color, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
@@ -27,8 +27,8 @@ object DimensionNyx extends BDimension("nyx") {
 	override def hasFogAt(where: IPosColumn) = true
 	override def skyAngle(worldTime: Long, partialTicks: Float) = 0
 	override def fogColor(skyAngle: Float, partialTicks: Float) = Color.BLACK
-	override def defaultLand() = new BlockType(DomainGaia.Blocks.livingstone, 0)
-	override def defaultSea() = new BlockType("minecraft:air")
+	override def defaultLand() = new WBlockState(DomainGaia.Blocks.livingstone, 0)
+	override def defaultSea() = new WBlockState("minecraft:air")
 
 	override def baseDownfall = 0f
 	override def baseTemperature = 0f

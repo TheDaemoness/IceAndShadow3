@@ -1,7 +1,10 @@
 package mod.iceandshadow3.multiverse.gaia
 
+import java.util.Random
+
 import mod.iceandshadow3.lib.BLogicBlockSimple
 import mod.iceandshadow3.lib.block.BlockVarBool
+import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockState}
 import mod.iceandshadow3.multiverse.DomainGaia
 
 object LBStoneLiving {
@@ -12,4 +15,33 @@ class LBStoneLiving extends BLogicBlockSimple(DomainGaia, "livingstone", MatSton
 	override def countVariants = ELivingstoneTypes.values().length
 
 	override def variables = Array(LBStoneLiving.varGrowing)
+
+	override protected def randomlyUpdates(state: WBlockState) = {
+		if(state == null) true else state(LBStoneLiving.varGrowing).getOrElse(false)
+	}
+
+	override def onRandomTick(variant: Int, block: WBlockRef, rng: Random) = {
+		val adjb = AdjacentBlocks.Surrounding(block)
+		if(adjb.each.isAny(BlockQueries.stone)) {
+			block.change(_ + (LBStoneLiving.varGrowing, false))
+		} else for(neigh <- adjb) {
+			if(rng.nextBoolean()) {
+				val bor = neigh.promote(block)
+				if(bor.isAir) bor.set(block.typeDefault)
+				else bor.break(block.getHardness, drops = true)
+			}
+		}
+		false
+	}
+
+	override def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {
+		System.out.println("MARCO")
+		for(block <- AdjacentBlocks.Surrounding(us)) {
+			val lp = block.getLogicPair
+			if(lp != null && lp.logic == this) {
+				System.out.println(" POLO")
+				block.promote(us).change(_ + (LBStoneLiving.varGrowing, true))
+			}
+		}
+	}
 }

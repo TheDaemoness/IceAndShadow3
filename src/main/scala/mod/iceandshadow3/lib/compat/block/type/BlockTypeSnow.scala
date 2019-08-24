@@ -4,8 +4,8 @@ import net.minecraft.block.SnowBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 
-class BlockTypeSnow(height: Int) extends BBlockType {
-	override protected[compat] def state(): BlockState =
+class BlockTypeSnow(height: Int) extends TBlockStateSource {
+	override protected[compat] def exposeBS(): BlockState =
 		Blocks.SNOW.getDefaultState.`with`(SnowBlock.LAYERS, Integer.valueOf(height+1))
 }
 object BlockTypeSnow {

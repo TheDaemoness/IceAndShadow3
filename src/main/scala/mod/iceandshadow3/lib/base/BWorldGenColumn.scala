@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.base
 
-import mod.iceandshadow3.lib.compat.block.`type`.BBlockType
+import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 
 /** A 1x256x1 world generation cell.
 	* As a seq, contains all of the blocks except the lowest block layer.
 	*/
-abstract class BWorldGenColumn extends Seq[BBlockType] {
+abstract class BWorldGenColumn extends Seq[TBlockStateSource] {
 	final override def length = 255;
 
-	override def iterator: Iterator[BBlockType] = new Iterator[BBlockType] {
+	override def iterator: Iterator[TBlockStateSource] = new Iterator[TBlockStateSource] {
 		var i = -1;
 
 		override def hasNext = i < 254;
@@ -19,5 +19,5 @@ abstract class BWorldGenColumn extends Seq[BBlockType] {
 		}
 	}
 
-	def bedrock(): BBlockType
+	def bedrock(): TBlockStateSource
 }

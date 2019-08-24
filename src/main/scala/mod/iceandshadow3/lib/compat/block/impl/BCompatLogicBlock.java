@@ -3,8 +3,11 @@ package mod.iceandshadow3.lib.compat.block.impl;
 import mod.iceandshadow3.lib.BDomain;
 import mod.iceandshadow3.lib.block.HarvestMethod;
 import mod.iceandshadow3.lib.block.IMateria;
+import mod.iceandshadow3.lib.compat.block.WBlockState;
 import mod.iceandshadow3.lib.compat.item.impl.BCompatLogicCommon;
 import net.minecraft.block.Block;
+
+import javax.annotation.Nullable;
 
 public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 	final BMateria materia;
@@ -16,7 +19,7 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 	public boolean isToolClassEffective(int variant, HarvestMethod m) {
 		return materia.isToolClassEffective(m);
 	}
-	protected boolean randomlyUpdates() {return false;}
+	protected boolean randomlyUpdates(@Nullable WBlockState what) {return false;}
 	protected boolean multipleOpacities() {return false;}
 	
 	protected IMateria getMateria() {return materia;}
@@ -28,7 +31,7 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 		retval.lightValue(materia.getBaseLuma());
 		retval.slipperiness(materia.getSlipperiness());
 		if(multipleOpacities()) retval.variableOpacity();
-		if(randomlyUpdates()) retval.tickRandomly();
+		if(randomlyUpdates(null)) retval.tickRandomly();
 		if(materia.isNonSolid()) retval.doesNotBlockMovement();
 		retval.sound(materia.sound());
 		//TODO: There's more.

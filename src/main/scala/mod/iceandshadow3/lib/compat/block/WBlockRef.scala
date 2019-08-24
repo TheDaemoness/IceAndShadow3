@@ -1,8 +1,8 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockType}
+import mod.iceandshadow3.lib.compat.block.`type`.{CommonBlockTypes, TBlockStateSource}
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
+import mod.iceandshadow3.lib.compat.world.{TWWorld, TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.IPosBlock
 import net.minecraft.block.BlockState
 import net.minecraft.entity.item.FallingBlockEntity
@@ -15,6 +15,8 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 {
 	override protected def acquireBS() = chunk.getBlockState(pos)
 	override protected[compat] def exposeWorld(): IWorld = chunk.getWorldForge
+
+	final override def promote(wr: TWWorld): WBlockRef = this
 
 	def this(w: IWorld, v: IPosBlock) {
 		this(w.getChunk(v.xChunk, v.zChunk), CNVCompat.toBlockPos(v), null)
@@ -31,15 +33,14 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 	override def atOffset(x: Int, y: Int, z: Int): WBlockRef =
 		new WBlockRef(exposeWorld(), pos.add(x, y, z))
 
-	def set(what: BBlockType): Unit = {
+	def set(what: TBlockStateSource): Unit = {
 		if(isServerSide) {
-			chunk.setBlockState(pos, what.state(), false)
+			exposeWorld().setBlockState(pos, what.exposeBS(), 3)
 			refresh()
 		}
 	}
-	def place(what: BBlockType): Boolean = {
-		val state = what.state()
-		val retval = what.state().isValidPosition(exposeWorld(), pos)
+	def place(what: TBlockStateSource): Boolean = {
+		val retval = what.exposeBS().isValidPosition(exposeWorld(), pos)
 		if(retval) set(what)
 		retval
 	}
@@ -50,8 +51,8 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 			refresh()
 		}
 	}
-	def break(ifNoHarderThan: Float, drops: Boolean): Boolean = {
-		if(getHardness <= ifNoHarderThan) {break(drops); true}
+	def break(ifSofterThan: Float, drops: Boolean): Boolean = {
+		if(getHardness < ifSofterThan) {break(drops); true}
 		else false
 	}
 	def fall(): Boolean = {
@@ -60,13 +61,14 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 				val fp = this.posFine
 				val ent = new FallingBlockEntity(w, fp.xDouble, fp.yDouble, fp.zDouble, exposeBS())
 				ent.setOrigin(pos)
-				set(BlockType.AIR)
+				set(CommonBlockTypes.AIR)
 				refresh()
 				exposeWorld().addEntity(ent)
 				return true
 			case _ => return false
 		}
 	}
+	def change[T](fn: WBlockState => TBlockStateSource) = set(fn(typeThis))
 
 	def playSound(sound: WSound): Unit = sound.play(this, this.posCoarse, this.soundVolume, this.soundPitch)
 }
