@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import java.util.Random
 
 import mod.iceandshadow3.lib.base.BWorldGenColumn
-import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple, BlockTypeSnow}
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockType, BlockTypeSnow}
 import mod.iceandshadow3.lib.spatial.{Cells, RandomXZ}
 import mod.iceandshadow3.lib.util.MathUtils
 
@@ -15,8 +15,8 @@ extends BWorldGenColumn {
 
 	val islevalue = 1-Cells.distance(cell)
 
-	protected def stoneLower: BlockTypeSimple
-	protected def stoneUpper: BlockTypeSimple
+	protected def stoneLower: BlockType
+	protected def stoneUpper: BlockType
 
 	private val array = {
 		import WorldGenNyx._
@@ -49,11 +49,11 @@ extends BWorldGenColumn {
 	}
 
 	protected def blockDefault(i: Int): BBlockType =
-		if (i <= 8) WorldGenNyx.exousia else BlockTypeSimple.AIR
+		if (i <= 8) WorldGenNyx.exousia else BlockType.AIR
 	override def apply(i: Int) = {
 		val block = array(i)
 		if(block == null) blockDefault(i) else block
 	}
 
-	override val bedrock = if(voidhole) BlockTypeSimple.AIR else WorldGenNyx.bedrock
+	override val bedrock = if(voidhole) BlockType.AIR else WorldGenNyx.bedrock
 }

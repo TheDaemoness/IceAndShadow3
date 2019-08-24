@@ -3,12 +3,15 @@ package mod.iceandshadow3.lib.compat.block
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.base.ILogicBlockProvider
-import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.block.BBlockVar
+import mod.iceandshadow3.lib.compat.block.`type`.{AProperty, BlockType}
+import mod.iceandshadow3.lib.compat.block.impl.BinderBlockVar
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, IWrapperDefault, TEffectSource, TWLogical}
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.state.IProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockReader
 
@@ -70,12 +73,18 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, p
 	override def xBlock = pos.getX
 	override def zBlock = pos.getZ
 
-	def typeDefault = new BlockTypeSimple(exposeBS().getBlock.getDefaultState)
-	def typeThis = new BlockTypeSimple(exposeBS())
+	def typeDefault = new BlockType(exposeBS().getBlock.getDefaultState)
+	def typeThis = new BlockType(exposeBS())
 
 	def soundVolume = exposeBS().getSoundType.volume
 	def soundPitch = exposeBS().getSoundType.pitch
 	def soundDig = WSound(exposeBS().getSoundType.getHitSound)
 	def soundBreak = WSound(exposeBS().getSoundType.getBreakSound)
 	def soundPlace = WSound(exposeBS().getSoundType.getPlaceSound)
+
+	def variable[T](which: BBlockVar[T]): Option[T] = {
+		val property: AProperty = BinderBlockVar(which).asInstanceOf[AProperty]
+		val bs = exposeBS()
+		if(bs.has(property)) Some(which.lookup(exposeBS().get(property))) else None
+	}
 }

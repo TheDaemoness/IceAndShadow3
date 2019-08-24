@@ -25,7 +25,7 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
 		ias.binderIndex = mutable.size
 		mutable += adapter
 	}
-	final def apply(ias: TKey): ValueType = {
+	def apply(ias: TKey): ValueType = {
 		if(immutable == null) {
 			IaS3.bug(ias, s"apply called before $this was frozen")
 			return null.asInstanceOf[ValueType]

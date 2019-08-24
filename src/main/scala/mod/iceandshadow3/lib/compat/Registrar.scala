@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat
 
-import mod.iceandshadow3.lib.compat.block.impl.{ABlock, BinderBlock}
+import mod.iceandshadow3.lib.compat.block.impl.{ABlock, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
 import mod.iceandshadow3.lib.compat.entity.impl.{AMob, BBinderEntity, BinderMob}
 import mod.iceandshadow3.lib.compat.entity.state.impl.{AStatusEffect, BinderStatusEffect}
@@ -18,8 +18,10 @@ object Registrar {
 	lazy val blockBindings: Array[Array[(ABlock, AItemBlock)]] = BinderBlock.freeze()
 	lazy val mobs: Array[EntityType[_ <: AMob]] = BinderMob.freeze()
 
-	def registerBlocks(reg: IForgeRegistry[Block]): Unit = for (bindings <- blockBindings) {
-		for (binding <- bindings) reg.register(binding._1)
+	def registerBlocks(reg: IForgeRegistry[Block]): Unit = {
+		for (bindings <- blockBindings) {
+			for (binding <- bindings) reg.register(binding._1)
+		}
 	}
 
 	def registerItems(reg: IForgeRegistry[Item]): Unit = {
@@ -60,5 +62,9 @@ object Registrar {
 			case registerable: AParticleType => reg.register(registerable)
 			case _ =>
 		}
+	}
+
+	def finish(): Unit = {
+		BinderBlockVar.freeze()
 	}
 }

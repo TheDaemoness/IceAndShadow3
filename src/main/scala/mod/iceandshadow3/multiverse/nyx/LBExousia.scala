@@ -2,7 +2,7 @@ package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.lib.BLogicBlockSimple
 import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
-import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.block.`type`.BlockType
 import mod.iceandshadow3.lib.compat.block.WBlockRef
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WProjectile}
 import mod.iceandshadow3.lib.compat.world.WSound
@@ -44,7 +44,7 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 
 	override def isTechnical = true
 
-	lazy val blocktype = new BlockTypeSimple(this, 0)
+	lazy val blocktype = new BlockType(this, 0)
 	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): Unit = {
 		if(them.posFine.yBlock <= us.posFine.yBlock && !them.resistsExousia) {
 			if(!them.isAir) {

@@ -2,7 +2,7 @@ package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.lib.BDimension
 import mod.iceandshadow3.lib.item.IItemStorage
-import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.block.`type`.BlockType
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
@@ -27,8 +27,8 @@ object DimensionNyx extends BDimension("nyx") {
 	override def hasFogAt(where: IPosColumn) = true
 	override def skyAngle(worldTime: Long, partialTicks: Float) = 0
 	override def fogColor(skyAngle: Float, partialTicks: Float) = Color.BLACK
-	override def defaultLand() = new BlockTypeSimple(DomainGaia.Blocks.livingstone, 0)
-	override def defaultSea() = new BlockTypeSimple("minecraft:air")
+	override def defaultLand() = new BlockType(DomainGaia.Blocks.livingstone, 0)
+	override def defaultSea() = new BlockType("minecraft:air")
 
 	override def baseDownfall = 0f
 	override def baseTemperature = 0f

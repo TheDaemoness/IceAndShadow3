@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib
 
 import mod.iceandshadow3.lib.compat.block.WBlockView
-import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.block.`type`.BlockType
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
 import mod.iceandshadow3.lib.base.BWorldGen
@@ -31,8 +31,8 @@ abstract class BDimension(val name: String) extends BBiome {
 	def skyAngle(worldTime: Long, partialTicks: Float): Float
 	def fogColor(skyAngle: Float, partialTicks: Float): Color
 
-	def defaultLand(): BlockTypeSimple
-	def defaultSea(): BlockTypeSimple
+	def defaultLand(): BlockType
+	def defaultSea(): BlockType
 
 	override def baseAltitude = seaLevel/128f
 	override def baseHilliness = (peakLevel/seaLevel)/128f

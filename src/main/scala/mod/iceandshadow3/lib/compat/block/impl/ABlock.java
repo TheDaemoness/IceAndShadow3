@@ -2,12 +2,14 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
+import mod.iceandshadow3.lib.block.BBlockVar;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.base.ILogicBlockProvider;
 import mod.iceandshadow3.lib.compat.block.CNVBlockShape$;
 import mod.iceandshadow3.lib.compat.block.WBlockRef;
 import mod.iceandshadow3.lib.compat.block.WBlockView;
+import mod.iceandshadow3.lib.compat.block.type.AProperty;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import net.minecraft.block.Block;
@@ -15,6 +17,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -53,6 +56,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	private final VoxelShape defaultShape;
 	private final ResourceLocation lootTable;
+	private final StateContainer<Block, BlockState> realContainer;
 
 	public ABlock(BLogicBlock blocklogic, int variant) {
 		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
@@ -65,6 +69,30 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 		defaultShape = CNVBlockShape$.MODULE$.toVoxelShape(logic);
 		lootTable = new ResourceLocation(IaS3.MODID,"blocks/"+logic.getName(variant));
+
+		//State container init happens too early for IaS3. We need to make our own.
+		final StateContainer.Builder<Block, BlockState> builder = new StateContainer.Builder<>(this);
+		final BinderBlockVar$ binder = BinderBlockVar$.MODULE$;
+		for(BBlockVar bbv : logic.variables()) {
+			builder.add(binder.apply(bbv));
+		}
+		realContainer = builder.create(BlockState::new);
+		BlockState bbs = this.getStateContainer().getBaseState();
+		for(BBlockVar bbv : logic.variables()) {
+			bbs = bbs.with(binder.applyAndCast(bbv), bbv.defaultIndex());
+		}
+		setDefaultState(bbs);
+	}
+
+	@Override
+	@Nonnull
+	public StateContainer<Block, BlockState> getStateContainer() {
+		return realContainer;
+	}
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		//No-op. DON'T PUT STUFF HERE!.
 	}
 
 	@Nonnull

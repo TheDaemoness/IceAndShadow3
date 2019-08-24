@@ -14,8 +14,10 @@ class BinderLazy[KeyType: ClassTag, CnvType <: KeyType, ValueType <: Object: Cla
 			IaS3.bug(key, s"lazy add() called after $this was frozen")
 			return
 		}
-		later += key
+		later += intercept(key)
 	}
+
+	protected def intercept(key: CnvType with TKey): CnvType with TKey = key
 
 	override def freeze() = {
 		for(now <- later) this.add(now, cnv(now))

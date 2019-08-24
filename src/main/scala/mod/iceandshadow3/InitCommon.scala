@@ -1,6 +1,6 @@
 package mod.iceandshadow3
 
-import mod.iceandshadow3.lib.compat.Binders
+import mod.iceandshadow3.lib.compat.{Binders, Registrar}
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.forge.{EventFisherman, Teleporter}
 import mod.iceandshadow3.multiverse._
@@ -38,6 +38,7 @@ private[iceandshadow3] object InitCommon {
 	}
 
 	def initLate(): Unit = {
+		Registrar.finish();
 		Teleporter.registerSelf()
 		EventFisherman.baitHooks()
 		for (domain <- domains) domain.initLate()

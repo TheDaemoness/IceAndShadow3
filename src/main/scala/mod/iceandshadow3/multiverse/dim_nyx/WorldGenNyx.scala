@@ -3,18 +3,18 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import java.util.Random
 
 import mod.iceandshadow3.lib.base.BWorldGen
-import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSimple
+import mod.iceandshadow3.lib.compat.block.`type`.BlockType
 import mod.iceandshadow3.lib.util.collect.IMap2d
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
 object WorldGenNyx {
 	import mod.iceandshadow3.multiverse.DomainGaia.Blocks._
-	val stones = ELivingstoneTypes.values().map(st => {new BlockTypeSimple(livingstone, st.ordinal())})
-	val navistra = new BlockTypeSimple(navistra_stone, 0)
-	val bedrock = new BlockTypeSimple(navistra_bedrock, 0)
-	val icicles = new BlockTypeSimple(DomainNyx.Blocks.icicles, 0)
-	val exousia = new BlockTypeSimple(DomainNyx.Blocks.exousia, 0)
+	val stones = ELivingstoneTypes.values().map(st => {new BlockType(livingstone, st.ordinal())})
+	val navistra = new BlockType(navistra_stone, 0)
+	val bedrock = new BlockType(navistra_bedrock, 0)
+	val icicles = new BlockType(DomainNyx.Blocks.icicles, 0)
+	val exousia = new BlockType(DomainNyx.Blocks.exousia, 0)
 
 	val yBald = 187
 	val yThinning = 175

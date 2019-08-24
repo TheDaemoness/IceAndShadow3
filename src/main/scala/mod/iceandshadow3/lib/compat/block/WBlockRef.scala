@@ -1,12 +1,13 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.lib.compat.block.`type`.BBlockType
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockType}
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.IPosBlock
 import net.minecraft.block.BlockState
+import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.IWorld
+import net.minecraft.world.{IWorld, World}
 import net.minecraft.world.chunk.IChunk
 
 class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView(chunk.getWorldForge, pos, bs)
@@ -52,6 +53,19 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 	def break(ifNoHarderThan: Float, drops: Boolean): Boolean = {
 		if(getHardness <= ifNoHarderThan) {break(drops); true}
 		else false
+	}
+	def fall(): Boolean = {
+		exposeWorld() match {
+			case w: World =>
+				val fp = this.posFine
+				val ent = new FallingBlockEntity(w, fp.xDouble, fp.yDouble, fp.zDouble, exposeBS())
+				ent.setOrigin(pos)
+				set(BlockType.AIR)
+				refresh()
+				exposeWorld().addEntity(ent)
+				return true
+			case _ => return false
+		}
 	}
 
 	def playSound(sound: WSound): Unit = sound.play(this, this.posCoarse, this.soundVolume, this.soundPitch)

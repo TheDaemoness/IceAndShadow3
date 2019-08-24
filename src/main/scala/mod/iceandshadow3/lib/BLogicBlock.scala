@@ -4,8 +4,8 @@ import java.util.Random
 
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.TLootable
-import mod.iceandshadow3.lib.block.BlockShape
-import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockTypeSimple}
+import mod.iceandshadow3.lib.block.{BBlockVar, BlockShape}
+import mod.iceandshadow3.lib.compat.block.`type`.{BBlockType, BlockType}
 import mod.iceandshadow3.lib.compat.block.impl.{BCompatLogicBlock, BMateria, BinderBlock}
 import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
@@ -46,9 +46,11 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 		*/
 	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random): Unit = {}
 
-	def makeBlockType(variant: Int): BBlockType = new BlockTypeSimple(this, variant)
+	def makeBlockType(variant: Int): BBlockType = new BlockType(this, variant)
 	lazy val _blocktypes = Array.tabulate(countVariants)(makeBlockType)
 	def apply(variant: Int) = _blocktypes(variant)
+
+	def variables: Array[BBlockVar[_]] = Array.empty
 }
 
 abstract class BLogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {
