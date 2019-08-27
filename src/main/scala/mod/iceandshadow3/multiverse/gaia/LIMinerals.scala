@@ -2,13 +2,13 @@ package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.lib.LogicItemMulti
 import mod.iceandshadow3.lib.compat.block.BlockQueries
-import mod.iceandshadow3.lib.compat.item.WUseContextBlock
+import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LIMinerals extends LogicItemMulti(DomainGaia, "minerals", 1) {
-	override def onUseBlock(variant: Int, context: WUseContextBlock): E3vl = {
+	override def onUseBlock(variant: Int, context: WUsageItemOnBlock): E3vl = {
 		import BlockQueries._
 		val b = context.block
 		if(

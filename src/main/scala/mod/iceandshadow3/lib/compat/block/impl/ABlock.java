@@ -12,11 +12,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -30,6 +29,7 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -83,13 +83,27 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	@Override
 	@Nonnull
+	public BlockState mirror(@Nonnull BlockState state, Mirror mirrorIn) {
+		//TODO: Support at the BBlockVar level.
+		return super.mirror(state, mirrorIn);
+	}
+
+	@Override
+	@Nonnull
+	public BlockState rotate(@Nonnull BlockState state, Rotation rot) {
+		//TODO: Support at the BBlockVar level.
+		return super.rotate(state, rot);
+	}
+
+	@Override
+	@Nonnull
 	public StateContainer<Block, BlockState> getStateContainer() {
 		return realContainer;
 	}
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		//No-op. DON'T PUT STUFF HERE!.
+		//No-op. DON'T PUT STUFF HERE!
 	}
 
 	@Nonnull
@@ -183,6 +197,12 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 			);
 		}
 		super.onReplaced(state, worldIn, pos, newState, isMoving);
+	}
+
+	@Nullable
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return logic.onPlaced(new WBlockState(this.getDefaultState()), new WUsagePlace(context)).exposeBS();
 	}
 
 	@Override

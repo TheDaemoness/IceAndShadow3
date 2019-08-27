@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.base.LogicPair
 import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer}
-import mod.iceandshadow3.lib.compat.item.{WItemStack, WUseContext}
+import mod.iceandshadow3.lib.compat.item.{WItemStack, WUsageItem}
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WSound}
 import mod.iceandshadow3.lib.data.DatumBool
@@ -44,7 +44,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	override def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) =
 		tags.chroot(IaS3.MODID).getLong("charged") > 0
 		
-	override def onUseGeneral(variant: Int, context: WUseContext): E3vl = {
+	override def onUseGeneral(variant: Int, context: WUsageItem): E3vl = {
 		val state = context.state.asInstanceOf[SIWayfinder]
 		context.stack.forStateData(state, ()=>{
 			if (!context.mainhand) {

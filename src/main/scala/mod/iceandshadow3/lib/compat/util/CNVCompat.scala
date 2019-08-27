@@ -1,7 +1,8 @@
 package mod.iceandshadow3.lib.compat.util
 
-import mod.iceandshadow3.lib.spatial.{CNVSpatial, IPosBlock, IVec3, Vec3Mutable}
+import mod.iceandshadow3.lib.spatial.{CNVSpatial, EAxis, IPosBlock, IVec3, Vec3Mutable}
 import net.minecraft.entity.Entity
+import net.minecraft.util.Direction
 import net.minecraft.util.math.{BlockPos, Vec3d}
 
 import scala.language.implicitConversions
@@ -22,4 +23,10 @@ object CNVCompat {
 		IVec3.fromDouble(v3f.y).toInt,
 		IVec3.fromDouble(v3f.z)
 	)
+
+	implicit def toOurAxis(axis: Direction.Axis): EAxis = axis match {
+		case Direction.Axis.X => EAxis.WEST_EAST
+		case Direction.Axis.Y => EAxis.DOWN_UP
+		case Direction.Axis.Z => EAxis.NORTH_SOUTH
+	}
 }

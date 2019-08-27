@@ -3,8 +3,8 @@ package mod.iceandshadow3.lib.compat.item.impl;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
-import mod.iceandshadow3.lib.compat.item.WUseContextBlock;
-import mod.iceandshadow3.lib.compat.item.WUseContext;
+import mod.iceandshadow3.lib.compat.item.WUsageItem;
+import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock;
 import mod.iceandshadow3.lib.compat.misc.WNbtTree;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import mod.iceandshadow3.lib.item.BItemProperty;
@@ -75,7 +75,7 @@ public class AItem extends Item implements ILogicItemProvider {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
 		final boolean mainhand = handIn == Hand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
-		final WUseContext context = new WUseContext(getLogicPair(), is, playerIn, handIn, playerIn.isSneaking());
+		final WUsageItem context = new WUsageItem(getLogicPair(), is, playerIn, handIn, playerIn.isSneaking());
 		final E3vl result = logic.onUseGeneral(variant, context);
 		return new ActionResult<>(toEActionResult(result), context.stack().expose());
 	}
@@ -102,7 +102,7 @@ public class AItem extends Item implements ILogicItemProvider {
 	@Override
 	@Nonnull
 	public ActionResultType onItemUse(ItemUseContext contextIn) {
-		final WUseContextBlock context = new WUseContextBlock(getLogicPair(), contextIn);
+		final WUsageItemOnBlock context = new WUsageItemOnBlock(getLogicPair(), contextIn);
 		final E3vl result = logic.onUseBlock(variant, context);
 		return toEActionResult(result);
 	}

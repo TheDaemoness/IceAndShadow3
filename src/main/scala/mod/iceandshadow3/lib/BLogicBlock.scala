@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.base.TLootable
 import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.block.impl.{BBlockVarNew, BCompatLogicBlock, BMateria, BinderBlock}
-import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState, WBlockView}
+import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState, WBlockView, WUsagePlace}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
@@ -43,6 +43,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {}
 	def onRandomTick(variant: Int, block: WBlockRef, rng: Random): Boolean = true
 	def onTick(variant: Int, block: WBlockRef, rng: Random): Unit = {}
+	def onPlaced(state: WBlockState, context: WUsagePlace): WBlockState = state
 
 	/** Called to provide purely client-side (decorative) effects.
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.
