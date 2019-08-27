@@ -2,9 +2,8 @@ package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.base.ILogicBlockProvider
-import mod.iceandshadow3.lib.block.BBlockVar
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
-import mod.iceandshadow3.lib.compat.block.impl.{AProperty, BinderBlock, BinderBlockVar}
+import mod.iceandshadow3.lib.compat.block.impl.{BBlockVar, BBlockVarNew, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.world.WSound
 import net.minecraft.block.{Block, BlockState}
 import net.minecraft.util.ResourceLocation
@@ -12,9 +11,8 @@ import net.minecraftforge.registries.ForgeRegistries
 
 class WBlockState(protected var bs: BlockState)
 extends ILogicBlockProvider with TBlockStateSource {
-	def +[T](variable: BBlockVar[T], value: T): WBlockState = {
-		new WBlockState(exposeBS().`with`[Integer, Integer](BinderBlockVar.applyAndCast(variable), variable(value)))
-	}
+	def +[T](variable: BBlockVarNew[T], value: T): WBlockState =
+		new WBlockState(BinderBlockVar.get(variable).addTo(exposeBS(), value))
 
 	def this(bl: Block) = this(bl.getDefaultState)
 	def this(bl: BLogicBlock, variant: Int) = this(BinderBlock(bl)(variant)._1.getDefaultState)
@@ -22,9 +20,9 @@ extends ILogicBlockProvider with TBlockStateSource {
 
 	protected[compat] def exposeBS(): BlockState = bs
 	def apply[T](which: BBlockVar[T]): Option[T] = {
-		val property: AProperty = BinderBlockVar(which).asInstanceOf[AProperty]
 		val bs = exposeBS()
-		if(bs.has(property)) Some(which.lookup(exposeBS().get(property))) else None
+		val wip = BinderBlockVar.get(which)
+		if(wip.isIn(bs)) Some(wip.in(bs)) else None
 	}
 
 	override def getLogicPair = exposeBS().getBlock match {

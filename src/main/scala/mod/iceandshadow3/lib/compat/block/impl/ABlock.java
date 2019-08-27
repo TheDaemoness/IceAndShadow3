@@ -2,14 +2,10 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.block.BBlockVar;
+import mod.iceandshadow3.lib.compat.block.*;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.base.ILogicBlockProvider;
-import mod.iceandshadow3.lib.compat.block.CNVBlockShape$;
-import mod.iceandshadow3.lib.compat.block.WBlockRef;
-import mod.iceandshadow3.lib.compat.block.WBlockState;
-import mod.iceandshadow3.lib.compat.block.WBlockView;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import net.minecraft.block.Block;
@@ -58,6 +54,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	private final ResourceLocation lootTable;
 	private final StateContainer<Block, BlockState> realContainer;
 
+	@SuppressWarnings("unchecked")
 	public ABlock(BLogicBlock blocklogic, int variant) {
 		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
 		logic = blocklogic;
@@ -73,13 +70,13 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		//State container init happens too early for IaS3. We need to make our own.
 		final StateContainer.Builder<Block, BlockState> builder = new StateContainer.Builder<>(this);
 		final BinderBlockVar$ binder = BinderBlockVar$.MODULE$;
-		for(BBlockVar bbv : logic.variables()) {
-			builder.add(binder.apply(bbv));
+		for(BBlockVarNew bbv : logic.variables()) {
+			builder.add(binder.apply(bbv).ip());
 		}
 		realContainer = builder.create(BlockState::new);
 		BlockState bbs = this.getStateContainer().getBaseState();
-		for(BBlockVar bbv : logic.variables()) {
-			bbs = bbs.with(binder.applyAndCast(bbv), bbv.defaultIndex());
+		for(BBlockVarNew bbv : logic.variables()) {
+			bbs = binder.get(bbv).addTo(bbs, bbv.defaultValue());
 		}
 		setDefaultState(bbs);
 	}

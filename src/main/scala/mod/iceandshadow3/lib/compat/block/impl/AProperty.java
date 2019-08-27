@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.block.impl;
 
-import mod.iceandshadow3.lib.block.BBlockVar;
+import mod.iceandshadow3.lib.compat.block.impl.BBlockVarNew;
 import mod.iceandshadow3.lib.util.OrdSet;
 import net.minecraft.state.IProperty;
 
@@ -9,10 +9,10 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class AProperty implements IProperty<Integer> {
-	private final BBlockVar logic;
+	private final BBlockVarNew logic;
 	private final Collection<Integer> values;
 
-	AProperty(BBlockVar<?> bbv) {
+	AProperty(BBlockVarNew<?> bbv) {
 		logic = bbv;
 		values = new OrdSet(logic.size()).toJava();
 	}
@@ -38,7 +38,7 @@ public class AProperty implements IProperty<Integer> {
 	@Override
 	@Nonnull
 	public Optional<Integer> parseValue(@Nonnull String value) {
-		final int idx = logic.parseHalf(value);
+		final int idx = logic.fromString(value);
 		return idx != -1 ? Optional.of(idx) : Optional.empty();
 	}
 

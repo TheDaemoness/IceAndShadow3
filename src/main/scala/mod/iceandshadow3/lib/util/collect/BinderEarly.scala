@@ -4,17 +4,16 @@ import mod.iceandshadow3.IaS3
 
 import scala.reflect.ClassTag
 
-class BinderEarly[KeyType: ClassTag, CnvType <: KeyType, ValueType <: Object: ClassTag](cnv: CnvType => ValueType)
+class BinderEarly[KeyType: ClassTag, ValueType <: Object: ClassTag]
 	extends Binder[KeyType, ValueType]
 {
-	type ConvertType = CnvType
 	var early = new scala.collection.mutable.HashMap[TKey, ValueType]
-	final def add(key: CnvType with TKey): Unit = {
+	final def add(key: KeyType with TKey, value: ValueType): Unit = {
 		if(early == null) {
 			IaS3.bug(key, s"early add() called after $this was frozen")
 			return
 		}
-		early.put(key, cnv(key))
+		early.put(key, value)
 	}
 
 	override def freeze() = {
