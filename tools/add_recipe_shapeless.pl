@@ -30,7 +30,7 @@ my %remap = (
     OUTPUT => "$namespace:$output",
     INPUT_RECIPE => gen_inputstring("\t\t"),
     INPUT_ADVANCEMENT => gen_inputstring("\t\t\t\t\t"),
-    COUNT => ($amount>1 ? ",\n\t\t\"count\":$amount" : "")
+    COUNT => ($amount>1 ? ",\n\t\t\"count\": $amount" : "")
 );
 
 IaS3Dev::write_template(

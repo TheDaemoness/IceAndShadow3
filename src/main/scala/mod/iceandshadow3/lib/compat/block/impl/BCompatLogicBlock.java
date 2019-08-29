@@ -3,6 +3,7 @@ package mod.iceandshadow3.lib.compat.block.impl;
 import mod.iceandshadow3.lib.BDomain;
 import mod.iceandshadow3.lib.block.HarvestMethod;
 import mod.iceandshadow3.lib.block.IMateria;
+import mod.iceandshadow3.lib.compat.block.BMateria;
 import mod.iceandshadow3.lib.compat.block.WBlockState;
 import mod.iceandshadow3.lib.compat.item.impl.BCompatLogicCommon;
 import net.minecraft.block.Block;

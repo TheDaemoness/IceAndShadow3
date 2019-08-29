@@ -162,7 +162,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return logic.canBeAt(variant, new WBlockView(worldIn, pos), false);
+		return logic.canStayAt(variant, new WBlockView(worldIn, pos), false);
 	}
 
 	@Nonnull
@@ -172,11 +172,12 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		IWorld worldIn, BlockPos currentPos, BlockPos facingPos
 	) {
 		//TODO: BlockType on breakage.
-		if(!logic.canBeAt(variant, new WBlockView(worldIn, currentPos), true)) return Blocks.AIR.getDefaultState();
+		if(!logic.canStayAt(variant, new WBlockView(worldIn, currentPos), true)) return Blocks.AIR.getDefaultState();
 		else {
-			WBlockRef us = new WBlockRef(worldIn, currentPos, stateIn);
-			logic.onNeighborChanged(variant, us, new WBlockRef(worldIn, facingPos, facingState));
-			return us.exposeBS();
+			final WBlockRef us = new WBlockRef(worldIn, currentPos, stateIn);
+			final WBlockRef them = new WBlockRef(worldIn, facingPos, facingState);
+			final WBlockState nova = logic.onNeighborChanged(variant, us, them);
+			return (nova == null ? us : nova).exposeBS();
 		}
 	}
 

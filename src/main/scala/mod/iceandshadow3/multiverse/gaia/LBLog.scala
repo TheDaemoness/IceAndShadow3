@@ -2,8 +2,7 @@ package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.lib.BLogicBlockSimple
 import mod.iceandshadow3.lib.block.CommonBlockVars
-import mod.iceandshadow3.lib.compat.block.impl.BMateria
-import mod.iceandshadow3.lib.compat.block.{WBlockState, WUsagePlace}
+import mod.iceandshadow3.lib.compat.block.{BMateria, WBlockState, WUsagePlace}
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBLog(name: String, materia: BMateria, val leafSupport: Int)

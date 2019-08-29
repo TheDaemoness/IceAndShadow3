@@ -2,11 +2,10 @@ package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.lib.BLogicBlockSimple
 import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
-import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState}
+import mod.iceandshadow3.lib.compat.block.{BMateriaPlasma, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WProjectile}
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeExousic}
-import mod.iceandshadow3.lib.compat.block.impl.BMateriaPlasma
 import mod.iceandshadow3.lib.spatial.UnitVec3s
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainNyx
@@ -44,7 +43,7 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 	override def isTechnical = true
 
 	lazy val blocktype = new WBlockState(this, 0)
-	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): Unit = {
+	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): WBlockState = {
 		if(them.posFine.yBlock <= us.posFine.yBlock && !them.resistsExousia) {
 			if(!them.isAir) {
 				//TODO: Previous particle effects were placeholder AND looked bad. Make better ones.
@@ -52,6 +51,7 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 			}
 			them.set(blocktype)
 		}
+		us
 	}
 
 	override def shouldHaveLootTable = E3vl.FALSE

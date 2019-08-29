@@ -6,8 +6,8 @@ import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.TLootable
 import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
-import mod.iceandshadow3.lib.compat.block.impl.{BBlockVarNew, BCompatLogicBlock, BMateria, BinderBlock}
-import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState, WBlockView, WUsagePlace}
+import mod.iceandshadow3.lib.compat.block.impl.{BBlockVarNew, BCompatLogicBlock, BinderBlock}
+import mod.iceandshadow3.lib.compat.block.{BMateria, WBlockRef, WBlockState, WBlockView, WUsagePlace}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
@@ -31,7 +31,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	def areSurfacesFull(variant: Int) = true
 	def harvestOverride(variant: Int, block: WBlockRef, fortune: Int): Array[WItemStack] = null
 	def harvestXP(variant: Int, what: WBlockView, silktouch: Boolean): Int = 0
-	def canBeAt(variant: Int, block: WBlockView, preexisting: Boolean) = true
+	def canStayAt(variant: Int, block: WBlockView, preexisting: Boolean) = true
 	//TODO: Separate collision shape from selection shape.
 	def shape: BlockShape = BlockShape.FULL_CUBE
 	def isDiscrete = false
@@ -39,7 +39,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	//TODO: WBlockRef with TWBlockLogical or some such.
 
 	def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {}
-	def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): Unit = {}
+	def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): WBlockState = us
 	def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {}
 	def onRandomTick(variant: Int, block: WBlockRef, rng: Random): Boolean = true
 	def onTick(variant: Int, block: WBlockRef, rng: Random): Unit = {}

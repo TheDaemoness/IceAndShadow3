@@ -11,7 +11,7 @@ class LBIcicles extends BLogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 
 	override def harvestXP(variant: Int, what: WBlockView, silktouch: Boolean): Int = if(silktouch) 0 else 2
 
-	override def canBeAt(variant: Int, block: WBlockView, preexisting: Boolean) = {
+	override def canStayAt(variant: Int, block: WBlockView, preexisting: Boolean) = {
 		new AdjacentBlocks.Above(block).each.isAll(BlockQueries.solid)
 	}
 

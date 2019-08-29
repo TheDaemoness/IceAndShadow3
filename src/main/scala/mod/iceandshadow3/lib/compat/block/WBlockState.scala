@@ -32,6 +32,13 @@ with TBlockStateSource {
 		if(wip.isIn(bs)) Some(wip.in(bs)) else None
 	}
 
+	@throws[IllegalArgumentException]
+	def get[T](which: BBlockVar[T]): T = {
+		val bs = exposeBS()
+		val wip = BinderBlockVar.get(which)
+		wip.in(bs)
+	}
+
 	override def getLogicPair = exposeBS().getBlock match {
 		case lp: ILogicBlockProvider => lp.getLogicPair
 		case _ => null

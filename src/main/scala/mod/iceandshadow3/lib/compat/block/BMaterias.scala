@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.compat.block.impl
+package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.block.ECommonBlockType._
 import mod.iceandshadow3.lib.block.HarvestMethod
@@ -6,8 +6,8 @@ import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 
 abstract class BMateriaLeaves extends BMateria {
-	protected[impl] lazy val mcmat = Material.LEAVES
-	protected[impl] lazy val sound = SoundType.PLANT
+	protected[block] lazy val mcmat = Material.LEAVES
+	protected[block] lazy val sound = SoundType.PLANT
 	override def isToolClassEffective(m: HarvestMethod): Boolean =
 		m == HarvestMethod.SHEAR || m == HarvestMethod.BLADE
 	override def getBaseHarvestResist: Int = 0
@@ -16,8 +16,8 @@ abstract class BMateriaLeaves extends BMateria {
 }
 
 abstract class BMateriaPlasma extends BMateria {
-	protected[impl] lazy val mcmat = Material.FIRE
-	protected[impl] lazy val sound = SoundType.SLIME
+	protected[block] lazy val mcmat = Material.FIRE
+	protected[block] lazy val sound = SoundType.SLIME
 	override def isToolClassEffective(m: HarvestMethod): Boolean = false
 	override def isNonSolid = true
 	override def isTransparent = true
@@ -25,32 +25,32 @@ abstract class BMateriaPlasma extends BMateria {
 }
 
 abstract class BMateriaMetal extends BMateria {
-	protected[impl] lazy val mcmat = Material.IRON
-	protected[impl] lazy val sound = SoundType.METAL
+	protected[block] lazy val mcmat = Material.IRON
+	protected[block] lazy val sound = SoundType.METAL
 	override def isToolClassEffective(m: HarvestMethod): Boolean =
 		m == HarvestMethod.PICKAXE
 	override def getShapes = Set(CUBE, SLAB, STAIR, FENCE, PANE)
 }
 
 abstract class BMateriaStone extends BMateria {
-	protected[impl] lazy val mcmat = Material.ROCK
-	protected[impl] lazy val sound = SoundType.STONE
+	protected[block] lazy val mcmat = Material.ROCK
+	protected[block] lazy val sound = SoundType.STONE
 	override def isToolClassEffective(m: HarvestMethod): Boolean =
 		m == HarvestMethod.PICKAXE
 	override def getShapes = Set(CUBE, SLAB, STAIR, WALL)
 }
 
 abstract class BMateriaWood extends BMateria {
-	protected[impl] lazy val mcmat = Material.WOOD
-	protected[impl] lazy val sound = SoundType.WOOD
+	protected[block] lazy val mcmat = Material.WOOD
+	protected[block] lazy val sound = SoundType.WOOD
 	override def isToolClassEffective(m: HarvestMethod): Boolean =
 		m == HarvestMethod.AXE
 	override def getShapes = Set(CUBE, SLAB, STAIR, FENCE)
 }
 
 abstract class BMateriaGlass extends BMateria {
-	protected[impl] lazy val mcmat = Material.GLASS
-	protected[impl] lazy val sound = SoundType.GLASS
+	protected[block] lazy val mcmat = Material.GLASS
+	protected[block] lazy val sound = SoundType.GLASS
 	override def isToolClassEffective(m: HarvestMethod): Boolean =
 		m == HarvestMethod.PICKAXE
 	override def getShapes = Set(CUBE, PANE)
@@ -58,8 +58,8 @@ abstract class BMateriaGlass extends BMateria {
 }
 
 abstract class BMateriaIce extends BMateria {
-	protected[impl] lazy val mcmat = Material.ICE
-	protected[impl] lazy val sound = SoundType.GLASS
+	protected[block] lazy val mcmat = Material.ICE
+	protected[block] lazy val sound = SoundType.GLASS
 	override def isToolClassEffective(m: HarvestMethod): Boolean =
 		m == HarvestMethod.PICKAXE
 	override def getShapes = Set(CUBE, SLAB, STAIR)
@@ -67,8 +67,8 @@ abstract class BMateriaIce extends BMateria {
 }
 
 abstract class BMateriaGravel extends BMateria {
-	protected[impl] lazy val mcmat = Material.SAND
-	protected[impl] lazy val sound = SoundType.GROUND
+	protected[block] lazy val mcmat = Material.SAND
+	protected[block] lazy val sound = SoundType.GROUND
 	override def isToolClassEffective(m: HarvestMethod): Boolean =
 		m == HarvestMethod.SHOVEL
 	override def getShapes = Set(CUBE)

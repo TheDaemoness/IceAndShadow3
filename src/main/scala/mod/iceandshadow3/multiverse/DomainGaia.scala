@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse
 
-import mod.iceandshadow3.lib.BDomain
+import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
 import mod.iceandshadow3.lib.subtype.{LogicBlockOfMateria, LogicItemTwoForm}
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.util.{Color, E3vl}
@@ -21,6 +21,7 @@ object DomainGaia extends BDomain("gaia") {
 		val cortra = new LogicItemTwoForm(DomainGaia, "cortra", 2, "dust")
 		val devora = new LIDevora
 		val shale = new LIShale
+		val petrified_brick = new LogicItemMulti(DomainGaia, "petrified_brick", 1)
 	}
 
 	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx
