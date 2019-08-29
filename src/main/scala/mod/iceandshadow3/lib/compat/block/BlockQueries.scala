@@ -1,6 +1,8 @@
 package mod.iceandshadow3.lib.compat.block
 
+import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.block.IMateria
+import mod.iceandshadow3.lib.compat.block.impl.BBlockVar
 import net.minecraft.block.material.Material
 
 object BlockQueries {
@@ -17,5 +19,12 @@ object BlockQueries {
 	def crushableBy(what: WBlockView): WBlockView => Boolean = v => { v.getHardness < what.getHardness }
 	def materia(mat: Class[_ <: IMateria]): WBlockView => Boolean = {
 		bv => Option(bv.getLogicPair).fold(false)({_.logic.isOfMateria(mat)})
+	}
+	def hasLogic(bl: BLogicBlock): WBlockView => Boolean = bv => {
+		val lp = bv.getLogicPair
+		lp != null && lp.logic == bl
+	}
+	def varMatches[T](variable: BBlockVar[T], pred: T => Boolean): WBlockView => Boolean = {
+		wbv => wbv ? (variable, pred)
 	}
 }

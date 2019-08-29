@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"axis=y": {
+			"model": "iceandshadow3:block/gaia_petrified_log"
+		},
+		"axis=z": {
+			"model": "iceandshadow3:block/gaia_petrified_log",
+			"x": 90
+		},
+		"axis=x": {
+			"model": "iceandshadow3:block/gaia_petrified_log",
+			"x": 90,
+			"y": 90
+		}
+	}
+}

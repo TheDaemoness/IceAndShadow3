@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"name": "standard",
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "iceandshadow3:gaia_petrified_log"
+				}
+			],
+			"conditions": []
+		}
+	]
+}

@@ -66,3 +66,13 @@ abstract class BMateriaIce extends BMateria {
 	override def isTransparent = true
 }
 
+abstract class BMateriaGravel extends BMateria {
+	protected[impl] lazy val mcmat = Material.SAND
+	protected[impl] lazy val sound = SoundType.GROUND
+	override def isToolClassEffective(m: HarvestMethod): Boolean =
+		m == HarvestMethod.SHOVEL
+	override def getShapes = Set(CUBE)
+	override def getBaseHardness = 0.6f
+	override def getBaseHarvestResist = -1
+}
+

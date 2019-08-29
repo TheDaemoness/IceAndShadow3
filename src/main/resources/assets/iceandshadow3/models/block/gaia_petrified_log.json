@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "iceandshadow3:block/gaia_petrified_log.end",
+        "side": "iceandshadow3:block/gaia_petrified_log.side"
+    }
+}

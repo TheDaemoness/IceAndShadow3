@@ -13,6 +13,8 @@ object DomainGaia extends BDomain("gaia") {
 			override def shouldHaveLootTable = E3vl.FALSE
 		}
 		val navistra_stone = new LogicBlockOfMateria(DomainGaia, MatNavistraStone)
+		val petrified_log = new LBLog("petrified_log", MatStone, 3)
+		val petrified_leaves = new LBLeaves("petrified_leaves", MatPetrifiedLeaves, petrified_log)
 	}
 	val Items = new {
 		val minerals = new LIMinerals

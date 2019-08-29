@@ -10,9 +10,16 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries
 
 class WBlockState(protected var bs: BlockState)
-extends ILogicBlockProvider with TBlockStateSource {
+extends ILogicBlockProvider
+with TBlockStateSource {
 	def +[T](variable: BBlockVarNew[T], value: T): WBlockState =
 		new WBlockState(BinderBlockVar.get(variable).addTo(exposeBS(), value))
+
+	def ?[T](variable: BBlockVar[T], pred: T => Boolean): Boolean = {
+		val bs = exposeBS()
+		val wip = BinderBlockVar.get(variable)
+		if(wip.isIn(bs)) pred(wip.in(bs)) else false
+	}
 
 	def this(bl: Block) = this(bl.getDefaultState)
 	def this(bl: BLogicBlock, variant: Int) = this(BinderBlock(bl)(variant)._1.getDefaultState)
