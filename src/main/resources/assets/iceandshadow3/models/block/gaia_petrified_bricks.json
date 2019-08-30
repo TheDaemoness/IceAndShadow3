@@ -1,0 +1,23 @@
+{
+	"parent": "block/block",
+	"elements": [
+		{
+			"from": [ 0, 0, 0 ],
+			"to": [ 16, 16, 16 ],
+			"faces": {
+				"down":  { "texture": "#y", "cullface": "down" },
+				"up":    { "texture": "#y", "cullface": "up", "rotation": 90 },
+				"north": { "texture": "#z", "cullface": "north" },
+				"south": { "texture": "#z", "cullface": "south" },
+				"west":  { "texture": "#x", "cullface": "west" },
+				"east":  { "texture": "#x", "cullface": "east" }
+			}
+		}
+	],
+	"textures": {
+		"particle": "iceandshadow3:block/gaia_petrified_bricks.y",
+		"x": "iceandshadow3:block/gaia_petrified_bricks.x",
+		"y": "iceandshadow3:block/gaia_petrified_bricks.y",
+		"z": "iceandshadow3:block/gaia_petrified_bricks.z"
+	}
+}
