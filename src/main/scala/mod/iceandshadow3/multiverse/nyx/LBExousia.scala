@@ -31,8 +31,8 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 		//TODO: Damage resistance check.
 		who.particle(Particles.smoke_large, UnitVec3s.ZERO)
 		who.damage(damage)
-		who.slow(0.5, 0.1, 0.5)
-		who.impulse(0, 0.1, 0)
+		who.slow(0.5, 0.5, 0.5)
+		who.impulse(0, 0.05, 0)
 		who match {
 			case victim: WEntityLiving => victim.setStatus(Statuses.wither, 115, 2)
 			case missile: WProjectile => missile.remove()

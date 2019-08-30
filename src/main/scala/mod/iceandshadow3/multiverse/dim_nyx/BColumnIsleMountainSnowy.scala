@@ -6,8 +6,8 @@ import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.{BlockTypeSnow, TBlockStateSource}
 import mod.iceandshadow3.lib.util.MathUtils
 
-abstract class BColumnMountainSnowy(x: Int, z: Int, region: RegionInterpret, voidhole: Boolean)
-extends BColumnMountain(x, z, region, voidhole) {
+abstract class BColumnIsleMountainSnowy(x: Int, z: Int, chunk: NyxChunk, voidhole: Boolean)
+extends BColumnIsleMountain(x, z, chunk, voidhole) {
 
 	override protected def stoneUpper: WBlockState = WorldGenNyx.stones(0)
 
@@ -26,7 +26,7 @@ extends BColumnMountain(x, z, region, voidhole) {
 					val delta = height - y
 					val snowmod = MathUtils.ratioBelow(yFull, y, yThinning)
 					in(y) = if (snowmod != 0) {
-						val snowdelta = if (region.smoothsnow) delta else if (delta > 2f / 3) 5d / 7 else 1d / 7
+						val snowdelta = if (chunk.smoothsnow) delta else if (delta > 2f / 3) 5d / 7 else 1d / 7
 						BlockTypeSnow.fromFloat(snowmod * snowdelta)
 					} else null
 				}

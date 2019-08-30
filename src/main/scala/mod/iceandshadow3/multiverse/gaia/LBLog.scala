@@ -9,7 +9,7 @@ class LBLog(name: String, materia: BMateria, val leafSupport: Int)
 extends BLogicBlockSimple(DomainGaia, name, materia) {
 	override def variables = Array(CommonBlockVars.axis)
 
-	override def onPlaced(state: WBlockState, context: WUsagePlace) = {
+	override def toPlace(state: WBlockState, context: WUsagePlace) = {
 		state + (CommonBlockVars.axis, context.axis)
 	}
 }

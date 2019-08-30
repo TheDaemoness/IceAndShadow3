@@ -17,7 +17,7 @@ extends BLogicBlockSimple(DomainGaia, name, materia) {
 		// ^ We avoid doing the support calculations twice for preexisting blocks.
 	}
 
-	override def onPlaced(state: WBlockState, context: WUsagePlace) = {
+	override def toPlace(state: WBlockState, context: WUsagePlace) = {
 		state + (varSupport, calcSupport(context.block, 0))
 	}
 

@@ -43,7 +43,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {}
 	def onRandomTick(variant: Int, block: WBlockRef, rng: Random): Boolean = true
 	def onTick(variant: Int, block: WBlockRef, rng: Random): Unit = {}
-	def onPlaced(state: WBlockState, context: WUsagePlace): WBlockState = state
+	def toPlace(state: WBlockState, context: WUsagePlace): WBlockState = state
 
 	/** Called to provide purely client-side (decorative) effects.
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.

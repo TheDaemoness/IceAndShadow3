@@ -172,8 +172,9 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		IWorld worldIn, BlockPos currentPos, BlockPos facingPos
 	) {
 		//TODO: BlockType on breakage.
-		if(!logic.canStayAt(variant, new WBlockView(worldIn, currentPos), true)) return Blocks.AIR.getDefaultState();
-		else {
+		if(!logic.canStayAt(variant, new WBlockView(worldIn, currentPos), true)) {
+			return Blocks.AIR.getDefaultState();
+		} else {
 			final WBlockRef us = new WBlockRef(worldIn, currentPos, stateIn);
 			final WBlockRef them = new WBlockRef(worldIn, facingPos, facingState);
 			final WBlockState nova = logic.onNeighborChanged(variant, us, them);
@@ -203,7 +204,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return logic.onPlaced(new WBlockState(this.getDefaultState()), new WUsagePlace(context)).exposeBS();
+		return logic.toPlace(new WBlockState(this.getDefaultState()), new WUsagePlace(context)).exposeBS();
 	}
 
 	@Override
