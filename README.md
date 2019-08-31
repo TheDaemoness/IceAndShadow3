@@ -23,7 +23,7 @@ IaS3 is explorable, but nowhere close to its design goals.
 If you want to play around with it anyway, follow the added advancements.
 
 ## Getting Started (As A Developer)
-[![Travis CI Status](https://travis-ci.org/TheDaemoness/IceAndShadow3.svg?branch=master "Travis CI status (branch: master)")](https://travis-ci.org/TheDaemoness/IceAndShadow3)
+[![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FTheDaemoness%2FIceAndShadow3%2Fbadge&label=build&logo=none)](https://github.com/TheDaemoness/IceAndShadow3/actions)
 
 IaS3 is written in Scala 2.13 and Java 8. It uses Gradle,
 but does not include a Gradle wrapper in VCS for largely philosophical reasons.
