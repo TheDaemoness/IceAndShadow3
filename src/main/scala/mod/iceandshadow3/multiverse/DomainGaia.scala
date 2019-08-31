@@ -21,6 +21,7 @@ object DomainGaia extends BDomain("gaia") {
 	}
 	val Items = new {
 		val minerals = new LIMinerals
+		val navistra = new LINavistra
 		val cortra = new LogicItemTwoForm(DomainGaia, "cortra", 2, "dust")
 		val devora = new LIDevora
 		val shale = new LIShale

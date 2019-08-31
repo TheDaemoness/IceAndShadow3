@@ -22,8 +22,6 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 
 	override def getPathPrefix: String = "block"
 
-	override def resistsExousia(variant: Int) = mat.resistsExousia
-
 	/** Whether or not the surfaces of the blocks have any visible holes in them.
 		* Controls the rendering layer in conjunction with the materia.
 		*/

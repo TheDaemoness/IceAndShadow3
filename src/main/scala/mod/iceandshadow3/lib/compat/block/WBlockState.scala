@@ -6,6 +6,7 @@ import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.block.impl.{BBlockVar, BBlockVarNew, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.world.WSound
 import net.minecraft.block.{Block, BlockState}
+import net.minecraft.tags.BlockTags
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries
 
@@ -37,6 +38,13 @@ with TBlockStateSource {
 		val bs = exposeBS()
 		val wip = BinderBlockVar.get(which)
 		wip.in(bs)
+	}
+
+	def hasTag(tagname: String): Boolean = {
+		//TODO: WTag?
+		val tag = BlockTags.getCollection.get(new ResourceLocation(tagname))
+		if(tag == null) false
+		else exposeBS().isIn(tag)
 	}
 
 	override def getLogicPair = exposeBS().getBlock match {

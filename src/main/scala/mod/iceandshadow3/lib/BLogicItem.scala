@@ -24,7 +24,6 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	def onUseBlock(variant: Int, context: WUsageItemOnBlock) = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
 	def getBurnTicks(variant: Int, stack: WItemStack) = 0
-	override def resistsExousia(variant: Int) = false
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: Seq[(String, Int)])

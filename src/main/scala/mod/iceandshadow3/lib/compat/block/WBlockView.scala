@@ -53,12 +53,6 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 		tileentity.fold[CompoundNBT](null)(tent => {tent.getTileData})
 	}
 
-	def resistsExousia: Boolean = {
-		val lp = getLogicPair
-		if(lp == null) getHardness < 0f || getHardness >= 150f
-		else lp.logic.resistsExousia(lp.variant)
-	}
-
 	def isAir: Boolean = exposeBS().isAir(ibr, pos)
 
 	override def yBlock = pos.getY

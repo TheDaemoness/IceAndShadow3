@@ -2,6 +2,7 @@ package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.base.{ILogicItemProvider, LogicPair}
+import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
@@ -10,10 +11,11 @@ import mod.iceandshadow3.lib.data.INbtRW
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
 import net.minecraft.inventory.IInventory
-import net.minecraft.item.{Item, ItemStack}
+import net.minecraft.item.{BlockItem, Item, ItemStack}
 import net.minecraft.nbt.{CompoundNBT, INBT}
+import net.minecraft.tags.ItemTags
 import net.minecraft.tileentity.AbstractFurnaceTileEntity
-import net.minecraft.util.IItemProvider
+import net.minecraft.util.{IItemProvider, ResourceLocation}
 import net.minecraftforge.registries.ForgeRegistries
 
 /** Null-safe item stack + owner reference.
@@ -33,6 +35,13 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	override def registryName: String = is.fold[String](null)(
 		items => ForgeRegistries.ITEMS.getKey(items.getItem).toString
 	)
+
+	def hasTag(tagname: String): Boolean = {
+		//TODO: WTag?
+		val tag = ItemTags.getCollection.get(new ResourceLocation(tagname))
+		if(tag == null) false
+		else inputstack.getItem.isIn(tag)
+	}
 
 	def copy: WItemStack = new WItemStack(is.fold[ItemStack](null){_.copy()}, owner)
 	def isEmpty: Boolean = is.fold(true){_.getCount == 0}
@@ -131,6 +140,13 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	override def fromNBT(tag: INBT) = tag match {
 		case compound: CompoundNBT => is = Some(ItemStack.read(compound)); true
 		case _ => false
+	}
+
+	def toBlockState: Option[WBlockState] = {
+		is.fold[Option[WBlockState]](None)(items => items.getItem match {
+			case bli: BlockItem => Some(new WBlockState(bli.getBlock.getDefaultState))
+			case _ => None
+		})
 	}
 }
 object WItemStack {

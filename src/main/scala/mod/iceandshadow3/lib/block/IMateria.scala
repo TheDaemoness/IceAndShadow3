@@ -15,6 +15,5 @@ trait IMateria {
 	def getSlipperiness: Float = 0.6f
 	def isNonSolid: Boolean = false
 	def getShapes: Set[ECommonBlockType]
-	def resistsExousia: Boolean = false
 	def isTransparent = false
 }

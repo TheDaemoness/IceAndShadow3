@@ -28,7 +28,6 @@ abstract class BLogic(protected val domain: BDomain, protected val name: String)
 		val varname = getVariantName(variant)
 		if(varname == null) getName else getName+'_'+varname
 	}
-	def resistsExousia(variant: Int): Boolean
 	protected def getBaseName: String = name
 
 	def getEventFish[T <: TEventFish: ClassTag](variant: Int): Option[T] = {
