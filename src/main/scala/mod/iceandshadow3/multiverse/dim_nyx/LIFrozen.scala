@@ -1,10 +1,10 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.subtype.LogicItemChameleon
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack, WUsageItem}
 import mod.iceandshadow3.lib.compat.misc.ResourceMap
+import mod.iceandshadow3.lib.subtype.LogicItemChameleon
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainAlien
 

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.util
 
-import mod.iceandshadow3.lib.spatial.{CNVSpatial, EAxis, IPosBlock, IVec3, Vec3Mutable}
+import mod.iceandshadow3.lib.spatial._
 import net.minecraft.entity.Entity
 import net.minecraft.util.Direction
 import net.minecraft.util.math.{BlockPos, Vec3d}

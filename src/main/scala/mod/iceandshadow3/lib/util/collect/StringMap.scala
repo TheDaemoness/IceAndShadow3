@@ -2,8 +2,8 @@ package mod.iceandshadow3.lib.util.collect
 
 import mod.iceandshadow3.lib.util.TQuietFailing
 
-import scala.jdk.CollectionConverters._
 import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 class StringMap[T] extends mutable.Map[String, T] with TQuietFailing {
 	//TODO: Quick-n-dirty implementation that will need polishing later, likely conversion to a trie.

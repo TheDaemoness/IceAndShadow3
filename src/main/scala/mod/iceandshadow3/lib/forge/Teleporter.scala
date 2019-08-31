@@ -8,10 +8,10 @@ import mod.iceandshadow3.lib.spatial.IVec3
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.network.play.server.{SPlayEntityEffectPacket, SPlaySoundEventPacket, SPlayerAbilitiesPacket, SRespawnPacket, SServerDifficultyPacket}
+import net.minecraft.network.play.server._
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.server.ServerWorld
 import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
 import net.minecraftforge.eventbus.api.{EventPriority, SubscribeEvent}

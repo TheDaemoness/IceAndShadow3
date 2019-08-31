@@ -9,7 +9,7 @@ object RandomXZ {
 		seedIn ^ new Random(~modifierIn ^ IntBitUtils.mixIntBits(xIn, zIn)).nextLong()
 	}
 }
-import RandomXZ._
+import mod.iceandshadow3.lib.spatial.RandomXZ._
 
 /** Implements a wrapper for a PRNG designed for providing random numbers at certain 2d coordinates.
 	* Extends Java's Random class, which is an LCG.

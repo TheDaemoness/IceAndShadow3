@@ -1,8 +1,8 @@
 package mod.iceandshadow3.lib.spatial
 
-import IVec3._
-import mod.iceandshadow3.lib.data._
 import mod.iceandshadow3.lib.data.CNVDataTree._
+import mod.iceandshadow3.lib.data._
+import mod.iceandshadow3.lib.spatial.IVec3._
 
 class Vec3Mutable (
 	private var x: Long,

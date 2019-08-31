@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.compat.entity
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.{BDimension, ParticleType}
+import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.compat.entity.state.impl.ADamageSource
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WDimensionCoord}
-import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, TEffectSource}
+import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WDimensionCoord}
 import mod.iceandshadow3.lib.spatial.{IPositionalFine, IVec3}
 import mod.iceandshadow3.lib.util.collect.IteratorEmpty
+import mod.iceandshadow3.lib.{BDimension, ParticleType}
 import net.minecraft.entity.Entity
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.world.LightType

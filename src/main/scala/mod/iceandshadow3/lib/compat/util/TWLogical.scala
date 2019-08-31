@@ -3,9 +3,8 @@ package mod.iceandshadow3.lib.compat.util
 import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.BStateData
-import mod.iceandshadow3.lib.base.{BLogic, LogicPair, LogicTriad, TLogicProvider, TLogicStateProvider}
+import mod.iceandshadow3.lib.base._
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
-import mod.iceandshadow3.lib.util._
 import net.minecraft.nbt.CompoundNBT
 
 trait TWLogical[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {

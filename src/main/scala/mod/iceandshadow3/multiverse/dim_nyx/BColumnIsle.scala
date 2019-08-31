@@ -2,7 +2,6 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
-import mod.iceandshadow3.lib.base.BWorldGenColumn
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.{BlockTypeSnow, CommonBlockTypes, TBlockStateSource}
 import mod.iceandshadow3.lib.spatial.{Cells, RandomXZ}

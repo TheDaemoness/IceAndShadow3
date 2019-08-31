@@ -7,8 +7,8 @@ import mod.iceandshadow3.lib.spatial.IPosBlock
 import net.minecraft.block.BlockState
 import net.minecraft.entity.item.FallingBlockEntity
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.{IWorld, World}
 import net.minecraft.world.chunk.IChunk
+import net.minecraft.world.{IWorld, World}
 
 class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView(chunk.getWorldForge, pos, bs)
 	with TWWorldPlace

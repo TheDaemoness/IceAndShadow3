@@ -1,6 +1,5 @@
 package mod.iceandshadow3.lib.compat.block.impl;
 
-import mod.iceandshadow3.lib.compat.block.impl.BBlockVarNew;
 import mod.iceandshadow3.lib.util.OrdSet;
 import net.minecraft.state.IProperty;
 

@@ -1,11 +1,11 @@
 package mod.iceandshadow3.lib.compat.world
 
 import javax.annotation.Nullable
-import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.spatial.IPosBlock
+import mod.iceandshadow3.{ContentLists, IaS3}
 import net.minecraft.util.{ResourceLocation, SoundCategory, SoundEvent}
 import net.minecraftforge.registries.ForgeRegistries
 

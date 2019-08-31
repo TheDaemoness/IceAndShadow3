@@ -94,7 +94,10 @@ dependencies {
     shade 'org.scala-lang:scala-library:2.13.0'
 }
 
-import groovy.json.*
+
+import groovy.json.JsonOutput
+import groovy.json.JsonParserType
+import groovy.json.JsonSlurper
 import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {

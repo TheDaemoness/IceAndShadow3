@@ -1,11 +1,11 @@
 package mod.iceandshadow3.lib.compat.entity
 
+import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.StatusEffect
 import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WDimension
-import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.lib.util.collect.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.LivingEntity

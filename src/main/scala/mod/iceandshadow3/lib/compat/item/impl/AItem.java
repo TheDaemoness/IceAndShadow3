@@ -2,14 +2,14 @@ package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicItem;
+import mod.iceandshadow3.lib.base.ILogicItemProvider;
+import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
 import mod.iceandshadow3.lib.compat.item.WUsageItem;
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock;
 import mod.iceandshadow3.lib.compat.misc.WNbtTree;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import mod.iceandshadow3.lib.item.BItemProperty;
-import mod.iceandshadow3.lib.base.ILogicItemProvider;
-import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.util.E3vl;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;

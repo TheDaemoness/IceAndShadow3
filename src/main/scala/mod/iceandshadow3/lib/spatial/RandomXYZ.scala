@@ -11,7 +11,7 @@ object RandomXYZ {
 		seedIn ^ xz ^ y
 	}
 }
-import RandomXYZ._
+import mod.iceandshadow3.lib.spatial.RandomXYZ._
 
 class RandomXYZ(seed: Long, modifier: Int, x: Int, y: Int, z: Int)
 	extends Random(calculateSeed(seed, modifier, x, y, z))

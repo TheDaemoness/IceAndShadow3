@@ -2,16 +2,16 @@ package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.base.LogicPair
-import mod.iceandshadow3.lib.item.BItemProperty
-import mod.iceandshadow3.lib.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WUsageItem}
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WSound}
 import mod.iceandshadow3.lib.data.DatumBool
 import mod.iceandshadow3.lib.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
+import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.lib.util.E3vl
+import mod.iceandshadow3.lib.{BLogicItemComplex, BStateData}
 import mod.iceandshadow3.multiverse.misc.Statuses
 import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}
 

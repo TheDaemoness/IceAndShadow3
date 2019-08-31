@@ -1,7 +1,6 @@
 package mod.iceandshadow3.lib.util
 
 import scala.collection.immutable
-
 import scala.jdk.CollectionConverters._
 
 /** A misbehaving set that represents a continuous [0, size) range of (boxed) Integers. */

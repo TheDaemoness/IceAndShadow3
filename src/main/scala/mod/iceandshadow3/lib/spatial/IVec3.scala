@@ -17,7 +17,7 @@ object IVec3 {
 	def toSubCoord(value: Long): Int = (value & SUB_MASK).toInt
 }
 
-import IVec3._
+import mod.iceandshadow3.lib.spatial.IVec3._
 
 /** An immutable fixed-precision 3d vector class.
 */

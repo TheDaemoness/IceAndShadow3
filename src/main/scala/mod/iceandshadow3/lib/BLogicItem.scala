@@ -1,11 +1,11 @@
 package mod.iceandshadow3.lib
 
 import mod.iceandshadow3.ContentLists
-import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.{BCompatLogicItem, BinderItem}
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
+import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.util.E3vl
 
 sealed abstract class BLogicItem(dom: BDomain, name: String)

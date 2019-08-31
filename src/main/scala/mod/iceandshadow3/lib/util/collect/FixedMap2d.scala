@@ -1,7 +1,5 @@
 package mod.iceandshadow3.lib.util.collect
 
-import mod.iceandshadow3.lib.spatial.PairXZ
-
 import scala.reflect.ClassTag
 
 /** A read-only parallel-computed associative map, mapping 2d coordinates to values in O(1) time.

@@ -1,8 +1,6 @@
 package mod.iceandshadow3.lib.compat.block.`type`
 
-import net.minecraft.block.SnowBlock
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
+import net.minecraft.block.{BlockState, Blocks, SnowBlock}
 
 class BlockTypeSnow(height: Int) extends TBlockStateSource {
 	override protected[compat] def exposeBS(): BlockState =

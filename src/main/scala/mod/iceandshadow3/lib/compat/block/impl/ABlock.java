@@ -2,10 +2,10 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.compat.block.*;
-import mod.iceandshadow3.lib.block.HarvestMethod$;
-import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.base.ILogicBlockProvider;
+import mod.iceandshadow3.lib.base.LogicPair;
+import mod.iceandshadow3.lib.block.HarvestMethod$;
+import mod.iceandshadow3.lib.compat.block.*;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import net.minecraft.block.Block;

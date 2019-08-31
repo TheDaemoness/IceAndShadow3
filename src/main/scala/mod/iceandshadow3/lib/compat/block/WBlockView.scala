@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.damage.Attack
+import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, IWrapperDefault, TEffectSource, TWLogical}
 import mod.iceandshadow3.lib.compat.world.TWWorld
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}

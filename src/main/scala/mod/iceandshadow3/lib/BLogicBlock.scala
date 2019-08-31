@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.base.TLootable
 import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.block.impl.{BBlockVarNew, BCompatLogicBlock, BinderBlock}
-import mod.iceandshadow3.lib.compat.block.{BMateria, WBlockRef, WBlockState, WBlockView, WUsagePlace}
+import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld

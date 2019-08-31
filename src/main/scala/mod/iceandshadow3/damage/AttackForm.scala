@@ -1,7 +1,7 @@
 package mod.iceandshadow3.damage
 
-import mod.iceandshadow3.lib.compat.entity.state.EquipPoint._
 import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
+import mod.iceandshadow3.lib.compat.entity.state.EquipPoint._
 
 case class AttackForm (
 	isProjectile:Boolean = false,

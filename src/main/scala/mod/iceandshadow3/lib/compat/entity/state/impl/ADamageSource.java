@@ -1,9 +1,9 @@
 package mod.iceandshadow3.lib.compat.entity.state.impl;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.lib.compat.util.TEffectSource;
 import mod.iceandshadow3.damage.Attack;
 import mod.iceandshadow3.damage.AttackForm;
+import mod.iceandshadow3.lib.compat.util.TEffectSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.DamageSource;

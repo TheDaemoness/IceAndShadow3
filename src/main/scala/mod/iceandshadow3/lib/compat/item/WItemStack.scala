@@ -8,8 +8,7 @@ import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.compat.util.{IWrapperDefault, SRandom, TLocalized, TWLogical}
 import mod.iceandshadow3.lib.data.INbtRW
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.{CompoundNBT, INBT}

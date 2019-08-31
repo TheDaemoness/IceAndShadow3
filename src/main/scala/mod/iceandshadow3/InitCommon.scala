@@ -1,13 +1,12 @@
 package mod.iceandshadow3
 
-import mod.iceandshadow3.lib.compat.{Binders, Registrar}
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
+import mod.iceandshadow3.lib.compat.{Binders, Registrar}
 import mod.iceandshadow3.lib.forge.{EventFisherman, Teleporter}
 import mod.iceandshadow3.multiverse._
 import mod.iceandshadow3.multiverse.misc.Statuses
-import net.minecraft.server.MinecraftServer
 import net.minecraft.world.biome.Biome
-import net.minecraftforge.common.{DimensionManager, ModDimension}
+import net.minecraftforge.common.ModDimension
 import net.minecraftforge.registries.IForgeRegistry
 
 private[iceandshadow3] object InitCommon {

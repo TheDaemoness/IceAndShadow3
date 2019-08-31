@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse.gaia
 import mod.iceandshadow3.lib.BLogicBlockSimple
 import mod.iceandshadow3.lib.block.BlockVarOrd
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
-import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BMateria, BlockQueries, WBlockRef, WBlockState, WBlockView, WUsagePlace}
+import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBLeaves(name: String, materia: BMateria, val parent: LBLog)

@@ -2,7 +2,6 @@ package mod.iceandshadow3.lib
 
 import java.util.Random
 
-import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.client.IParticle
 import mod.iceandshadow3.lib.compat.client.impl.BinderParticle
 

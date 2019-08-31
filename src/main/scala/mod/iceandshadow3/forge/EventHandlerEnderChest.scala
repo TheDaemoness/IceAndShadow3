@@ -1,9 +1,9 @@
 package mod.iceandshadow3.forge
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.compat.world.WDimensionCoord
 import mod.iceandshadow3.lib.forge.BEventHandler
 import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}

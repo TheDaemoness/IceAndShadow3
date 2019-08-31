@@ -1,12 +1,12 @@
 package mod.iceandshadow3.multiverse
 
+import mod.iceandshadow3.damage._
 import mod.iceandshadow3.lib.BDimension
-import mod.iceandshadow3.lib.item.IItemStorage
+import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
-import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeCold, TDmgTypeShadow}
-import mod.iceandshadow3.lib.compat.block.WBlockState
+import mod.iceandshadow3.lib.item.IItemStorage
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3, UnitVec3s}
 import mod.iceandshadow3.lib.util.{Color, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
