@@ -1,6 +1,7 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.lib.compat.block.BlockQueries
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack, WUsageItem}
 import mod.iceandshadow3.lib.compat.misc.ResourceMap
@@ -31,10 +32,11 @@ object LIFrozen {
 		val name = input.registryName
 		if(name == null) return input //Also checks if the stack is empty.
 		val hottag = input.hasTag(tagHot)
-		val freezetag = input.hasTag(tagFreezes)
-		val isfuel = input.getBurnTicks > 0
-		val natfreeze = input.isAny(ItemQueries.food, ItemQueries.drink, ItemQueries.compostable) || isfuel
-		if(!input.getDomain.resistsFreezing && (freezetag || natfreeze && !hottag)) {
+		def freezetag = input.hasTag(tagFreezes)
+		def isfurnace = input.toBlockState.fold(false)(BlockQueries.isFurnace(_))
+		def iscoal = input.hasTag("minecraft:coals")
+		def natfreeze = iscoal || isfurnace || input.isAny(ItemQueries.food, ItemQueries.drink, ItemQueries.compostable)
+		if(!input.getDomain.resistsFreezing && (freezetag || !hottag && natfreeze)) {
 			val newname = unusualFreezeMap.get(name).orNull
 			if(newname == null) {
 				if(hottag) new WItemStack(null, null)

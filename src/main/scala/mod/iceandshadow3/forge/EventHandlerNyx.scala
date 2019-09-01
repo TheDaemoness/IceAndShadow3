@@ -27,8 +27,9 @@ class EventHandlerNyx extends BEventHandler {
 			val what = new WItemStack(event.getItemStack, event.getPlayer)
 			val frozen = LIFrozen.freeze(what, Some(player))
 			if(frozen.isDefined) {
-				event.setCancellationResult(ActionResultType.FAIL)
 				event.getPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
+				event.setCancellationResult(ActionResultType.FAIL)
+				event.setCanceled(true)
 			}
 		}
 	}

@@ -68,7 +68,9 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 			case _ => return false
 		}
 	}
-	def change[T](fn: WBlockState => TBlockStateSource) = set(fn(typeThis))
+	def change[T](fn: WBlockState => TBlockStateSource): Unit = set(fn(typeThis))
 
 	def playSound(sound: WSound): Unit = sound.play(this, this.posCoarse, this.soundVolume, this.soundPitch)
+
+	override def toString = exposeBS().toString+s" @ $posCoarse"
 }

@@ -31,6 +31,7 @@ import java.util.List;
 
 public class AItem extends Item implements ILogicItemProvider {
 
+
 	private ActionResultType toEActionResult(E3vl in) {
 		return in.remap(ActionResultType.SUCCESS, ActionResultType.PASS, ActionResultType.FAIL);
 	}
@@ -46,11 +47,13 @@ public class AItem extends Item implements ILogicItemProvider {
 
 	private final BLogicItem logic;
 	private final int variant;
+	private final LogicPair<BLogicItem> lp;
 	public AItem(BLogicItem itemlogic, int variant) {
 		super(itemlogic.toItemProperties(variant));
 		logic = itemlogic;
-		this.setRegistryName(IaS3.MODID, logic.getName(variant));
 		this.variant = variant;
+		lp = new LogicPair<>(itemlogic, variant);
+		this.setRegistryName(IaS3.MODID, logic.getName(variant));
 		for(BItemProperty bpo : logic.propertyOverrides()) {
 			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
 				final BItemProperty impl = bpo;
@@ -67,7 +70,7 @@ public class AItem extends Item implements ILogicItemProvider {
 	@Nonnull
 	@Override
 	public LogicPair<BLogicItem> getLogicPair() {
-		return new LogicPair<>(logic, variant);
+		return lp;
 	}
 
 	@Nonnull
@@ -101,8 +104,9 @@ public class AItem extends Item implements ILogicItemProvider {
 
 	@Override
 	@Nonnull
-	public ActionResultType onItemUse(ItemUseContext contextIn) {
-		final WUsageItemOnBlock context = new WUsageItemOnBlock(getLogicPair(), contextIn);
+	public ActionResultType onItemUse(ItemUseContext ctxi) {
+		System.out.println(ctxi.getWorld().getBlockState(ctxi.getPos()));
+		final WUsageItemOnBlock context = new WUsageItemOnBlock(getLogicPair(), ctxi);
 		final E3vl result = logic.onUseBlock(variant, context);
 		return toEActionResult(result);
 	}
