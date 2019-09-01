@@ -1,0 +1,23 @@
+{
+  "values": [
+    "minecraft:fire_charge",
+    "minecraft:magma_cream",
+    "minecraft:magma_block",
+    "minecraft:slime_ball",
+    "minecraft:slime_block",
+    "minecraft:flint_and_steel",
+    "minecraft:clay",
+    "minecraft:clay_ball",
+    "minecraft:campfire",
+    "minecraft:torch",
+    "minecraft:firework_rocket",
+    "minecraft:firework_star",
+    "minecraft:lantern",
+    "minecraft:lava_bucket",
+    "minecraft:water_bucket",
+    "minecraft:cod_bucket",
+    "minecraft:salmon_bucket",
+    "minecraft:pufferfish_bucket",
+    "minecraft:tropical_fish_bucket"
+  ]
+}
