@@ -1,5 +1,7 @@
 {
   "values": [
+    "minecraft:blaze_powder",
+    "minecraft:end_rod",
     "minecraft:fire_charge",
     "minecraft:magma_cream",
     "minecraft:magma_block",
@@ -20,6 +22,7 @@
     "minecraft:pufferfish_bucket",
     "minecraft:tropical_fish_bucket",
     "minecraft:furnace",
-    "minecraft:torch"
+    "minecraft:furnace_minecart",
+    "minecraft:jack_o_lantern"
   ]
 }

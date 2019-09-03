@@ -5,6 +5,8 @@
     "minecraft:brewing_stand",
     "minecraft:fire_charge",
     "minecraft:magma_cream",
-    "minecraft:magma_block"
+    "minecraft:magma_block",
+    "minecraft:end_rod",
+    "minecraft:enchanted_golden_apple"
   ]
 }

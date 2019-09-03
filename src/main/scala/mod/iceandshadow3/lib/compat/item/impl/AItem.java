@@ -31,7 +31,6 @@ import java.util.List;
 
 public class AItem extends Item implements ILogicItemProvider {
 
-
 	private ActionResultType toEActionResult(E3vl in) {
 		return in.remap(ActionResultType.SUCCESS, ActionResultType.PASS, ActionResultType.FAIL);
 	}

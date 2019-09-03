@@ -2,6 +2,7 @@ package mod.iceandshadow3;
 
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.lib.compat.Registrar$;
+import mod.iceandshadow3.lib.compat.misc.BServerAnalysis;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -20,6 +21,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
@@ -163,12 +165,18 @@ public class IaS3 {
 	}
 
 	@SubscribeEvent
+	public void analyzeServer(FMLServerStartedEvent event) {
+		ServerAnalyses$.MODULE$.set(event.getServer());
+	}
+
+	@SubscribeEvent
 	public void onRegisterDimensions(RegisterDimensionsEvent event) {
 		init.enableDimensions();
 	}
 
 	@SubscribeEvent
 	public void onServerStopped(FMLServerStoppedEvent event) {
+		ServerAnalyses$.MODULE$.clear();
 		cfgServer.close();
 		cfgServer = null;
 	}
