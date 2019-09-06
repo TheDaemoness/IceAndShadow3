@@ -1,9 +1,7 @@
 package mod.iceandshadow3.lib.compat.recipe
 
-import com.google.common.collect.ImmutableMultimap
 import mod.iceandshadow3.lib.compat.item.WItem
 import net.minecraft.item.crafting.IRecipe
-import net.minecraft.server.MinecraftServer
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
@@ -18,13 +16,6 @@ object CraftingSummary {
 			output.getCount,
 			what.getIngredients.asScala.map(_.getMatchingStacks.map(is => WItem(is.getItem)))
 		))
-	}
-	private[compat] def craftingMap(server: MinecraftServer): ImmutableMultimap[WItem, CraftingSummary] = {
-		val builder = ImmutableMultimap.builder[WItem, CraftingSummary]
-		for(recipe <- server.getRecipeManager.getRecipes.asScala) {
-			apply(recipe).foreach(r => builder.put(r.output, r))
-		}
-		builder.build()
 	}
 }
 case class CraftingSummary(output: WItem, count: Int, inputs: Iterable[Iterable[WItem]]) {

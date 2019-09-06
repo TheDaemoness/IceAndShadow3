@@ -6,7 +6,9 @@ import net.minecraft.tags.ItemTags
 import net.minecraft.util.ResourceLocation
 
 abstract class BWItem {
-	protected def exposeItem(): Item
+	protected[item] def exposeItem(): Item
+	def asWItem(): WItem
+	def asWItemStack(): WItemStack = new WItemStack(exposeItem().getDefaultInstance, null)
 
 	def hasTag(tagname: String): Boolean = {
 		//TODO: WTag?

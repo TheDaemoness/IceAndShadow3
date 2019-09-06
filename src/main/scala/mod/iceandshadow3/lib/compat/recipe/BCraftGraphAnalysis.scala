@@ -1,6 +1,5 @@
 package mod.iceandshadow3.lib.compat.recipe
 
-import com.google.common.collect.ImmutableMultimap
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.item.{BWItem, WItem}
 import net.minecraftforge.registries.ForgeRegistries
@@ -8,7 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
-abstract class BItemIngredientAnalysis[T <: Object](craftmap: ImmutableMultimap[WItem, CraftingSummary])
+abstract class BCraftGraphAnalysis[T <: Object](craftmap: WItem => java.util.Set[CraftingSummary])
 extends (BWItem => T) {
 	protected def defaultValue(input: BWItem): T
 	/** Called with possibility of an Ingredient*/
@@ -23,7 +22,7 @@ extends (BWItem => T) {
 			val default = defaultValue(what)
 			values.put(what, default)
 			val list = new mutable.ListBuffer[T]
-			for(recipe <- craftmap.get(what).asScala) {
+			for(recipe <- craftmap(what).asScala) {
 				for(input <- recipe.inputItems) if(!values.contains(input)) dfs(input)
 				list += recipe.evaluate[T](
 					tolookup => values.getOrElse(tolookup, defaultValue(tolookup)),

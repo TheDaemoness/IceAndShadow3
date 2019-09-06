@@ -2,6 +2,7 @@ package mod.iceandshadow3.forge
 
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.{WContainer, WItemStack}
+import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.forge.BEventHandler
 import mod.iceandshadow3.multiverse.DimensionNyx
 import mod.iceandshadow3.multiverse.dim_nyx.LIFrozen
@@ -25,7 +26,7 @@ class EventHandlerNyx extends BEventHandler {
 		val player = CNVEntity.wrap(event.getPlayer)
 		if (DimensionNyx.coord.worldIs(event.getWorld) && !player.isCreative) {
 			val what = new WItemStack(event.getItemStack, event.getPlayer)
-			val frozen = LIFrozen.freeze(what, Some(player))
+			val frozen = LIFrozen.freeze(what, new WWorld(event.getWorld), Some(player))
 			if(frozen.isDefined) {
 				event.getPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
 				event.setCancellationResult(ActionResultType.FAIL)
@@ -39,7 +40,7 @@ class EventHandlerNyx extends BEventHandler {
 			event.getEntity match {
 				case ei: ItemEntity =>
 					val initial = new WItemStack(ei.getItem, null)
-					val frozen = LIFrozen.freeze(initial, None)
+					val frozen = LIFrozen.freeze(initial, new WWorld(event.getWorld), None)
 					frozen.foreach(newitems => {
 						if(newitems.isEmpty) event.setCanceled(true)
 						else ei.setItem(newitems.exposeItems())

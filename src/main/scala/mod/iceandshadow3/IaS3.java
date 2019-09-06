@@ -2,12 +2,13 @@ package mod.iceandshadow3;
 
 import mod.iceandshadow3.config.ConfigManager;
 import mod.iceandshadow3.lib.compat.Registrar$;
-import mod.iceandshadow3.lib.compat.misc.BServerAnalysis;
+import mod.iceandshadow3.lib.compat.ServerAnalyses$;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -166,7 +167,7 @@ public class IaS3 {
 
 	@SubscribeEvent
 	public void analyzeServer(FMLServerStartedEvent event) {
-		ServerAnalyses$.MODULE$.set(event.getServer());
+		ServerAnalyses$.MODULE$.apply(event.getServer());
 	}
 
 	@SubscribeEvent
@@ -176,7 +177,7 @@ public class IaS3 {
 
 	@SubscribeEvent
 	public void onServerStopped(FMLServerStoppedEvent event) {
-		ServerAnalyses$.MODULE$.clear();
+		ServerAnalyses$.MODULE$.remove(event.getServer());
 		cfgServer.close();
 		cfgServer = null;
 	}

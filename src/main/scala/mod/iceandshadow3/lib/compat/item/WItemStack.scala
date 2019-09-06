@@ -21,7 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries
 class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends BWItem
 	with TWLogical[BLogicItem]
-	with IWrapperDefault[ItemStack]
+	with IWrapperDefault[WItemStack]
 	with ILogicItemProvider
 	with TLocalized
 	with INbtRW
@@ -46,8 +46,8 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	def isComplex: Boolean = is.fold(false){_.hasTag}
 
-	override protected[compat] def expose() = is.orNull
-	def exposeItems(): ItemStack = is.getOrElse(ItemStack.EMPTY)
+	override protected[compat] def expose() = this
+	/* TODO: Narrow scope. */ def exposeItems(): ItemStack = is.getOrElse(ItemStack.EMPTY)
 
 	protected[item] def move(): ItemStack = {
 		val retval = exposeItems().copy()
@@ -134,7 +134,8 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 		case _ => false
 	}
 
-	override protected def exposeItem() = exposeItems().getItem
+	override protected[item] def exposeItem() = exposeItems().getItem
+	override def asWItem(): WItem = WItem(exposeItem())
 }
 object WItemStack {
 	def get(inv: IInventory, index: Int): WItemStack = {

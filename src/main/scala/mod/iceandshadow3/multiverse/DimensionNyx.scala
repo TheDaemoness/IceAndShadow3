@@ -69,7 +69,7 @@ object DimensionNyx extends BDimension("nyx") {
 		if(player.isCreative) return
 		var frozeAnything = false
 		container.mapInPlace(original => {
-			val result = LIFrozen.freeze(original, Some(player))
+			val result = LIFrozen.freeze(original, player.world(), Some(player))
 			frozeAnything |= result.isDefined
 			result.getOrElse(original)
 		})
