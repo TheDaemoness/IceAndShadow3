@@ -1,11 +1,14 @@
 package mod.iceandshadow3.lib.compat.item
 
+import mod.iceandshadow3.lib.BLogicItem
+import mod.iceandshadow3.lib.base.{ILogicItemProvider, LogicPair}
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import net.minecraft.item.{BlockItem, Item}
 import net.minecraft.tags.ItemTags
 import net.minecraft.util.ResourceLocation
 
-abstract class BWItem {
+abstract class BWItem extends ILogicItemProvider
+{
 	protected[item] def exposeItem(): Item
 	def asWItem(): WItem
 	def asWItemStack(): WItemStack = new WItemStack(exposeItem().getDefaultInstance, null)
@@ -21,4 +24,10 @@ abstract class BWItem {
 		case bli: BlockItem => Some(new WBlockState(bli.getBlock.getDefaultState))
 		case _ => None
 	}
+
+	override def getLogicPair: LogicPair[BLogicItem] =
+		exposeItem() match {
+			case lp: ILogicItemProvider => lp.getLogicPair
+			case _ => null
+		}
 }

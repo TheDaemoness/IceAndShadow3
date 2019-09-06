@@ -19,7 +19,6 @@
     "minecraft:salmon_bucket",
     "minecraft:pufferfish_bucket",
     "minecraft:tropical_fish_bucket",
-    "minecraft:furnace",
-    "minecraft:furnace_minecart"
+    "minecraft:furnace"
   ]
 }

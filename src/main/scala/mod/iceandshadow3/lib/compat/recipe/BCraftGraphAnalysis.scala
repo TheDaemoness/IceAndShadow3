@@ -22,18 +22,20 @@ extends (BWItem => T) {
 		def dfs(what: WItem): Unit = {
 			val default = defaultValue(what)
 			values.put(what, default)
-			val list = new mutable.ListBuffer[T]
-			for(recipe <- craftmap(what).asScala) {
-				if(shouldFollow(recipe)) {
-					for (input <- recipe.inputItems) if (!values.contains(input)) dfs(input)
-					list += recipe.evaluate[T](
-						tolookup => values.getOrElse(tolookup, defaultValue(tolookup)),
-						resolveWildcard,
-						combine
-					)
+			if(!what.hasTag("iceandshadow3:no_infer")) {
+				val list = new mutable.ListBuffer[T]
+				for (recipe <- craftmap(what).asScala) {
+					if (shouldFollow(recipe)) {
+						for (input <- recipe.inputItems) if (!values.contains(input)) dfs(input)
+						list += recipe.evaluate[T](
+							tolookup => values.getOrElse(tolookup, defaultValue(tolookup)),
+							resolveWildcard,
+							combine
+						)
+					}
 				}
+				values.update(what, resolveFinal(default, list))
 			}
-			values.update(what, resolveFinal(default, list))
 		}
 		ForgeRegistries.ITEMS.getValues.asScala.map(WItem).foreach(dfs)
 		values.toMap

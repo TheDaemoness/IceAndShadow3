@@ -23,6 +23,7 @@ object LIFrozen {
 	itemFreezesDifferently("minecraft:salmon_bucket", "minecraft:ice")
 	itemFreezesDifferently("minecraft:pufferfish_bucket", "minecraft:ice")
 	itemFreezesDifferently("minecraft:tropical_fish_bucket", "minecraft:ice")
+	itemFreezesDifferently("minecraft:sticky_piston", "minecraft:piston")
 	//TODO: Also freeze items if they have a banned item in a crafting recipe (and disable this behavior for sticks).
 
 	def itemFreezesDifferently(id: String, to: String): Unit = {
@@ -37,7 +38,7 @@ object LIFrozen {
 			val newname = unusualFreezeMap.get(name).orNull
 			if(newname == null) {
 				//If we're here, the freezability option is definitely Some.
-				if(freezability.orNull.hot) new WItemStack(null, null)
+				if(freezability.orNull.antifreeze) new WItemStack(null, null)
 				else LogicItemChameleon.createFrom(input, DomainAlien.frozen)
 			} else WItemStack.make(newname)
 		} else input

@@ -13,6 +13,8 @@ import net.minecraftforge.event.entity.player.{PlayerContainerEvent, PlayerInter
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 class EventHandlerNyx extends BEventHandler {
+	//TODO: Many of these could be implemented as BDimension calls and generalized.
+
 	@SubscribeEvent
 	def onPlayerExposesContainerToTheElements(oops: PlayerContainerEvent.Open): Unit =
 		if (DimensionNyx.coord.worldIs(oops.getEntity)) {
@@ -34,6 +36,7 @@ class EventHandlerNyx extends BEventHandler {
 			}
 		}
 	}
+
 	@SubscribeEvent
 	def onEntityItemJoin(event: EntityJoinWorldEvent): Unit =
 		if (DimensionNyx.coord.worldIs(event.getWorld)) {

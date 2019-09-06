@@ -1,7 +1,6 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.base.{ILogicItemProvider, LogicPair}
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
@@ -22,7 +21,6 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends BWItem
 	with TWLogical[BLogicItem]
 	with IWrapperDefault[WItemStack]
-	with ILogicItemProvider
 	with TLocalized
 	with INbtRW
 {
@@ -113,12 +111,6 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	override protected def exposeCompoundOrNull() =
 		is.fold[CompoundNBT](null){_.getOrCreateTag()}
-
-	override def getLogicPair: LogicPair[BLogicItem] =
-		is.fold[LogicPair[BLogicItem]](null){_.getItem match {
-			case lp: ILogicItemProvider => return lp.getLogicPair
-			case _ => return null
-		}}
 
 	def getBurnTicks: Int = is.fold(0)(items => {
 		val result = items.getBurnTime
