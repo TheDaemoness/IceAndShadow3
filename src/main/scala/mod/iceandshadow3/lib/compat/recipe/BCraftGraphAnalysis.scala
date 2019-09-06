@@ -16,6 +16,7 @@ extends (BWItem => T) {
 	protected def combine(values: Iterable[T], output: Int): T
 	/** Called with the default input and the combined values of all the recipes*/
 	protected def resolveFinal(default: T, fromRecipes: Iterable[T]): T
+	protected def shouldFollow(what: CraftingSummary): Boolean = true
 	val values = new mutable.HashMap[BWItem, T]
 	private val map = {
 		def dfs(what: WItem): Unit = {
@@ -23,12 +24,14 @@ extends (BWItem => T) {
 			values.put(what, default)
 			val list = new mutable.ListBuffer[T]
 			for(recipe <- craftmap(what).asScala) {
-				for(input <- recipe.inputItems) if(!values.contains(input)) dfs(input)
-				list += recipe.evaluate[T](
-					tolookup => values.getOrElse(tolookup, defaultValue(tolookup)),
-					resolveWildcard,
-					combine
-				)
+				if(shouldFollow(recipe)) {
+					for (input <- recipe.inputItems) if (!values.contains(input)) dfs(input)
+					list += recipe.evaluate[T](
+						tolookup => values.getOrElse(tolookup, defaultValue(tolookup)),
+						resolveWildcard,
+						combine
+					)
+				}
 			}
 			values.update(what, resolveFinal(default, list))
 		}

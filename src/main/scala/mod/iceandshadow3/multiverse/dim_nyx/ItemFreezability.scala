@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import mod.iceandshadow3.lib.compat.block.BlockQueries
 import mod.iceandshadow3.lib.compat.item.{BWItem, ItemQueries, WItem}
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzerDerived
-import mod.iceandshadow3.lib.compat.recipe.{BCraftGraphAnalysis, CraftingSummary, ServerAnalysisGraphCraft}
+import mod.iceandshadow3.lib.compat.recipe.{BCraftGraphAnalysis, CraftingSummary, ECraftingType, ServerAnalysisGraphCraft}
 
 object ItemFreezability
 extends ServerAnalyzerDerived[WItem, java.util.Set[CraftingSummary], ItemFreezability](
@@ -35,16 +35,24 @@ extends ServerAnalyzerDerived[WItem, java.util.Set[CraftingSummary], ItemFreezab
 
 		/** Called with the default input and the combined values of all the recipes */
 		override protected def resolveFinal(default: ItemFreezability, fromRecipes: Iterable[ItemFreezability]) = {
-			val inherited = resolveWildcard(fromRecipes)
-			new ItemFreezability(default.freezes || inherited.freezes, default.hot || inherited.hot)
+			lazy val inherited = resolveWildcard(fromRecipes)
+			val unmarked = !(default.freezes || default.hot)
+			new ItemFreezability(
+				default.freezes || (unmarked && inherited.freezes),
+				default.hot || (unmarked && inherited.hot)
+			)
 		}
+
+		override protected def shouldFollow(what: CraftingSummary) =
+			!(what.craftType == ECraftingType.COOK_SMELT || what.craftType == ECraftingType.COOK_BLAST)
 	}
 )
 case class ItemFreezability(freezes: Boolean, hot: Boolean) {
 	def this(input: BWItem) = this({
 			def natfreezes = ItemQueries.ingestable(input) || ItemQueries.compostable(input)
 			def isfurnace = input.toBlockState.fold(false)(BlockQueries.isFurnace(_))
-			input.hasTag("iceandshadow3:freezes") || natfreezes || isfurnace
+			def iscoal = input.hasTag("minecraft:coals")
+			input.hasTag("iceandshadow3:freezes") || natfreezes || iscoal || isfurnace
 		},
 		input.hasTag("iceandshadow3:hot")
 	)
