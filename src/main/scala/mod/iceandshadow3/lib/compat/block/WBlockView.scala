@@ -34,8 +34,8 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 
 	override def posFine = CNVCompat.fromBlockPos(pos)
 
-	def getHardness: Float = exposeBS().getBlockHardness(ibr, pos)
-	def getOpacity: Int = exposeBS().getOpacity(ibr, pos)
+	def hardness: Float = exposeBS().getBlockHardness(ibr, pos)
+	def opacity: Int = exposeBS().getOpacity(ibr, pos)
 
 	override protected[compat] def getLocalizedName = exposeBS().getBlock.getNameTextComponent
 	override def getAttack: Attack = null

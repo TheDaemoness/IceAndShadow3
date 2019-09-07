@@ -11,13 +11,14 @@ object BlockQueries {
 	def sand(bv: WBlockState): Boolean = bv.exposeBS().getMaterial == Material.SAND
 	def solid(bv: WBlockState) = bv.exposeBS().isSolid
 	def power(bv: WBlockState) = bv.exposeBS().canProvidePower
+	def mineableByHand(bv: WBlockState) = bv.exposeBS().getMaterial.isToolNotRequired
 	def mineableByWood(bv: WBlockState) = bv.exposeBS().getHarvestLevel <= 0
 	def mineableByStone(bv: WBlockState) = bv.exposeBS().getHarvestLevel <= 1
 	def mineableByIron(bv: WBlockState) = bv.exposeBS().getHarvestLevel <= 2
 	def mineableByDiamond(bv: WBlockState) = bv.exposeBS().getHarvestLevel <= 3
-	def notHarder(hardness: Float): WBlockView => Boolean = _.getHardness <= hardness
-	def notSofter(hardness: Float): WBlockView => Boolean = _.getHardness >= hardness
-	def crushableBy(what: WBlockView): WBlockView => Boolean = v => { v.getHardness < what.getHardness }
+	def notHarder(hardness: Float): WBlockView => Boolean = _.hardness <= hardness
+	def notSofter(hardness: Float): WBlockView => Boolean = _.hardness >= hardness
+	def crushableBy(what: WBlockView): WBlockView => Boolean = v => { v.hardness < what.hardness }
 	def materia(mat: Class[_ <: IMateria]): WBlockView => Boolean = {
 		bv => Option(bv.getLogicPair).fold(false)({_.logic.isOfMateria(mat)})
 	}

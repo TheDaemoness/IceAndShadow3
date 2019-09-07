@@ -28,7 +28,7 @@ class LBStoneLiving extends BLogicBlockSimple(DomainGaia, "livingstone", MatSton
 			if(rng.nextBoolean()) {
 				val bor = neigh.promote(block)
 				if(bor.isAir) bor.set(block.typeDefault)
-				else bor.break(block.getHardness, drops = true)
+				else bor.break(block.hardness, BlockQueries.mineableByHand(block))
 			}
 		}
 		false

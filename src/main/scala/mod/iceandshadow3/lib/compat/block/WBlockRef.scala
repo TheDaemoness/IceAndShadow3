@@ -52,7 +52,7 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 		}
 	}
 	def break(ifSofterThan: Float, drops: Boolean): Boolean = {
-		if(getHardness < ifSofterThan) {break(drops); true}
+		if(hardness < ifSofterThan) {break(drops); true}
 		else false
 	}
 	def fall(): Boolean = {
@@ -64,8 +64,8 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 				set(CommonBlockTypes.AIR)
 				refresh()
 				exposeWorld().addEntity(ent)
-				return true
-			case _ => return false
+				true
+			case _ => false
 		}
 	}
 	def change[T](fn: WBlockState => TBlockStateSource): Unit = set(fn(typeThis))
