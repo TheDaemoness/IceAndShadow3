@@ -2,7 +2,7 @@ package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.compat.util.{CNVCompat, IWrapperDefault, TEffectSource, TWLogical}
+import mod.iceandshadow3.lib.compat.util.{CNVCompat, TEffectSource, TWLogical}
 import mod.iceandshadow3.lib.compat.world.TWWorld
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
@@ -16,7 +16,6 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 	with TEffectSource
 	with IPosBlock
 	with TWLogical[BLogicBlock]
-	with IWrapperDefault[WBlockView]
 {
 	def this(w: IBlockReader, p: BlockPos) = {
 		this(w, p, null)
@@ -29,7 +28,6 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 
 	def promote(wr: TWWorld): WBlockRef = new WBlockRef(wr.exposeWorld(), pos, exposeBS())
 
-	override final protected def expose() = this
 	override protected[compat] final def exposeBS(): BlockState = {if(bs == null) refresh(); bs}
 	protected def acquireBS(): BlockState = ibr.getBlockState(pos)
 	final def refresh(): Unit = {bs = acquireBS();}

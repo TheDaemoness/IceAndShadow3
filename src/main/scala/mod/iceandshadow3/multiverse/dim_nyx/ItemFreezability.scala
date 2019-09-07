@@ -4,21 +4,27 @@ import mod.iceandshadow3.lib.compat.block.BlockQueries
 import mod.iceandshadow3.lib.compat.item.{BWItem, ItemQueries, WItem}
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzerDerived
 import mod.iceandshadow3.lib.compat.recipe.{BCraftGraphAnalysis, CraftingSummary, ECraftingType, ServerAnalysisGraphCraft}
+import mod.iceandshadow3.lib.util.Is
 
 object ItemFreezability
 extends ServerAnalyzerDerived[WItem, java.util.Set[CraftingSummary], ItemFreezability](
 	ServerAnalysisGraphCraft,
-	new BCraftGraphAnalysis[ItemFreezability](_) {
+	new BCraftGraphAnalysis[ItemFreezability, BWItem => Boolean](_, Is.any[BWItem](
+		//Begin conditions for natural freezing.
+		ItemQueries.ingestable,
+		ItemQueries.compostable,
+		_.toBlockState.fold(false)(BlockQueries.isFurnace(_)),
+		_.hasTag("minecraft:coals")
+		//End conditions for natural freezing.
+	)) {
+
 		override protected def defaultValue(input: BWItem) = {
 			def hasTagAntifreeze = input.hasTag("iceandshadow3:antifreeze")
 			def hasTagFreezes = input.hasTag("iceandshadow3:freezes")
-			def natfreezes = !hasTagAntifreeze && (
-				ItemQueries.ingestable(input) ||
-					ItemQueries.compostable(input) ||
-					input.toBlockState.fold(false)(BlockQueries.isFurnace(_)) ||
-					input.hasTag("minecraft:coals")
-				)
-			val freezes = !input.getDomain.resistsFreezing && (hasTagFreezes || natfreezes)
+			val freezes = !input.getDomain.resistsFreezing && (
+				hasTagFreezes ||
+				(!hasTagAntifreeze && arg(input))
+			)
 			val unusual = UnusualFreezeMap.apply(input.registryName).isDefined ||
 				(hasTagAntifreeze && hasTagFreezes)
 			new ItemFreezability(freezes, unusual)

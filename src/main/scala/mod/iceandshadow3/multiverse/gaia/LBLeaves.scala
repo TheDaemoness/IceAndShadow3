@@ -31,7 +31,7 @@ extends BLogicBlockSimple(DomainGaia, name, materia) {
 	def calcSupport(loc: WBlockView, defaultSupport: Int = -1): Int = {
 		var support = defaultSupport
 		for(adj <- AdjacentBlocks.Surrounding(loc)) {
-			if(adj.isAny(BlockQueries.hasLogic(parent))) return parent.leafSupport-1
+			if(BlockQueries.hasLogic(parent)(adj)) return parent.leafSupport-1
 			else {
 				val othersupport = adj(varSupport).getOrElse(0)
 				if(othersupport > support) support = othersupport-1

@@ -7,7 +7,10 @@ import net.minecraftforge.registries.ForgeRegistries
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
-abstract class BCraftGraphAnalysis[T <: Object](craftmap: WItem => java.util.Set[CraftingSummary])
+abstract class BCraftGraphAnalysis[T <: Object, Arg](
+	craftmap: WItem => java.util.Set[CraftingSummary],
+	protected val arg: Arg
+)
 extends (BWItem => T) {
 	protected def defaultValue(input: BWItem): T
 	/** Called with possibility of an Ingredient*/

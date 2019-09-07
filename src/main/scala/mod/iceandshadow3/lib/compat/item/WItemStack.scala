@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.misc.WNbtTree
-import mod.iceandshadow3.lib.compat.util.{IWrapperDefault, SRandom, TLocalized, TWLogical}
+import mod.iceandshadow3.lib.compat.util.{SRandom, TLocalized, TWLogical}
 import mod.iceandshadow3.lib.data.INbtRW
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
@@ -19,7 +19,6 @@ import net.minecraft.util.IItemProvider
 class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends BWItem
 	with TWLogical[BLogicItem]
-	with IWrapperDefault[WItemStack]
 	with TLocalized
 	with INbtRW
 {
@@ -40,7 +39,6 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	def isComplex: Boolean = is.fold(false){_.hasTag}
 
-	override protected[compat] def expose() = this
 	/* TODO: Narrow scope. */ def exposeItems(): ItemStack = is.getOrElse(ItemStack.EMPTY)
 
 	protected[item] def move(): ItemStack = {

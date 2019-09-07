@@ -1,6 +1,5 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.lib.compat.util.IWrapper
 import mod.iceandshadow3.lib.util.collect.IteratorConcat
 import net.minecraft.util.Direction
 
@@ -10,29 +9,6 @@ sealed abstract class AdjacentBlocks(val central: WBlockView, protected val what
 	extends Iterable[WBlockView]
 {
 	override def iterator = new IteratorConcat[(WBlockView, Direction), WBlockView]({_._1}, whats.iterator.asJava)
-
-	def one = new IWrapper[WBlockView] {
-		override def isAny(queries: (WBlockView => Boolean)*): Boolean = {
-			for(view <- iterator) if(view.isAny(queries:_*)) return true
-			false
-		}
-		def isAll(queries: (WBlockView => Boolean)*): Boolean = {
-			for(view <- iterator) if(view.isAll(queries:_*)) return true
-			false
-		}
-	}
-
-	def each = new IWrapper[WBlockView] {
-		def isAny(queries: (WBlockView => Boolean)*): Boolean = {
-			for(view <- iterator) if(!view.isAny(queries:_*)) return false
-			true
-		}
-		override def isAll(queries: (WBlockView => Boolean)*): Boolean = {
-			for(view <- iterator) if(!view.isAll(queries:_*)) return false
-			true
-		}
-	}
-
 }
 object AdjacentBlocks {
 	protected def up(center: WBlockView) =

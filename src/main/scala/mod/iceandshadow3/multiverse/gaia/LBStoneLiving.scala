@@ -22,7 +22,7 @@ class LBStoneLiving extends BLogicBlockSimple(DomainGaia, "livingstone", MatSton
 
 	override def onRandomTick(variant: Int, block: WBlockRef, rng: Random) = {
 		val adjb = AdjacentBlocks.Surrounding(block)
-		if(adjb.each.isAny(BlockQueries.stone)) {
+		if(adjb.forall(BlockQueries.stone)) {
 			block.change(_ + (LBStoneLiving.varGrowing, false))
 		} else for(neigh <- adjb) {
 			if(rng.nextBoolean()) {
