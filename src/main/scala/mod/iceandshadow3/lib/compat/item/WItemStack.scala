@@ -13,7 +13,6 @@ import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.{CompoundNBT, INBT}
 import net.minecraft.tileentity.AbstractFurnaceTileEntity
 import net.minecraft.util.IItemProvider
-import net.minecraftforge.registries.ForgeRegistries
 
 /** Null-safe item stack + owner reference.
 	*/
@@ -29,12 +28,9 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	def this(is: Null, owner: LivingEntity) = this(null.asInstanceOf[ItemStack], owner)
 	def this(is: IItemProvider, owner: LivingEntity) = this(new ItemStack(is), owner)
 	def this(itemnbt: WNbtTree, owner: LivingEntity) = this(ItemStack.read(itemnbt.root), owner)
-	override def registryName: String = is.fold[String](null)(
-		items => ForgeRegistries.ITEMS.getKey(items.getItem).toString
-	)
 
 	def copy: WItemStack = new WItemStack(is.fold[ItemStack](null){_.copy()}, owner)
-	def isEmpty: Boolean = is.fold(true){_.getCount == 0}
+	override def isEmpty: Boolean = is.fold(true){_.getCount == 0}
 	def count: Int = is.fold(0){_.getCount}
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
 	def hasOwner: Boolean = owner != null

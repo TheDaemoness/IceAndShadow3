@@ -6,6 +6,9 @@
     "minecraft:fire_charge",
     "minecraft:magma_cream",
     "minecraft:magma_block",
-    "minecraft:enchanted_golden_apple"
+    "minecraft:enchanted_golden_apple",
+    "minecraft:sugar",
+    "minecraft:paper",
+    "minecraft:ender_eye"
   ]
 }

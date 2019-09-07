@@ -1,5 +1,6 @@
 {
   "values": [
+    "minecraft:gunpowder",
     "minecraft:blaze_powder",
     "minecraft:fire_charge",
     "minecraft:magma_cream",
@@ -19,6 +20,6 @@
     "minecraft:salmon_bucket",
     "minecraft:pufferfish_bucket",
     "minecraft:tropical_fish_bucket",
-    "minecraft:furnace"
+    "minecraft:egg"
   ]
 }

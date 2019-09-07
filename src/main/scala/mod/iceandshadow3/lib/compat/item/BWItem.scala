@@ -3,9 +3,10 @@ package mod.iceandshadow3.lib.compat.item
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.base.{ILogicItemProvider, LogicPair}
 import mod.iceandshadow3.lib.compat.block.WBlockState
-import net.minecraft.item.{BlockItem, Item}
+import net.minecraft.item.{BlockItem, Item, Items}
 import net.minecraft.tags.ItemTags
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.registries.ForgeRegistries
 
 abstract class BWItem extends ILogicItemProvider
 {
@@ -30,4 +31,8 @@ abstract class BWItem extends ILogicItemProvider
 			case lp: ILogicItemProvider => lp.getLogicPair
 			case _ => null
 		}
+
+	def isEmpty: Boolean = exposeItem() == Items.AIR
+
+	def registryName: String = ForgeRegistries.ITEMS.getKey(exposeItem()).toString
 }
