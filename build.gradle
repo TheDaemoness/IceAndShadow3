@@ -28,7 +28,7 @@ apply plugin: 'net.minecraftforge.gradle'
 def version_minecraft = '1.14.4'
 def version_forge_maj=28
 def version_forge_min=0
-def version_forge_patch=75
+def version_forge_patch=102
 def version_forge_req="${version_forge_maj}.${version_forge_min}"
 def version_forge="${version_forge_req}.${version_forge_patch}"
 def mappings_channel='snapshot'
