@@ -70,13 +70,13 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		//State container init happens too early for IaS3. We need to make our own.
 		final StateContainer.Builder<Block, BlockState> builder = new StateContainer.Builder<>(this);
 		final BinderBlockVar$ binder = BinderBlockVar$.MODULE$;
-		for(BBlockVarNew bbv : logic.variables()) {
+		for(BVarBlockNew bbv : logic.variables()) {
 			builder.add(binder.apply(bbv).ip());
 		}
 		realContainer = builder.create(BlockState::new);
 		BlockState bbs = this.getStateContainer().getBaseState();
-		for(BBlockVarNew bbv : logic.variables()) {
-			bbs = binder.get(bbv).addTo(bbs, bbv.defaultValue());
+		for(BVarBlockNew bbv : logic.variables()) {
+			bbs = binder.get(bbv).addTo(bbs, bbv.defaultVal());
 		}
 		setDefaultState(bbs);
 	}

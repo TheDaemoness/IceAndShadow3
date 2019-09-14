@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.compat.block
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.base.ILogicBlockProvider
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
-import mod.iceandshadow3.lib.compat.block.impl.{BBlockVar, BBlockVarNew, BinderBlock, BinderBlockVar}
+import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BVarBlockNew, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.world.WSound
 import net.minecraft.block.{Block, BlockState}
 import net.minecraft.tags.BlockTags
@@ -13,10 +13,10 @@ import net.minecraftforge.registries.ForgeRegistries
 class WBlockState(protected var bs: BlockState)
 extends ILogicBlockProvider
 with TBlockStateSource {
-	def +[T](variable: BBlockVarNew[T], value: T): WBlockState =
+	def +[T](variable: BVarBlockNew[T], value: T): WBlockState =
 		new WBlockState(BinderBlockVar.get(variable).addTo(exposeBS(), value))
 
-	def ?[T](variable: BBlockVar[T], pred: T => Boolean): Boolean = {
+	def ?[T](variable: BVarBlock[T], pred: T => Boolean): Boolean = {
 		val bs = exposeBS()
 		val wip = BinderBlockVar.get(variable)
 		if(wip.isIn(bs)) pred(wip.in(bs)) else false
@@ -27,14 +27,14 @@ with TBlockStateSource {
 	def this(name: String) = this(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name)))
 
 	protected[compat] def exposeBS(): BlockState = bs
-	def apply[T](which: BBlockVar[T]): Option[T] = {
+	def apply[T](which: BVarBlock[T]): Option[T] = {
 		val bs = exposeBS()
 		val wip = BinderBlockVar.get(which)
 		if(wip.isIn(bs)) Some(wip.in(bs)) else None
 	}
 
 	@throws[IllegalArgumentException]
-	def get[T](which: BBlockVar[T]): T = {
+	def get[T](which: BVarBlock[T]): T = {
 		val bs = exposeBS()
 		val wip = BinderBlockVar.get(which)
 		wip.in(bs)

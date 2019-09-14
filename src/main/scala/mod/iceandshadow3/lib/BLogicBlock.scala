@@ -6,7 +6,7 @@ import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.TLootable
 import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
-import mod.iceandshadow3.lib.compat.block.impl.{BBlockVarNew, BCompatLogicBlock, BinderBlock}
+import mod.iceandshadow3.lib.compat.block.impl.{BVarBlockNew, BCompatLogicBlock, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
@@ -52,7 +52,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	lazy val _blocktypes = Array.tabulate(countVariants)(makeBlockType)
 	def apply(variant: Int) = _blocktypes(variant)
 
-	def variables: Array[BBlockVarNew[_]] = Array.empty
+	def variables: Array[BVarBlockNew[_]] = Array.empty
 }
 
 abstract class BLogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {

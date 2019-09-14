@@ -3,12 +3,12 @@ package mod.iceandshadow3.multiverse.gaia
 import java.util.Random
 
 import mod.iceandshadow3.lib.BLogicBlockSimple
-import mod.iceandshadow3.lib.block.BlockVarBool
+import mod.iceandshadow3.lib.block.VarBlockBool
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockState}
 import mod.iceandshadow3.multiverse.DomainGaia
 
 object LBStoneLiving {
-	val varGrowing = new BlockVarBool("growing")
+	val varGrowing = new VarBlockBool("growing")
 }
 class LBStoneLiving extends BLogicBlockSimple(DomainGaia, "livingstone", MatStone) {
 	override protected def getVariantName(variant: Int) = ELivingstoneTypes.values()(variant).name

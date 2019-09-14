@@ -2,7 +2,7 @@ package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.block.IMateria
-import mod.iceandshadow3.lib.compat.block.impl.BBlockVar
+import mod.iceandshadow3.lib.compat.block.impl.BVarBlock
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.material.Material
 
@@ -26,7 +26,7 @@ object BlockQueries {
 		val lp = bv.getLogicPair
 		lp != null && lp.logic == bl
 	}
-	def varMatches[T](variable: BBlockVar[T], pred: T => Boolean): WBlockView => Boolean = {
+	def varMatches[T](variable: BVarBlock[T], pred: T => Boolean): WBlockView => Boolean = {
 		wbv => wbv ? (variable, pred)
 	}
 	def isFurnace: WBlockState => Boolean = bl => bl.exposeBS().getBlock.isInstanceOf[AbstractFurnaceBlock]
