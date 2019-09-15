@@ -19,7 +19,7 @@ class DataTreeList[Element <: IDataTreeRW[_ <: BDataTree[_]]] extends BDataTreeB
 	}
 	override protected def writeNBT(list: java.util.List[Element]) = {
 		val retval = new ListNBT()
-		for(elem <- list.asScala) retval.add(elem.exposeDataTree().toNBT())
+		for(elem <- list.asScala) retval.add(elem.exposeDataTree().toNBT)
 		retval
 	}
 	override protected def copyFrom(list: java.util.List[Element]): Unit =

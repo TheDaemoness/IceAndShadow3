@@ -3,7 +3,6 @@ package mod.iceandshadow3.lib
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.{BCompatLogicItem, BinderItem}
-import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
 import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.util.E3vl
@@ -19,7 +18,7 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 
 	//TODO: Expand when we have our own text formatting stuff.
 	def addTooltip(variant: Int, what: WItemStack): String = ""
-	def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) = false
+	def isShiny(variant: Int, stack: WItemStack) = false
 	def onUseGeneral(variant: Int, context: WUsageItem) = E3vl.NEUTRAL
 	def onUseBlock(variant: Int, context: WUsageItemOnBlock) = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)

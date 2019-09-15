@@ -1,8 +1,9 @@
-package mod.iceandshadow3.lib.compat.util
+package mod.iceandshadow3.lib.compat.nbt
 
-import net.minecraft.nbt._
+import net.minecraft.nbt.{CompoundNBT, INBT, ListNBT}
 
 import scala.collection.mutable
+
 import scala.jdk.CollectionConverters._
 
 object NbtTagUtils {

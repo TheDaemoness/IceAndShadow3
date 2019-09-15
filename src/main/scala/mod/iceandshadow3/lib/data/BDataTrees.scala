@@ -5,13 +5,15 @@ import net.minecraft.nbt._
 
 import scala.reflect.ClassTag
 
-abstract class BDataTree[Value](protected var datum: Value) extends INbtRW with IDataTreeRW[BDataTree[Value]] {
+abstract class BDataTree[Value](protected var datum: Value) extends IDataTreeRW[BDataTree[Value]] {
 	def get: Value = datum
-	
+
+	protected[lib] final def toNBT: INBT = writeNBT(get)
+	@throws[ClassCastException]
+	@throws[IllegalArgumentException]
+	protected[lib] def fromNBT(tag: INBT): Boolean
+
 	protected def writeNBT(value: Value): INBT
-	
-	override final def toNBT: INBT = writeNBT(get)
-	def fromNBT(tag: INBT): Boolean
 	
 	override final def exposeDataTree() = this
 }

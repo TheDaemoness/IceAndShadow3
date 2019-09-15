@@ -4,7 +4,6 @@ import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.BStateData
 import mod.iceandshadow3.lib.base._
-import mod.iceandshadow3.lib.compat.misc.WNbtTree
 import net.minecraft.nbt.CompoundNBT
 
 trait TWLogical[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
@@ -14,8 +13,6 @@ trait TWLogical[LogicType <: BLogic] extends TLogicStateProvider[LogicType] {
 	def registryName: String
 
 	protected def exposeCompoundOrNull(): CompoundNBT
-
-	def exposeNbtTree(): WNbtTree = new WNbtTree(exposeCompoundOrNull())
 
 	/** WARNING: This should only be used for read-only access to state data.
 		*/

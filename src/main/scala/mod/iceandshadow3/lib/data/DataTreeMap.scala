@@ -42,7 +42,7 @@ class DataTreeMap extends BDataTreeBranch[
 	}
 	override protected def writeNBT(map: java.util.Map[String,IDataTreeRW[_ <: BDataTree[_]]]) = {
 		val retval = new CompoundNBT()
-		for((key, value) <- map.asScala) retval.put(key, value.exposeDataTree().toNBT())
+		for((key, value) <- map.asScala) retval.put(key, value.exposeDataTree().toNBT)
 		retval
 	}
 

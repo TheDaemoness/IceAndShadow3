@@ -3,14 +3,13 @@ package mod.iceandshadow3.lib.compat.item
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
-import mod.iceandshadow3.lib.compat.misc.WNbtTree
+import mod.iceandshadow3.lib.compat.nbt.TNbtSource
 import mod.iceandshadow3.lib.compat.util.{SRandom, TLocalized, TWLogical}
-import mod.iceandshadow3.lib.data.INbtRW
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.{Item, ItemStack}
-import net.minecraft.nbt.{CompoundNBT, INBT}
+import net.minecraft.nbt.CompoundNBT
 import net.minecraft.tileentity.AbstractFurnaceTileEntity
 import net.minecraft.util.IItemProvider
 
@@ -20,13 +19,12 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	extends BWItem
 	with TWLogical[BLogicItem]
 	with TLocalized
-	with INbtRW
+	with TNbtSource
 {
 	private[compat] var is = Option(inputstack)
 	def this() = this(null.asInstanceOf[ItemStack], null.asInstanceOf[LivingEntity])
 	def this(is: Null, owner: LivingEntity) = this(null.asInstanceOf[ItemStack], owner)
 	def this(is: IItemProvider, owner: LivingEntity) = this(new ItemStack(is), owner)
-	def this(itemnbt: WNbtTree, owner: LivingEntity) = this(ItemStack.read(itemnbt.root), owner)
 
 	def copy: WItemStack = new WItemStack(is.fold[ItemStack](null){_.copy()}, owner)
 	override def isEmpty: Boolean = is.fold(true){_.getCount == 0}
@@ -114,16 +112,14 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	override protected[compat] def getLocalizedName = exposeItems().getTextComponent
 
-	override def toNBT = exposeItems().serializeNBT()
-	override def fromNBT(tag: INBT) = tag match {
-		case compound: CompoundNBT => is = Some(ItemStack.read(compound)); true
-		case _ => false
-	}
-
 	override protected[item] def exposeItem() = exposeItems().getItem
 	override def asWItem(): WItem = WItem(exposeItem())
+
+	override protected[compat] def exposeNbt() = exposeItems().getOrCreateTag()
+	override protected[compat] def setNbt(what: CompoundNBT): Unit = exposeItems().setTag(what)
 }
 object WItemStack {
+	def empty = new WItemStack(null, null)
 	def get(inv: IInventory, index: Int): WItemStack = {
 		val stack = if(index >= inv.getSizeInventory) null else inv.getStackInSlot(index)
 		new WItemStack(stack, null)

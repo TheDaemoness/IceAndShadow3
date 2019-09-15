@@ -4,8 +4,8 @@ import mod.iceandshadow3.lib.data.BVar
 import net.minecraft.state.IProperty
 
 /** Represents one variable of a block's overall state. Similar to IProperty. */
-sealed abstract class BVarBlock[T](name: String, defaultVal: T)
-extends BVar[T](name, defaultVal: T) with BinderBlockVar.TKey {
+sealed abstract class BVarBlock[T](name: String, override val defaultVal: T)
+extends BVar[T](name) with BinderBlockVar.TKey {
 	type Underlying <: Comparable[Underlying]
 	def size: Int
 

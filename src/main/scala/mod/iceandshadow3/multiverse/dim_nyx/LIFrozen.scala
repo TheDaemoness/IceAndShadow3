@@ -40,7 +40,7 @@ class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
 		val hellish = E3vl.fromBool(context.user.dimension.isHellish)
 		hellish.forBoolean({
 			if(_) {
-				context.user.give(new WItemStack(context.stack.exposeNbtTree().chroot(IaS3.MODID).chroot("itemstack"), null))
+				context.user.give(context.stack(LogicItemChameleon.varItemWrapped))
 				context.stack.destroy()
 			} else context.user.message("iced_over")
 		})

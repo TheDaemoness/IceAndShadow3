@@ -7,7 +7,6 @@ import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
 import mod.iceandshadow3.lib.compat.item.WUsageItem;
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock;
-import mod.iceandshadow3.lib.compat.misc.WNbtTree;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import mod.iceandshadow3.lib.item.BItemProperty;
 import mod.iceandshadow3.lib.util.E3vl;
@@ -39,8 +38,7 @@ public class AItem extends Item implements ILogicItemProvider {
 	public boolean hasEffect(ItemStack stack) {
 		return super.hasEffect(stack) || logic.isShiny(
 			variant,
-			new WNbtTree(stack.getTag()),
-			new WItemStack(stack, null)
+				new WItemStack(stack, null)
 		);
 	}
 
@@ -104,7 +102,6 @@ public class AItem extends Item implements ILogicItemProvider {
 	@Override
 	@Nonnull
 	public ActionResultType onItemUse(ItemUseContext ctxi) {
-		System.out.println(ctxi.getWorld().getBlockState(ctxi.getPos()));
 		final WUsageItemOnBlock context = new WUsageItemOnBlock(getLogicPair(), ctxi);
 		final E3vl result = logic.onUseBlock(variant, context);
 		return toEActionResult(result);

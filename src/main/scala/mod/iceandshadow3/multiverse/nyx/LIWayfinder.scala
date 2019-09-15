@@ -1,10 +1,9 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.base.LogicPair
 import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WUsageItem}
-import mod.iceandshadow3.lib.compat.misc.WNbtTree
+import mod.iceandshadow3.lib.compat.nbt.{VarNbtBool, VarNbtObj}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WSound}
 import mod.iceandshadow3.lib.data.DatumBool
 import mod.iceandshadow3.lib.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
@@ -30,6 +29,10 @@ sealed abstract class BItemPropertyDelta(logic: BLogicItemComplex) extends BItem
 		evaluate(owner, state.positions.get(owner.dimensionCoord))
 	}
 }
+object LIWayfinder {
+	val varCharged = new VarNbtBool("charged", false)
+	val varPos = new VarNbtObj("positions", new PerDimensionVec3)
+}
 class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	with TEventFishOwnerDeath
 	with TEventFishOwnerToss
@@ -41,8 +44,8 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 	override type StateDataType = SIWayfinder
 	override def getDefaultStateData(variant: Int) = new SIWayfinder
 
-	override def isShiny(variant: Int, tags: WNbtTree, stack: WItemStack) =
-		tags.chroot(IaS3.MODID).getLong("charged") > 0
+	override def isShiny(variant: Int, stack: WItemStack) =
+		stack(LIWayfinder.varCharged)
 		
 	override def onUseGeneral(variant: Int, context: WUsageItem): E3vl = {
 		val state = context.state.asInstanceOf[SIWayfinder]
@@ -128,7 +131,7 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 		new BItemProperty(this) {
 			override def name = "charged"
 			override def call(item: WItemStack, world: TWWorld): Float =
-				if(item.exposeNbtTree().chroot().getLong("charged") > 0) 1f else 0f
+				if(item(LIWayfinder.varCharged)) 1f else 0f
 		},
 		new BItemPropertyDelta(this) {
 			override def name = "blink"
