@@ -27,8 +27,8 @@ apply plugin: 'net.minecraftforge.gradle'
 
 def version_minecraft = '1.14.4'
 def version_forge_maj=28
-def version_forge_min=0
-def version_forge_patch=102
+def version_forge_min=1
+def version_forge_patch=6
 def version_forge_req="${version_forge_maj}.${version_forge_min}"
 def version_forge="${version_forge_req}.${version_forge_patch}"
 def mappings_channel='snapshot'
@@ -64,6 +64,17 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            mods {
+                iceandshadow3 {
+                    source sourceSets.main
+                }
+            }
+        }
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', 'iceandshadow3', '--all', '--output', file('src/generated/resources/')
             mods {
                 iceandshadow3 {
                     source sourceSets.main

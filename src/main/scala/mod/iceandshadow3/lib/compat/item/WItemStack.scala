@@ -10,8 +10,8 @@ import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.CompoundNBT
-import net.minecraft.tileentity.AbstractFurnaceTileEntity
 import net.minecraft.util.IItemProvider
+import net.minecraftforge.common.ForgeHooks
 
 /** Null-safe item stack + owner reference.
 	*/
@@ -104,11 +104,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	override protected def exposeCompoundOrNull() =
 		is.fold[CompoundNBT](null){_.getOrCreateTag()}
 
-	def getBurnTicks: Int = is.fold(0)(items => {
-		val result = items.getBurnTime
-		if(result < 0) AbstractFurnaceTileEntity.getBurnTimes.getOrDefault(items.getItem, 0)
-		else result
-	})
+	def getBurnTicks: Int = is.fold(0)(ForgeHooks.getBurnTime)
 
 	override protected[compat] def getLocalizedName = exposeItems().getTextComponent
 
