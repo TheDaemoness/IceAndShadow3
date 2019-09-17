@@ -3,18 +3,15 @@ package mod.iceandshadow3.lib.base
 import javax.annotation.Nullable
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.forge.fish.TEventFish
-import mod.iceandshadow3.lib.{BDomain, BStateData}
+import mod.iceandshadow3.lib.BDomain
 
 import scala.reflect.{ClassTag, classTag}
 
 abstract class BLogic(protected val domain: BDomain, protected val name: String) extends INamed {
-	type StateDataType <: BStateData
-
 	def countVariants: Int = 1
 	def isTechnical: Boolean = false
 	def getTier(variant: Int): Int
 	def getDomain: BDomain = domain
-	def getDefaultStateData(variant: Int): StateDataType
 
 	/** Used for both localization and model directory querying. */
 	def getPathPrefix: String

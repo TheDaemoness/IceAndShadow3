@@ -16,9 +16,3 @@ trait ILogicBlockProvider extends TLogicProvider[BLogicBlock]
 trait ILogicItemProvider extends TLogicProvider[BLogicItem]
 trait ILogicEntityProvider extends TLogicProvider[BLogicCommonEntity]
 trait ILogicMobProvider extends TLogicProvider[BLogicMob]
-
-trait TLogicStateProvider[LogicType <: BLogic] {
-	this: TLogicProvider[LogicType] =>
-	def getLogicTriad: Option[LogicTriad[LogicType]]
-	def toLogicTriad(logicPair: LogicPair[LogicType]): LogicTriad[LogicType]
-}

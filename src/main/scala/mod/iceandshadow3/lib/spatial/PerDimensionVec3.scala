@@ -8,8 +8,10 @@ import mod.iceandshadow3.lib.data.{DataTreeMapFlexible, IDataTreeRW}
 class PerDimensionVec3 extends IDataTreeRW[DataTreeMapFlexible] {
   private val mapping = new DataTreeMapFlexible(_ => Some(new Vec3Mutable(UnitVec3s.ZERO)))
 
-  def set(which: WDimensionCoord, where: IVec3): Unit =
+  def update(which: WDimensionCoord, where: IVec3): PerDimensionVec3 = {
     mapping.add(which.getId, where.asMutable)
+    this
+  }
 
   def get(which: WDimensionCoord): Option[Vec3Mutable] =
     mapping.getAndCast[Vec3Mutable](which.getId)

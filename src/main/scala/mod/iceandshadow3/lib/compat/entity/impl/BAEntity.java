@@ -1,11 +1,8 @@
 package mod.iceandshadow3.lib.compat.entity.impl;
 
-import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicCommonEntity;
-import mod.iceandshadow3.lib.BStateData;
 import mod.iceandshadow3.lib.base.ILogicEntityProvider;
 import mod.iceandshadow3.lib.base.LogicPair;
-import mod.iceandshadow3.lib.data.DataTreeMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,14 +15,12 @@ import javax.annotation.Nullable;
 
 public class BAEntity<Logic extends BLogicCommonEntity> extends Entity implements ILogicEntityProvider {
 	protected final Logic logic;
-	protected BStateData state;
 	protected int variant;
 	BAEntity(Logic l, EntityType<? extends BAEntity<Logic>> mctype, World world) {
 		super(mctype, world);
 		logic = l;
 		variant = 0;
 		//TODO: Determine variant pre-spawn.
-		state = logic.getDefaultStateData(variant);
 	}
 
 
@@ -36,18 +31,12 @@ public class BAEntity<Logic extends BLogicCommonEntity> extends Entity implement
 
 	@Override
 	protected void readAdditional(CompoundNBT nbt) {
-		final DataTreeMap dtm = state.exposeDataTree();
-		try {
-			dtm.fromNBT(nbt.getCompound(IaS3.MODID));
-			state.fromDataTree(dtm);
-		} catch (ClassCastException e) {
-			IaS3.logger().error("NBT type mismatch when loading "+this+": "+e.getMessage());
-		}
+		//TODO: Reflective BVar collection?
 	}
 
 	@Override
 	protected void writeAdditional(CompoundNBT nbt) {
-		nbt.put(IaS3.MODID, state.exposeDataTree().toNBT());
+		//TODO: Reflective BVar collection?
 	}
 
 	@Nonnull

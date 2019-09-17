@@ -25,19 +25,16 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	def getBurnTicks(variant: Int, stack: WItemStack) = 0
 }
 
-sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: Seq[(String, Int)])
+sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (String, Int)*)
 	extends BLogicItem(dom, name)
 {
-	type StateDataType = BStateData
-	override final def getDefaultStateData(variant: Int): BStateData = null
-
 	override def countVariants = variants.size
 	override protected def getVariantName(variant: Int) = variants(variant)._1
 	override def getTier(variant: Int) = variants(variant)._2
 }
 
 class LogicItemMulti(dom: BDomain, name: String, variants: (String, Int)*)
-	extends BLogicItemSimple(dom, name, variants)
+	extends BLogicItemSimple(dom, name, variants:_*)
 {
 	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, (null, tier))
 	override def stackLimit(variant: Int) = 64
@@ -45,7 +42,7 @@ class LogicItemMulti(dom: BDomain, name: String, variants: (String, Int)*)
 }
 
 class LogicItemSingle(dom: BDomain, name: String, variants: (String, Int)*)
-	extends BLogicItemSimple(dom, name, variants)
+	extends BLogicItemSimple(dom, name, variants:_*)
 {
 	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, (null, tier))
 	override final def stackLimit(variant: Int) = 1

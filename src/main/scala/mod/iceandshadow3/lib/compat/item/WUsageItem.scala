@@ -14,6 +14,4 @@ class WUsageItem(
 	hand: Hand,
 	sneaking: Boolean
 )
-extends WUsage(is, p, hand, sneaking) {
-	lazy val state = stack.exposeStateData(lp)
-}
+extends WUsage(is, p, hand, sneaking)

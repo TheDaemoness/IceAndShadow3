@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.forge.bait
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.base.{LogicPair, LogicTriad}
+import mod.iceandshadow3.lib.base.LogicPair
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwnerDeath
 import net.minecraft.util.DamageSource
@@ -16,12 +16,12 @@ class EventBaitOwnerDeath extends BEventBaitOwner[LivingDeathEvent] {
 	override protected def handleFish(
 		event: LivingDeathEvent,
 		item: WItemStack,
-		logictriad: LogicTriad[BLogicItem],
+		lp: LogicPair[BLogicItem],
 		fish: TEventFishOwnerDeath
 	): Unit = {
 		val cancel = if (event.getSource == DamageSource.OUT_OF_WORLD) {
-			fish.onOwnerVoided(logictriad.variant, logictriad.state, item, event.isCanceled)
-		} else fish.onOwnerDeath(logictriad.variant, logictriad.state, item, event.isCanceled)
+			fish.onOwnerVoided(lp.variant, item, event.isCanceled)
+		} else fish.onOwnerDeath(lp.variant, item, event.isCanceled)
 		cancel.forBoolean(uncancel => {event.setCanceled(!uncancel)})
 	}
 }
