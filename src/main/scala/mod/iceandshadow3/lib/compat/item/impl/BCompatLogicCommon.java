@@ -9,9 +9,7 @@ public abstract class BCompatLogicCommon extends BLogic {
 		super(domain, name);
 	}
 	
-	public int stackLimit(int variant) {
-		return 64;
-	}
+	public abstract int stackLimit(int variant);
 	
 	protected Item.Properties toItemProperties(int variant) {
 		final Item.Properties retval = new Item.Properties();

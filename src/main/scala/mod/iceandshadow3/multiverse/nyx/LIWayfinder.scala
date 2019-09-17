@@ -8,27 +8,27 @@ import mod.iceandshadow3.lib.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerTo
 import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.lib.util.E3vl
-import mod.iceandshadow3.lib.BLogicItemComplex
+import mod.iceandshadow3.lib.LogicItemSingle
 import mod.iceandshadow3.multiverse.misc.Statuses
 import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}
 
-sealed abstract class BItemPropertyDelta(logic: BLogicItemComplex) extends BItemProperty(logic) {
-	def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float
-	override def call(item: WItemStack, world: TWWorld): Float = {
-		if(!item.hasOwner) return 0f
-		val owner = item.getOwner
-		evaluate(owner, item(LIWayfinder.varPos).get(owner.dimensionCoord))
-	}
-}
 object LIWayfinder {
 	val varCharged = new VarNbtBool("charged", false)
 	val varPos = new VarNbtObj("positions", new PerDimensionVec3)
+
+	sealed abstract class BItemPropertyDelta(logic: LogicItemSingle) extends BItemProperty(logic) {
+		def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float
+		override def call(item: WItemStack, world: TWWorld): Float = {
+			if(!item.hasOwner) return 0f
+			val owner = item.getOwner
+			evaluate(owner, item(LIWayfinder.varPos).get(owner.dimensionCoord))
+		}
+	}
 }
-class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
+class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 	with TEventFishOwnerDeath
 	with TEventFishOwnerToss
 {
-	override def getTier(variant: Int): Int = 2
 	protected def getDefaultCoord(who: WEntityLiving): IVec3 =
 		who.home(who.dimension).getOrElse(who.posFine)
 
@@ -113,14 +113,14 @@ class LIWayfinder extends BLogicItemComplex(DomainNyx, "wayfinder")
 			override def call(item: WItemStack, world: TWWorld): Float =
 				if(item(LIWayfinder.varCharged)) 1f else 0f
 		},
-		new BItemPropertyDelta(this) {
+		new LIWayfinder.BItemPropertyDelta(this) {
 			override def name = "blink"
 			override def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) (1+(owner.gameTime & 31))/32f
 				else 0f
 			}
 		},
-		new BItemPropertyDelta(this) {
+		new LIWayfinder.BItemPropertyDelta(this) {
 			override def name = "hotness"
 			override def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) 0f

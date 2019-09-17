@@ -8,7 +8,7 @@ import mod.iceandshadow3.lib.BDomain
 import scala.reflect.{ClassTag, classTag}
 
 abstract class BLogic(protected val domain: BDomain, protected val name: String) extends INamed {
-	def countVariants: Int = 1
+	def countVariants: Int
 	def isTechnical: Boolean = false
 	def getTier(variant: Int): Int
 	def getDomain: BDomain = domain

@@ -12,16 +12,16 @@ abstract class BEventBait[EventType <: Event :ClassTag] extends BEventHandler {
 	def priority = EventPriority.NORMAL
 	def receiveCancelled = true
 
+	protected def handle(event: EventType): Unit
+
 	override def register(bus: IEventBus): Unit = {
 		bus.addListener[EventType](
 			priority,
 			receiveCancelled,
 			classTag[EventType].runtimeClass.asInstanceOf[Class[EventType]],
-			(it: EventType) => handle(it)
+			handle _
 		)
 	}
-
-	protected def handle(event: EventType): Unit
 
 	protected def forEventFish[FishType <: TEventFish: ClassTag, L <: BLogic, T](
 		ref: TWLogical[L] with TLogicProvider[L], fn: (LogicPair[L], FishType) => T): Option[T] =

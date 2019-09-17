@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
 import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.util.E3vl
 
-sealed abstract class BLogicItem(dom: BDomain, name: String)
+abstract class BLogicItem(dom: BDomain, name: String)
 	extends BCompatLogicItem(dom, name)
 	with TEventFishOwner
 	with BinderItem.TKey
@@ -23,6 +23,8 @@ sealed abstract class BLogicItem(dom: BDomain, name: String)
 	def onUseBlock(variant: Int, context: WUsageItemOnBlock) = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
 	def getBurnTicks(variant: Int, stack: WItemStack) = 0
+
+	override def damageLimit(variant: Int) = 0
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (String, Int)*)
@@ -33,24 +35,22 @@ sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (St
 	override def getTier(variant: Int) = variants(variant)._2
 }
 
-class LogicItemMulti(dom: BDomain, name: String, variants: (String, Int)*)
+class LogicItemMulti(dom: BDomain, name: String, stacklimit: Int, variants: (String, Int)*)
 	extends BLogicItemSimple(dom, name, variants:_*)
 {
-	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, (null, tier))
-	override def stackLimit(variant: Int) = 64
+	def this(dom: BDomain, name: String, variants: (String, Int)*) = this(dom, name, 64, variants:_*)
+	def this(dom: BDomain, name: String, stacklimit: Int, tier: Int) = this(dom, name, stacklimit, (null, tier))
+	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, 64, (null, tier))
+	override def stackLimit(variant: Int) = stacklimit
 	override final def damageLimit(variant: Int) = 0
 }
 
-class LogicItemSingle(dom: BDomain, name: String, variants: (String, Int)*)
+class LogicItemSingle(dom: BDomain, name: String, dmglimit: Int, variants: (String, Int)*)
 	extends BLogicItemSimple(dom, name, variants:_*)
 {
-	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, (null, tier))
+	def this(dom: BDomain, name: String, variants: (String, Int)*) = this(dom, name, 0, variants:_*)
+	def this(dom: BDomain, name: String, dmglimit: Int, tier: Int) = this(dom, name, dmglimit, (null, tier))
+	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, 0, (null, tier))
 	override final def stackLimit(variant: Int) = 1
-	override def damageLimit(variant: Int) = 0
-}
-
-abstract class BLogicItemComplex(dom: BDomain, name: String) extends BLogicItem(dom, name) {
-	//TODO: Investigate whether Minecraft actually knows how to handle stacking items with NBT.
-	override def stackLimit(variant: Int) = 1
-	override def damageLimit(variant: Int) = 0
+	override def damageLimit(variant: Int) = dmglimit
 }

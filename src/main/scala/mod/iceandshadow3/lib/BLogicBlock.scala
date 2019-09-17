@@ -20,6 +20,9 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	BinderBlock.add(this)
 	ContentLists.block.add(this)
 
+	override def countVariants: Int = 1
+	override def stackLimit(variant: Int) = 64
+
 	override def getPathPrefix: String = "block"
 
 	/** Whether or not the surfaces of the blocks have any visible holes in them.
