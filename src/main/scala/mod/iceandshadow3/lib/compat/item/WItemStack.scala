@@ -1,13 +1,15 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
+import mod.iceandshadow3.lib.compat.entity.state.{EquipPoint, EquipPointVanilla}
+import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WAttribute, AttributeModTotal, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.nbt.TNbtSource
 import mod.iceandshadow3.lib.compat.util.{SRandom, TLocalized, TWLogical}
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.attributes.AttributeModifier
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
-import net.minecraft.inventory.IInventory
+import net.minecraft.inventory.{EquipmentSlotType, IInventory}
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.IItemProvider
@@ -113,6 +115,9 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	override protected[compat] def exposeNbt() = exposeItems().getOrCreateTag()
 	override protected[compat] def setNbt(what: CompoundNBT): Unit = exposeItems().setTag(what)
+
+	def apply(attr: WAttribute[_], where: EquipPointVanilla): AttributeModTotal =
+		AttributeModTotal(exposeItems().getAttributeModifiers(where.where).get(attr.name))
 }
 object WItemStack {
 	def empty = new WItemStack(null, null)
