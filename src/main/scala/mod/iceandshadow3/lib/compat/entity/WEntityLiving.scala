@@ -79,9 +79,16 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
     if(amp <= 0) living.removePotionEffect(BinderStatusEffect(status))
     else living.addPotionEffect(new EffectInstance(BinderStatusEffect(status), ticks, amp-1))
   }
+  def getStatus(status: StatusEffect): Int = {
+    val fx = living.getActivePotionEffect(BinderStatusEffect(status))
+    if(fx == null) 0 else fx.getAmplifier+1
+  }
 
   /** As setStatus if an attack causes damage.
     */
   def damageWithStatus(how: Attack, multiplier: Float = 1f, status: StatusEffect, ticks: Int, amp: Int = 1): Unit =
     if(damage(how, multiplier)) setStatus(status, ticks, amp)
+
+  def apply(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getValue
+  def baseValue(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getBaseValue
 }

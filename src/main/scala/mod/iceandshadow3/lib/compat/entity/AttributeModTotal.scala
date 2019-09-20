@@ -5,7 +5,7 @@ import java.util
 import net.minecraft.entity.ai.attributes.AttributeModifier
 
 case class AttributeModTotal(add: Double, addToMult: Double = 0d, mult: Double = 1d) {
-	def apply(base: Float) = (base + add) * (1+addToMult) * mult
+	def apply(base: Double) = (base + add) * (1+addToMult) * mult
 }
 object AttributeModTotal {
 	def apply(collection: util.Collection[AttributeModifier]): AttributeModTotal = {

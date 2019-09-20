@@ -46,7 +46,7 @@ object AttackForm {
 		relevantEquips = Array(Set(BODY_LEGS, BODY_FEET))
 	)
 	val VOLUME = AttackForm(
-		relevantEquips = Array(Set(BODY_HEAD, BODY_CHEST, BODY_LEGS))
+		relevantEquips = Array(Set(BODY_HEAD, BODY_CHEST, BODY_LEGS, BODY_FEET))
 	)
 	val ELDRITCH = AttackForm(
 		dimensions = 4,

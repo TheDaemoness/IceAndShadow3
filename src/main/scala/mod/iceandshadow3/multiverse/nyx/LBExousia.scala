@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.damage.{Attack, AttackForm, BDamage, TDmgTypeExousic}
+import mod.iceandshadow3.damage.{Attack, AttackForm, Damage, TDmgTypeExousic}
 import mod.iceandshadow3.lib.BLogicBlockSimple
 import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
 import mod.iceandshadow3.lib.compat.block.{BMateriaPlasma, WBlockRef, WBlockState}
@@ -22,9 +22,7 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 	override def getBaseHarvestResist = -1
 	override def getShapes = Set()
 }) {
-	val damage = new Attack("exousia", AttackForm.VOLUME, new BDamage with TDmgTypeExousic {
-		override def baseDamage = 6f
-	})
+	val damage = new Attack("exousia", AttackForm.VOLUME, new Damage(6f) with TDmgTypeExousic)
 	override def harvestOverride(variant: Int, block: WBlockRef, fortune: Int) = Array()
 
 	override val shape: BlockShape = BlockShape.EMPTY
@@ -41,12 +39,12 @@ class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlas
 			who.playSound(WSound("minecraft:entity.generic.burn"), 0.5f, who.rng(0.9f, 0.2f))
 			//TODO: Damage resistance check.
 			who match {
-				case victim: WEntityLiving => victim.damageWithStatus(damage, 1f, Statuses.wither, 115, 2)
+				case victim: WEntityLiving => victim.damageWithStatus(damage, 1f, Statuses.exousia, 115)
 				case missile: WProjectile => missile.remove()
 				case _ => who.damage(damage)
 			}
 			who.particle(Particles.smoke_large, UnitVec3s.ZERO)
-			who.impulse(0, 0.05, 0)
+			who.impulse(0, 0.025, 0)
 		}
 	}
 

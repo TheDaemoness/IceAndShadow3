@@ -14,4 +14,5 @@ object Statuses {
 	//NOTE: Make sure these are also in BinderStatusEffect.populate
 
 	val frost = new StatusFrost
+	val exousia = new StatusExousia
 }

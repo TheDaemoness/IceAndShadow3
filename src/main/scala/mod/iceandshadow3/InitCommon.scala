@@ -2,7 +2,7 @@ package mod.iceandshadow3
 
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.compat.{Binders, Registrar}
-import mod.iceandshadow3.lib.forge.{EventFisherman, Teleporter}
+import mod.iceandshadow3.lib.forge.{EventFisherman, HandlerADS, Teleporter}
 import mod.iceandshadow3.multiverse._
 import mod.iceandshadow3.multiverse.misc.Statuses
 import net.minecraft.world.biome.Biome
@@ -38,6 +38,7 @@ private[iceandshadow3] object InitCommon {
 
 	def initLate(): Unit = {
 		Registrar.finish();
+		HandlerADS.registerSelf()
 		Teleporter.registerSelf()
 		EventFisherman.baitHooks()
 		for (domain <- domains) domain.initLate()

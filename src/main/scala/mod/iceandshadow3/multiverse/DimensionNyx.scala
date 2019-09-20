@@ -75,22 +75,11 @@ object DimensionNyx extends BDimension("nyx") {
 		})
 	}
 
-	val placesHighAttack = new Attack("windchill", AttackForm.VOLUME, new BDamage with TDmgTypeCold {
-		override def baseDamage = 1f
-
-		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
-	})
-	val placesDarkAttack = new Attack("darkness", AttackForm.CURSE, new BDamage with TDmgTypeShadow {
-		override def baseDamage = 4f
-
-		override def onDamage(dmg: Float, dmgResisted: Float, what: WItemStack) = dmgResisted
-	})
+	val placesHighAttack = new Attack("windchill", AttackForm.VOLUME, new Damage(1f) with TDmgTypeCold)
+	val placesDarkAttack = new Attack("darkness", AttackForm.CURSE, new Damage(4f) with TDmgTypeShadow)
 
 	override def onEntityLivingUpdate(who: WEntityLiving): Unit = {
-		if (who.getShadowPresence >= 1f) {
-			who.setStatus(Statuses.blind, 55)
-			who.damage(placesDarkAttack)
-		}
+		if (who.getShadowPresence >= 1f) who.damageWithStatus(placesDarkAttack, 1f, Statuses.blind, 55)
 		val height = who.posFine.yBlock
 		if (height >= 192) who.damageWithStatus(
 			placesHighAttack,
