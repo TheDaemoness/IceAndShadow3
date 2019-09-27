@@ -43,8 +43,8 @@ public class ADamageSource extends DamageSource {
 		this.setDamageIsAbsolute().setDamageBypassesArmor();
 		attack = dmg;
 		AttackForm f = attack.form();
-		if(f.isProjectile()) this.setProjectile();
-		if(f.isMystic()) this.setMagicDamage();
+		if(f.projectile()) this.setProjectile();
+		if(f.mystic()) this.setMagicDamage();
 		this.damages = damages;
 		this.total = total;
 	}

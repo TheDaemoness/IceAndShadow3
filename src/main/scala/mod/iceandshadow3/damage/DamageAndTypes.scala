@@ -20,7 +20,7 @@ abstract class Damage(damage: Float) extends BDamage {
 
 trait TDmgTypeOmni extends TDmgType {
 	this: Damage => override def name = "omni"
-	override def onDamageArmor(dmgThrough: Float, dmgResisted: Float, what: WItemStack): Float = dmgResisted/3f
+	override def onDamageArmor(dmgThrough: Float, dmgResisted: Float, what: WItemStack): Float = dmgResisted
 	override def onDamageEntity(dmgThrough: Float, dmgResisted: Float, who: WEntityLiving): Float = dmgThrough
 }
 
@@ -50,7 +50,7 @@ trait TDmgTypeIce extends TDmgTypeSharp with TDmgTypeCold {this: Damage => overr
 }
 
 trait TDmgTypeExousic extends TDmgTypeOmni {this: Damage => override def name = "exousic"
-	override def onDamageArmor(dmg: Float, dmgResisted: Float, what: WItemStack):Float = dmg*5
+	override def onDamageArmor(dmg: Float, dmgResisted: Float, what: WItemStack):Float = dmg*15
 }
 
 trait TDmgTypeEldritch extends TDmgTypeOmni {this: Damage => override def name = "eldritch"}

@@ -4,52 +4,58 @@ import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
 import mod.iceandshadow3.lib.compat.entity.state.EquipPoint._
 
 case class AttackForm (
-	isProjectile:Boolean = false,
-	isMystic:Boolean = false, //Magic resist applies to this attack at half strength.
-	relevantEquips:Array[Set[EquipPoint]] = Array(Set(BODY_HEAD), Set(BODY_CHEST), Set(BODY_LEGS), Set(BODY_CHEST)),
-	dimensions:Int = 2 //Number of dimensions a cross-section of the attack has.
+	relevantArmor:Array[Set[EquipPoint]] = Array(Set(BODY_HEAD), Set(BODY_CHEST), Set(BODY_LEGS), Set(BODY_CHEST)),
+	ranged:Boolean = true,
+	blockable:Boolean = true,
+	projectile:Boolean = false,
+	mystic:Boolean = false,
+	volumetric:Boolean = false //Damages shields regardless of whether their armor contributes to DR or not.
 )
 object AttackForm {
-	val SWING = AttackForm(dimensions = 1)
-	val STAB = AttackForm(
-		dimensions = 0,
-		relevantEquips = Array(Set(BODY_CHEST))
+	private val ARMORLESS = Array(Set[EquipPoint]())
+	val SWING = AttackForm(
+		ranged = false
 	)
-	val BALL = AttackForm(isProjectile = true)
+	val STAB = AttackForm(
+		ranged = false,
+		relevantArmor = Array(Set(BODY_CHEST))
+	)
 	val MISSILE = AttackForm(
-		isProjectile = true,
-		dimensions = 0
+		projectile = true
 	)
 	val MISSILE_MAGIC = AttackForm(
-		isProjectile = true,
-		isMystic = true,
-		dimensions = 0
-	)
-	val THROWN = AttackForm(
-		isProjectile = true,
-		dimensions = 1
+		projectile = true,
+		mystic = true
 	)
 	val CONDITION = AttackForm(
-		dimensions = 3
+		ranged = false,
+		blockable = false,
+		relevantArmor = ARMORLESS
 	)
 	val CURSE = AttackForm(
-		isMystic = true,
-		dimensions = 3
+		mystic = true,
+		relevantArmor = ARMORLESS
 	)
 	val FLOOR = AttackForm(
-		relevantEquips = Array(Set(BODY_FEET))
+		ranged = false,
+		blockable = false,
+		relevantArmor = Array(Set(BODY_FEET))
 	)
 	val CEILING = AttackForm(
-		relevantEquips = Array(Set(BODY_HEAD))
+		ranged = false,
+		relevantArmor = Array(Set(BODY_HEAD))
 	)
-	val TERRAIN = AttackForm(
-		relevantEquips = Array(Set(BODY_LEGS, BODY_FEET))
+	val WAVE = AttackForm(
+		volumetric = true,
+		relevantArmor = Array(Set(BODY_HEAD, BODY_CHEST, BODY_LEGS, BODY_FEET))
 	)
 	val VOLUME = AttackForm(
-		relevantEquips = Array(Set(BODY_HEAD, BODY_CHEST, BODY_LEGS, BODY_FEET))
+		volumetric = true,
+		blockable = false,
+		relevantArmor = Array(Set(BODY_HEAD, BODY_CHEST, BODY_LEGS, BODY_FEET))
 	)
 	val ELDRITCH = AttackForm(
-		dimensions = 4,
-		relevantEquips = Array()
+		blockable = false,
+		relevantArmor = ARMORLESS
 	)
 }
