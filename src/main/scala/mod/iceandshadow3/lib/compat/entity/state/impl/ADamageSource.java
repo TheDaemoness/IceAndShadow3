@@ -3,6 +3,7 @@ package mod.iceandshadow3.lib.compat.entity.state.impl;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.damage.Attack;
 import mod.iceandshadow3.damage.AttackForm;
+import mod.iceandshadow3.lib.compat.entity.WEntity;
 import mod.iceandshadow3.lib.compat.util.TEffectSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -17,21 +18,35 @@ import javax.annotation.Nullable;
  * Damage source.
  */
 public class ADamageSource extends DamageSource {
-
 	private final TEffectSource source;
 	private final Attack attack;
-	
-	public ADamageSource(final Attack dmg, final TEffectSource source) {
+	private final float[] damages;
+	private final float total;
+
+	public static boolean attack(Attack dmg, WEntity whom, float multiplier) {
+		final float[] damages = new float[dmg.instances().size()];
+		float total = 0f;
+		for(int i = 0; i < damages.length; ++i) {
+			final float damage = dmg.instances().apply(i).amount(whom) * multiplier;
+			damages[i] = damage;
+			total += damage;
+		}
+		return whom.entity().attackEntityFrom(new ADamageSource(dmg, damages, total), total);
+	}
+
+	public final float getTotal() {return total;}
+	public final float getAmount(int index) {return damages[index];}
+
+	private ADamageSource(final Attack dmg, final float[] damages, float total) {
 		super(dmg.name());
-		this.source = source;
+		this.source = dmg.source();
 		this.setDamageIsAbsolute().setDamageBypassesArmor();
 		attack = dmg;
 		AttackForm f = attack.form();
 		if(f.isProjectile()) this.setProjectile();
 		if(f.isMystic()) this.setMagicDamage();
-	}
-	public ADamageSource(final Attack dmg) {
-		this(dmg, null);
+		this.damages = damages;
+		this.total = total;
 	}
 
 	public Attack getAdsAttack() {return attack;}

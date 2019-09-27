@@ -17,13 +17,16 @@ object HandlerADS {
 		case ads: ADamageSource =>
 			val attack = ads.getAdsAttack
 			val victim = CNVEntity.wrap(event.getEntityLiving)
-			val mult = attack.baseDamage / event.getAmount
-			if(mult <= 0f) event.setCanceled(true)
+			val base = ads.getTotal
+			if(event.getAmount <= 0f || base <= 0f) event.setCanceled(true)
 			else {
+				val mult = event.getAmount / base
 				val equipset = CollectUtils.randomPick(attack.form.relevantEquips.toIndexedSeq, victim.rng())
 				var finaldamage = 0f
-				for(damage <- attack.instances) {
+				for(idx <- attack.instances.indices) {
+					val damage = attack.instances(idx)
 					var avgdamage = 0f
+					val baseDmg = ads.getAmount(idx) * mult
 					for(equip <- equipset) {
 						var sumSoft = 0f
 						var sumHard = 0f
@@ -34,14 +37,14 @@ object HandlerADS {
 								sumSoft += resist._2.soft
 							}
 						}
-						val baseDmg = damage.baseDamage*mult
 						val resultDmg = AdsArmorValue(sumHard, sumSoft).apply(baseDmg)
 						avgdamage += resultDmg
-						val degrade = damage.onDamageArmor(resultDmg, baseDmg-resultDmg, equipped)
-						if(degrade >= 1) equipped.consume(degrade.toInt)
+						val armorDmg = Math.max(0, baseDmg-resultDmg-sumHard)
+						val degrade = damage.onDamageArmor(resultDmg, armorDmg, equipped)
+						if(degrade > 0) equipped.consume(Math.ceil(degrade).toInt)
 					}
 					avgdamage /= equipset.size
-					var dmgmult = 1f;
+					var dmgmult = 1f
 					if(damage.isInstanceOf[TDmgTypeNatural]) dmgmult *= 1f-Math.min(1f, victim.getStatus(Statuses.resistance)/5f)
 					// TODO: Innate resistances.
 					finaldamage += damage.onDamageEntity(avgdamage*dmgmult, avgdamage*(1-dmgmult), victim)

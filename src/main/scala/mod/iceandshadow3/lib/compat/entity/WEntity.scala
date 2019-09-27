@@ -61,11 +61,10 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 	def damage(attacker: TEffectSource): Boolean = if(isServerSide) {
 		val how = attacker.getAttack
 		if(how == null) false
-		else entity.attackEntityFrom(new ADamageSource(how, attacker), how.baseDamage(attacker.getAttackMultiplier))
+		else ADamageSource.attack(how, this, attacker.getAttackMultiplier)
 	} else false
 	def damage(how: Attack, multiplier: Float = 1f): Boolean = if(isServerSide) {
-		entity.attackEntityFrom(new ADamageSource(how), how.baseDamage(multiplier)
-		)
+		ADamageSource.attack(how, this, multiplier)
 	} else false
 	def remove(): Unit = entity.remove()
 

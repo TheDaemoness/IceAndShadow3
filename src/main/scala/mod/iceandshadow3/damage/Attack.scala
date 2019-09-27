@@ -1,7 +1,14 @@
 package mod.iceandshadow3.damage
 
-case class Attack(name: String, form: AttackForm, instances: Damage with TDmgTypeOmni*) {
-	val baseDamage = instances.foldLeft(0f)((total, dmg) => dmg.baseDamage+total)
-	def baseDamage(multiplier: Float): Float = baseDamage*multiplier
-	def determineMultiplier(dmg: Float): Float = dmg/baseDamage
+import javax.annotation.Nullable
+import mod.iceandshadow3.lib.compat.util.TEffectSource
+
+case class Attack(
+	@Nullable source: TEffectSource,
+	name: String,
+	form: AttackForm,
+	instances: (BDamage with TDmgTypeOmni)*
+) {
+	def this(name: String, form: AttackForm, instances: (BDamage with TDmgTypeOmni)*) =
+		this(null, name, form, instances:_*)
 }
