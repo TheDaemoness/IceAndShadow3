@@ -16,7 +16,8 @@ object AdsArmorValue {
 	type Values = Iterable[(Class[_ <: TDmgTypeOmni], AdsArmorValue)]
 	val NONE = AdsArmorValue(0f, 0f)
 	val ABSOLUTE = AdsArmorValue(Float.MaxValue, 0f)
-	val SHIELD_DEFAULT = List(
+	val ARMOR_DEFAULT: Values = List()
+	val SHIELD_DEFAULT: Values = List(
 		(classOf[TDmgTypePhysical], AdsArmorValue(2, 0)),
 		(classOf[TDmgTypeSharp], AdsArmorValue(2, 0))
 	)
@@ -25,11 +26,11 @@ object AdsArmorValue {
 			case vanilla: EquipPointVanilla => fromVanilla(what, vanilla)
 			case _ => List()
 		}
-		innate
+		innate ++ what.facet[IAdsArmor].fold(ARMOR_DEFAULT)(_.getAdsArmors)
 	}
 	def getFromShield(what: WItemStack): Values = {
 		if(!what.isEmpty) List()
-		else SHIELD_DEFAULT
+		else SHIELD_DEFAULT ++ what.facet[IAdsArmor].fold(ARMOR_DEFAULT)(_.getAdsArmors)
 	}
 	def apply(what: BDamage, armors: Values): AdsArmorValue = {
 		var soft = 0f

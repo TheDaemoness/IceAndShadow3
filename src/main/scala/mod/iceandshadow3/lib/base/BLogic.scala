@@ -2,12 +2,12 @@ package mod.iceandshadow3.lib.base
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.lib.forge.fish.TEventFish
 import mod.iceandshadow3.lib.BDomain
+import mod.iceandshadow3.lib.util.{Casting, TFaceted}
 
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
 
-abstract class BLogic(protected val domain: BDomain, protected val name: String) extends INamed {
+abstract class BLogic(protected val domain: BDomain, protected val name: String) extends INamed with TFaceted[Object] {
 	def countVariants: Int
 	def isTechnical: Boolean = false
 	def getTier(variant: Int): Int
@@ -27,12 +27,9 @@ abstract class BLogic(protected val domain: BDomain, protected val name: String)
 	}
 	protected def getBaseName: String = name
 
-	def getEventFish[T <: TEventFish: ClassTag](variant: Int): Option[T] = {
-		val fishtype = classTag[T].runtimeClass
-		if (fishtype.isAssignableFrom(this.getClass)) Some(fishtype.cast(this).asInstanceOf[T]) else None
-	}
 	@Nullable
 	def nameOverride(variant: Int, stack: WItemStack): String = null
 
 	override final def getNames = Array.tabulate(countVariants)(i => getName(i))
+	override def facet[T <: Object: ClassTag]: Option[T] = Casting.cast[T](this)
 }

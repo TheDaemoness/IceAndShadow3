@@ -10,8 +10,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent
 class EventBaitOwnerDeath extends BEventBaitOwner[LivingDeathEvent] {
 	override type FishType = TEventFishOwnerDeath
 
-	override protected def catchFish(logicpair: LogicPair[BLogicItem]) =
-		logicpair.logic.getEventFish[TEventFishOwnerDeath](logicpair.variant)
+	override protected def catchFish(logicpair: LogicPair[BLogicItem]) = logicpair.logic.facet[TEventFishOwnerDeath]
 
 	override protected def handleFish(
 		event: LivingDeathEvent,

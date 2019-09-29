@@ -26,11 +26,11 @@ abstract class BEventBait[EventType <: Event :ClassTag] extends BEventHandler {
 	protected def forEventFish[FishType <: TEventFish: ClassTag, L <: BLogic, T](
 		ref: TWLogical[L] with TLogicProvider[L], fn: (LogicPair[L], FishType) => T): Option[T] =
 	{
-		Option(ref.getLogicPair).foreach(pair => {
-			pair.logic.getEventFish[FishType](pair.variant).foreach(feesh => {
+		Option(ref.getLogicPair).foreach(pair =>
+			pair.logic.facet[FishType].foreach(feesh => {
 				return Some(fn(pair, feesh))
 			})
-		})
+		)
 		None
 	}
 }
