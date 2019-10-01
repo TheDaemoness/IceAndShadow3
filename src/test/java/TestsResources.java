@@ -14,10 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Map;
@@ -26,14 +23,25 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import static mod.iceandshadow3.IaS3.MODID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Tests for forgetfulness in adding/updating asset/data JSON files.")
 @ExtendWith({ExtensionToolMode.class})
 class TestsResources {
 	private final Map<String, JSONObject> langfiles = new TreeMap<>();
-	private JSONObject soundjson;
+	private static final JSONObject soundjson;
+
+	static {
+		JSONObject soundjsonTmp = new JSONObject();
+		try {
+			soundjsonTmp = new JSONObject(new JSONTokener(new FileInputStream(
+			"./main/assets/"+MODID+"/sounds.json"
+			)));
+		} catch (IOException e) {
+			fail("Cannot open sounds.json");
+		}
+		soundjson = soundjsonTmp;
+	}
 
 	private static class AssetFile extends File {
 		private static File[] getAssetsInDir(String dir, FileFilter filter) {
@@ -66,12 +74,6 @@ class TestsResources {
 				fail("Cannot open for reading: "+lang);
 			}
 		}
-
-		try(final FileInputStream fis = new FileInputStream("./main/assets/"+MODID+"/sounds.json")) {
-			soundjson = new JSONObject(new JSONTokener(fis));
-		} catch (IOException e) {
-			fail("Cannot open sounds.json");
-		}
 	}
 
 	static Stream<BLogicBlock> streamLogicBlock() {
@@ -83,8 +85,11 @@ class TestsResources {
 	static Stream<BStatusEffect> streamStatus() {
 		return ContentLists.status.stream();
 	}
-	static Stream<String> streamSoundName() {
+	static Stream<String> streamSoundNameFromCode() {
 		return ContentLists.soundname.stream();
+	}
+	static Stream<String> streamSoundNameFromJSON() {
+		return soundjson.keySet().stream();
 	}
 	static Stream<AssetFile> streamAdvancements() {
 		FileFilter fileFilter = new WildcardFileFilter("*.json");
@@ -185,9 +190,32 @@ class TestsResources {
 	}
 
 	@ParameterizedTest(name = "{0} (sound name) should exist in sounds.json")
-	@MethodSource("streamSoundName")
+	@MethodSource("streamSoundNameFromCode")
 	void soundsJsonHasSound(String name) {
 		if(!soundjson.has(name)) fail(name+" isn't in sounds.json");
+	}
+
+	@ParameterizedTest(name = "{0} (sound name)'s subtitle (if any) should be valid and localized")
+	@MethodSource("streamSoundNameFromJSON")
+	void soundSubtitleIsValid(String name) {
+		try {
+			final JSONObject soundEntry = soundjson.getJSONObject(name);
+			if (soundEntry.has("subtitle")) {
+				final String subtitle = soundEntry.getString("subtitle");
+				if(!subtitle.startsWith(MODID+".subtitle.")) {
+					fail("Subtitle ID for "+name+" should start with iceandshadow3.subtitle.");
+				}
+				for (Map.Entry<String, JSONObject> lang : langfiles.entrySet()) {
+					try {
+						lang.getValue().getString(subtitle);
+					} catch(JSONException e) {
+						fail(lang.getKey()+": "+e.getMessage());
+					}
+				}
+			}
+		} catch(JSONException e) {
+			fail("Malformed sounds.json: "+e.getMessage());
+		}
 	}
 
 	@ParameterizedTest(name = "{0} should have a 1:1 aspect ratio or an mcmeta file")
