@@ -8,7 +8,7 @@ import net.minecraft.util.math.{BlockPos, Vec3d}
 import scala.language.implicitConversions
 
 object CNVCompat {
-	implicit def toBlockPos(vec3: IPosBlock): BlockPos = new BlockPos(vec3.xBlock, vec3.yBlock, vec3.zBlock)
+	implicit def toBlockPos(ipb: IPosBlock): BlockPos = ipb.toBlockPos
 	implicit def fromBlockPos(bp: BlockPos): IVec3 = new IVec3 {
 		override def xRaw = IVec3.fromBlockCoord(bp.getX)+IVec3.SUB_MULT/2
 		override def yRaw = IVec3.fromBlockCoord(bp.getY).toInt

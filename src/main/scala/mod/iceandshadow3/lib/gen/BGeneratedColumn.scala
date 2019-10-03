@@ -1,11 +1,11 @@
-package mod.iceandshadow3.lib.base
+package mod.iceandshadow3.lib.gen
 
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 
 /** A 1x256x1 world generation cell.
 	* As a seq, contains all of the blocks except the lowest block layer.
 	*/
-abstract class BWorldGenColumn extends Seq[TBlockStateSource] {
+abstract class BGeneratedColumn extends Seq[TBlockStateSource] {
 	final override def length = 255
 
 	override def iterator: Iterator[TBlockStateSource] = new Iterator[TBlockStateSource] {

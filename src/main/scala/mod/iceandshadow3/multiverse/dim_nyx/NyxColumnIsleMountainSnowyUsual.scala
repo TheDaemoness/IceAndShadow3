@@ -3,8 +3,8 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.util.MathUtils
 
-class ColumnIsleMountainSnowyUsual(x: Int, z: Int, chunk: NyxChunk)
-extends BColumnIsleMountainSnowy(x, z, chunk, false) {
+class NyxColumnIsleMountainSnowyUsual(x: Int, z: Int, chunk: NyxChunk)
+extends BNyxColumnIsleMountainSnowy(x, z, chunk, false) {
 
 	override protected def stoneLower: WBlockState =
 		WorldGenNyx.stoneCommon(chunk.stoneLower(x, z).makeRandomXZ(chunk.noises.seed, 40201))

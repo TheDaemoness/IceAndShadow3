@@ -2,10 +2,11 @@ package mod.iceandshadow3.lib.compat.world.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BDimension;
-import mod.iceandshadow3.lib.base.BWorldGen;
+import mod.iceandshadow3.lib.compat.world.WChunk;
+import mod.iceandshadow3.lib.gen.BWorldGen;
 import mod.iceandshadow3.lib.compat.block.WBlockRef;
 import mod.iceandshadow3.lib.compat.block.type.TBlockStateSource;
-import mod.iceandshadow3.lib.compat.world.BRegionRef;
+import mod.iceandshadow3.lib.compat.world.BWorldRegionRef;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -39,27 +40,8 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 
 	@Override
 	public void makeBase(@Nonnull IWorld iWorld, @Nonnull IChunk chunk) {
-		ChunkPos cp = chunk.getPos();
-		final int
-				xFirst = cp.getXStart(),
-				zFirst = cp.getZStart(),
-				xLast = cp.getXEnd(),
-				zLast = cp.getZEnd();
 		try {
-			realworldgen.write(new BRegionRef(xFirst, zFirst, xLast, zLast) {
-				final private BlockPos.MutableBlockPos mbp = new BlockPos.MutableBlockPos();
-				@Override
-				public void update(int xBlock, int yBlock, int zBlock, TBlockStateSource newtype) {
-					mbp.setPos(xBlock, yBlock, zBlock);
-					chunk.setBlockState(mbp, newtype.exposeBS(), false);
-				}
-
-				@Override
-				public WBlockRef apply(int xBlock, int yBlock, int zBlock) {
-					final BlockPos pos = new BlockPos(xBlock, yBlock, zBlock);
-					return new WBlockRef(chunk, pos, chunk.getBlockState(pos));
-				}
-			});
+			realworldgen.write(new WChunk(chunk));
 		} catch(Exception e) {
 			IaS3.bug(e, "Worldgen failure on "+dim.name());
 		}

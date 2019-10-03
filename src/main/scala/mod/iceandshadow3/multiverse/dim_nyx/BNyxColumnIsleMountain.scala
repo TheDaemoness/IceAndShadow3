@@ -2,8 +2,8 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.lib.util.MathUtils
 
-abstract class BColumnIsleMountain(x: Int, z: Int, val chunk: NyxChunk, voidhole: Boolean)
-extends BColumnIsle(chunk.noises.seed, x, z, chunk.isle(x, z), voidhole) {
+abstract class BNyxColumnIsleMountain(x: Int, z: Int, val chunk: NyxChunk, voidhole: Boolean)
+extends BNyxColumnIsle(chunk.noises.seed, x, z, chunk.isle(x, z), voidhole) {
 
 	override protected def height() = {
 		val scale = chunk.scale(x, z)

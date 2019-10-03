@@ -7,8 +7,8 @@ import mod.iceandshadow3.lib.compat.block.`type`.{BlockTypeSnow, CommonBlockType
 import mod.iceandshadow3.lib.spatial.{Cells, RandomXZ}
 import mod.iceandshadow3.lib.util.MathUtils
 
-abstract class BColumnIsle(seed: Long, x: Int, z: Int, cell: Cells.Result, voidhole: Boolean)
-extends BColumn {
+abstract class BNyxColumnIsle(seed: Long, x: Int, z: Int, cell: Cells.Result, voidhole: Boolean)
+extends BNyxColumn {
 	protected def decorate(array: Array[TBlockStateSource], height: Float, r: Random): Unit
 	protected def height(): Float
 	protected def caves(): Seq[Boolean]

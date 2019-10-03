@@ -1,4 +1,4 @@
-package mod.iceandshadow3.gen
+package mod.iceandshadow3.lib.gen
 
 // ~~Makes cells for someone to dwell in.~~
 

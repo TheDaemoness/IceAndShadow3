@@ -1,16 +1,16 @@
 package mod.iceandshadow3.lib.compat.world
 
 import mod.iceandshadow3.lib.compat.ServerAnalyses
-import mod.iceandshadow3.lib.compat.block.WBlockRef
+import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzer
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.lib.spatial.{IPosColumn, IVec3}
+import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{Difficulty, IWorld}
 
 class WWorld(private[compat] val worldobj: IWorld)
-extends BRegionRef(Int.MinValue, Int.MinValue, Int.MaxValue, Int.MaxValue)
+extends BWorldRegionRef(Int.MinValue, Int.MinValue, Int.MaxValue, Int.MaxValue)
 with TWWorld {
 	override def exposeWorld(): IWorld = worldobj
   override def world() = this
@@ -38,8 +38,9 @@ with TWWorld {
 	def apply[In, Out](what: ServerAnalyzer[In, Out], arg: In): Option[Out] =
 		apply(what).fold[Option[Out]](None)(fn => Some(fn(arg)))
 
-	override def apply(xBlock: Int, yBlock: Int, zBlock: Int) =
-		new WBlockRef(worldobj, new BlockPos(xBlock, yBlock, zBlock))
-	override def update(xBlock: Int, yBlock: Int, zBlock: Int, newtype: TBlockStateSource): Unit =
-		worldobj.setBlockState(new BlockPos(xBlock, yBlock, zBlock), newtype.exposeBS(), 0x3)
+	override def apply(where: IPosBlock) =
+		new WBlockRef(worldobj, where.toBlockPos)
+	override def state(where: IPosBlock) = new WBlockState(worldobj.getBlockState(where.asBlockPos))
+	override def update(where: IPosBlock, newtype: TBlockStateSource): Unit =
+		worldobj.setBlockState(where.asBlockPos, newtype.exposeBS(), 0x3)
 }

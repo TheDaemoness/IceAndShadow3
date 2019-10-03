@@ -1,5 +1,7 @@
 package mod.iceandshadow3.lib.spatial
 
+import net.minecraft.util.math.BlockPos
+
 object IPosChunk {
 	val CHUNK_BITS: Long = 4
 	val CHUNK_MULT: Long = 1L << CHUNK_BITS
@@ -22,4 +24,6 @@ trait IPosColumn extends IPosChunk {
 
 trait IPosBlock extends IPosColumn {
 	def yBlock: Int
+	def toBlockPos: BlockPos = new BlockPos(xBlock, yBlock, zBlock)
+	def asBlockPos: BlockPos = toBlockPos
 }

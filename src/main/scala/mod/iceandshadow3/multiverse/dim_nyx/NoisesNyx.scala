@@ -2,7 +2,7 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
-import mod.iceandshadow3.gen.{Cellmaker2d, Cellmaker3d, Noise2dCell, Noise2dTfLayered}
+import mod.iceandshadow3.lib.gen.{Cellmaker2d, Cellmaker3d, Noise2dCell, Noise2dTfLayered}
 import mod.iceandshadow3.lib.spatial.PairXZ
 
 /** A collection of all the number generators Nyx worldgen is likely to need.

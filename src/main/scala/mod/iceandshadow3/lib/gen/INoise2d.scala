@@ -1,4 +1,4 @@
-package mod.iceandshadow3.gen
+package mod.iceandshadow3.lib.gen
 
 import mod.iceandshadow3.lib.util.collect.FixedMap2d
 

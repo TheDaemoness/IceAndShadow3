@@ -1,10 +1,10 @@
 package mod.iceandshadow3.lib
 
-import mod.iceandshadow3.lib.base.BWorldGen
 import mod.iceandshadow3.lib.compat.block.WBlockView
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
+import mod.iceandshadow3.lib.gen.BWorldGen
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosChunk, IPosColumn, IVec3}
 import mod.iceandshadow3.lib.util.Color
 

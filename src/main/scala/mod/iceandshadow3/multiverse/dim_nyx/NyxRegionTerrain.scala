@@ -1,12 +1,11 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.gen.Cellmaker3d
-import mod.iceandshadow3.lib.base.BWorldGenRegion
+import mod.iceandshadow3.lib.gen.{BWorldGenRegionTerrain, Cellmaker3d}
 import mod.iceandshadow3.lib.spatial.{Cells, PairXZ}
 
-class NyxRegion(coord: PairXZ, val noises: NoisesNyx)
-extends BWorldGenRegion(coord) {
+class NyxRegionTerrain(coord: PairXZ, val noises: NoisesNyx)
+extends BWorldGenRegionTerrain(coord) {
 	val islemap = noises.isleMaker.apply(xFrom, zFrom, width, width)
 	val smoothsnow = IaS3.getCfgServer.smooth_snow.get
 

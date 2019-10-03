@@ -1,4 +1,4 @@
-package mod.iceandshadow3.gen
+package mod.iceandshadow3.lib.gen
 
 import java.util.Random
 

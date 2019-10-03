@@ -1,9 +1,9 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.base.BWorldGenChunk
+import mod.iceandshadow3.lib.gen.BWorldGenChunk
 
-class NyxChunk(xFrom: Int, zFrom: Int, source: NyxRegion)
+class NyxChunk(xFrom: Int, zFrom: Int, source: NyxRegionTerrain)
 extends BWorldGenChunk(xFrom, zFrom) {
 	val smoothsnow = IaS3.getCfgServer.smooth_snow.get
 
