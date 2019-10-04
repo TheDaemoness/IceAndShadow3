@@ -3,6 +3,7 @@ package mod.iceandshadow3.lib.gen
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.misc.WMutableBlockPos
 import mod.iceandshadow3.lib.compat.world.WChunk
+import mod.iceandshadow3.lib.spatial.RandomXZ
 
 import scala.collection.immutable
 
@@ -15,7 +16,7 @@ abstract class BWorldGen(
 	val seed: Long,
 	defaultState: Int => WBlockState,
 ) {
-	protected val layers: Seq[BWorldGenLayer[BWorldGenRegion]]
+	protected val layers: Seq[TWorldGenLayer[BWorldGenRegion]]
 	/** Write world gen info to the provided wrapped chunk.
 		*/
 
@@ -30,7 +31,11 @@ abstract class BWorldGen(
 	}
 	final def write(chunk: WChunk): Unit = {
 		val wBlockPos = new WMutableBlockPos
-		val column = new WorldGenColumn(chunk.xFrom, chunk.zFrom, defaultState)
+		val column = new WorldGenColumn(
+			chunk.xFrom, chunk.zFrom,
+			new RandomXZ(seed, 31927, chunk.xMax, chunk.zMax),
+			defaultState
+		)
 		val regions = this.regions(chunk)
 		while(column.x <= chunk.xMax) {
 			while(column.z <= chunk.zMax) {

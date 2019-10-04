@@ -1,9 +1,14 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
+import mod.iceandshadow3.lib.compat.block.WBlockState
+import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSnow
 import mod.iceandshadow3.lib.util.MathUtils
+import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx.{yBald, yThinning}
 
-abstract class BNyxColumnIsleMountain(x: Int, z: Int, val chunk: NyxRegionTerrain, voidhole: Boolean)
-extends BNyxColumnIsle(chunk.noises.seed, x, z, chunk.isle(x, z), voidhole) {
+abstract class BNyxColumnIsleMountain(x: Int, z: Int, val chunk: NyxRegionTerrain)
+extends BNyxColumnIsle(chunk.noises.seed, x, z, chunk.isle(x, z)) {
+
+	override protected def stoneUpper: WBlockState = WorldGenNyx.stones(0)
 
 	override protected def height() = {
 		val scale = chunk.scale(x, z)
@@ -19,4 +24,15 @@ extends BNyxColumnIsle(chunk.noises.seed, x, z, chunk.isle(x, z), voidhole) {
 		if(islevalue <= 0.2) base*MathUtils.sinelike((islevalue-0.15)*20)
 		else base
 	}.toFloat*32
+
+	override protected def surface(y: Int): WBlockState = {
+		if (y > yBald) null
+		else {
+			if (finalheight <= yThinning) BlockTypeSnow.SNOWS.last.asWBlockState
+			else {
+				val snowmod = MathUtils.ratioBelow(yThinning, y, yBald)
+				if (snowmod != 0) BlockTypeSnow.fromFloat(snowmod).asWBlockState else null
+			}
+		}
+	}
 }

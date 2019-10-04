@@ -1,7 +1,6 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.gen.{BWorldGenRegion, BWorldGenRegionTerrain, Cellmaker3d}
+import mod.iceandshadow3.lib.gen.{BWorldGenRegionTerrain, Cellmaker3d}
 import mod.iceandshadow3.lib.spatial.{Cells, IPosColumn, PairXZ}
 
 class NyxRegionTerrain(coord: PairXZ, val noises: NoisesNyx)
@@ -9,7 +8,6 @@ extends BWorldGenRegionTerrain(coord) {
 	import BWorldGenRegionTerrain.width
 
 	private val islemap = noises.isleMaker.apply(xFrom, zFrom, width, width)
-	val smoothsnow = IaS3.getCfgServer.smooth_snow.get
 
 	private lazy val fissuremapA = map3d(noises.fissuremakerMinor, WorldGenNyx.yFissureMax)
 	private lazy val fissuremapB = map3d(noises.fissuremakerMajor, WorldGenNyx.yFissureMax)
@@ -49,15 +47,15 @@ extends BWorldGenRegionTerrain(coord) {
 	def hill(x: Int, z: Int) = heightmaps.hill(x, z)
 	def mountain(x: Int, z: Int) = heightmaps.mountain(x, z)
 
-	override def columnTf(where: IPosColumn) = {
+	override def columnFn(where: IPosColumn) = {
 		val xBlock = where.xBlock
 		val zBlock = where.zBlock
 		val cellres = isle(xBlock, zBlock)
-		if(1-Cells.distance(cellres) <= 0.15) BWorldGenRegion.BColumnTransformer.NO_OP
+		if(1-Cells.distance(cellres) <= 0.15) BWorldGenRegionTerrain.COLUMN_FN_NO_OP
 		else {
 			val cell = cellres.cellClosest
 			if (cell.x == 0 && cell.z == 0) new NyxColumnIsleCentral(xBlock, zBlock, this)
-			else new NyxColumnIsleMountainSnowyUsual(xBlock, zBlock, this)
+			else new NyxColumnIsleMountainUsual(xBlock, zBlock, this)
 		}
 	}
 }

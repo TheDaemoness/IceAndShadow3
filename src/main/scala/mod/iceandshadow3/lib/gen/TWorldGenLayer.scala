@@ -5,10 +5,10 @@ import mod.iceandshadow3.lib.spatial.BWorldRegion
 
 import scala.collection.immutable
 
-abstract class BWorldGenLayer[+Region <: BWorldGenRegion] {
+trait TWorldGenLayer[+Region <: BWorldGenRegion] {
 	protected def remapCoord(blockCoord: Int): Int
-	protected def getAt(xRemapped: Int, zRemapped: Int): Iterator[Region]
-	def getForRegion(where: BWorldRegion): Iterator[Region] = {
+	protected def getAt(xRemapped: Int, zRemapped: Int): Seq[Region]
+	def getForRegion(where: BWorldRegion): Seq[Region] = {
 		var x = remapCoord(where.xFrom)
 		var z = remapCoord(where.zFrom)
 		val xLast = remapCoord(where.xMax)
@@ -21,7 +21,7 @@ abstract class BWorldGenLayer[+Region <: BWorldGenRegion] {
 			}
 			x += 1
 		}
-		builder.result().iterator
+		builder.result()
 	}
-	def getForChunk(where: WChunk): Iterator[Region] = getForRegion(where)
+	def getForChunk(where: WChunk): Seq[Region] = getForRegion(where)
 }

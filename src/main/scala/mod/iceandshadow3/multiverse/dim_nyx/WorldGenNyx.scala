@@ -20,6 +20,8 @@ object WorldGenNyx {
 	val yThinning = 175
 	val yFull = 167
 
+	val yExousia = 8
+	val yNavistraExtra = 2
 	val yFissureFull = 147
 	val yFissureMax = 171
 	val yCaveMax = 147
@@ -28,11 +30,12 @@ object WorldGenNyx {
 	def stoneAny(rng: Random) = stones(ELivingstoneTypes.getAny(rng).ordinal())
 
 	def defaultBlock(y: Int): WBlockState =
-		if(y == 0) WorldGenNyx.bedrock else if(y <= 9) WorldGenNyx.exousia else CommonBlockTypes.AIR
+		if(y == 0) WorldGenNyx.bedrock else if(y <= yExousia) WorldGenNyx.exousia else CommonBlockTypes.AIR
 }
 final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultBlock) {
 	private val noises = new NoisesNyx(seed)
 	override protected val layers = List(
-		new WorldGenLayerTerrain[NyxRegionTerrain](new NyxRegionTerrain(_, noises))
+		new WorldGenLayerTerrain[NyxRegionTerrain](new NyxRegionTerrain(_, noises)),
+		new NyxWorldGenLayerSnowAndIce(seed, 24)
 	)
 }
