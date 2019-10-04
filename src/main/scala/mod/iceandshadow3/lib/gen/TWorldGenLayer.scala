@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.gen
 
 import mod.iceandshadow3.lib.compat.world.WChunk
-import mod.iceandshadow3.lib.spatial.BWorldRegion
+import mod.iceandshadow3.lib.spatial.{BWorldRegion, IPosColumn}
 
 import scala.collection.immutable
 
@@ -24,4 +24,5 @@ trait TWorldGenLayer[+Region <: BWorldGenRegion] {
 		builder.result()
 	}
 	def getForChunk(where: WChunk): Seq[Region] = getForRegion(where)
+	def getForColumn(where: IPosColumn): Seq[Region] = getAt(remapCoord(where.xBlock), remapCoord(where.zBlock))
 }

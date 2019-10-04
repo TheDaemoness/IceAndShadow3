@@ -43,7 +43,7 @@ abstract class BWorldGen(
 				var idxRegion = 0
 				while(idxRegion < regions.length) {
 					val region = regions(idxRegion)
-					if(region != null) region(column)
+					if(region != null) region(column)(column)
 					idxRegion += 1
 				}
 				var yi = 0

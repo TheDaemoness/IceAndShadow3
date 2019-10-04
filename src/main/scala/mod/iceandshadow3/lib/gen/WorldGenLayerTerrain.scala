@@ -6,8 +6,9 @@ import com.google.common.cache.{CacheBuilder, CacheLoader}
 import mod.iceandshadow3.lib.compat.world.WChunk
 import mod.iceandshadow3.lib.spatial.PairXZ
 
-class WorldGenLayerTerrain[RegionType <: BWorldGenRegionTerrain](factory: PairXZ => RegionType)
-extends TWorldGenLayer[RegionType] {
+class WorldGenLayerTerrain[RegionType <: BWorldGenRegionTerrain](
+	factory: PairXZ => RegionType
+) extends TWorldGenLayer[RegionType] {
 	private val cache = CacheBuilder.newBuilder().
 		concurrencyLevel(Runtime.getRuntime.availableProcessors()).
 		initialCapacity(100).
@@ -20,7 +21,6 @@ extends TWorldGenLayer[RegionType] {
 		)
 
 	override protected def remapCoord(blockCoord: Int) = BWorldGenRegionTerrain.coord(blockCoord)
-	override protected def getAt(xRemapped: Int, zRemapped: Int) = cache.get(PairXZ(xRemapped, zRemapped))
-
+	override protected def getAt(xRemap: Int, zRemap: Int): Seq[RegionType] = cache.get(PairXZ(xRemap, zRemap))
 	override def getForChunk(where: WChunk) = getAt(remapCoord(where.xFrom), remapCoord(where.zFrom))
 }

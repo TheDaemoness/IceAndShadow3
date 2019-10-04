@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.util.MathUtils
 
-class NyxColumnIsleMountainUsual(x: Int, z: Int, chunk: NyxRegionTerrain)
+class NyxColumnIsleMountainUsual(x: Int, z: Int, chunk: NyxTerrainMaps)
 extends BNyxColumnIsleMountain(x, z, chunk) {
 
 	override protected def stoneLower: WBlockState =
@@ -11,11 +11,11 @@ extends BNyxColumnIsleMountain(x, z, chunk) {
 
 	override protected def caves() = {
 		import WorldGenNyx._
-		val caveLimitReal = Math.min(yCaveMax, height - 4).toInt
+		val caveLimitReal = Math.min(yCaveMax, genHeight - 4).toInt
 		Array.tabulate[Boolean](255)(y => {
 			//WARNING: Fissure map heights are NOT 255.
 			val fissureAttenUpper = Math.sqrt(MathUtils.ratioBelow(yFissureFull, y, yFissureMax))
-			val fissureAttenLower = 1 - MathUtils.ratioBelow((height * 0.6f).toInt, y, (height * 0.8f).toInt)
+			val fissureAttenLower = 1 - MathUtils.ratioBelow((genHeight * 0.6f).toInt, y, (genHeight * 0.8f).toInt)
 			val caveAtten = MathUtils.ratioBelow(Math.max(0, caveLimitReal - 10), y, caveLimitReal)
 			//WARNING: Short-circuit evaluation.
 			y < yFissureMax && chunk.fissure(x, y, z) * fissureAttenLower > (1 - fissureAttenUpper * 0.2) ||
