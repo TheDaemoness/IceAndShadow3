@@ -60,4 +60,6 @@ with TBlockStateSource {
 	def soundDig = WSound(exposeBS().getSoundType.getHitSound)
 	def soundBreak = WSound(exposeBS().getSoundType.getBreakSound)
 	def soundPlace = WSound(exposeBS().getSoundType.getPlaceSound)
+
+	override def asWBlockState = this
 }

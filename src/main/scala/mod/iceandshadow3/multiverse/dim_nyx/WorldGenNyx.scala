@@ -3,9 +3,8 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import java.util.Random
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
-import mod.iceandshadow3.lib.gen.{BWorldGen, BWorldGenRegionTerrain}
-import mod.iceandshadow3.lib.spatial.{Cells, PairXZ}
-import mod.iceandshadow3.lib.util.collect.IMap2d
+import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
+import mod.iceandshadow3.lib.gen.{BWorldGen, WorldGenLayerTerrain}
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
@@ -27,27 +26,13 @@ object WorldGenNyx {
 
 	def stoneCommon(rng: Random) = stones(ELivingstoneTypes.getCommon(rng).ordinal())
 	def stoneAny(rng: Random) = stones(ELivingstoneTypes.getAny(rng).ordinal())
+
+	def defaultBlock(y: Int): WBlockState =
+		if(y == 0) WorldGenNyx.bedrock else if(y <= 9) WorldGenNyx.exousia else CommonBlockTypes.AIR
 }
-class WorldGenNyx(seed: Long) extends BWorldGen(seed) {
-	override type RegionType = NyxRegionTerrain
-	override type ChunkType = NyxChunk
-
-	val noises = new NoisesNyx(seed)
-
-	override protected def region(coord: PairXZ) = {
-		new NyxRegionTerrain(coord, noises)
-	}
-
-	override protected def chunk(xFrom: Int, zFrom: Int, regions: IMap2d[NyxRegionTerrain]) =
-		new NyxChunk(xFrom, zFrom, regions(BWorldGenRegionTerrain.coord(xFrom), BWorldGenRegionTerrain.coord(zFrom)))
-
-	override protected def column(xBlock: Int, zBlock: Int, chunk: NyxChunk) = {
-		val cellres = chunk.isle(xBlock, zBlock)
-		if(1-Cells.distance(cellres) <= 0.15) new NyxColumnDivide
-		else {
-			val cell = cellres.cellClosest
-			if (cell.x == 0 && cell.z == 0) new NyxColumnIsleCentral(xBlock, zBlock, chunk)
-			else new NyxColumnIsleMountainSnowyUsual(xBlock, zBlock, chunk)
-		}
-	}
+final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultBlock) {
+	private val noises = new NoisesNyx(seed)
+	override protected val layers = List(
+		new WorldGenLayerTerrain[NyxRegionTerrain](new NyxRegionTerrain(_, noises))
+	)
 }

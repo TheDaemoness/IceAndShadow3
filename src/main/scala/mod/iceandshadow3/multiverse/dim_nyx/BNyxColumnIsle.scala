@@ -48,10 +48,7 @@ extends BNyxColumn {
 		retval
 	}
 
-	override def apply(i: Int) = {
-		val block = array(i)
-		if(block == null) blockDefault(i) else block
-	}
+	override def apply(i: Int) = array(i)
 
 	override val bedrock = if(voidhole) CommonBlockTypes.AIR else WorldGenNyx.bedrock
 }

@@ -13,7 +13,7 @@ object IVec3 {
 		toBlockCoord(value) + toSubCoord(value).toDouble / SUB_MULT
 
 	def fromBlockCoord(value: Int): Long = value << SUB_BITS
-	def toBlockCoord(value: Long): Long = value >> SUB_BITS
+	def toBlockCoord(value: Long): Int = (value >> SUB_BITS).toInt
 	def toSubCoord(value: Long): Int = (value & SUB_MASK).toInt
 }
 
@@ -30,9 +30,9 @@ trait IVec3
 	def yRaw: Int
 	def zRaw: Long
 
-	def xBlock: Long = toBlockCoord(xRaw)
-	def yBlock: Int = toBlockCoord(yRaw).toInt
-	def zBlock: Long = toBlockCoord(zRaw)
+	def xBlock: Int = toBlockCoord(xRaw)
+	def yBlock: Int = toBlockCoord(yRaw)
+	def zBlock: Int = toBlockCoord(zRaw)
 	def xSubBlock: Int = toSubCoord(xRaw)
 	def ySubBlock: Int = toSubCoord(yRaw)
 	def zSubBlock: Int = toSubCoord(zRaw)

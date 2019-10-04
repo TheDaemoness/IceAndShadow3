@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.util.MathUtils
 import mod.iceandshadow3.lib.util.collect.UniSeq
 
-class NyxColumnIsleCentral(x: Int, z: Int, chunk: NyxChunk)
+class NyxColumnIsleCentral(x: Int, z: Int, chunk: NyxRegionTerrain)
 extends BNyxColumnIsleMountainSnowy(x, z, chunk, x == 0 && z == 0) {
 
 	override protected def stoneLower: WBlockState = WorldGenNyx.stones(0)

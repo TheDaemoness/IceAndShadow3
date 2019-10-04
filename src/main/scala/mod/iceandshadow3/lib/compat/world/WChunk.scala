@@ -6,12 +6,8 @@ import mod.iceandshadow3.lib.spatial.IPosBlock
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.chunk.IChunk
 
-class WChunk protected(protected val chunk: IChunk, pos: ChunkPos) extends BWorldRegionRef(
-	pos.getXStart,
-	pos.getZStart,
-	pos.getXEnd+1,
-	pos.getZEnd+1,
-) {
+class WChunk protected(protected val chunk: IChunk, pos: ChunkPos)
+extends BWorldRegionRef(pos.getXStart, pos.getZStart, pos.getXEnd, pos.getZEnd) {
 	def this(chunk: IChunk) = this(chunk, chunk.getPos)
 	override def apply(where: IPosBlock) = {
 		val bp = where.toBlockPos

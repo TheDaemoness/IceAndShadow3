@@ -6,7 +6,7 @@ import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.{BlockTypeSnow, TBlockStateSource}
 import mod.iceandshadow3.lib.util.MathUtils
 
-abstract class BNyxColumnIsleMountainSnowy(x: Int, z: Int, chunk: NyxChunk, voidhole: Boolean)
+abstract class BNyxColumnIsleMountainSnowy(x: Int, z: Int, chunk: NyxRegionTerrain, voidhole: Boolean)
 extends BNyxColumnIsleMountain(x, z, chunk, voidhole) {
 
 	override protected def stoneUpper: WBlockState = WorldGenNyx.stones(0)

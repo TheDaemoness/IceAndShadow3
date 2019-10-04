@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.util.MathUtils
 
-class NyxColumnIsleMountainSnowyUsual(x: Int, z: Int, chunk: NyxChunk)
+class NyxColumnIsleMountainSnowyUsual(x: Int, z: Int, chunk: NyxRegionTerrain)
 extends BNyxColumnIsleMountainSnowy(x, z, chunk, false) {
 
 	override protected def stoneLower: WBlockState =

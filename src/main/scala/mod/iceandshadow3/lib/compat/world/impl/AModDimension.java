@@ -144,9 +144,9 @@ public class AModDimension extends ModDimension {
 		public BlockPos findSpawn(int x, int z, boolean checkValid) {
 			return doFindSpawn(new IPosColumn() {
 				@Override
-				public long xBlock() { return x; }
+				public int xBlock() { return x; }
 				@Override
-				public long zBlock() { return z; }
+				public int zBlock() { return z; }
 			}, checkValid);
 		}
 
@@ -181,12 +181,12 @@ public class AModDimension extends ModDimension {
 		public boolean doesXZShowFog(int x, int z) {
 			return dimlogic.hasFogAt(new IPosColumn() {
 				@Override
-				public long xBlock() {
+				public int xBlock() {
 					return x;
 				}
 
 				@Override
-				public long zBlock() {
+				public int zBlock() {
 					return z;
 				}
 			});
