@@ -1,12 +1,10 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import mod.iceandshadow3.lib.gen.{BWorldGenRegionTerrain, Cellmaker3d}
+import mod.iceandshadow3.lib.gen.Cellmaker3d
 import mod.iceandshadow3.lib.spatial.Cells
 
-class NyxTerrainMaps(val noises: NoisesNyx, xFrom: Int, zFrom: Int)
+class NyxTerrainMaps(val noises: NoisesNyx, xFrom: Int, zFrom: Int, width: Int)
 extends ((Int, Int) => BNyxColumn) {
-	import BWorldGenRegionTerrain.width
-
 	private val islemap = noises.isleMaker.apply(xFrom, zFrom, width, width)
 
 	private def map3d(in: Cellmaker3d, limit: Int) = {

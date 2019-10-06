@@ -1,7 +1,7 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
-import mod.iceandshadow3.lib.gen.{BWorldGenRegionTerrain, WorldGenColumn}
+import mod.iceandshadow3.lib.gen.{BWorldGenLayerTerrain, WorldGenColumn}
 import mod.iceandshadow3.lib.spatial.Cells
 import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx.navistra
 
@@ -16,16 +16,18 @@ extends BNyxColumn(cell) {
 	protected def stoneLower: WBlockState
 	protected def stoneUpper: WBlockState
 
-	protected lazy val caveSeq: Seq[Boolean] = caves()
+	private lazy val caveSeq: Seq[Boolean] = caves()
 	protected val lowerstone = stoneLower
 	protected val upperstone = stoneUpper
+
+	final def hasCaveAt(y: Int): Boolean = y < caveSeq.length && caveSeq(y)
 
 	private def change(out: WorldGenColumn, y: Int, state: WBlockState): Unit = {
 		if(!caveSeq(y)) out.update(y, state)
 	}
 
 	override def apply(out: WorldGenColumn): Unit = {
-		out.update(BWorldGenRegionTerrain.varHeight, height)
+		out.update(BWorldGenLayerTerrain.varHeight, height)
 		if(height < 48) return
 		val baseNavistra = WorldGenNyx.yExousia + WorldGenNyx.yNavistraExtra
 		for(y <- 1 to baseNavistra) change(out, y, navistra)

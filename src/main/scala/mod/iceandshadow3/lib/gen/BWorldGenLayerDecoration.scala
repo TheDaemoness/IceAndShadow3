@@ -1,14 +1,8 @@
 package mod.iceandshadow3.lib.gen
 
-import mod.iceandshadow3.lib.compat.world.WChunk
-import mod.iceandshadow3.lib.spatial.BWorldRegion
+import mod.iceandshadow3.lib.BDomain
 
-abstract class BWorldGenLayerDecoration
-extends BWorldGenRegion(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE)
-with TWorldGenLayer[BWorldGenLayerDecoration] {
-	private val thisWrapped = List(this)
-	override protected def remapCoord(blockCoord: Int) = 0
-	override protected def getAt(xRemapped: Int, zRemapped: Int) = thisWrapped
-	override def getForChunk(where: WChunk) = thisWrapped
-	override def getForRegion(where: BWorldRegion) = thisWrapped
+abstract class BWorldGenLayerDecoration(domain: BDomain)
+extends BWorldGenColumnFn(domain) with TWorldGenLayer[BWorldGenLayerDecoration] {
+	override def apply(x: Int, z: Int) = this
 }

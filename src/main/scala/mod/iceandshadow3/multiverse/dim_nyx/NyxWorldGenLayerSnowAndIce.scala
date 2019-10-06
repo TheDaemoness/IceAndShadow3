@@ -3,19 +3,17 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.{BlockTypeSnow, CommonBlockTypes}
-import mod.iceandshadow3.lib.gen.{BWorldGenLayerDecoration, BWorldGenRegionTerrain, WorldGenColumn}
-import mod.iceandshadow3.lib.spatial.IPosColumn
+import mod.iceandshadow3.lib.gen.{BWorldGenLayerDecoration, BWorldGenLayerTerrain, WorldGenColumn}
 import mod.iceandshadow3.lib.util.MathUtils
+import mod.iceandshadow3.multiverse.DomainNyx
 
-class NyxWorldGenLayerSnowAndIce(seed: Long, icicleInfrequency: Int) extends BWorldGenLayerDecoration {
-	override type F = WorldGenColumn => Unit
-	override def apply(where: IPosColumn) = accept
+class NyxWorldGenLayerSnowAndIce(seed: Long, icicleInfrequency: Int) extends BWorldGenLayerDecoration(DomainNyx) {
 	val smoothsnow = IaS3.getCfgServer.smooth_snow.get
-	def accept(in: WorldGenColumn): Unit = {
+	def apply(in: WorldGenColumn): Unit = {
 		val hasIcicles = in.rng.nextInt(icicleInfrequency) == 0
 		var doSnow = true
 		var doIcicles = hasIcicles
-		val height = in(BWorldGenRegionTerrain.varHeight)+1
+		val height = in(BWorldGenLayerTerrain.varHeight)+1
 		var y = 256
 		while(y > 32) {
 			y -= 1

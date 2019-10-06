@@ -4,7 +4,7 @@ import java.util.Random
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
-import mod.iceandshadow3.lib.gen.{BWorldGen, WorldGenLayerTerrain}
+import mod.iceandshadow3.lib.gen.{BWorldGen, BWorldGenLayerTerrain}
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
@@ -35,7 +35,10 @@ object WorldGenNyx {
 final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultBlock) {
 	private val noises = new NoisesNyx(seed)
 	override protected val layers = List(
-		new WorldGenLayerTerrain[NyxRegionTerrain](new NyxRegionTerrain(_, noises)),
+		new BWorldGenLayerTerrain[BNyxColumn] {
+			override protected def newGenerator(xFrom: Int, zFrom: Int, width: Int) =
+				new NyxTerrainMaps(noises, xFrom, zFrom, width)
+		},
 		new NyxWorldGenLayerSnowAndIce(seed, 24)
 	)
 }
