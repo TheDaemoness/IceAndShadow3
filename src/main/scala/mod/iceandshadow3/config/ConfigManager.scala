@@ -4,6 +4,7 @@ import java.io.{Closeable, File, FileNotFoundException, PrintWriter}
 import java.util.Scanner
 
 import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.config.BConfig.BadConfigException
 
 import scala.jdk.CollectionConverters._
 

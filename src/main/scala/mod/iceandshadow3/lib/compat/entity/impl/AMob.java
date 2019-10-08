@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.entity.impl;
 
-import mod.iceandshadow3.lib.BLogicMob;
+import mod.iceandshadow3.lib.BLogicEntityMob;
 import mod.iceandshadow3.lib.base.ILogicMobProvider;
 import mod.iceandshadow3.lib.base.LogicPair;
 import net.minecraft.entity.EntityType;
@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class AMob extends MobEntity implements ILogicMobProvider {
-	private final BLogicMob logic;
+	private final BLogicEntityMob logic;
 	private int variant;
-	AMob(BLogicMob mobMentality, EntityType<? extends AMob> mctype, World world) {
+	AMob(BLogicEntityMob mobMentality, EntityType<? extends AMob> mctype, World world) {
 		super(mctype, world);
 		logic = mobMentality;
 		variant = 0;
@@ -21,7 +21,7 @@ public class AMob extends MobEntity implements ILogicMobProvider {
 
 	@Nullable
 	@Override
-	public LogicPair<BLogicMob> getLogicPair() {
+	public LogicPair<BLogicEntityMob> getLogicPair() {
 		return new LogicPair<>(logic, variant);
 	}
 }

@@ -1,7 +1,8 @@
 package mod.iceandshadow3.config
 
-sealed class BadConfigException(message: String) extends Exception(message)
-
+object BConfig {
+	final class BadConfigException(message: String) extends Exception(message)
+}
 abstract class BConfig {
 	private var sealedstate = false
 
@@ -14,7 +15,7 @@ abstract class BConfig {
 	def options: java.util.Set[String]
 	
 	@throws(classOf[IllegalArgumentException])
-	@throws(classOf[BadConfigException])
+	@throws(classOf[BConfig.BadConfigException])
 	def set(option: String, value: String): Boolean
 	@throws(classOf[IllegalArgumentException])
 	def get(option: String): String

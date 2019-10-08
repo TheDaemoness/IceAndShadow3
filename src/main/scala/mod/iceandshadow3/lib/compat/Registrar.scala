@@ -2,7 +2,7 @@ package mod.iceandshadow3.lib.compat
 
 import mod.iceandshadow3.lib.compat.block.impl.{ABlock, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
-import mod.iceandshadow3.lib.compat.entity.impl.{AMob, BBinderEntity, BinderMob}
+import mod.iceandshadow3.lib.compat.entity.impl.{AMob, BinderEntity, BinderEntityMob}
 import mod.iceandshadow3.lib.compat.entity.state.impl.{AStatusEffect, BinderStatusEffect}
 import mod.iceandshadow3.lib.compat.item.impl.{AItemBlock, BinderItem}
 import mod.iceandshadow3.lib.compat.world.WSound
@@ -16,7 +16,7 @@ import net.minecraftforge.registries.IForgeRegistry
 
 object Registrar {
 	lazy val blockBindings: Array[Array[(ABlock, AItemBlock)]] = BinderBlock.freeze()
-	lazy val mobs: Array[EntityType[_ <: AMob]] = BinderMob.freeze()
+	lazy val mobs: Array[EntityType[_ <: AMob]] = BinderEntityMob.freeze()
 
 	def registerBlocks(reg: IForgeRegistry[Block]): Unit = {
 		for (bindings <- blockBindings) {
@@ -40,7 +40,7 @@ object Registrar {
 		for (amob <- mobs) {
 			reg.register(amob)
 		}
-		for (binder <- BBinderEntity.binders) {
+		for (binder <- BinderEntity.binders) {
 			if (!binder.frozen) for (et <- binder.freeze()) {
 				reg.register(et.asInstanceOf[EntityType[_ <: Entity]])
 			}

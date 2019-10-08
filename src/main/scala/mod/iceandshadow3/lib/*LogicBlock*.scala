@@ -58,7 +58,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	def variables: Array[BVarBlockNew[_]] = Array.empty
 }
 
-abstract class BLogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat)
+class LogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat)
 
 abstract class BLogicBlockComplex(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {
 	//TODO: Manually generated class stub. For blocks with tile entities.

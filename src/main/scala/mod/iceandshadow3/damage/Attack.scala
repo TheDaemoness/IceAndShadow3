@@ -7,8 +7,8 @@ case class Attack(
 	@Nullable source: TEffectSource,
 	name: String,
 	form: AttackForm,
-	instances: (BDamage with TDmgTypeOmni)*
+	instances: (BDamage with TDmgType)*
 ) {
-	def this(name: String, form: AttackForm, instances: (BDamage with TDmgTypeOmni)*) =
+	def this(name: String, form: AttackForm, instances: (BDamage with TDmgType)*) =
 		this(null, name, form, instances:_*)
 }

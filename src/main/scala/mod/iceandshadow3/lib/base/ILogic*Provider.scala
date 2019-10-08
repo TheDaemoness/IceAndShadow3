@@ -21,5 +21,5 @@ sealed trait TLogicProvider[LogicType <: BLogic] extends TFaceted[Object] {
 
 trait ILogicBlockProvider extends TLogicProvider[BLogicBlock]
 trait ILogicItemProvider extends TLogicProvider[BLogicItem]
-trait ILogicEntityProvider extends TLogicProvider[BLogicCommonEntity]
-trait ILogicMobProvider extends TLogicProvider[BLogicMob]
+trait ILogicEntityProvider extends TLogicProvider[BLogicEntity]
+trait ILogicMobProvider extends TLogicProvider[BLogicEntityMob]

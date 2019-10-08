@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.entity.impl;
 
-import mod.iceandshadow3.lib.BLogicCommonEntity;
+import mod.iceandshadow3.lib.BLogicEntity;
 import mod.iceandshadow3.lib.base.ILogicEntityProvider;
 import mod.iceandshadow3.lib.base.LogicPair;
 import net.minecraft.entity.Entity;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BAEntity<Logic extends BLogicCommonEntity> extends Entity implements ILogicEntityProvider {
+public class BAEntity<Logic extends BLogicEntity> extends Entity implements ILogicEntityProvider {
 	protected final Logic logic;
 	protected int variant;
 	BAEntity(Logic l, EntityType<? extends BAEntity<Logic>> mctype, World world) {
@@ -47,7 +47,7 @@ public class BAEntity<Logic extends BLogicCommonEntity> extends Entity implement
 
 	@Nullable
 	@Override
-	public LogicPair<BLogicCommonEntity> getLogicPair() {
+	public LogicPair<BLogicEntity> getLogicPair() {
 		return new LogicPair<>(logic, variant);
 	}
 }

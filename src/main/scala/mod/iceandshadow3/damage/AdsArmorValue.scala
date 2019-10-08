@@ -13,7 +13,7 @@ case class AdsArmorValue(hard: Float, soft: Float) {
 	def +(b: AdsArmorValue) = AdsArmorValue(hard+b.hard, soft+b.soft)
 }
 object AdsArmorValue {
-	type Values = Iterable[(Class[_ <: TDmgTypeOmni], AdsArmorValue)]
+	type Values = Iterable[(Class[_ <: TDmgType], AdsArmorValue)]
 	val NONE = AdsArmorValue(0f, 0f)
 	val ABSOLUTE = AdsArmorValue(Float.MaxValue, 0f)
 	val ARMOR_DEFAULT: Values = List()

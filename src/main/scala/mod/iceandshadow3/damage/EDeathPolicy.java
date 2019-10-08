@@ -18,7 +18,7 @@ public enum EDeathPolicy {
 		ERASE, //Trigger any decay effects and then destroy.
 		LOSE, //Lose and trigger decay effects.
 		KEEP, //Keep, but trigger decay effects.
-		SAVE; //Keep.
+		SAVE //Keep.
 	}
 	
 	public final Effect effect;

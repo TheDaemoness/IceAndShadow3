@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.compat.entity.impl;
 
-import mod.iceandshadow3.lib.BLogicProjectile;
+import mod.iceandshadow3.lib.BLogicEntityProjectile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.world.World;
 
-public class AProjectile extends BAEntity<BLogicProjectile> implements IProjectile {
+public class AProjectile extends BAEntity<BLogicEntityProjectile> implements IProjectile {
 
-	protected AProjectile(BLogicProjectile blp, EntityType<? extends AProjectile> mctype, World world) {
+	protected AProjectile(BLogicEntityProjectile blp, EntityType<? extends AProjectile> mctype, World world) {
 		super(blp, mctype, world);
 	}
 

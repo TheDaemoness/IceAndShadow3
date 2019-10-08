@@ -1,7 +1,7 @@
 package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.damage.{Attack, AttackForm, Damage, TDmgTypeExousic}
-import mod.iceandshadow3.lib.BLogicBlockSimple
+import mod.iceandshadow3.lib.LogicBlockSimple
 import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
 import mod.iceandshadow3.lib.compat.block.{BMateriaPlasma, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WEntityLiving, WProjectile}
@@ -14,7 +14,7 @@ import mod.iceandshadow3.multiverse.misc.{Particles, Statuses}
 object LBExousia {
 	val tagResist = "iceandshadow3:resists_exousia"
 }
-class LBExousia extends BLogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasma {
+class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasma {
 	override def getName = "exousia"
 	override def getBaseLuma = 9
 	override def getBaseHardness = 0
