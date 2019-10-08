@@ -35,11 +35,9 @@ class LBStoneLiving extends LogicBlockSimple(DomainGaia, "livingstone", MatStone
 	}
 
 	override def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {
-		System.out.println("MARCO")
 		for(block <- AdjacentBlocks.Surrounding(us)) {
 			val lp = block.getLogicPair
 			if(lp != null && lp.logic == this) {
-				System.out.println(" POLO")
 				block.promote(us).change(_ + (LBStoneLiving.varGrowing, true))
 			}
 		}

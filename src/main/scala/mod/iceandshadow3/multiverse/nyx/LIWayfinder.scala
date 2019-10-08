@@ -70,11 +70,11 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 			owner.setStatus(Statuses.resistance, 160, 5)
 			owner.extinguish()
 			val where = item(LIWayfinder.varPos).get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
+			item.update(LIWayfinder.varCharged, false)
 			if (where != null) {
 				owner.teleport(where)
 				item.getOwner.playSound(WSound("minecraft:item.chorus_fruit.teleport"), 1f, 0.9f)
 			}
-			item(LIWayfinder.varCharged) = false
 		} else {
 			item.transform[PerDimensionVec3](LIWayfinder.varPos, _.update(owner.dimensionCoord, owner.posFine))
 		}
@@ -87,15 +87,16 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		val preventDeath = !isCanceled && item(LIWayfinder.varCharged) && owner.posFine.yBlock < -60
 		if (preventDeath) {
 			val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
-			owner match {
-				case player: WEntityPlayer => player.advancement("vanilla_outworlder")
-				case _ =>
-			}
 			owner.setHp(1)
 			owner.setStatus(Statuses.resistance, 160, 5)
-			if(areweinnyx) owner.teleport(WDimensionCoord.END)
-			else owner.teleport(DimensionNyx)
-			item(LIWayfinder.varCharged) = false
+			item.update(LIWayfinder.varCharged, false)
+			owner match {
+				case player: WEntityPlayer =>
+					player.advancement("vanilla_outworlder")
+					if(areweinnyx) player.teleport(WDimensionCoord.END, null)
+					else player.teleport(DimensionNyx)
+				case _ =>
+			}
 		}
 		teleportItem(item)
 		E3vl.FALSE.unlessFalse(preventDeath)

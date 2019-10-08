@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;

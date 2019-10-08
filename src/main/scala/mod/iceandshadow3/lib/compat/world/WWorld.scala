@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzer
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3}
+import mod.iceandshadow3.lib.spatial.{CNVSpatial, IPosBlock, IPosColumn, IVec3}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{Difficulty, IWorld}
 
@@ -30,6 +30,7 @@ with TWWorld {
 	def seed = worldobj.getWorldInfo.getSeed
 	def isHardcore = worldobj.getWorldInfo.isHardcore
 	def isPeaceful = worldobj.getWorldInfo.getDifficulty == Difficulty.PEACEFUL
+	def spawnPoint = CNVCompat.fromBlockPos(worldobj.getSpawnPoint)
 
 	def apply[In, Out](what: ServerAnalyzer[In, Out]): Option[In => Out] = {
 		val serverNullable = worldobj.getWorld.getServer

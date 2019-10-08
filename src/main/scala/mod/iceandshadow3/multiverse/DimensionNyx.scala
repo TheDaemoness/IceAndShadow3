@@ -4,11 +4,10 @@ import mod.iceandshadow3.damage._
 import mod.iceandshadow3.lib.BDimension
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
-import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
 import mod.iceandshadow3.lib.item.IItemStorage
-import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3, UnitVec3s}
-import mod.iceandshadow3.lib.util.{Color, MathUtils}
+import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, UnitVec3s}
+import mod.iceandshadow3.lib.util.{Color, E3vl, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
 import mod.iceandshadow3.multiverse.misc.Statuses
 
@@ -33,17 +32,21 @@ object DimensionNyx extends BDimension("nyx") {
 	override def baseDownfall = 0f
 	override def baseTemperature = 0f
 
-	override def handleArrival(here: WWorld, who: WEntity): IVec3 = {
+	override def defaultPlacer(where: WWorld) = {
+		val topopt = where.topSolid(UnitVec3s.ZERO)
+		if(topopt.isEmpty) UnitVec3s.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
+	}
+
+	override def handleArrival(here: WWorld, who: WEntity) = {
 		//TODO: Change once the central fort is back in place.
-		val topopt = here.topSolid(UnitVec3s.ZERO)
-		val teleloc = if(topopt.isEmpty) UnitVec3s.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
+		val teleloc = defaultPlacer(here)
 		who match {
 			case player: WEntityPlayer =>
 				player.setSpawnPoint(teleloc)
 				freezeItems(player.inventory(), player)
 			case _ => //Definitely come up with something for other entities too.
 		}
-		teleloc
+		true
 	}
 
 	override def getWorldGen(seed: Long) = new WorldGenNyx(seed)

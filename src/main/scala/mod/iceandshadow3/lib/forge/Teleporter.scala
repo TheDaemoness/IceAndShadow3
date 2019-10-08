@@ -1,17 +1,8 @@
 package mod.iceandshadow3.lib.forge
 
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
-import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.compat.world.{WDimensionCoord, WWorld}
-import mod.iceandshadow3.lib.spatial.IVec3
-import net.minecraft.advancements.CriteriaTriggers
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.network.play.server._
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
 import net.minecraftforge.eventbus.api.{EventPriority, SubscribeEvent}
@@ -47,73 +38,11 @@ object Teleporter {
 		val to = event.getDimension
 		val iasto = AModDimension.lookup(to.getModType)
 		if(iasto != null) {
-			event.setCanceled(true)
 			val traveler = event.getEntity
-			val from = traveler.dimension
-			val server = traveler.getServer
-			val worldfrom = server.getWorld(from)
-			val worldto = server.getWorld(to)
-			val where = iasto.handleArrival(new WWorld(worldto), CNVEntity.wrap(traveler))
-			if(where != null) traveler match {
-				case player: ServerPlayerEntity => teleportPlayer(
-					player, from, to, worldfrom, worldto, where
-				)
-				case _ => teleportEntity(traveler, from, to, worldfrom, worldto, where)
-			}
+			event.setCanceled(!iasto.handleArrival(
+				new WWorld(traveler.getServer.getWorld(to)),
+				CNVEntity.wrap(traveler)
+			))
 		}
-	}
-
-	def teleportEntity(
-		traveler: Entity,
-		from: DimensionType, to: DimensionType,
-		worldFrom: ServerWorld, worldTo: ServerWorld, where: IVec3
-	): Unit = {
-		traveler.dimension = to
-		traveler.removePassengers()
-		traveler.stopRiding()
-		val newcomer = traveler.getClass.cast(traveler.getType.create(worldTo))
-		if (newcomer != null) {
-			newcomer.copyDataFromOld(traveler)
-			newcomer.moveToBlockPosAndAngles(CNVCompat.toBlockPos(where), newcomer.rotationYaw, newcomer.rotationPitch)
-			newcomer.setMotion(traveler.getMotion)
-			worldTo.func_217460_e(newcomer)
-		}
-		worldFrom.resetUpdateEntityTick()
-		worldTo.resetUpdateEntityTick()
-	}
-
-	def teleportPlayer(
-		p: ServerPlayerEntity,
-		from: DimensionType, to: DimensionType,
-		worldFrom: ServerWorld, worldTo: ServerWorld, where: IVec3
-	): Unit = {
-		p.dimension = to
-		val worldinfo = p.world.getWorldInfo
-		p.connection.sendPacket(new SRespawnPacket(to, worldinfo.getGenerator, p.interactionManager.getGameType))
-		p.connection.sendPacket(new SServerDifficultyPacket(worldinfo.getDifficulty, worldinfo.isDifficultyLocked))
-		val playerlist = p.server.getPlayerList
-		playerlist.updatePermissionLevel(p)
-		worldFrom.removeEntity(p, true)
-		p.revive()
-		p.setWorld(worldTo)
-		worldTo.func_217447_b(p)
-		CriteriaTriggers.CHANGED_DIMENSION.trigger(p, from, to)
-		p.moveToBlockPosAndAngles(CNVCompat.toBlockPos(where), p.rotationYaw, p.rotationPitch)
-		p.connection.setPlayerLocation(p.posX, p.posY, p.posZ, p.rotationYaw, p.rotationPitch)
-		p.interactionManager.setWorld(worldTo)
-		p.connection.sendPacket(new SPlayerAbilitiesPacket(p.abilities))
-		playerlist.sendWorldInfo(p, worldTo)
-		playerlist.sendInventory(p)
-		import scala.jdk.CollectionConverters._
-		for (effect <- p.getActivePotionEffects.asScala) p.connection.sendPacket(
-			new SPlayEntityEffectPacket(p.getEntityId, effect)
-		)
-		//;_; There's no good way to override this sound effect. Those numbers are mapped via switch statement.
-		//We can disable it, but that makes the teleport feel off.
-		p.connection.sendPacket(
-			new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false)
-		)
-		//Also the variables for last Experience, Heath, and FoodLevel are private.
-		net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerChangedDimensionEvent(p, from, to)
 	}
 }

@@ -10,7 +10,7 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
         //classpath 'ch.epfl.scala:gradlebloop212_2.12:1.2.5'
-        classpath 'org.scala-lang:scala-library:2.13.0'
+        classpath 'org.scala-lang:scala-library:2.13.1'
     }
 }
 plugins {
@@ -28,7 +28,7 @@ apply plugin: 'net.minecraftforge.gradle'
 def version_minecraft = '1.14.4'
 def version_forge_maj=28
 def version_forge_min=1
-def version_forge_patch=6
+def version_forge_patch=40
 def version_forge_req="${version_forge_maj}.${version_forge_min}"
 def version_forge="${version_forge_req}.${version_forge_patch}"
 def mappings_channel='snapshot'
@@ -102,7 +102,7 @@ dependencies {
     testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.11.1'
     testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 
-    shade 'org.scala-lang:scala-library:2.13.0'
+    shade 'org.scala-lang:scala-library:2.13.1'
 }
 
 

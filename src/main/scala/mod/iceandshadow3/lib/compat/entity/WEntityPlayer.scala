@@ -1,11 +1,13 @@
 package mod.iceandshadow3.lib.compat.entity
 
+import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.lib.BDimension
 import mod.iceandshadow3.lib.compat.item.{WInventory, WItemStack}
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
-import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized}
-import mod.iceandshadow3.lib.compat.world.{WDimension, WDimensionCoord}
-import mod.iceandshadow3.lib.spatial.IVec3
+import mod.iceandshadow3.lib.compat.util.TLocalized
+import mod.iceandshadow3.lib.compat.world.{WDimension, WDimensionCoord, WWorld}
+import mod.iceandshadow3.lib.spatial.{IPosBlock, IVec3}
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.lib.util.collect.IteratorConcat
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
@@ -25,7 +27,7 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 			names.map(_.getLocalizedName):_*
 		), actionBar
 	)
-	def message(msg: String): Unit = message(msg, true)
+	def message(msg: String): Unit = message(msg, actionBar = true)
 
 	override def home(where: WDimension): Option[IVec3] =
 		Option(player.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
@@ -69,10 +71,25 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 		case _ =>
 	}
 
+	def teleport(dim: WDimensionCoord, @Nullable placer: WWorld => IVec3): Unit = player match {
+		case spe: ServerPlayerEntity =>
+			if(isServerSide) {
+				if(!WDimensionCoord.isVoid(dim)) {
+					val server = spe.getServer.getWorld(dim.dimtype)
+						if(placer != null) {
+							val where = placer(new WWorld(server))
+							spe.teleport(server, where.xDouble, where.yDouble, where.zDouble, spe.rotationYaw, spe.rotationPitch)
+						} else spe.changeDimension(dim.dimtype)
+				}
+			}
+		case _ =>
+	}
+	def teleport(dim: BDimension): Unit = teleport(dim.coord, dim.defaultPlacer)
+
 	def give(what: WItemStack) = player.inventory.addItemStackToInventory(what.exposeItems())
 
-	def setSpawnPoint(where: IVec3, dim: WDimensionCoord): Unit =
-		player.setSpawnPoint(CNVCompat.toBlockPos(where), true, dim.dimtype)
-	def setSpawnPoint(where: IVec3): Unit =
+	def setSpawnPoint(where: IPosBlock, dim: WDimensionCoord): Unit =
+		player.setSpawnPoint(where.toBlockPos, true, dim.dimtype)
+	def setSpawnPoint(where: IPosBlock): Unit =
 		setSpawnPoint(where, dimensionCoord)
 }

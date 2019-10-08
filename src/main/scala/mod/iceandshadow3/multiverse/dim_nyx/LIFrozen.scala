@@ -38,8 +38,8 @@ object LIFrozen {
 class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
 	override def onUseGeneral(variant: Int, context: WUsageItem) = {
 		val hellish = E3vl.fromBool(context.user.dimension.isHellish)
-		hellish.forBoolean({
-			if(_) {
+		hellish.forBoolean(b => {
+			if(b) {
 				context.user.give(context.stack(LogicItemChameleon.varItemWrapped))
 				context.stack.destroy()
 			} else context.user.message("iced_over")
