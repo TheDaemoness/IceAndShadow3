@@ -7,6 +7,6 @@ import mod.iceandshadow3.lib.util.collect.FixedMap2d
 	*/
 class Noise2dCell(seed: Long, mod: Int, scale: Int) extends INoise2d {
 	val cellmaker = new Cellmaker2d(seed, mod, scale)
-	override def apply(xFrom: Int, zFrom: Int, xWidth: Int = 1, zWidth: Int = 1): FixedMap2d[Double] =
+	override def apply(xFrom: Int, zFrom: Int, xWidth: Int = 1, zWidth: Int = 1): FixedMap2d[Float] =
 		cellmaker(xFrom,zFrom,xWidth,zWidth,Cells.distance)
 }

@@ -11,7 +11,7 @@ extends BNyxColumnIsle(chunk.isle(x, z)) {
 
 	override protected def genHeight() = {
 		val scale = chunk.scale(x, z)
-		var cratervalue = chunk.crater(x, z)
+		var cratervalue = chunk.crater(x, z).toDouble
 		cratervalue *= Math.cbrt(cratervalue)/(4-scale)
 		val mountainvalue = islevalue*(1-Math.cbrt(Math.cos(scale*chunk.mountain(x,z)*Math.PI)))/2
 		val ridgevalue = (1-Math.cbrt(Math.cos(scale*chunk.ridge(x,z)*Math.PI)))/2

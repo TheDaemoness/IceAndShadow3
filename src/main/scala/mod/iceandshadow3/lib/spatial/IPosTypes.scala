@@ -12,6 +12,12 @@ trait IPosChunk {
 	def zChunk: Int
 }
 
+object IPosColumn {
+	def wrap(x: Int, z: Int) = new IPosColumn {
+		override def xBlock = x
+		override def zBlock = z
+	}
+}
 trait IPosColumn extends IPosChunk {
 	import IPosChunk._
 	def xBlock: Int

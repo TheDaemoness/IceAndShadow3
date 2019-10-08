@@ -14,7 +14,7 @@ class Cellmaker3d(
 	protected val scaleXZ: Int,
 	protected val scaleY: Int
 ) {
-	protected val totalScale = Math.sqrt(scaleXZ*scaleXZ + scaleY*scaleY)
+	protected val totalScale = Math.sqrt(scaleXZ*scaleXZ + scaleY*scaleY).toFloat
 	private val totalScaleInv = 1f/totalScale
 
 	def cellToPoint(xCell: Int, yCell: Int, zCell: Int, rng: Random): TriadXYZ = {
@@ -53,17 +53,23 @@ class Cellmaker3d(
 			val yCellBase = Cells.rescale(y, scaleY)
 			val zCellBase = Cells.rescale(z, scaleXZ)
 			val result = new Result()
-			for(yit <- yCellBase-1 to yCellBase+1) {
-				for(xit <- xCellBase-1 to xCellBase+1) {
-					for(zit <- zCellBase-1 to zCellBase+1) {
+			var yit = yCellBase - 1
+			while(yit <= yCellBase + 1) {
+				var xit = xCellBase - 1
+				while(xit <= xCellBase + 1) {
+					var zit = zCellBase - 1
+					while(zit <= zCellBase + 1) {
 						val point = cells(xit, yit, zit)
 						val xDelta = point.x - x
 						val yDelta = point.y - y
 						val zDelta = point.z - z
 						val value = xDelta*xDelta + yDelta*yDelta + zDelta*zDelta
 						result.update(value, xit, yit, zit)
+						zit += 1
 					}
+					xit += 1
 				}
+				yit += 1
 			}
 			result.distanceClosest *= totalScaleInv
 			result.distanceSecond *= totalScaleInv

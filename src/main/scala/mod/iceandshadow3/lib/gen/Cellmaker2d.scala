@@ -21,7 +21,7 @@ class Cellmaker2d(
 		val z = rng.nextInt(scale) + Cells.cellEdge(scale, zCell)
 		PairXZ(x,z)
 	}
-	def getInverseWeightForCell(xCell:Int, zCell:Int): Double = 1d
+	def getInverseWeightForCell(xCell:Int, zCell:Int): Float = 1f
 	def apply(x: Int, z: Int): Result = apply(x, z, 1, 1)(x, z)
 	def apply(
 		xFrom: Int, zFrom: Int,
@@ -36,14 +36,18 @@ class Cellmaker2d(
 			val xCellBase = Cells.rescale(x, scale)
 			val zCellBase = Cells.rescale(z, scale)
 			val result = new Result()
-			for(xit <- xCellBase-1 to xCellBase+1) {
-				for(zit <- zCellBase-1 to zCellBase+1) {
+			var xit = xCellBase - 1
+			while(xit <= xCellBase + 1) {
+				var zit = zCellBase - 1
+				while(zit <= zCellBase + 1) {
 					val point = cellToPoint(xit, zit, new RandomXZ(seed, mod, xit, zit))
 					val xDelta = point.x - x
 					val zDelta = point.z - z
 					val distance = (xDelta*xDelta + zDelta*zDelta) * getInverseWeightForCell(xit, zit)
 					result.update(distance, xit, 0, zit)
+					zit += 1
 				}
+				xit += 1
 			}
 			result.distanceClosest *= scaleInv
 			result.distanceSecond *= scaleInv
