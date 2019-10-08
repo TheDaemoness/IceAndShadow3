@@ -1,10 +1,11 @@
 package mod.iceandshadow3
 
+import mod.iceandshadow3.forge.HandlerADS
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.compat.{Binders, Registrar}
-import mod.iceandshadow3.lib.forge.{EventFisherman, HandlerADS, Teleporter}
+import mod.iceandshadow3.lib.forge.{EventFisherman, Teleporter}
 import mod.iceandshadow3.multiverse._
-import mod.iceandshadow3.multiverse.misc.Statuses
+import mod.iceandshadow3.multiverse.misc.StatusEffects
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.ModDimension
 import net.minecraftforge.registries.IForgeRegistry
@@ -21,7 +22,7 @@ private[iceandshadow3] object InitCommon {
 	}
 	/** Called before initEarly during tool mode initialization. */
 	def initToolMode(): Unit = {
-		Statuses.init()
+		StatusEffects.init()
 	}
 
 	def initEarly(): Unit = {

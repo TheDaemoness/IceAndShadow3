@@ -2,7 +2,6 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.base.ILogicBlockProvider;
 import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.block.*;
@@ -11,7 +10,6 @@ import mod.iceandshadow3.lib.compat.world.WWorld;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
@@ -38,7 +36,7 @@ import java.util.Random;
 //Overriding them is fine.
 
 @SuppressWarnings("deprecation")
-public class ABlock extends Block implements ILogicBlockProvider, IShearable {
+public class ABlock extends Block implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	
 	private final BLogicBlock logic;
 	private final int variant;
@@ -52,7 +50,7 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	private final VoxelShape defaultShape;
 	private final ResourceLocation lootTable;
-	private final StateContainer<Block, BlockState> realContainer;
+	private final StateContainer<net.minecraft.block.Block, BlockState> realContainer;
 
 	@SuppressWarnings("unchecked")
 	public ABlock(BLogicBlock blocklogic, int variant) {
@@ -68,7 +66,8 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 		lootTable = new ResourceLocation(IaS3.MODID,"blocks/"+logic.getName(variant));
 
 		//State container init happens too early for IaS3. We need to make our own.
-		final StateContainer.Builder<Block, BlockState> builder = new StateContainer.Builder<>(this);
+		final StateContainer.Builder<net.minecraft.block.Block, BlockState> builder =
+			new StateContainer.Builder<>(this);
 		final BinderBlockVar$ binder = BinderBlockVar$.MODULE$;
 		for(BVarBlockNew bbv : logic.variables()) {
 			builder.add(binder.apply(bbv).ip());
@@ -97,12 +96,11 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 
 	@Override
 	@Nonnull
-	public StateContainer<Block, BlockState> getStateContainer() {
+	public StateContainer<net.minecraft.block.Block, BlockState> getStateContainer() {
 		return realContainer;
 	}
 
-	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void fillStateContainer(StateContainer.Builder<net.minecraft.block.Block, BlockState> builder) {
 		//No-op. DON'T PUT STUFF HERE!
 	}
 
@@ -208,7 +206,12 @@ public class ABlock extends Block implements ILogicBlockProvider, IShearable {
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+	public void onEntityCollision(
+		BlockState state,
+		World worldIn,
+		BlockPos pos,
+		net.minecraft.entity.Entity entityIn
+	) {
 		logic.onInside(variant, new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
 	}
 

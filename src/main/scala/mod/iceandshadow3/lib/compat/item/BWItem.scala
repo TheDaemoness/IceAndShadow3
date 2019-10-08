@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.base.{ILogicItemProvider, LogicPair}
+import mod.iceandshadow3.lib.base.{LogicPair, LogicProvider}
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.util.Casting
 import net.minecraft.item.{BlockItem, Item, Items}
@@ -11,9 +11,9 @@ import net.minecraftforge.registries.ForgeRegistries
 
 import scala.reflect.ClassTag
 
-abstract class BWItem extends ILogicItemProvider {
+abstract class BWItem extends LogicProvider.Item {
 	protected[item] def exposeItem(): Item
-	def asWItem(): WItem
+	def asWItem(): WItemType
 	def asWItemStack(): WItemStack = new WItemStack(exposeItem().getDefaultInstance, null)
 
 	def hasTag(tagname: String): Boolean = {
@@ -30,7 +30,7 @@ abstract class BWItem extends ILogicItemProvider {
 
 	override def getLogicPair: LogicPair[BLogicItem] =
 		exposeItem() match {
-			case lp: ILogicItemProvider => lp.getLogicPair
+			case lp: LogicProvider.Item => lp.getLogicPair
 			case _ => null
 		}
 
@@ -39,7 +39,7 @@ abstract class BWItem extends ILogicItemProvider {
 	def registryName: String = ForgeRegistries.ITEMS.getKey(exposeItem()).toString
 
 	override def facet[What <: Object : ClassTag] = exposeItem() match {
-		case lp: ILogicItemProvider => lp.facet[What]
+		case lp: LogicProvider.Item => lp.facet[What]
 		case item => Casting.cast[What](item)
 	}
 }

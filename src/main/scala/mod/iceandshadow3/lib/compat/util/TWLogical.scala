@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.base._
 import net.minecraft.nbt.CompoundNBT
 
 trait TWLogical[LogicType <: BLogic] {
-	this: TLogicProvider[LogicType] =>
+	this: LogicProvider[LogicType] =>
 	@Nullable
 	def registryName: String
 

@@ -2,14 +2,14 @@ package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.damage._
 import mod.iceandshadow3.lib.BDimension
-import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
-import mod.iceandshadow3.lib.compat.world.{TWWorld, WWorld}
+import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
+import mod.iceandshadow3.lib.entity.Status
 import mod.iceandshadow3.lib.item.IItemStorage
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, UnitVec3s}
-import mod.iceandshadow3.lib.util.{Color, E3vl, MathUtils}
+import mod.iceandshadow3.lib.util.{Color, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
-import mod.iceandshadow3.multiverse.misc.Statuses
+import mod.iceandshadow3.multiverse.misc.StatusEffects
 
 object DimensionNyx extends BDimension("nyx") {
 	override def getSkyBrightness(partialTicks: Float) = 1f/15
@@ -26,8 +26,6 @@ object DimensionNyx extends BDimension("nyx") {
 	override def hasFogAt(where: IPosColumn) = true
 	override def skyAngle(worldTime: Long, partialTicks: Float) = 0
 	override def fogColor(skyAngle: Float, partialTicks: Float) = Color.BLACK
-	override def defaultLand() = new WBlockState(DomainGaia.Blocks.livingstone, 0)
-	override def defaultSea() = new WBlockState("minecraft:air")
 
 	override def baseDownfall = 0f
 	override def baseTemperature = 0f
@@ -37,16 +35,23 @@ object DimensionNyx extends BDimension("nyx") {
 		if(topopt.isEmpty) UnitVec3s.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
 	}
 
-	override def handleArrival(here: WWorld, who: WEntity) = {
-		//TODO: Change once the central fort is back in place.
-		val teleloc = defaultPlacer(here)
-		who match {
-			case player: WEntityPlayer =>
-				player.setSpawnPoint(teleloc)
-				freezeItems(player.inventory(), player)
-			case _ => //Definitely come up with something for other entities too.
+	override def onArrivalPost(player: WEntityPlayer): Unit = {
+		val where = defaultPlacer(player.world())
+		player.teleport(where)
+		player.setSpawnPoint(where)
+		freezeItems(player.inventory(), player)
+	}
+
+	def isValidEscapePoint(where: IPosBlock) = {
+		Math.abs(where.xBlock) <= 3 && Math.abs(where.zBlock) <= 3
+	}
+
+	override def onDeparture(who: WEntity, where: WDimensionCoord) = {
+		if(isValidEscapePoint(who.posCoarse)) true
+		else {
+			who.kill()
+			false
 		}
-		true
 	}
 
 	override def getWorldGen(seed: Long) = new WorldGenNyx(seed)
@@ -78,16 +83,18 @@ object DimensionNyx extends BDimension("nyx") {
 		})
 	}
 
-	val placesHighAttack = new Attack("windchill", AttackForm.VOLUME, new Damage(1f) with TDmgTypeCold)
-	val placesDarkAttack = new Attack("darkness", AttackForm.CURSE, new Damage(4f) with TDmgTypeShadow)
+	val placesHighAttack = new Attack(
+		"windchill", AttackForm.VOLUME,
+		new DamageWithStatus(1f, Status.byTicks(StatusEffects.frost, 119)) with TDmgTypeCold
+	)
+	val placesDarkAttack = new Attack(
+		"darkness", AttackForm.CURSE,
+		new DamageWithStatus(4f, Status.byTicks(StatusEffects.blind, 65)) with TDmgTypeShadow
+	)
 
 	override def onEntityLivingUpdate(who: WEntityLiving): Unit = {
-		if (who.getShadowPresence >= 1f) who.damageWithStatus(placesDarkAttack, 1f, Statuses.blind, 55)
+		if (who.getShadowPresence >= 1f) who.damage(placesDarkAttack)
 		val height = who.posFine.yBlock
-		if (height >= 192) who.damageWithStatus(
-			placesHighAttack,
-			4f - MathUtils.ratioBelow(192, height, 255) * 3f,
-			Statuses.frost, 115
-		)
+		if (height >= 192) who.damage(placesHighAttack, 4f - MathUtils.ratioBelow(192, height, 255) * 3f)
 	}
 }

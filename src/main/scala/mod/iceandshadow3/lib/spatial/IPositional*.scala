@@ -5,5 +5,5 @@ trait IPositionalCoarse {
 }
 trait IPositionalFine extends IPositionalCoarse {
 	def posFine: IVec3
-	def posCoarse = posFine
+	def posCoarse: IPosBlock = posFine
 }

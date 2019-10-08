@@ -13,8 +13,7 @@ case class EquipPointVanilla(where: EquipmentSlotType) extends EquipPoint {
 	override protected[entity] def getItem(who: LivingEntity): WItemStack =
 		new WItemStack(who.getItemStackFromSlot(where), who)
 }
-abstract class BEquipPointVirtual extends EquipPoint {
-	protected def getItem(whose: WEntityLiving): WItemStack
+class EquipPointVirtual(val getItem: WEntityLiving => WItemStack) extends EquipPoint {
 	override protected[entity] def getItem(who: LivingEntity) = getItem(CNVEntity.wrap(who))
 }
 object EquipPoint {

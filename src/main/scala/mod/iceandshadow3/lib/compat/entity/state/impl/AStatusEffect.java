@@ -3,28 +3,19 @@ package mod.iceandshadow3.lib.compat.entity.state.impl;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BStatusEffect;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
 
 public class AStatusEffect extends Effect {
-	//NOTE: Sprite sheets are 256x256. Status effect icons are 18x18.
-	//TODO: Find drawing solution that doesn't require a sprite sheet. There *must* be one.
-	private static int globalTextureIndex = 0;
 	private final BStatusEffect fxlogic;
 	private final String mcname;
-	private final ResourceLocation texloc;
-	private final int textureIndex;
 	public AStatusEffect(BStatusEffect fx) {
 		super(
 			fx.isBeneficial().isTrue() ? EffectType.BENEFICIAL : (
@@ -36,9 +27,6 @@ public class AStatusEffect extends Effect {
 		this.setRegistryName(namespaced);
 		mcname = Util.makeTranslationKey("effect", namespaced);
 		fxlogic = fx;
-		texloc = new ResourceLocation(IaS3.MODID,"textures/status.png");
-		textureIndex = globalTextureIndex++;
-		IaS3.logger().debug("Sprite sheet index for "+fx.name()+": "+textureIndex);
 	}
 
 	@Override
@@ -74,14 +62,13 @@ public class AStatusEffect extends Effect {
 		return Collections.emptyList();
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	private void draw(AbstractGui gui, int x, int y) {
-		Minecraft.getInstance().getTextureManager().bindTexture(texloc);
-		final int xSpriteSheet = (textureIndex % 14)*18;
-		final int ySpriteSheet = (textureIndex / 14)*18;
-		//TODO: Test.
-		gui.blit(x, y, xSpriteSheet, ySpriteSheet, 18, 18);
-	}
+	//@OnlyIn(Dist.CLIENT)
+	//private void draw(AbstractGui gui, int x, int y) {
+	//	Minecraft.getInstance().getTextureManager().bindTexture(texloc);
+	//	final int xSpriteSheet = (textureIndex % 14)*18;
+	//	final int ySpriteSheet = (textureIndex / 14)*18;
+	//	gui.blit(x, y, xSpriteSheet, ySpriteSheet, 18, 18);
+	//}
 
 	//@OnlyIn(Dist.CLIENT)
 	//@Override

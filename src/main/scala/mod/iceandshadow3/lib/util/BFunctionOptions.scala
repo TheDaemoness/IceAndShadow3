@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.util
 
-abstract class BFunctionOptions[-In, Med, +Out] (
+abstract class BFunctionOptions[-In, @specialized(Boolean) Med, @specialized(Boolean) +Out] (
 	protected val fns: (In => Med)*
 ) extends (In => Out) {
 	def apply(what: In) = {

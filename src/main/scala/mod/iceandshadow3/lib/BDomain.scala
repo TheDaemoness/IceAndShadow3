@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib
 
 import mod.iceandshadow3.damage.EDeathPolicy
-import mod.iceandshadow3.lib.base.TLogicProvider
+import mod.iceandshadow3.lib.base.LogicProvider
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.util.Color
 import mod.iceandshadow3.multiverse.DomainAlien
@@ -36,7 +36,7 @@ abstract class BDomain(val name: java.lang.String) {
 object BDomain {
 	def extract(what: Object): BDomain = what match {
 		case nicetry: BDomain => nicetry
-		case lp: TLogicProvider[_] => lp.getDomain
+		case lp: LogicProvider[_] => lp.getDomain
 		case _ => DomainAlien
 	}
 }

@@ -5,7 +5,8 @@ import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.compat.world.{WDimensionCoord, WWorld}
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent
-import net.minecraftforge.eventbus.api.{EventPriority, SubscribeEvent}
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent
+import net.minecraftforge.eventbus.api.EventPriority
 
 /** Actual handler for teleports to/from IaS3 dimensions.
 	* Here's hoping your entities don't override changeDimension.
@@ -14,15 +15,15 @@ object Teleporter {
 	def registerSelf(): Unit = {
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, onTeleportFrom)
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, onTeleportTo)
+		MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, onArriveAt)
 	}
-	@SubscribeEvent
 	def onTeleportFrom(event: EntityTravelToDimensionEvent): Unit = {
 		val from = event.getEntity.dimension
 		val to = event.getDimension
 		val iasfrom = AModDimension.lookup(from.getModType)
 		val traveler = event.getEntity
 		if(iasfrom != null) {
-			if(!iasfrom.handleEscape(CNVEntity.wrap(traveler), WDimensionCoord(to))) {
+			if(!iasfrom.onDeparture(CNVEntity.wrap(traveler), WDimensionCoord(to))) {
 				event.setCanceled(true)
 				return
 			} else if(to.isVanilla) {
@@ -33,16 +34,21 @@ object Teleporter {
 			}
 		}
 	}
-	@SubscribeEvent
 	def onTeleportTo(event: EntityTravelToDimensionEvent): Unit = {
 		val to = event.getDimension
 		val iasto = AModDimension.lookup(to.getModType)
 		if(iasto != null) {
 			val traveler = event.getEntity
-			event.setCanceled(!iasto.handleArrival(
+			event.setCanceled(!iasto.onArrivalPre(
 				new WWorld(traveler.getServer.getWorld(to)),
 				CNVEntity.wrap(traveler)
 			))
 		}
+	}
+
+	def onArriveAt(event: PlayerChangedDimensionEvent): Unit = {
+		val to = event.getTo
+		val iasto = AModDimension.lookup(to.getModType)
+		if(iasto != null) iasto.onArrivalPost(CNVEntity.wrap(event.getPlayer))
 	}
 }

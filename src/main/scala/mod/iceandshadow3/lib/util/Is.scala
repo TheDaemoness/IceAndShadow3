@@ -5,6 +5,7 @@ extends BFunctionOptions[T, Boolean, Boolean] (preds:_*) {
 	override protected def discard(what: Boolean) = what != wanted
 	override protected def transform(what: Boolean) = what ^ invert
 	override protected def default = !wanted
+	def unapply(what: T): Boolean = apply(what)
 }
 
 object Is {

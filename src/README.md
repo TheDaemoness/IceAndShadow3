@@ -21,5 +21,9 @@ You can use this directory for storing convenience scripts or any WIP assets tha
 
 ## Bloop
 
-Bloop is temporarily unsupported until
-its developers publish an updated Gradle plugin (for Scala 2.13) to Maven central.
+IaS3's build script includes the bloop plugin.
+This means that by running the `bloopInstall` task:
+* IaS3 can be compiled using the [Bloop build server](https://scalacenter.github.io/bloop/).
+* The [Metals language server](https://scalameta.org/metals/) can be used.
+
+If, however, you want to test, reobfuscate, or package the mod with Bloop, you're on your own.

@@ -7,7 +7,7 @@ import mod.iceandshadow3.multiverse.DomainAlien
 
 import scala.reflect.ClassTag
 
-sealed trait TLogicProvider[LogicType <: BLogic] extends TFaceted[Object] {
+sealed trait LogicProvider[LogicType <: BLogic] extends TFaceted[Object] {
 	@Nullable def getLogicPair: LogicPair[LogicType]
 	def getDomain: BDomain = {
 		val logos = getLogicPair
@@ -18,8 +18,9 @@ sealed trait TLogicProvider[LogicType <: BLogic] extends TFaceted[Object] {
 		if(lp == null) None else lp.logic.facet[What]
 	}
 }
-
-trait ILogicBlockProvider extends TLogicProvider[BLogicBlock]
-trait ILogicItemProvider extends TLogicProvider[BLogicItem]
-trait ILogicEntityProvider extends TLogicProvider[BLogicEntity]
-trait ILogicMobProvider extends TLogicProvider[BLogicEntityMob]
+object LogicProvider {
+	trait Block extends LogicProvider[BLogicBlock]
+	trait Item extends LogicProvider[BLogicItem]
+	trait Entity extends LogicProvider[BLogicEntity]
+	trait Mob extends LogicProvider[BLogicEntityMob]
+}

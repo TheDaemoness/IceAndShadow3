@@ -57,7 +57,7 @@ class WInventory(inv: IInventory, owner: LivingEntity = null) extends IItemStora
 	}
 	override def length = inv.getSizeInventory
 	override def apply(idx: Int) = new WItemStack(inv.getStackInSlot(idx), null)
-	override def iterator = new Iterator[WItemStack] {
+	override def iterator: Iterator[WItemStack] = new Iterator[WItemStack] {
 		var index = 0
 		override def hasNext = index < inv.getSizeInventory
 

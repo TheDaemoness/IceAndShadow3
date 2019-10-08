@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer}
+import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayerReal}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WUsageItem}
 import mod.iceandshadow3.lib.compat.nbt.{VarNbtBool, VarNbtObj}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WSound}
@@ -9,7 +9,8 @@ import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.lib.LogicItemSingle
-import mod.iceandshadow3.multiverse.misc.Statuses
+import mod.iceandshadow3.lib.entity.Status
+import mod.iceandshadow3.multiverse.misc.StatusEffects
 import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}
 
 object LIWayfinder {
@@ -24,6 +25,8 @@ object LIWayfinder {
 			evaluate(owner, item(LIWayfinder.varPos).get(owner.dimensionCoord))
 		}
 	}
+
+	val teleportProtection = Status.byTicks(StatusEffects.resistance, 159, 5)
 }
 class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 	with TEventFishOwnerDeath
@@ -34,7 +37,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 
 	override def isShiny(variant: Int, stack: WItemStack) =
 		stack(LIWayfinder.varCharged)
-		
+
 	override def onUseGeneral(variant: Int, context: WUsageItem): E3vl = {
 		if (!context.mainhand) {
 			if (!context.stack(LIWayfinder.varCharged)) {
@@ -67,7 +70,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		val owner = item.getOwner
 		if (preventDeath) {
 			owner.setHp()
-			owner.setStatus(Statuses.resistance, 160, 5)
+			owner.add(LIWayfinder.teleportProtection)
 			owner.extinguish()
 			val where = item(LIWayfinder.varPos).get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
 			item.update(LIWayfinder.varCharged, false)
@@ -88,10 +91,10 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		if (preventDeath) {
 			val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
 			owner.setHp(1)
-			owner.setStatus(Statuses.resistance, 160, 5)
+			owner.add(LIWayfinder.teleportProtection)
 			item.update(LIWayfinder.varCharged, false)
 			owner match {
-				case player: WEntityPlayer =>
+				case player: WEntityPlayerReal =>
 					player.advancement("vanilla_outworlder")
 					if(areweinnyx) player.teleport(WDimensionCoord.END, null)
 					else player.teleport(DimensionNyx)

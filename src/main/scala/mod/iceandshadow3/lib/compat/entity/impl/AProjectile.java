@@ -1,7 +1,6 @@
 package mod.iceandshadow3.lib.compat.entity.impl;
 
 import mod.iceandshadow3.lib.BLogicEntityProjectile;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.world.World;
@@ -28,7 +27,7 @@ public class AProjectile extends BAEntity<BLogicEntityProjectile> implements IPr
 	}
 
 	@Override
-	public boolean canBeRiddenInWater(Entity rider) {
+	public boolean canBeRiddenInWater(net.minecraft.entity.Entity rider) {
 		return false;
 	}
 }

@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.entity.state.EquipPointVanilla
 import mod.iceandshadow3.lib.compat.entity.{AttributeModTotal, CNVEntity, WAttribute, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.nbt.TNbtSource
-import mod.iceandshadow3.lib.compat.util.{SRandom, TLocalized, TWLogical}
+import mod.iceandshadow3.lib.compat.util.{GlobalRandom, TLocalized, TWLogical}
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.{PlayerEntity, ServerPlayerEntity}
 import net.minecraft.inventory.IInventory
@@ -70,7 +70,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 			import mod.iceandshadow3.lib.util.Casting._
 			val dmg = Math.max(0, getDamageMax - getDamage - count) //Intended: ignoring the actual durability increase.
 			val multiplayer = cast[ServerPlayerEntity](owner).orNull
-			if (is.attemptDamageItem(count, SRandom.getRNG(owner), multiplayer)) {
+			if (is.attemptDamageItem(count, GlobalRandom.getRNG(owner), multiplayer)) {
 				if(owner != null) {
 					//TODO: Break animation.
 					//Research: Is there a point of the orElse below?
@@ -110,7 +110,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	override protected[compat] def getLocalizedName = exposeItems().getTextComponent
 
 	override protected[item] def exposeItem() = exposeItems().getItem
-	override def asWItem(): WItem = WItem(exposeItem())
+	override def asWItem(): WItemType = WItemType(exposeItem())
 
 	override protected[compat] def exposeNbt() = exposeItems().getOrCreateTag()
 	override protected[compat] def setNbt(what: CompoundNBT): Unit = exposeItems().setTag(what)

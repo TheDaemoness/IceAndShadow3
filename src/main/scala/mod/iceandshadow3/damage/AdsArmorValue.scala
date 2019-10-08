@@ -5,11 +5,12 @@ import mod.iceandshadow3.lib.compat.entity.state.{EquipPoint, EquipPointVanilla}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 
 case class AdsArmorValue(hard: Float, soft: Float) {
-	private val divisor = (hard+soft)/2f
-	def apply(dmg: Float): Float = {
-		val basereduced = Math.max(dmg-hard, 0)
-		if(divisor >= 0) basereduced/(1+divisor) else basereduced*(1-divisor/2)
+	private final val multiplier = {
+		val tmpdivisor = (hard+soft)/2f //TODO: Nerf?
+		if(tmpdivisor < 0) 1-tmpdivisor/2 else 1/(1+tmpdivisor)
 	}
+	def apply(dmg: Float): Float = Math.max(dmg-hard, 0)*multiplier
+	def soaked(dmg: Float): Float = dmg - dmg*multiplier //NOTE: Excludes portion absorbed by hard armor.
 	def +(b: AdsArmorValue) = AdsArmorValue(hard+b.hard, soft+b.soft)
 }
 object AdsArmorValue {

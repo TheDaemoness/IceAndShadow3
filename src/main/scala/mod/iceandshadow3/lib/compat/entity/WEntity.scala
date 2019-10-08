@@ -45,6 +45,7 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 	def items(): Iterator[WItemStack] = new IteratorEmpty[WItemStack]
 
 	def extinguish(): Unit = entity.extinguish()
+	def kill(): Unit = entity.onKillCommand()
 
 	def damage(attacker: TEffectSource): Boolean = if(isServerSide) {
 		val how = attacker.getAttack

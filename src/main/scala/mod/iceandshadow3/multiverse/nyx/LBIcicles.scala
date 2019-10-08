@@ -2,7 +2,7 @@ package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.damage.{Attack, AttackForm, Damage, TDmgTypeIce}
 import mod.iceandshadow3.lib.LogicBlockSimple
-import mod.iceandshadow3.lib.block.{BlockShape, BlockSides, BlockSubCuboid}
+import mod.iceandshadow3.lib.block.{BlockShape, BlockSubCuboid}
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.multiverse.DomainNyx
@@ -20,7 +20,7 @@ class LBIcicles extends LogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 
 	override def isDiscrete = true
 
-	override val shape: BlockShape = BlockShape(BlockSides.UNEVEN, true, BlockSubCuboid(11, 3, 14))
+	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(11, 3, 14))
 
 	override def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {
 		who.damage(LBIcicles.damage)

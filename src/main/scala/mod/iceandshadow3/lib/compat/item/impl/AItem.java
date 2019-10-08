@@ -2,8 +2,8 @@ package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicItem;
-import mod.iceandshadow3.lib.base.ILogicItemProvider;
 import mod.iceandshadow3.lib.base.LogicPair;
+import mod.iceandshadow3.lib.base.LogicProvider;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
 import mod.iceandshadow3.lib.compat.item.WUsageItem;
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock;
@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class AItem extends Item implements ILogicItemProvider {
+public class AItem extends Item implements LogicProvider.Item {
 
 	private ActionResultType toEActionResult(E3vl in) {
 		return in.remap(ActionResultType.SUCCESS, ActionResultType.PASS, ActionResultType.FAIL);

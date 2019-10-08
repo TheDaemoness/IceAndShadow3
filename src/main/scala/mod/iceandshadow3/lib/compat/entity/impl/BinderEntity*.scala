@@ -33,7 +33,7 @@ extends BinderLazy[K, K, EntityType[_ <: V]](logic => {
 	BinderEntity.binders += this
 }
 
-private[lib] object BinderEntitySpecial extends BinderEntity[BLogicEntitySpecial, AEntity](EntityClassification.MISC)
+private[lib] object BinderEntitySpecial extends BinderEntity[BLogicEntitySpecial, AEntitySpecial](EntityClassification.MISC)
 private[lib] object BinderEntityProjectile extends BinderEntity[BLogicEntityProjectile, AProjectile](EntityClassification.MISC)
 private[lib] object BinderEntityMob extends BinderEntity[BLogicEntityMob, AMob](EntityClassification.MONSTER)
 

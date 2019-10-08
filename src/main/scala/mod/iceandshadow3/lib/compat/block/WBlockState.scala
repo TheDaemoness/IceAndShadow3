@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.base.ILogicBlockProvider
+import mod.iceandshadow3.lib.base.LogicProvider
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BVarBlockNew, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.world.WSound
@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries
 
 class WBlockState(protected var bs: BlockState)
-extends ILogicBlockProvider
+extends LogicProvider.Block
 with TBlockStateSource {
 	def +[T](variable: BVarBlockNew[T], value: T): WBlockState =
 		new WBlockState(BinderBlockVar.get(variable).addTo(exposeBS(), value))
@@ -48,7 +48,7 @@ with TBlockStateSource {
 	}
 
 	override def getLogicPair = exposeBS().getBlock match {
-		case lp: ILogicBlockProvider => lp.getLogicPair
+		case lp: LogicProvider.Block => lp.getLogicPair
 		case _ => null
 	}
 

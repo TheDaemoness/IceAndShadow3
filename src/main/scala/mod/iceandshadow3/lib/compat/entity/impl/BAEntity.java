@@ -1,8 +1,8 @@
 package mod.iceandshadow3.lib.compat.entity.impl;
 
 import mod.iceandshadow3.lib.BLogicEntity;
-import mod.iceandshadow3.lib.base.ILogicEntityProvider;
 import mod.iceandshadow3.lib.base.LogicPair;
+import mod.iceandshadow3.lib.base.LogicProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BAEntity<Logic extends BLogicEntity> extends Entity implements ILogicEntityProvider {
+public class BAEntity<Logic extends BLogicEntity> extends Entity implements LogicProvider.Entity {
 	protected final Logic logic;
 	protected int variant;
 	BAEntity(Logic l, EntityType<? extends BAEntity<Logic>> mctype, World world) {
@@ -22,7 +22,6 @@ public class BAEntity<Logic extends BLogicEntity> extends Entity implements ILog
 		variant = 0;
 		//TODO: Determine variant pre-spawn.
 	}
-
 
 	@Override
 	protected void registerData() {

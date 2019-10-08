@@ -4,8 +4,8 @@ import mod.iceandshadow3.lib.BLogicEntitySpecial;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.World;
 
-public class AEntity extends BAEntity<BLogicEntitySpecial> {
-	protected AEntity(BLogicEntitySpecial ble, EntityType<? extends AEntity> mctype, World world) {
+public class AEntitySpecial extends BAEntity<BLogicEntitySpecial> {
+	protected AEntitySpecial(BLogicEntitySpecial ble, EntityType<? extends AEntitySpecial> mctype, World world) {
 		super(ble, mctype, world);
 	}
 }

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.recipe
 
-import mod.iceandshadow3.lib.compat.item.WItem
+import mod.iceandshadow3.lib.compat.item.WItemType
 import net.minecraft.item.crafting._
 
 import scala.collection.mutable
@@ -23,19 +23,19 @@ object CraftingSummary {
 				case _: StonecuttingRecipe => ECraftingType.STONECUT
 				case _ => ECraftingType.UNKNOWN
 			},
-			WItem(output.getItem),
+			WItemType(output.getItem),
 			output.getCount,
-			what.getIngredients.asScala.map(_.getMatchingStacks.map(is => WItem(is.getItem)))
+			what.getIngredients.asScala.map(_.getMatchingStacks.map(is => WItemType(is.getItem)))
 		))
 	}
 }
-case class CraftingSummary(craftType: ECraftingType, output: WItem, count: Int, inputs: Iterable[Iterable[WItem]]) {
-	def evaluate[T](eval: WItem => T, resolve: Iterable[T] => T, combine: (Iterable[T], Int) => T): T = {
+case class CraftingSummary(craftType: ECraftingType, output: WItemType, count: Int, inputs: Iterable[Iterable[WItemType]]) {
+	def evaluate[T](eval: WItemType => T, resolve: Iterable[T] => T, combine: (Iterable[T], Int) => T): T = {
 		combine(inputs.map[T](wc => resolve(wc.map[T](eval))), count)
 	}
 	/** Returns a collection of all the items that might be needed in this crafting recipe. */
-	def inputItems: Set[WItem] = {
-		val retval = new mutable.HashSet[WItem]
+	def inputItems: Set[WItemType] = {
+		val retval = new mutable.HashSet[WItemType]
 		for(wildcard <- inputs) for(input <- wildcard) retval += input
 		retval.toSet
 	}

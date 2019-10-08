@@ -5,7 +5,7 @@ import net.minecraft.inventory.container.Container
 
 class WContainer(inv: Container) extends IItemStorage {
 	private val slots = inv.inventorySlots
-	override def iterator = new Iterator[WItemStack] {
+	override def iterator: Iterator[WItemStack] = new Iterator[WItemStack] {
 		private val slotit = slots.iterator()
 		override def hasNext = slotit.hasNext
 		override def next() = new WItemStack(slotit.next.getStack, null)

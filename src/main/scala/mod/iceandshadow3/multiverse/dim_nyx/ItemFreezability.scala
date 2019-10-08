@@ -1,13 +1,13 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.lib.compat.block.BlockQueries
-import mod.iceandshadow3.lib.compat.item.{BWItem, ItemQueries, WItem}
+import mod.iceandshadow3.lib.compat.item.{BWItem, ItemQueries, WItemType}
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzerDerived
 import mod.iceandshadow3.lib.compat.recipe.{BCraftGraphAnalysis, CraftingSummary, ECraftingType, ServerAnalysisGraphCraft}
 import mod.iceandshadow3.lib.util.Is
 
 object ItemFreezability
-extends ServerAnalyzerDerived[WItem, java.util.Set[CraftingSummary], ItemFreezability](
+extends ServerAnalyzerDerived[WItemType, java.util.Set[CraftingSummary], ItemFreezability](
 	ServerAnalysisGraphCraft,
 	new BCraftGraphAnalysis[ItemFreezability, BWItem => Boolean](_, Is.any[BWItem](
 		//Begin conditions for natural freezing.

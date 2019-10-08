@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.compat.recipe
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.compat.item.{BWItem, WItem}
+import mod.iceandshadow3.lib.compat.item.{BWItem, WItemType}
 import net.minecraftforge.registries.ForgeRegistries
 
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 abstract class BCraftGraphAnalysis[T <: Object, Arg](
-	craftmap: WItem => java.util.Set[CraftingSummary],
+	craftmap: WItemType => java.util.Set[CraftingSummary],
 	protected val arg: Arg
 )
 extends (BWItem => T) {
@@ -22,7 +22,7 @@ extends (BWItem => T) {
 	protected def shouldFollow(what: CraftingSummary): Boolean = true
 	val values = new mutable.HashMap[BWItem, T]
 	private val map = {
-		def dfs(what: WItem): Unit = {
+		def dfs(what: WItemType): Unit = {
 			val default = defaultValue(what)
 			values.put(what, default)
 			if(!what.hasTag("iceandshadow3:no_infer")) {
@@ -40,7 +40,7 @@ extends (BWItem => T) {
 				values.update(what, resolveFinal(default, list))
 			}
 		}
-		ForgeRegistries.ITEMS.getValues.asScala.map(WItem).foreach(dfs)
+		ForgeRegistries.ITEMS.getValues.asScala.map(WItemType).foreach(dfs)
 		values.toMap
 	}
 
