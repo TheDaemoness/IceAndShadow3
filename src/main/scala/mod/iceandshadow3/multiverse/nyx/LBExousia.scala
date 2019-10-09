@@ -42,9 +42,9 @@ class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasm
 			who.playSound(WSound("minecraft:entity.generic.burn"), 0.5f, who.rng(0.9f, 0.2f))
 			//TODO: Damage resistance check.
 			who match {
-				case victim: WEntityLiving => victim.damage(damage)
+				case victim: WEntityLiving => damage(victim)
 				case missile: WProjectile => missile.remove()
-				case _ => who.damage(damage)
+				case _ => damage(_)
 			}
 			who.particle(Particles.smoke_large, UnitVec3s.ZERO)
 			who.impulse(0, 0.025, 0)

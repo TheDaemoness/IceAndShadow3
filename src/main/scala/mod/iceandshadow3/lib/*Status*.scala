@@ -3,15 +3,9 @@ package mod.iceandshadow3.lib
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.INamed
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving
+import mod.iceandshadow3.lib.compat.entity.state.BStatus
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.util.{Color, E3vl}
-
-abstract class BStatus {
-	def getEffect: StatusEffect
-	def getTicks: Int
-	def getAmp: Int
-	def isAmbient: Boolean = false
-}
 
 sealed abstract class StatusEffect extends BinderStatusEffect.TKey {
 	def intervalTicks(amp: Int): Int

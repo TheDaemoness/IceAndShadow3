@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.entity
 
-import mod.iceandshadow3.lib.{BStatus, StatusEffect}
-import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
+import mod.iceandshadow3.lib.StatusEffect
+import mod.iceandshadow3.lib.compat.entity.state.{BStatus, EquipPoint, WAttribute}
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WDimension
@@ -9,7 +9,6 @@ import mod.iceandshadow3.lib.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.lib.util.collect.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.potion.EffectInstance
 
 class WEntityLiving protected[entity](protected[compat] val living: LivingEntity) extends WEntity(living) {
 	def sneaking = living.isSneaking
@@ -82,18 +81,6 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 			override def getAmp = fx.getAmplifier+1
 			override def isAmbient = fx.isAmbient
 		}
-	}
-	final def apply(status: BStatus) = if(isServerSide) {
-		val ticks = status.getTicks
-		val amp = status.getAmp
-		if(amp <= 0) remove(status.getEffect)
-		else if(ticks > 0) living.addPotionEffect(new EffectInstance(
-			BinderStatusEffect(status.getEffect),
-			ticks,
-			amp-1,
-			status.isAmbient,
-			true
-		))
 	}
 	def remove(status: StatusEffect): Unit =
 		if(this.isServerSide) living.removeActivePotionEffect(BinderStatusEffect(status))

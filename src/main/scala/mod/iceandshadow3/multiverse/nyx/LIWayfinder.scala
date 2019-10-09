@@ -69,7 +69,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		val owner = item.getOwner
 		if (preventDeath) {
 			owner.setHp()
-			owner(LIWayfinder.teleportProtection)
+			LIWayfinder.teleportProtection(owner)
 			owner.extinguish()
 			val where = item(LIWayfinder.varPos).get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
 			item.update(LIWayfinder.varCharged, false)
@@ -90,7 +90,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		if (preventDeath) {
 			val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
 			owner.setHp(1)
-			owner(LIWayfinder.teleportProtection)
+			LIWayfinder.teleportProtection(owner)
 			item.update(LIWayfinder.varCharged, false)
 			owner match {
 				case player: WEntityPlayerReal =>

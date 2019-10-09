@@ -1,9 +1,8 @@
-package mod.iceandshadow3.forge
+package mod.iceandshadow3.damage.impl
 
 import mod.iceandshadow3.damage.{AdsArmorValue, TDmgTypeNatural}
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
-import mod.iceandshadow3.lib.compat.entity.state.impl.ADamageSource
 import mod.iceandshadow3.lib.util.CollectUtils
 import mod.iceandshadow3.multiverse.misc.StatusEffects
 import net.minecraftforge.common.MinecraftForge

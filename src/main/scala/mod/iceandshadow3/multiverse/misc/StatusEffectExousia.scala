@@ -9,8 +9,6 @@ class StatusEffectExousia extends BStatusEffectIntervaled("exousia", E3vl.FALSE,
 	val damage = Attack("exousia", AttackForm.VOLUME, new Damage(2f) with TDmgTypeExousic)
 	override def onStart(who: WEntityLiving, amp: Int): Unit = {}
 	override def intervalTicks(amp: Int) = 30/amp
-	override def onTick(who: WEntityLiving, amp: Int): Unit = {
-		who.damage(damage, amp)
-	}
+	override def onTick(who: WEntityLiving, amp: Int): Unit = damage(who)
 	override def onEnd(who: WEntityLiving, amp: Int): Unit = {}
 }

@@ -92,8 +92,8 @@ object DimensionNyx extends BDimension("nyx") {
 	)
 
 	override def onEntityLivingUpdate(who: WEntityLiving): Unit = {
-		if (who.getShadowPresence >= 1f) who.damage(placesDarkAttack)
+		if (who.getShadowPresence >= 1f) placesDarkAttack(who)
 		val height = who.posFine.yBlock
-		if (height >= 192) who.damage(placesHighAttack, 4f - MathUtils.ratioBelow(192, height, 255) * 3f)
+		if (height >= 192) placesHighAttack.*(4f - MathUtils.ratioBelow(192, height, 255) * 3f)(who)
 	}
 }

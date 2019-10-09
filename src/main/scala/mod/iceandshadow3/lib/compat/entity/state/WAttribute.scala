@@ -1,5 +1,6 @@
-package mod.iceandshadow3.lib.compat.entity
+package mod.iceandshadow3.lib.compat.entity.state
 
+import mod.iceandshadow3.lib.compat.entity.WEntityLiving
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.ai.attributes.IAttribute
 

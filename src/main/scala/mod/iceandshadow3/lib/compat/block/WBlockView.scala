@@ -1,8 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.damage.Attack
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.compat.util.{CNVCompat, TEffectSource, TWLogical}
+import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized, TWLogical}
 import mod.iceandshadow3.lib.compat.world.TWWorld
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
@@ -13,7 +12,7 @@ import net.minecraft.world.IBlockReader
 class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, bls: BlockState)
 	extends WBlockState(bls)
 	with IPositionalFine
-	with TEffectSource
+	with TLocalized
 	with IPosBlock
 	with TWLogical[BLogicBlock]
 {
@@ -38,7 +37,6 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 	def opacity: Int = exposeBS().getOpacity(ibr, pos)
 
 	override protected[compat] def getLocalizedName = exposeBS().getBlock.getNameTextComponent
-	override def getAttack: Attack = null
 
 	def atOffset(x: Int, y: Int, z: Int): WBlockView =
 		new WBlockView(ibr, pos.add(x, y, z))

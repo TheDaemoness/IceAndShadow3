@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.compat.entity
+package mod.iceandshadow3.lib.compat.entity.state
 
 import java.util
 
@@ -8,7 +8,7 @@ case class AttributeModTotal(add: Double, addToMult: Double = 0d, mult: Double =
 	def apply(base: Double) = (base + add) * (1+addToMult) * mult
 }
 object AttributeModTotal {
-	def apply(collection: util.Collection[AttributeModifier]): AttributeModTotal = {
+	protected[compat] def apply(collection: util.Collection[AttributeModifier]): AttributeModTotal = {
 		import scala.jdk.CollectionConverters._
 		var add = 0d
 		var addToMult = 0d

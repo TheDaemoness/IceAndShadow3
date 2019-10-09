@@ -15,7 +15,7 @@ class StatusEffectFrost extends BStatusEffectIntervaled("frost", E3vl.FALSE, new
 			amp
 		}
 		if(dmg <= 0) return
-		who.damage(damage, dmg)
+		damage.*(dmg)(who)
 	}
 	override def onEnd(who: WEntityLiving, amp: Int): Unit = {}
 }

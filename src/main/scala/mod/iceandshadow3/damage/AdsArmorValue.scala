@@ -1,7 +1,6 @@
 package mod.iceandshadow3.damage
 
-import mod.iceandshadow3.lib.compat.entity.WAttribute
-import mod.iceandshadow3.lib.compat.entity.state.{EquipPoint, EquipPointVanilla}
+import mod.iceandshadow3.lib.compat.entity.state.{EquipPoint, EquipPointVanilla, WAttribute}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 
 case class AdsArmorValue(hard: Float, soft: Float) {

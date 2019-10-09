@@ -23,7 +23,7 @@ class LBIcicles extends LogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(11, 3, 14))
 
 	override def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {
-		who.damage(LBIcicles.damage)
+		LBIcicles.damage(who)
 		block.break(true)
 	}
 }

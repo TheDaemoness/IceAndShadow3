@@ -1,8 +1,8 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.compat.entity.state.EquipPointVanilla
-import mod.iceandshadow3.lib.compat.entity.{AttributeModTotal, CNVEntity, WAttribute, WEntityLiving}
+import mod.iceandshadow3.lib.compat.entity.state.{AttributeModTotal, EquipPointVanilla, WAttribute}
+import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.nbt.TNbtSource
 import mod.iceandshadow3.lib.compat.util.{GlobalRandom, TLocalized, TWLogical}
