@@ -9,7 +9,6 @@ import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.lib.LogicItemSingle
-import mod.iceandshadow3.lib.entity.Status
 import mod.iceandshadow3.multiverse.misc.StatusEffects
 import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}
 
@@ -26,7 +25,7 @@ object LIWayfinder {
 		}
 	}
 
-	val teleportProtection = Status.byTicks(StatusEffects.resistance, 159, 5)
+	val teleportProtection = StatusEffects.resistance.forTicks(159, 5)
 }
 class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 	with TEventFishOwnerDeath
@@ -70,7 +69,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		val owner = item.getOwner
 		if (preventDeath) {
 			owner.setHp()
-			owner.add(LIWayfinder.teleportProtection)
+			owner(LIWayfinder.teleportProtection)
 			owner.extinguish()
 			val where = item(LIWayfinder.varPos).get(owner.dimensionCoord).getOrElse(owner.home(owner.dimension).orNull)
 			item.update(LIWayfinder.varCharged, false)
@@ -91,7 +90,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		if (preventDeath) {
 			val areweinnyx = owner.dimensionCoord == DimensionNyx.coord
 			owner.setHp(1)
-			owner.add(LIWayfinder.teleportProtection)
+			owner(LIWayfinder.teleportProtection)
 			item.update(LIWayfinder.varCharged, false)
 			owner match {
 				case player: WEntityPlayerReal =>

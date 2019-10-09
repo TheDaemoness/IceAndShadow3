@@ -4,7 +4,6 @@ import mod.iceandshadow3.damage._
 import mod.iceandshadow3.lib.BDimension
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
-import mod.iceandshadow3.lib.entity.Status
 import mod.iceandshadow3.lib.item.IItemStorage
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, UnitVec3s}
 import mod.iceandshadow3.lib.util.{Color, MathUtils}
@@ -83,13 +82,13 @@ object DimensionNyx extends BDimension("nyx") {
 		})
 	}
 
-	val placesHighAttack = new Attack(
+	val placesHighAttack = Attack(
 		"windchill", AttackForm.VOLUME,
-		new DamageWithStatus(1f, Status.byTicks(StatusEffects.frost, 119)) with TDmgTypeCold
+		new DamageWithStatus(1f, StatusEffects.frost.forTicks(119)) with TDmgTypeCold
 	)
-	val placesDarkAttack = new Attack(
+	val placesDarkAttack = Attack(
 		"darkness", AttackForm.CURSE,
-		new DamageWithStatus(4f, Status.byTicks(StatusEffects.blind, 65)) with TDmgTypeShadow
+		new DamageWithStatus(4f, StatusEffects.blind.forTicks(65)) with TDmgTypeShadow
 	)
 
 	override def onEntityLivingUpdate(who: WEntityLiving): Unit = {

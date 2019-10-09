@@ -10,10 +10,10 @@ class ResourceMap[T] extends StringMap[T] {
 	override def isValidKey(key: String) = {
 		val resourceloc = new ResourceLocation(key)
 		if(resourceloc.getNamespace.contentEquals(IaS3.MODID)) {
-			IaS3.bug(null,"Cannot add iceandshadow3 resources to ResourceMaps")
+			IaS3.logger().warn(s"Cannot add $resourceloc to $this")
 			false
 		} else canAdd(resourceloc)
 	}
 
-	def canAdd(what: ResourceLocation) = true
+	protected[compat] def canAdd(what: ResourceLocation) = true
 }

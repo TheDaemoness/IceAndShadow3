@@ -8,7 +8,8 @@ case class Attack(
 	name: String,
 	form: AttackForm,
 	instances: (BDamage with TDmgType)*
-) {
-	def this(name: String, form: AttackForm, instances: (BDamage with TDmgType)*) =
-		this(null, name, form, instances:_*)
+)
+object Attack {
+	def apply(name: String, form: AttackForm, instances: (BDamage with TDmgType)*): Attack =
+		Attack(null, name, form, instances:_*)
 }

@@ -1,12 +1,11 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.damage.{Attack, AttackForm, Damage, DamageWithStatus, TDmgTypeExousic}
+import mod.iceandshadow3.damage.{Attack, AttackForm, DamageWithStatus, TDmgTypeExousic}
 import mod.iceandshadow3.lib.LogicBlockSimple
 import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
 import mod.iceandshadow3.lib.compat.block.{BMateriaPlasma, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WEntityLiving, WProjectile}
 import mod.iceandshadow3.lib.compat.world.WSound
-import mod.iceandshadow3.lib.entity.Status
 import mod.iceandshadow3.lib.spatial.UnitVec3s
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainNyx
@@ -23,9 +22,9 @@ class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasm
 	override def getBaseHarvestResist = -1
 	override def getShapes = Set()
 }) {
-	val damage = new Attack(
+	val damage = Attack(
 		"exousia", AttackForm.VOLUME,
-		new DamageWithStatus(6f, Status.byTicks(StatusEffects.exousia, 119)) with TDmgTypeExousic
+		new DamageWithStatus(6f, StatusEffects.exousia.forTicks(119)) with TDmgTypeExousic
 	)
 	override def harvestOverride(variant: Int, block: WBlockRef, fortune: Int) = Array()
 

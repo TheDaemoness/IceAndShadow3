@@ -8,7 +8,7 @@ import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.multiverse.DomainNyx
 
 object LBIcicles {
-	val damage = new Attack("icicles", AttackForm.CEILING, new Damage(4f) with TDmgTypeIce)
+	val damage = Attack("icicles", AttackForm.CEILING, new Damage(4f) with TDmgTypeIce)
 }
 class LBIcicles extends LogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 	override def areSurfacesFull(variant: Int) = false

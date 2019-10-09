@@ -1,7 +1,7 @@
 package mod.iceandshadow3.damage
 
+import mod.iceandshadow3.lib.BStatus
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving}
-import mod.iceandshadow3.lib.entity.Status
 
 abstract class BDamage {
 	def amount(target: WEntity): Float
@@ -16,6 +16,6 @@ abstract class Damage(damage: Float) extends BDamage {
 	def name: String
 }
 
-abstract class DamageWithStatus(damage: Float, val statuses: Status*) extends Damage(damage) {
-	override def applyPost(target: WEntityLiving, multiplier: Float): Unit = for(status <- statuses) target.add(status)
+abstract class DamageWithStatus(damage: Float, val statuses: BStatus*) extends Damage(damage) {
+	override def applyPost(target: WEntityLiving, multiplier: Float): Unit = for(status <- statuses) target(status)
 }

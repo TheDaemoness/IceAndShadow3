@@ -55,7 +55,9 @@ object HandlerADS {
 					}
 					//Miscellaneous resistances.
 					var dmgmult = 1f
-					if(damage.isInstanceOf[TDmgTypeNatural]) dmgmult *= 1f-Math.min(1f, victim.getStatus(StatusEffects.resistance)/5f)
+					if(damage.isInstanceOf[TDmgTypeNatural]) {
+						dmgmult *= Math.max(0f, 1f - victim(StatusEffects.resistance).getAmp/5f)
+					}
 					// TODO: Innate resistances.
 					finaldamage += damage.onDamageEntity(resultDmg*dmgmult, resultDmg*(1-dmgmult), victim)
 					if(dmgmult > 0f) damage.applyPost(victim, dmgmult)
