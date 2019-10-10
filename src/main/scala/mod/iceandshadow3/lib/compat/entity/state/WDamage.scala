@@ -25,4 +25,6 @@ case class WDamage(private[compat] val damage: DamageSource, severity: Float) {
 	def isVanillaPhysical = !damage.isUnblockable
 	def ignoresResistance = !damage.isDamageAbsolute
 	def isAbsolute = damage.canHarmInCreative
+
+	def unapply(arg: WDamage): Boolean = this.damage == arg.damage
 }

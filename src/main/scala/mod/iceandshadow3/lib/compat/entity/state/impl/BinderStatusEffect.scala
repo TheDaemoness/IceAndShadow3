@@ -9,7 +9,6 @@ private[lib] object BinderStatusEffect
 {
 	private[iceandshadow3] def populate(): Unit = {
 		import mod.iceandshadow3.multiverse.misc.StatusEffects._
-		//Deobfuscation on Effects seems a bit shaky, so until that gets sorted, we'll get these by ID.
 		add(poison, Effects.POISON)
 		add(slow, Effects.SLOWNESS)
 		add(blind, Effects.BLINDNESS)

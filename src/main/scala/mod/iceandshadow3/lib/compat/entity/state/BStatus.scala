@@ -10,7 +10,7 @@ abstract class BStatus {
 	def getTicks: Int
 	def getAmp: Int
 	def isAmbient: Boolean = false
-	final def apply(who: WEntityLiving): Unit = if(who.isServerSide) {
+	final def apply(who: WEntityLiving): Unit = if(who.isServerSide)  {
 		val ticks = getTicks
 		val amp = getAmp
 		val effect = getEffect

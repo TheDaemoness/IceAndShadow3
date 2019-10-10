@@ -3,9 +3,12 @@ package mod.iceandshadow3.lib.compat.entity.state.impl;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BStatusEffect;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
+import mod.iceandshadow3.lib.compat.entity.WEntityLiving;
+import mod.iceandshadow3.lib.compat.entity.state.WDamage;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -62,23 +65,7 @@ public class AStatusEffect extends Effect {
 		return Collections.emptyList();
 	}
 
-	//@OnlyIn(Dist.CLIENT)
-	//private void draw(AbstractGui gui, int x, int y) {
-	//	Minecraft.getInstance().getTextureManager().bindTexture(texloc);
-	//	final int xSpriteSheet = (textureIndex % 14)*18;
-	//	final int ySpriteSheet = (textureIndex / 14)*18;
-	//	gui.blit(x, y, xSpriteSheet, ySpriteSheet, 18, 18);
-	//}
-
-	//@OnlyIn(Dist.CLIENT)
-	//@Override
-	//public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
-		//draw(gui, x+6, y+7);
-	//}
-
-	//@OnlyIn(Dist.CLIENT)
-	//@Override
-	//public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
-	//	draw(gui, x+3, y+3);
-	//}
+	public float onHarm(WEntityLiving who, WDamage how, int ampVanilla)  {
+		return fxlogic.onHarm(who, how, ampVanilla+1);
+	}
 }

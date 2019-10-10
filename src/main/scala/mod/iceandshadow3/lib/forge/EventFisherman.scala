@@ -15,7 +15,8 @@ object EventFisherman {
     classOf[EventBaitOwnerToss],
     classOf[EventHandlerEnderChest],
     classOf[EventHandlerDimension],
-    classOf[EventHandlerNyx]
+    classOf[EventHandlerNyx],
+    classOf[EventHandlerStatus]
   )
   var triggered = false
   def baitHooks(): Unit = {

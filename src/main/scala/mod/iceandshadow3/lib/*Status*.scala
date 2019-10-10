@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.INamed
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving
-import mod.iceandshadow3.lib.compat.entity.state.BStatus
+import mod.iceandshadow3.lib.compat.entity.state.{BStatus, WDamage}
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.util.{Color, E3vl}
 
@@ -38,6 +38,9 @@ with INamed {
 	def shouldTick(duration: Int, amp: Int): Boolean
 	def onTick(who: WEntityLiving, amp: Int): Unit
 	def onEnd(who: WEntityLiving, amp: Int): Unit
+	/** Called when an entity is harmed with this status effect active.
+		* @return The damage they should take. Return 0 for no damage, or a negative number to heal from the damage. */
+	def onHarm(who: WEntityLiving, how: WDamage, amp: Int) = how.severity
 
 	override final def getNames = Array(name)
 	override def intervalTicks(amp: Int) = 20

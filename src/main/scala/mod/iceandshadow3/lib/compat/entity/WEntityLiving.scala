@@ -83,5 +83,5 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 		}
 	}
 	def remove(status: StatusEffect): Unit =
-		if(this.isServerSide) living.removeActivePotionEffect(BinderStatusEffect(status))
+		if(isServerSide) living.removePotionEffect(BinderStatusEffect(status))
 }
