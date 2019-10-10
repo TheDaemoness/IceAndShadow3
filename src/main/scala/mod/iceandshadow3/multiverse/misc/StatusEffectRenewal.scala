@@ -7,10 +7,10 @@ import mod.iceandshadow3.lib.util.{Color, E3vl}
 
 class StatusEffectRenewal extends BStatusEffectIntervaled("renewal", E3vl.TRUE, new Color(0x78c266)) {
 	override def onStart(who: WEntityLiving, amp: Int): Unit = who.extinguish()
-	override def intervalTicks(amp: Int) = 24/amp
+	override def intervalTicks(amp: Int) = 24
 	override def onTick(who: WEntityLiving, amp: Int): Unit = {
 		if(who.hp >= who.hpMax) who.remove(this)
-		else who.heal(1)
+		else who.heal(amp)
 	}
 	override def onEnd(who: WEntityLiving, amp: Int): Unit = {}
 

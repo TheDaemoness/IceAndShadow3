@@ -26,6 +26,7 @@ object DomainGaia extends BDomain("gaia") {
 		val devora = new LIDevora
 		val shale = new LIShale
 		val petrified_brick = new LogicItemMulti(DomainGaia, "petrified_brick", 1)
+		val jade = new LIJade
 	}
 
 	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx

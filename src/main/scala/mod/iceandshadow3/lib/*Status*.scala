@@ -9,18 +9,18 @@ import mod.iceandshadow3.lib.util.{Color, E3vl}
 
 sealed abstract class StatusEffect extends BinderStatusEffect.TKey {
 	def intervalTicks(amp: Int): Int
-	final val inactive = new BStatus {
+	final val inactive: BStatus = new BStatus {
 		override def getEffect = StatusEffect.this
 		override def getTicks = 0
 		override def getAmp = 0
 	}
-	final def forTicks(ticks: Int, amp: Int = 1, ambient: Boolean = false) = new BStatus {
+	final def forTicks(ticks: Int, amp: Int = 1, ambient: Boolean = false): BStatus = new BStatus {
 		override def getEffect = StatusEffect.this
 		override def getTicks = ticks
 		override def getAmp = amp
 		override def isAmbient = ambient
 	}
-	final def forIntervals(intervals: Float, amp: Int = 1, ambient: Boolean = false) =
+	final def forIntervals(intervals: Float, amp: Int = 1, ambient: Boolean = false): BStatus =
 		forTicks((this.intervalTicks(amp)*intervals).toInt, amp, ambient)
 }
 

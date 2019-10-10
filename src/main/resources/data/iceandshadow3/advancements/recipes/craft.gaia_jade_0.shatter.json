@@ -1,0 +1,30 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"iceandshadow3:craft.gaia_jade_0.shatter"
+		]
+	},
+	"criteria": {
+		"i": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{"item": "iceandshadow3:gaia_jade_1"}
+				]
+			}
+		},
+		"r": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:craft.gaia_jade_0.shatter"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"r",
+			"i"
+		]
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "iceandshadow3:gaia_jade_2",
+	"ingredients": [
+		{"item": "iceandshadow3:gaia_jade_3"}
+	],
+	"result": {
+		"item": "iceandshadow3:gaia_jade_2",
+		"count": 3
+	}
+}

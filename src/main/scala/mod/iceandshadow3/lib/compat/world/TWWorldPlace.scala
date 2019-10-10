@@ -13,7 +13,7 @@ trait TWWorldPlace extends TWWorld {
   def underSky: Boolean = exposeWorld().canBlockSeeSky(posCoarse)
   def biome: WBiome = new WBiome(exposeWorld().getBiome(posCoarse))
 
-  def playSound(sound: WSound, volume: Float, freqshift: Float): Unit =
+  def playSound(sound: WSound, volume: Float = 1f, freqshift: Float = 1f): Unit =
     sound.play(this, this.posCoarse, volume, freqshift)
 
   def getShadowPresence: Float = {

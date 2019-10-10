@@ -1,0 +1,66 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"iceandshadow3:craft.totem_of_undying.fromjade"
+		]
+	},
+	"criteria": {
+		"0": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{"item": "iceandshadow3:gaia_jade_0"}
+				]
+			}
+		},
+		"1": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{"item": "iceandshadow3:gaia_jade_1"}
+				]
+			}
+		},
+		"2": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{"item": "iceandshadow3:gaia_jade_2"}
+				]
+			}
+		},
+		"3": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{"item": "iceandshadow3:gaia_jade_3"}
+				]
+			}
+		},
+		"4": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{"item": "iceandshadow3:gaia_jade_4"}
+				]
+			}
+		},
+		"r": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:craft.totem_of_undying.fromjade"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"0",
+			"1",
+			"2",
+			"3",
+			"4",
+			"r"
+		]
+	]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"gJg",
+	" J "
+  ],
+  "key": {
+	"J": {"item": "iceandshadow3:gaia_jade_2"},
+	"g": {"item": "minecraft:gold_ingot"}
+  },
+  "result": {"item": "minecraft:totem_of_undying"}
+}
