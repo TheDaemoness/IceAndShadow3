@@ -106,6 +106,7 @@ import groovy.json.JsonSlurper
 import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
+   from 'src/generated/resources' into 'build/resources/main'
    inputs.property "version", project.version
    filesMatching('**/mods.toml') {
       filter(ReplaceTokens, tokens: [

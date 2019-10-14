@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "iceandshadow3:gaia_livingstone"
+			"item": "iceandshadow3:gaia_livingstone_gray"
 		},
 		"title": {"translate": "iceandshadow3.advancement.nyx_root.title"},
 		"description": {"translate": "iceandshadow3.advancement.nyx_root.description"},

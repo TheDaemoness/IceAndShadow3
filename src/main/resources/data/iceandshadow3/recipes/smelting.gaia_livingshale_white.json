@@ -1,8 +1,0 @@
-{
-	"type": "minecraft:smelting",
-	"group": "iceandshadow3:gaia_livingshale",
-	"ingredient": {
-		"item": "iceandshadow3:gaia_livingshale_white"
-	},
-	"result": "minecraft:white_dye"
-}

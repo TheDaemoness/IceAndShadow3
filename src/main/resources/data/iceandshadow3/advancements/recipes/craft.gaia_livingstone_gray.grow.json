@@ -2,7 +2,7 @@
 	"parent": "minecraft:recipes/root",
 	"rewards": {
 		"recipes": [
-			"iceandshadow3:smelting.gaia_livingshale"
+			"iceandshadow3:craft.gaia_livingstone_gray.grow"
 		]
 	},
 	"criteria": {
@@ -10,14 +10,14 @@
 			"trigger": "minecraft:inventory_changed",
 			"conditions": {
 				"items": [
-					{"item": "iceandshadow3:gaia_livingshale"}
+					{"item": "iceandshadow3:gaia_livingshale_gray"}
 				]
 			}
 		},
 		"r": {
 			"trigger": "minecraft:recipe_unlocked",
 			"conditions": {
-				"recipe": "iceandshadow3:smelting.gaia_livingshale"
+				"recipe": "iceandshadow3:craft.gaia_livingstone_gray.grow"
 			}
 		}
 	},

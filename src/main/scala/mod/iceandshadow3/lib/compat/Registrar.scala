@@ -1,8 +1,11 @@
 package mod.iceandshadow3.lib.compat
 
+import java.nio.file.Path
+import java.util
+
+import com.google.common.base.Charsets
 import com.google.gson.JsonObject
 import mod.iceandshadow3.{ContentLists, IaS3}
-import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.compat.block.impl.{BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
 import mod.iceandshadow3.lib.compat.entity.impl.{BinderEntity, BinderEntityMob}
@@ -23,45 +26,48 @@ object Registrar {
 	private[compat] object BuiltinRecipeProxy
 	extends net.minecraftforge.registries.ForgeRegistryEntry[IRecipeSerializer[_]]
 	with IRecipeSerializer[IRecipe[_]] {
+		final val fileGen: BFileGen = new BFileGen("ias3_builtin_recipes") {
+			final private val data = ("{\"type\":\""+IaS3.MODID+":builtin\"}").getBytes(Charsets.US_ASCII)
+			final protected def getData(root: Path) = {
+				import scala.jdk.CollectionConverters._
+				val retval = new java.util.HashMap[Path, Array[Byte]]()
+				for(rloc <- map.keySet().asScala) {
+					val name = rloc.getPath
+					retval.put(BFileGen.getDataPath(root, s"recipes/$name.json"), data)
+				}
+				retval
+			}
+		}
 		//Set registry name in the registerRecipeSerializers bit.
-		private val map = new java.util.HashMap[ResourceLocation, IRecipe[_]]
-		override def read(recipeId: ResourceLocation, json: JsonObject) = map.get(recipeId)
-		override def read(recipeId: ResourceLocation, buffer: PacketBuffer) = map.get(recipeId)
+		private val map = new java.util.HashMap[ResourceLocation, String => IRecipe[_]]
+		override def read(recipeId: ResourceLocation, json: JsonObject) = map.get(recipeId)(recipeId.getPath)
+		override def read(recipeId: ResourceLocation, buffer: PacketBuffer) = map.get(recipeId)(recipeId.getPath)
 		override def write(buffer: PacketBuffer, recipe: IRecipe[_]): Unit = {}
 		private var frozeRecipes: Boolean = false
 
-		private[compat] def add(what: IRecipe[_]): Boolean = {
+		private[compat] def add(loc: ResourceLocation, what: String => IRecipe[_]): Boolean = {
 			if(frozeRecipes) {
-				IaS3.logger().error("Crafting recipe added too late: "+what.getId)
+				IaS3.logger().error("Crafting recipe factory added too late: "+loc.getPath)
 				false
-			} else if(map.putIfAbsent(what.getId, what) != null) {
-				IaS3.logger().error("ID collision for crafting recipe: "+what.getId)
+			} else if(map.putIfAbsent(loc, what) != null) {
+				IaS3.logger().error("ID collision for crafting recipe: "+loc.getPath)
 				false
 			} else true
 		}
 		private[iceandshadow3] def freeze(): IRecipeSerializer[_] = {
 			frozeRecipes = true
 			IaS3.logger().debug(s"Received ${map.size()} builtin recipes")
-			import scala.jdk.CollectionConverters._
-			ContentLists.namesRecipe.addAll(BuiltinRecipeProxy.map.keySet().asScala.map(_.getPath).asJavaCollection)
 			this
 		}
 	}
 
-	private[iceandshadow3] def recipes(domains: Iterable[BDomain]): Unit = {
-		if(!IaS3.ToolMode.isActive) {
-			/*
-				WARNING: This exemption is probably going to blow us up later, but ATM an unfortunate SoundType lookup happens.
-				This is almost certainly because of a number (read: most) Materias having references to @ObjectHolders.
-			*/
-			BinderItem.freeze()
-			BinderBlock.freeze()
-		}
-		for(domain <- domains) domain.addRecipes()
-		BuiltinRecipeProxy.freeze()
+	private[iceandshadow3] def getFileGen = BuiltinRecipeProxy.fileGen
+	private[iceandshadow3] def freeze(): Unit = {
+		BinderBlock.freeze()
 	}
 
 	private[iceandshadow3] def registerRecipeSerializers(reg: IForgeRegistry[IRecipeSerializer[_]]): Unit = {
+		BuiltinRecipeProxy.freeze()
 		BuiltinRecipeProxy.setRegistryName(IaS3.MODID, "builtin")
 		reg.register(BuiltinRecipeProxy)
 	}
@@ -84,7 +90,7 @@ object Registrar {
 				}
 			}
 		}
-		for (items <- BinderItem) {
+		for (items <- BinderItem.freeze()) {
 			for (item <- items) {
 				item.setRegistryName(item.namespace, item.modName)
 				reg.register(item)
@@ -125,5 +131,9 @@ object Registrar {
 		BinderBlockVar.freeze()
 	}
 
-	private[compat] def addRecipe(what: IRecipe[_]): Unit = BuiltinRecipeProxy.add(what)
+	def addRecipeCallback(name: String, fn: String => IRecipe[_]) = {
+		//Yes, with the methods in ECraftingType, we do end up generating a resource location twice.
+		BuiltinRecipeProxy.add(IaS3.rloc(name), fn)
+		ContentLists.namesRecipe.add(name)
+	}
 }

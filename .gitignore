@@ -31,7 +31,6 @@ eclipse
 run
 sandbox
 .*/*
-src/generated
 
 # Forge Files
 CREDITS.txt

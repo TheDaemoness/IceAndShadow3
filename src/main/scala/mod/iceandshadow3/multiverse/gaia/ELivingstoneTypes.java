@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse.gaia;
 import java.util.Random;
 
 public enum ELivingstoneTypes {
-	COMMON(null),
+	COMMON("gray"),
 	GREEN("green"),
 	CYAN("cyan"),
 	BLUE("blue"),
@@ -16,6 +16,10 @@ public enum ELivingstoneTypes {
 	public final String name;
 	ELivingstoneTypes(String naem) {
 		name = naem;
+	}
+
+	public String appendTo(String in) {
+		return in + '_' + name;
 	}
 
 	public static ELivingstoneTypes getCommon(Random r) {

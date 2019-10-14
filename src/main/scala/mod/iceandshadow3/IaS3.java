@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,6 +53,10 @@ public class IaS3 {
 
 	private static boolean shouldInit = true;
 
+	public static ResourceLocation rloc(String path) {
+		return new ResourceLocation(IaS3.MODID, path);
+	}
+
 	/** Tool mode is a partial initialization of IaS3, suitable for testing or tooling. */
 	public static class ToolMode {
 		private static boolean _toolmode = false;
@@ -79,6 +84,7 @@ public class IaS3 {
 		bus.addListener(this::enqueueIMC);
 		bus.addListener(this::processIMC);
 		bus.addListener(this::initFinal);
+		bus.addListener(this::genData);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -117,6 +123,10 @@ public class IaS3 {
 		if(weIsClient) init.initFinalClient();
 		else init.initFinalServer();
 		ContentLists.purge();
+	}
+
+	private void genData(final GatherDataEvent event) {
+		Registrar$.MODULE$.getFileGen().attachTo(event.getGenerator());
 	}
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)

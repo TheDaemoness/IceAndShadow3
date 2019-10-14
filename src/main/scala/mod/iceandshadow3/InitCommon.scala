@@ -27,7 +27,7 @@ private[iceandshadow3] object InitCommon {
 
 	def initEarly(): Unit = {
 		for (domain <- domains) {domain.initEarly()}
-		Registrar.recipes(domains)
+		if(!IaS3.ToolMode.isActive) Registrar.freeze()
 	}
 
 	def registerDimensions(reg: IForgeRegistry[ModDimension]): Unit = {

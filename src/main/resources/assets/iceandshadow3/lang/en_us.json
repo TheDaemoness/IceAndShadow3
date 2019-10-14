@@ -25,7 +25,7 @@
 	"item.iceandshadow3.gaia_jade_3": "Healing Jade Rock",
 	"item.iceandshadow3.gaia_jade_4": "Healing Jade Boulder",
 
-	"item.iceandshadow3.gaia_livingshale": "Sagalith Shale",
+	"item.iceandshadow3.gaia_livingshale_gray": "Sagalith Shale",
 	"item.iceandshadow3.gaia_livingshale_brown": "Kapelith Shale",
 	"item.iceandshadow3.gaia_livingshale_white": "Luspalith Shale",
 	"item.iceandshadow3.gaia_livingshale_blue": "Asulith Shale",
@@ -34,7 +34,7 @@
 	"item.iceandshadow3.gaia_livingshale_purple": "Puralith Shale",
 	"item.iceandshadow3.gaia_livingshale_red": "Rosalith Shale",
 	"item.iceandshadow3.gaia_livingshale_gold": "Mutyalith Shale",
-	"block.iceandshadow3.gaia_livingstone": "Sagalith Block",
+	"block.iceandshadow3.gaia_livingstone_gray": "Sagalith Block",
 	"block.iceandshadow3.gaia_livingstone_brown": "Kapelith Block",
 	"block.iceandshadow3.gaia_livingstone_white": "Luspalith Block",
 	"block.iceandshadow3.gaia_livingstone_blue": "Asulith Block",
