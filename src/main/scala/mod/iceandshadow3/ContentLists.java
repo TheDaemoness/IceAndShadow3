@@ -7,23 +7,24 @@ import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
 import mod.iceandshadow3.lib.base.BLogic;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 /** Static lists of IaS3's content objects.
  * Purged at the end of normal init, or kept indefinitely in tool mode.
  */
 public class ContentLists {
-	public static final List<BLogicItem> item = new LinkedList<>();
-	public static final List<BLogicBlock> block = new LinkedList<>();
-	public static final List<BStatusEffect> status = new LinkedList<>();
-	public static final List<String> soundname = new LinkedList<>();
+	public static final List<BLogicItem> item = new ArrayList<>();
+	public static final List<BLogicBlock> block = new ArrayList<>();
+	public static final List<BStatusEffect> status = new ArrayList<>();
+	public static final List<String> namesSound = new ArrayList<>();
+	public static final List<String> namesRecipe = new ArrayList<>();
 	static void purge() {
 		item.clear();
 		block.clear();
 		status.clear();
-		soundname.clear();
+		namesSound.clear();
+		namesRecipe.clear();
 	}
 	//TODO: Make this instead a stream of item names (and change the relevant test).
 	public static Stream<BLogic> logicsWithItems() {

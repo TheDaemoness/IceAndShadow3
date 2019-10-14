@@ -30,7 +30,7 @@ object ECraftingType {
 	}
 	case object UNKNOWN extends ECraftingType
 	case object CRAFT_SPECIAL extends ECraftingType {
-		def recipe(logic: LogicCrafting): Unit = {
+		def apply(logic: LogicCrafting): Unit = {
 			Registrar.addRecipe(new SpecialRecipe(new ResourceLocation(IaS3.MODID, s"dynamic.${logic.name}")) {
 				override def matches(inv: CraftingInventory, worldIn: World) =
 					logic.matches(new WInventoryCrafting(inv), new WWorld(worldIn))
@@ -44,7 +44,7 @@ object ECraftingType {
 		}
 	} //TODO: Implement.
 	case object CRAFT_SHAPELESS extends ECraftingType {
-		def recipe(meta: BasicMeta, inputs: WIngredient*): Unit = {
+		def apply(meta: BasicMeta, inputs: WIngredient*): Unit = {
 			val ingrs = inputs.map(_.expose).toArray
 			Registrar.addRecipe(new ShapelessRecipe(
 				meta.name("shapeless"), meta.group,
@@ -53,7 +53,7 @@ object ECraftingType {
 		}
 	}
 	case object CRAFT_SHAPED extends ECraftingType {
-		def recipe(meta: BasicMeta, size: ERecipeSize, inputs: WIngredient*): Unit = {
+		def apply(meta: BasicMeta, size: ERecipeSize, inputs: WIngredient*): Unit = {
 			val ingrs = inputs.map(_.expose).toArray
 			Registrar.addRecipe(new ShapedRecipe(
 				meta.name("shaped"), meta.group,
@@ -63,7 +63,7 @@ object ECraftingType {
 		}
 	}
 	case object COOK_SMELT extends ECraftingType {
-		def recipe(meta: BasicMeta, input: WIngredient, xp: Float = 0f, cooktime: Int = 200): Unit = {
+		def apply(meta: BasicMeta, input: WIngredient, xp: Float = 0f, cooktime: Int = 200): Unit = {
 			Registrar.addRecipe(new FurnaceRecipe(
 				meta.name("smelting"), meta.group,
 				input.expose, meta.output.asItemStack(),
@@ -72,7 +72,7 @@ object ECraftingType {
 		}
 	}
 	case object COOK_SMOKE extends ECraftingType {
-		def recipe(meta: BasicMeta, input: WIngredient, xp: Float = 0f, cooktime: Int = 100): Unit = {
+		def apply(meta: BasicMeta, input: WIngredient, xp: Float = 0f, cooktime: Int = 100): Unit = {
 			Registrar.addRecipe(new SmokingRecipe(
 				meta.name("smoking"), meta.group,
 				input.expose, meta.output.asItemStack(),
@@ -81,7 +81,7 @@ object ECraftingType {
 		}
 	}
 	case object COOK_BLAST extends ECraftingType {
-		def recipe(meta: BasicMeta, input: WIngredient, xp: Float = 0f, cooktime: Int = 100): Unit = {
+		def apply(meta: BasicMeta, input: WIngredient, xp: Float = 0f, cooktime: Int = 100): Unit = {
 			Registrar.addRecipe(new BlastingRecipe(
 				meta.name("blasting"), meta.group,
 				input.expose, meta.output.asItemStack(),
@@ -90,7 +90,7 @@ object ECraftingType {
 		}
 	}
 	case object STONECUT extends ECraftingType {
-		def recipe(meta: BasicMeta, input: WIngredient): Unit = {
+		def apply(meta: BasicMeta, input: WIngredient): Unit = {
 			Registrar.addRecipe(new StonecuttingRecipe(
 				meta.name("stonecutting"), meta.group,
 				input.expose, meta.output.asItemStack()

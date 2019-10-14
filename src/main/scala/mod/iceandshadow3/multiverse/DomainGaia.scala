@@ -39,7 +39,7 @@ object DomainGaia extends BDomain("gaia") {
 	override protected def baseStrength: Float = 6f
 
 	override def addRecipes(): Unit = {
-		ECraftingType.CRAFT_SPECIAL.recipe(new LogicCrafting("grow_with_minerals") {
+		ECraftingType.CRAFT_SPECIAL(new LogicCrafting("grow_with_minerals") {
 			override def fitsIn(width: Int, height: Int) = width*height >= 2
 			override def matches(what: WInventoryCrafting, world: WWorld): Boolean = {
 				var foundMinerals = false
@@ -49,7 +49,7 @@ object DomainGaia extends BDomain("gaia") {
 					else if(!foundGrowable && item.toBlockState.fold(false)(LIMinerals.canGrow)) foundGrowable = true
 					else if(!item.isEmpty) return false
 				}
-				true
+				foundGrowable && foundMinerals
 			}
 			override def apply(what: WInventoryCrafting): WItemStack = {
 				for(item <- what) {

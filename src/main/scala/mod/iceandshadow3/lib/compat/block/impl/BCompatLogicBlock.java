@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.compat.block.impl;
 
+import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BDomain;
 import mod.iceandshadow3.lib.block.HarvestMethod;
 import mod.iceandshadow3.lib.block.IMateria;

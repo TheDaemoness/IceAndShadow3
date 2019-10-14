@@ -50,7 +50,6 @@ public class AItem extends Item implements LogicProvider.Item {
 		logic = itemlogic;
 		this.variant = variant;
 		lp = new LogicPair<>(itemlogic, variant);
-		this.setRegistryName(IaS3.MODID, logic.getName(variant));
 		for(BItemProperty bpo : logic.propertyOverrides()) {
 			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
 				final BItemProperty impl = bpo;

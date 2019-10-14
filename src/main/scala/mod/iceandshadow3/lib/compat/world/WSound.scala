@@ -33,7 +33,7 @@ object WSound {
 		val location = new ResourceLocation(IaS3.MODID, fullname)
 		val soundevent = new SoundEvent(location)
 		if(newsounds != null && newnames != null) {
-			ContentLists.soundname.add(fullname)
+			ContentLists.namesSound.add(fullname)
 			val retval = WSound(soundevent)
 			newsounds += soundevent
 			newnames += location

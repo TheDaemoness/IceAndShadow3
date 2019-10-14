@@ -12,5 +12,6 @@ private[lib] object BinderBlock extends BinderLazy[BLogicBlock, BLogicBlock, Arr
 		(ablock, iblock)
 	})
 ) {
+	override def onUnboundApply(ias: BinderBlock.TKey) = Array.empty
 	def wrap(what: TKey, variant: Int) = WItemType(apply(what)(variant)._2)
 }

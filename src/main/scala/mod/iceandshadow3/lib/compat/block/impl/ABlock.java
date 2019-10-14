@@ -36,7 +36,8 @@ import java.util.Random;
 //Overriding them is fine.
 
 @SuppressWarnings("deprecation")
-public class ABlock extends Block implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
+public class ABlock extends Block
+implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	
 	private final BLogicBlock logic;
 	private final int variant;
@@ -56,7 +57,6 @@ public class ABlock extends Block implements mod.iceandshadow3.lib.base.LogicPro
 	public ABlock(BLogicBlock blocklogic, int variant) {
 		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
 		logic = blocklogic;
-		this.setRegistryName(IaS3.MODID, logic.getName(variant));
 		this.variant = variant;
 		if(logic.getMateria().isTransparent()) layer = BlockRenderLayer.TRANSLUCENT;
 		else if(!logic.areSurfacesFull(variant)) layer = BlockRenderLayer.CUTOUT_MIPPED;

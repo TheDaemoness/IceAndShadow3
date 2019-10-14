@@ -41,8 +41,8 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider {
 	def isEmpty: Boolean = asItem() == Items.AIR
 
 	def registryName: String = ForgeRegistries.ITEMS.getKey(asItem()).toString
-	def modName: String = ForgeRegistries.ITEMS.getKey(asItem()).getPath
-	def namespace: String = ForgeRegistries.ITEMS.getKey(asItem()).getNamespace
+	override def modName: String = ForgeRegistries.ITEMS.getKey(asItem()).getPath
+	override def namespace: String = ForgeRegistries.ITEMS.getKey(asItem()).getNamespace
 
 	override def facet[What <: Object : ClassTag] = asItem() match {
 		case lp: LogicProvider.Item => lp.facet[What]

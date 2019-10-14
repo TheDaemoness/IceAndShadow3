@@ -26,16 +26,14 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] extends Iterable[
 		mutable += adapter
 	}
 	def apply(ias: TKey): ValueType = {
-		if(immutable == null) {
-			IaS3.bug(ias, s"apply called before $this was frozen")
-			return null.asInstanceOf[ValueType]
-		}
+		if(immutable == null) return onUnboundApply(ias)
 		val index = ias.binderIndex
 		if(index >= 0) immutable(index)
-		else {
-			IaS3.bug(ias, s"Unbound key provided to $this.apply")
-			null.asInstanceOf[ValueType]
-		}
+		else onUnboundApply(ias)
+	}
+	def onUnboundApply(ias: TKey): ValueType = {
+		IaS3.logger().warn(s"${this} does not have $ias bound")
+		null.asInstanceOf[ValueType]
 	}
 	override def iterator = immutable.iterator
 }

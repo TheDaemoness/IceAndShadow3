@@ -85,8 +85,11 @@ class TestsResources {
 	static Stream<BStatusEffect> streamStatus() {
 		return ContentLists.status.stream();
 	}
+	static Stream<String> streamRecipeNameFromCode() {
+		return ContentLists.namesRecipe.stream();
+	}
 	static Stream<String> streamSoundNameFromCode() {
-		return ContentLists.soundname.stream();
+		return ContentLists.namesSound.stream();
 	}
 	static Stream<String> streamSoundNameFromJSON() {
 		return soundjson.keySet().stream();
@@ -274,6 +277,22 @@ class TestsResources {
 			checkAdvancementDisplayText(adv, display, id, "description");
 		} catch (IOException e) {
 			fail("Cannot read "+adv.getPath());
+		}
+	}
+
+	@ParameterizedTest(name = "{0} (builtin recipe) should have a matching JSON file")
+	@MethodSource("streamRecipeNameFromCode")
+	void builtinRecipeIsEnabled(String name) {
+		final String path = "data/"+MODID+"/recipes/"+name+".json";
+		try(final FileInputStream fis = new FileInputStream("./main/"+path)) {
+			final JSONObject advancement = new JSONObject(new JSONTokener(fis));
+			try {
+				final String type = advancement.getString("type");
+				if(!(MODID+":builtin").contentEquals(type)) fail(path+": Builtin recipe shadowed by "+type+" recipe");
+			}
+			catch(JSONException e) { fail(path+": Malformed recipe file"); }
+		} catch(IOException e) {
+			fail(path+": Missing a file for builtin recipe");
 		}
 	}
 }

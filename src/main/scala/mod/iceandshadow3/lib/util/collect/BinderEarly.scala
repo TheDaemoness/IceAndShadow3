@@ -4,9 +4,7 @@ import mod.iceandshadow3.IaS3
 
 import scala.reflect.ClassTag
 
-class BinderEarly[KeyType: ClassTag, ValueType <: Object: ClassTag]
-	extends Binder[KeyType, ValueType]
-{
+class BinderEarly[KeyType: ClassTag, ValueType <: Object: ClassTag] extends Binder[KeyType, ValueType] {
 	var early = new scala.collection.mutable.HashMap[TKey, ValueType]
 	final def add(key: KeyType with TKey, value: ValueType): Unit = {
 		if(early == null) {
@@ -24,8 +22,7 @@ class BinderEarly[KeyType: ClassTag, ValueType <: Object: ClassTag]
 
 	override def apply(ias: TKey) = {
 		if(early != null) early.getOrElse(ias, {
-			IaS3.bug(ias, s"Unbound key provided to $this.apply")
-			null.asInstanceOf[ValueType]
+			onUnboundApply(ias)
 		})
 		else super.apply(ias)
 	}
