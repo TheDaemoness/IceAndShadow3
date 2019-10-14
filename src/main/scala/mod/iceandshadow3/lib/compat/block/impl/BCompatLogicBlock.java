@@ -24,7 +24,7 @@ public abstract class BCompatLogicBlock extends BCompatLogicCommon {
 	protected boolean multipleOpacities() {return false;}
 	
 	protected IMateria getMateria() {return materia;}
-	public boolean isOfMateria(Class<? extends IMateria> b) {return b.isInstance(materia);}
+	public boolean isOfMateria(Class<?> b) {return b.isInstance(materia);}
 	
 	final Block.Properties toBlockProperties(int variant) {
 		Block.Properties retval = Block.Properties.create(materia.mcmat());

@@ -2,6 +2,9 @@ package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.lib.block.ECommonBlockType._
 import mod.iceandshadow3.lib.block.IMateria
+import mod.iceandshadow3.lib.compat.block.BMateriaStone
+
+abstract class BMateriaStoneLiving extends BMateriaStone
 
 abstract class BMateriaNavistra extends BMateriaStoneLiving {
 	override def getBaseBlastResist: Float = IMateria.indestructibleByBlast

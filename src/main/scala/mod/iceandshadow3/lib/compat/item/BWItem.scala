@@ -11,10 +11,14 @@ import net.minecraftforge.registries.ForgeRegistries
 
 import scala.reflect.ClassTag
 
-abstract class BWItem extends LogicProvider.Item with IItemProvider{
+abstract class BWItem extends LogicProvider.Item with IItemProvider {
 	override def asItem(): Item
 	def asWItem(): WItemType
 	def asWItemStack(): WItemStack = new WItemStack(asItem().getDefaultInstance, null)
+	def getBlock: Option[WBlockState] = asItem() match {
+		case bi: BlockItem => Some(new WBlockState(bi.getBlock.getDefaultState))
+		case _ => None
+	}
 
 	def hasTag(tagname: String): Boolean = {
 		//TODO: WTag?
@@ -43,5 +47,11 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider{
 	override def facet[What <: Object : ClassTag] = asItem() match {
 		case lp: LogicProvider.Item => lp.facet[What]
 		case item => Casting.cast[What](item)
+	}
+	def matches(what: BWItem) =
+		asItem() == what.asItem()
+	def matches(what: BLogicItem) = {
+		val lp = getLogicPair
+		lp != null && lp.logic == what
 	}
 }

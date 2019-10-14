@@ -2,6 +2,7 @@ package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.lib.BDomain;
 import mod.iceandshadow3.lib.base.BLogic;
+import mod.iceandshadow3.lib.compat.item.WItemType;
 import net.minecraft.item.Item;
 
 public abstract class BCompatLogicCommon extends BLogic {
@@ -18,4 +19,6 @@ public abstract class BCompatLogicCommon extends BLogic {
 		if(!isTechnical()) retval.group(CreativeTab$.MODULE$);
 		return retval;
 	}
+
+	public abstract WItemType asWItem(int variant);
 }

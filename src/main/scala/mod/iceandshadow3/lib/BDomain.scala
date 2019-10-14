@@ -31,12 +31,14 @@ abstract class BDomain(val name: java.lang.String) {
 	}
 	def tierToMobHealthFactor(tier: Int, zone: Int): Float = baseStrength+tier+zone
 	def resistsFreezing = true
+
+	def addRecipes(): Unit = {}
 }
 
 object BDomain {
-	def extract(what: Object): BDomain = what match {
+	def unapply(what: Object): Option[BDomain] = Some(what match {
 		case nicetry: BDomain => nicetry
 		case lp: LogicProvider[_] => lp.getDomain
 		case _ => DomainAlien
-	}
+	})
 }

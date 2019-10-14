@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.lib.BDomain;
+import mod.iceandshadow3.lib.compat.item.WItemType;
 import net.minecraft.item.Item;
 
 public abstract class BCompatLogicItem extends BCompatLogicCommon {

@@ -56,6 +56,8 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	def apply(variant: Int) = _blocktypes(variant)
 
 	def variables: Array[BVarBlockNew[_]] = Array.empty
+
+	override def asWItem(variant: Int) = BinderBlock.wrap(this, variant)
 }
 
 class LogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat)

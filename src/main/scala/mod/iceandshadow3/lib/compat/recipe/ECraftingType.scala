@@ -36,11 +36,9 @@ object ECraftingType {
 					logic.matches(new WInventoryCrafting(inv), new WWorld(worldIn))
 				override def getCraftingResult(inv: CraftingInventory) =
 					logic(new WInventoryCrafting(inv)).asItemStack()
-				override def canFit(width: Int, height: Int) =
-					width >= logic.width && height >= logic.height
+				override def canFit(width: Int, height: Int) = logic.fitsIn(width, height)
 				override def getRemainingItems(inv: CraftingInventory) =
 					CNVCompat.toNonNullList(logic.leftovers(new WInventoryCrafting(inv)))
-
 				override def getSerializer = Registrar.BuiltinRecipeProxy
 			})
 		}

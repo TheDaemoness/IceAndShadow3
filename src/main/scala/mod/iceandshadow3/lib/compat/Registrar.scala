@@ -2,6 +2,7 @@ package mod.iceandshadow3.lib.compat
 
 import com.google.gson.JsonObject
 import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.compat.block.impl.{ABlock, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
 import mod.iceandshadow3.lib.compat.entity.impl.{AMob, BinderEntity, BinderEntityMob}
@@ -40,36 +41,45 @@ object Registrar {
 		}
 		def freeze(): IRecipeSerializer[_] = {
 			frozeRecipes = true
+			IaS3.logger().debug(s"Registered ${map.size()} builtin recipes");
 			this
 		}
 	}
 
-	lazy val blockBindings: Array[Array[(ABlock, AItemBlock)]] = BinderBlock.freeze()
-	lazy val mobs: Array[EntityType[_ <: AMob]] = BinderEntityMob.freeze()
+	private[iceandshadow3] lazy val blockBindings: Array[Array[(ABlock, AItemBlock)]] = BinderBlock.freeze()
+	private[iceandshadow3] lazy val mobs: Array[EntityType[_ <: AMob]] = BinderEntityMob.freeze()
 
-	def registerRecipeLoaders(reg: IForgeRegistry[IRecipeSerializer[_]]): Unit = {
+	private[iceandshadow3] def recipes(domains: Iterable[BDomain]): Unit = {
+		blockBindings
+		BinderItem.freeze()
+		for(domain <- domains) {
+			domain.addRecipes()
+		}
+	}
+
+	private[iceandshadow3] def registerRecipeSerializers(reg: IForgeRegistry[IRecipeSerializer[_]]): Unit = {
 		reg.register(BuiltinRecipeProxy.freeze())
 	}
 
-	def registerBlocks(reg: IForgeRegistry[Block]): Unit = {
+	private[iceandshadow3] def registerBlocks(reg: IForgeRegistry[Block]): Unit = {
 		for (bindings <- blockBindings) {
 			for (binding <- bindings) reg.register(binding._1)
 		}
 	}
 
-	def registerItems(reg: IForgeRegistry[Item]): Unit = {
+	private[iceandshadow3] def registerItems(reg: IForgeRegistry[Item]): Unit = {
 		for (bindings <- blockBindings) {
 			for (binding <- bindings) {
 				if (binding._2 != null) reg.register(binding._2)
 			}
 		}
-		for (items <- BinderItem.freeze()) {
+		for (items <- BinderItem) {
 			for (item <- items) {reg.register(item)}
 		}
 		//TODO: Spawn eggs.
 	}
 
-	def registerEntities(reg: IForgeRegistry[EntityType[_ <: Entity]]): Unit = {
+	private[iceandshadow3] def registerEntities(reg: IForgeRegistry[EntityType[_ <: Entity]]): Unit = {
 		for (amob <- mobs) {
 			reg.register(amob)
 		}
@@ -80,24 +90,24 @@ object Registrar {
 		}
 	}
 
-	def registerPots(reg: IForgeRegistry[Effect]): Unit = {
+	private[iceandshadow3] def registerPots(reg: IForgeRegistry[Effect]): Unit = {
 		for (fx <- BinderStatusEffect.freeze()) {
 			if (fx.isInstanceOf[AStatusEffect]) reg.register(fx)
 		}
 	}
 
-	def registerSounds(reg: IForgeRegistry[SoundEvent]): Unit = {
+	private[iceandshadow3] def registerSounds(reg: IForgeRegistry[SoundEvent]): Unit = {
 		for(snd <- WSound.freeze()) reg.register(snd)
 	}
 
-	def registerParticles(reg: IForgeRegistry[ParticleType[_ <: IParticleData]]): Unit = {
+	private[iceandshadow3] def registerParticles(reg: IForgeRegistry[ParticleType[_ <: IParticleData]]): Unit = {
 		for (fx <- BinderParticle.freeze()) fx match {
 			case registerable: AParticleType => reg.register(registerable)
 			case _ =>
 		}
 	}
 
-	def finish(): Unit = {
+	private[iceandshadow3] def finish(): Unit = {
 		BinderBlockVar.freeze()
 	}
 

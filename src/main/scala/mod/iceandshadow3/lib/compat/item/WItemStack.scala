@@ -100,11 +100,10 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 		release()
 	}
 
-	def matches(b: Any): Boolean = if(b == null) isEmpty else b match {
-		case cri: WItemStack => cri.is.fold(isEmpty){matches(_)}
-		case bis: ItemStack => is.fold(false){_.isItemEqualIgnoreDurability(bis)}
-		case _ => false
+	private[compat] def matches(b: ItemStack): Boolean = {
+		asItemStack().isItemEqualIgnoreDurability(b)
 	}
+	def matches(b: WItemStack): Boolean = matches(b.asItemStack())
 
 	override protected def exposeCompoundOrNull() =
 		is.fold[CompoundNBT](null){_.getOrCreateTag()}

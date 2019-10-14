@@ -140,7 +140,7 @@ public class IaS3 {
 		}
 		@SubscribeEvent
 		public static void registerRecipeSerializers(final RegistryEvent.Register<IRecipeSerializer<?>> reg) {
-			registrar.registerRecipeLoaders(reg.getRegistry());
+			registrar.registerRecipeSerializers(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> reg) {

@@ -11,8 +11,10 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries
 
 class WBlockState(protected var bs: BlockState)
-extends LogicProvider.Block
+extends BWBlockType
 with TBlockStateSource {
+	override protected[compat] def asBlock() = exposeBS().getBlock
+
 	def +[T](variable: BVarBlockNew[T], value: T): WBlockState =
 		new WBlockState(BinderBlockVar.get(variable).addTo(exposeBS(), value))
 
@@ -21,6 +23,8 @@ with TBlockStateSource {
 		val wip = BinderBlockVar.get(variable)
 		if(wip.isIn(bs)) pred(wip.in(bs)) else false
 	}
+
+	def isComplex = exposeBS().hasTileEntity
 
 	def this(bl: Block) = this(bl.getDefaultState)
 	def this(bl: BLogicBlock, variant: Int) = this(BinderBlock(bl)(variant)._1.getDefaultState)
@@ -52,7 +56,6 @@ with TBlockStateSource {
 		case _ => null
 	}
 
-	def typeDefault = new WBlockState(exposeBS().getBlock.getDefaultState)
 	def typeThis = this
 
 	def soundVolume = exposeBS().getSoundType.volume

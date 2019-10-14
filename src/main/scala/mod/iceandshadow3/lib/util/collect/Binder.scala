@@ -4,9 +4,9 @@ import mod.iceandshadow3.IaS3
 
 import scala.reflect.ClassTag
 
-class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
+class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] extends Iterable[ValueType] {
 	private var mutable = new scala.collection.mutable.ListBuffer[ValueType]
-	private var immutable: Array[ValueType] = _
+	private var immutable: Array[ValueType] = Array.empty
 	trait TKey {
 		this: KeyType =>
 		private[Binder] var binderIndex: Int = -1
@@ -37,4 +37,5 @@ class Binder[KeyType: ClassTag, ValueType <: Object: ClassTag] {
 			null.asInstanceOf[ValueType]
 		}
 	}
+	override def iterator = immutable.iterator
 }

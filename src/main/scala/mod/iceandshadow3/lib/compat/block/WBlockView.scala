@@ -41,8 +41,7 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 	def atOffset(x: Int, y: Int, z: Int): WBlockView =
 		new WBlockView(ibr, pos.add(x, y, z))
 
-	def isPlain = exposeBS().isOpaqueCube(ibr, pos)
-	def isComplex = ibr.getTileEntity(pos) != null
+	def isPlain = exposeBS().isNormalCube(ibr, pos)
 
 	override protected def exposeCompoundOrNull() = {
 		val tileentity = Option(ibr.getTileEntity(pos))
