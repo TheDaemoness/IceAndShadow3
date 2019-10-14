@@ -1,9 +1,9 @@
 package mod.iceandshadow3.lib.compat.item
 
-import mod.iceandshadow3.lib.item.IItemStorage
+import mod.iceandshadow3.lib.item.ItemSeq
 import net.minecraft.inventory.container.Container
 
-class WContainer(inv: Container) extends IItemStorage {
+class WContainer(inv: Container) extends ItemSeq {
 	private val slots = inv.inventorySlots
 	override def iterator: Iterator[WItemStack] = new Iterator[WItemStack] {
 		private val slotit = slots.iterator()
@@ -13,7 +13,7 @@ class WContainer(inv: Container) extends IItemStorage {
 
 	override def update(idx: Int, elem: WItemStack): Unit = {
 		val slot = slots.get(idx)
-		val stack = elem.exposeItems()
+		val stack = elem.asItemStack()
 		if(slot.isItemValid(stack)) slot.putStack(stack)
 		else slot.decrStackSize(slot.getSlotStackLimit)
 	}

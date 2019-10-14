@@ -1,8 +1,10 @@
 package mod.iceandshadow3.lib.compat.util
 
+import mod.iceandshadow3.lib.item.ItemSeq
 import mod.iceandshadow3.lib.spatial._
 import net.minecraft.entity.Entity
-import net.minecraft.util.Direction
+import net.minecraft.item.ItemStack
+import net.minecraft.util.{Direction, NonNullList}
 import net.minecraft.util.math.{BlockPos, Vec3d}
 
 import scala.language.implicitConversions
@@ -28,5 +30,11 @@ object CNVCompat {
 		case Direction.Axis.X => EAxis.WEST_EAST
 		case Direction.Axis.Y => EAxis.DOWN_UP
 		case Direction.Axis.Z => EAxis.NORTH_SOUTH
+	}
+
+	def toNonNullList(what: ItemSeq): NonNullList[ItemStack] = {
+		val list = NonNullList.create[ItemStack]
+		for(wrapped <- what) list.add(wrapped.asItemStack())
+		list
 	}
 }

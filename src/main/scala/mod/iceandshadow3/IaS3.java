@@ -6,6 +6,7 @@ import mod.iceandshadow3.lib.compat.ServerAnalyses$;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.SoundEvent;
@@ -136,6 +137,10 @@ public class IaS3 {
 		@SubscribeEvent
 		public static void registerPots(final RegistryEvent.Register<Effect> reg) {
 			registrar.registerPots(reg.getRegistry());
+		}
+		@SubscribeEvent
+		public static void registerRecipeSerializers(final RegistryEvent.Register<IRecipeSerializer<?>> reg) {
+			registrar.registerRecipeLoaders(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> reg) {

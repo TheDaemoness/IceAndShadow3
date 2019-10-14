@@ -10,6 +10,7 @@ object ServerAnalysisGraphCraft extends ServerAnalyzer[WItemType, java.util.Set[
 	val underlying = HashMultimap.create[WItemType, CraftingSummary]
 	for(recipe <- server.getRecipeManager.getRecipes.asScala) {
 		CraftingSummary.apply(recipe).foreach(r => underlying.put(r.output, r))
+		//TODO: Inject transfusion recipes.
 	}
 	underlying.get
 })

@@ -33,15 +33,19 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 	def countMax: Int = is.fold(0){_.getMaxStackSize}
 	def hasOwner: Boolean = owner != null
 	def getOwner: WEntityLiving = if(hasOwner) CNVEntity.wrap(owner) else null
-	def getDamage: Int = is.fold(0){_.getDamage}
-	def getDamageMax: Int = is.fold(0){_.getMaxDamage}
+	def getDamage: Int = asItemStack().getDamage
+	def getDamageMax: Int = asItemStack().getMaxDamage
+	def container: Option[WItemStack] = {
+		val exposed = asItemStack()
+		if(exposed.hasContainerItem) Some(new WItemStack(exposed.getContainerItem, owner)) else None
+	}
 
 	def isComplex: Boolean = is.fold(false){_.hasTag}
 
-	/* TODO: Narrow scope. */ def exposeItems(): ItemStack = is.getOrElse(ItemStack.EMPTY)
+	/* TODO: Narrow scope. */ def asItemStack(): ItemStack = is.getOrElse(ItemStack.EMPTY)
 
 	protected[item] def move(): ItemStack = {
-		val retval = exposeItems().copy()
+		val retval = asItemStack().copy()
 		destroy()
 		retval
 	}
@@ -58,7 +62,7 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	//TODO: Enchantment querying.
 	//TODO: Item frame handling.
-	
+
 	/** Reduce stack size or damage the item by the specified amount.
 	 */
 	def consume(count: Int = 1): Int = {
@@ -107,16 +111,16 @@ class WItemStack(inputstack: ItemStack, private[compat] var owner: LivingEntity)
 
 	def getBurnTicks: Int = is.fold(0)(ForgeHooks.getBurnTime)
 
-	override protected[compat] def getLocalizedName = exposeItems().getTextComponent
+	override protected[compat] def getLocalizedName = asItemStack().getTextComponent
 
-	override protected[item] def exposeItem() = exposeItems().getItem
-	override def asWItem(): WItemType = WItemType(exposeItem())
+	override def asItem() = asItemStack().getItem
+	override def asWItem(): WItemType = WItemType(asItem())
 
-	override protected[compat] def exposeNbt() = exposeItems().getOrCreateTag()
-	override protected[compat] def setNbt(what: CompoundNBT): Unit = exposeItems().setTag(what)
+	override protected[compat] def exposeNbt() = asItemStack().getOrCreateTag()
+	override protected[compat] def setNbt(what: CompoundNBT): Unit = asItemStack().setTag(what)
 
 	def apply(attr: WAttribute[_], where: EquipPointVanilla): AttributeModTotal =
-		AttributeModTotal(exposeItems().getAttributeModifiers(where.where).get(attr.name))
+		AttributeModTotal(asItemStack().getAttributeModifiers(where.where).get(attr.name))
 }
 object WItemStack {
 	def empty = new WItemStack(null, null)

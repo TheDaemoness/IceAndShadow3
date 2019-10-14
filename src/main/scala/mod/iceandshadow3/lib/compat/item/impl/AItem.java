@@ -77,7 +77,7 @@ public class AItem extends Item implements LogicProvider.Item {
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final WUsageItem context = new WUsageItem(getLogicPair(), is, playerIn, handIn, playerIn.isSneaking());
 		final E3vl result = logic.onUseGeneral(variant, context);
-		return new ActionResult<>(toEActionResult(result), context.stack().exposeItems());
+		return new ActionResult<>(toEActionResult(result), context.stack().asItemStack());
 	}
 
 	@Override

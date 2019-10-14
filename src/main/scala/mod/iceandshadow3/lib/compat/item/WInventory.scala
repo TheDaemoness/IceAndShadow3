@@ -1,15 +1,15 @@
 package mod.iceandshadow3.lib.compat.item
 
-import mod.iceandshadow3.lib.item.IItemStorage
+import mod.iceandshadow3.lib.item.ItemSeq
 import mod.iceandshadow3.lib.util.E3vl
 import net.minecraft.entity.LivingEntity
 import net.minecraft.inventory.IInventory
 
 //TODO: Incomplete.
-class WInventory(inv: IInventory, owner: LivingEntity = null) extends IItemStorage {
+class WInventory(inv: IInventory, owner: LivingEntity = null) extends ItemSeq {
 	def add(what: WItemStack): Boolean = {
 		if (what.isEmpty) return true
-		val whatexposed = what.exposeItems()
+		val whatexposed = what.asItemStack()
 		for (i <- 0 until inv.getSizeInventory) {
 			val current = inv.getStackInSlot(i)
 			if (current == null || current.isEmpty) { //Empty slot.
@@ -43,7 +43,7 @@ class WInventory(inv: IInventory, owner: LivingEntity = null) extends IItemStora
 		var slot = -1
 		for(i <- 0 until inv.getSizeInventory) {
 			val stack = inv.getStackInSlot(i)
-			if(slot == -1 && (stack == null || stack.isEmpty) && inv.isItemValidForSlot(i, item.exposeItems())) slot = i
+			if(slot == -1 && (stack == null || stack.isEmpty) && inv.isItemValidForSlot(i, item.asItemStack())) slot = i
 			if(item.matches(stack)) return E3vl.NEUTRAL
 		}
 		if(slot == -1) E3vl.FALSE
@@ -51,7 +51,7 @@ class WInventory(inv: IInventory, owner: LivingEntity = null) extends IItemStora
 	}
 
 	override def update(idx: Int, elem: WItemStack): Unit = {
-		val stack = elem.exposeItems()
+		val stack = elem.asItemStack()
 		if(inv.isItemValidForSlot(idx, stack)) inv.setInventorySlotContents(idx, stack)
 		else inv.removeStackFromSlot(idx)
 	}

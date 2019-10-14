@@ -30,7 +30,7 @@ class EventHandlerNyx extends BEventHandler {
 			val what = new WItemStack(event.getItemStack, event.getPlayer)
 			val frozen = LIFrozen.freeze(what, new WWorld(event.getWorld), Some(player))
 			if(frozen.isDefined) {
-				event.getPlayer.setHeldItem(event.getHand, frozen.get.exposeItems())
+				event.getPlayer.setHeldItem(event.getHand, frozen.get.asItemStack())
 				event.setCancellationResult(ActionResultType.FAIL)
 				event.setCanceled(true)
 			}
@@ -46,7 +46,7 @@ class EventHandlerNyx extends BEventHandler {
 					val frozen = LIFrozen.freeze(initial, new WWorld(event.getWorld), None)
 					frozen.foreach(newitems => {
 						if(newitems.isEmpty) event.setCanceled(true)
-						else ei.setItem(newitems.exposeItems())
+						else ei.setItem(newitems.asItemStack())
 					})
 				case _ =>
 			}

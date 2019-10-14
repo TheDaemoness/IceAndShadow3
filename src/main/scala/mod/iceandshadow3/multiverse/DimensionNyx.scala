@@ -4,7 +4,7 @@ import mod.iceandshadow3.damage._
 import mod.iceandshadow3.lib.BDimension
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
-import mod.iceandshadow3.lib.item.IItemStorage
+import mod.iceandshadow3.lib.item.ItemSeq
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, UnitVec3s}
 import mod.iceandshadow3.lib.util.{Color, MathUtils}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
@@ -71,7 +71,7 @@ object DimensionNyx extends BDimension("nyx") {
 		}
 	}
 
-	def freezeItems(container: IItemStorage, player: WEntityPlayer): Unit = {
+	def freezeItems(container: ItemSeq, player: WEntityPlayer): Unit = {
 		//Dimension check should be handled elsewhere!
 		if(player.isCreative) return
 		var frozeAnything = false

@@ -8,7 +8,7 @@ class WEntityItem protected[entity](protected[compat] val entityitem: ItemEntity
 	def ttl = entityitem.lifespan
 	protected[compat] def expose() = entityitem.getItem
 	def item = new WItemStack(expose(), null)
-	def setItem(what: WItemStack): Unit = entityitem.setItem(what.exposeItems())
+	def setItem(what: WItemStack): Unit = entityitem.setItem(what.asItemStack())
 	def enablePickup(): Unit = entityitem.setNoPickupDelay()
 	def canPickup: Boolean = !entityitem.cannotPickup()
 	def immortalize(): Unit = entityitem.setNoDespawn()

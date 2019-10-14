@@ -52,7 +52,7 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 		} else E3vl.NEUTRAL
 	}
 
-	def give(what: WItemStack) = player.inventory.addItemStackToInventory(what.exposeItems())
+	def give(what: WItemStack) = player.inventory.addItemStackToInventory(what.asItemStack())
 
 	def setSpawnPoint(where: IPosBlock, dim: WDimensionCoord): Unit =
 		player.setSpawnPoint(where.toBlockPos, true, dim.dimtype)
