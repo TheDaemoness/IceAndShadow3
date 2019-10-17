@@ -1,0 +1,6 @@
+{
+	"parent": "block/tinted_cross",
+	"textures": {
+		"cross": "iceandshadow3:block/nyx_nifelhium_crystal"
+	}
+}

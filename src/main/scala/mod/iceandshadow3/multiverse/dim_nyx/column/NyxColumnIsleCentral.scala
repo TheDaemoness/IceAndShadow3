@@ -1,8 +1,9 @@
-package mod.iceandshadow3.multiverse.dim_nyx
+package mod.iceandshadow3.multiverse.dim_nyx.column
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.util.MathUtils
 import mod.iceandshadow3.lib.util.collect.UniSeq
+import mod.iceandshadow3.multiverse.dim_nyx.{NyxTerrainMaps, WorldGenNyx}
 
 class NyxColumnIsleCentral(x: Int, z: Int, chunk: NyxTerrainMaps)
 extends BNyxColumnIsleMountain(x, z, chunk) {

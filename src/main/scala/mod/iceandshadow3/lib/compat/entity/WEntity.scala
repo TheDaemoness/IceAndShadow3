@@ -14,13 +14,12 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 	extends TWWorldPlace
 	with TLocalized
 	with IPositionalFine {
-	override def sunlight: Int = exposeWorld().getLightFor(LightType.SKY, CNVCompat.toBlockPos(posFine).add(0,1,0))
-
-	override def getLocalizedName: ITextComponent = entity.getDisplayName
-
+	def ticks = entity.ticksExisted
 	override def posFine = CNVCompat.fromEntity(entity)
-
+	override def getLocalizedName: ITextComponent = entity.getDisplayName
 	override protected[compat] def exposeWorld(): net.minecraft.world.World = entity.world
+
+	override def sunlight: Int = exposeWorld().getLightFor(LightType.SKY, CNVCompat.toBlockPos(posFine).add(0,1,0))
 
 	def teleport(newpos: IVec3): Unit = {
 		//TODO: For very long teleports, do we still need to do chunk loading shenanigans ala gatestones?

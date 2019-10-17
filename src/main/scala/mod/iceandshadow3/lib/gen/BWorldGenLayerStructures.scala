@@ -6,7 +6,7 @@ import mod.iceandshadow3.lib.util.collect.{FixedMap2d, IMap2d, IRegion2d}
 
 import scala.reflect.ClassTag
 
-abstract class BWorldGenLayerStructures[Column <: BWorldGenColumnFn: ClassTag, ParentColumn <: BWorldGenColumnFn](
+abstract class BWorldGenLayerStructures[Column <: TWorldGenColumnFn: ClassTag, ParentColumn <: TWorldGenColumnFn](
 	parent: TWorldGenLayer[ParentColumn],
 	structType: BWorldGenStructureType[Column, ParentColumn]
 ) extends TWorldGenLayer[Column] {
@@ -19,7 +19,7 @@ abstract class BWorldGenLayerStructures[Column <: BWorldGenColumnFn: ClassTag, P
 				override def load(key: PairXZ) = {
 					val origin = structureOrigin(key)
 					val map = parent.getForRegion(origin.xBlock, origin.zBlock, structType.xWidth, structType.zWidth)
-					structType.apply(map)
+					structType.create(map, origin)
 				}
 			}
 		)

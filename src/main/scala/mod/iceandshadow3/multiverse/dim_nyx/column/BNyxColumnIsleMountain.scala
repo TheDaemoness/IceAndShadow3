@@ -1,16 +1,17 @@
-package mod.iceandshadow3.multiverse.dim_nyx
+package mod.iceandshadow3.multiverse.dim_nyx.column
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.BlockTypeSnow
 import mod.iceandshadow3.lib.util.MathUtils
 import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx.{yBald, yThinning}
+import mod.iceandshadow3.multiverse.dim_nyx.{NyxTerrainMaps, WorldGenNyx}
 
 abstract class BNyxColumnIsleMountain(x: Int, z: Int, val chunk: NyxTerrainMaps)
 extends BNyxColumnIsle(chunk.isle(x, z)) {
 	override protected def stoneUpper: WBlockState = WorldGenNyx.stones(0)
 
 	override protected def genHeight() = {
-		val scale = chunk.scale(x, z)
+		val scale = Math.sqrt(chunk.scale(x, z))
 		var cratervalue = chunk.crater(x, z).toDouble
 		cratervalue *= Math.cbrt(cratervalue)/(4-scale)
 		val mountainvalue = islevalue*(1-Math.cbrt(Math.cos(scale*chunk.mountain(x,z)*Math.PI)))/2

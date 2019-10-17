@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.spatial
 
+import mod.iceandshadow3.lib.util.collect.IMap2d
 import net.minecraft.util.math.BlockPos
 
 object IPosChunk {

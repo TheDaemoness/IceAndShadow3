@@ -20,7 +20,7 @@ object BWorldGenLayerTerrain {
 	private def toEdge(remapped: Int): Int = remapped*width + widthHalf
 	private def remap(blockCoord: Int): Int = (blockCoord-widthHalf) >> widthPow
 
-	private class Region[Column <: BWorldGenColumnFn: ClassTag](
+	private class Region[Column <: TWorldGenColumnFn: ClassTag](
 		xFrom_ : Int,
 		zFrom_ : Int,
 		gen: (Int, Int, Int) => (Int, Int) => Column
@@ -38,7 +38,7 @@ object BWorldGenLayerTerrain {
 		override def apply(x: Int, z: Int) = map(x, z)
 	}
 }
-abstract class BWorldGenLayerTerrain[Column <: BWorldGenColumnFn: ClassTag] extends TWorldGenLayer[Column] {
+abstract class BWorldGenLayerTerrain[Column <: TWorldGenColumnFn: ClassTag] extends TWorldGenLayer[Column] {
 	private type Region = BWorldGenLayerTerrain.Region[Column]
 
 	protected def newGenerator(xFrom: Int, zFrom: Int, width: Int): (Int, Int) => Column
@@ -75,17 +75,17 @@ abstract class BWorldGenLayerTerrain[Column <: BWorldGenColumnFn: ClassTag] exte
 		val ziRStart = ziR
 		val xiRMax = remap(xMax)
 		val ziRMax = remap(zMax)
-		while (xiR < xiRMax) {
-			while (ziR < ziRMax) {
+		while (xiR <= xiRMax) {
+			while (ziR <= ziRMax) {
 				val region = getAt(xiR, ziR)
 				var xiB = Math.max(region.xFrom, xFrom)
 				var ziB = Math.max(region.zFrom, zFrom)
 				val ziBStart = ziB
 				import BWorldGenLayerTerrain.width
-				val xiBMax = Math.min(region.xFrom + width, xMax)
-				val ziBMax = Math.min(region.zFrom + width, zMax)
-				while (xiB < xiBMax) {
-					while (ziB < ziBMax) {
+				val xiBMax = Math.min(region.xFrom + width - 1, xMax)
+				val ziBMax = Math.min(region.zFrom + width - 1, zMax)
+				while (xiB <= xiBMax) {
+					while (ziB <= ziBMax) {
 						retval.update(xiB, ziB, region.apply(xiB, ziB))
 						ziB += 1
 					}

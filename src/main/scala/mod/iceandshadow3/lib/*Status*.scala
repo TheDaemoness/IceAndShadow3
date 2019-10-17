@@ -34,10 +34,10 @@ with INamed {
 	BinderStatusEffect.add(this)
 	ContentLists.status.add(this)
 
-	def onStart(who: WEntityLiving, amp: Int): Unit
-	def shouldTick(duration: Int, amp: Int): Boolean
-	def onTick(who: WEntityLiving, amp: Int): Unit
-	def onEnd(who: WEntityLiving, amp: Int): Unit
+	def onStart(who: WEntityLiving, amp: Int): Unit = ()
+	def shouldTick(duration: Int, amp: Int): Boolean = false
+	def onTick(who: WEntityLiving, amp: Int): Unit = ()
+	def onEnd(who: WEntityLiving, amp: Int): Unit = ()
 	/** Called when an entity is harmed with this status effect active.
 		* @return The damage they should take. Return 0 for no damage, or a negative number to heal from the damage. */
 	def onHarm(who: WEntityLiving, how: WDamage, amp: Int) = how.severity
@@ -49,5 +49,9 @@ with INamed {
 
 abstract class BStatusEffectIntervaled(name: String, isBeneficial: E3vl, color: Color)
 extends BStatusEffect(name, isBeneficial, color) {
-	def shouldTick(duration: Int, amp: Int) = (duration % intervalTicks(amp)) == 0
+	final override def shouldTick(duration: Int, amp: Int) = true
+	final override def onTick(who: WEntityLiving, amp: Int): Unit = {
+		if((who.ticks % intervalTicks(amp)) == 0) doTick(who, amp)
+	}
+	protected def doTick(who: WEntityLiving, amp: Int): Unit
 }

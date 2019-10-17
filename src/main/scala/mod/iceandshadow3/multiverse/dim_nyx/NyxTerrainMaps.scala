@@ -2,6 +2,7 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.lib.gen.Cellmaker3d
 import mod.iceandshadow3.lib.spatial.Cells
+import mod.iceandshadow3.multiverse.dim_nyx.column.{BNyxColumn, NyxColumnDivide, NyxColumnIsleCentral, NyxColumnIsleMountainUsual}
 
 class NyxTerrainMaps(val noises: NoisesNyx, xFrom: Int, zFrom: Int, width: Int)
 extends ((Int, Int) => BNyxColumn) {
@@ -37,7 +38,7 @@ extends ((Int, Int) => BNyxColumn) {
 
 	def stoneLower(x: Int, z: Int) = stoneMapLower(x, z)
 
-	def scale(x: Int, z: Int) = Math.sqrt(1-heightmaps.scale(x,z))
+	def scale(x: Int, z: Int) = 1-heightmaps.scale(x,z)
 	def crater(x: Int, z: Int) = heightmaps.crater(x,z)
 	def ridge(x: Int, z: Int) = heightmaps.ridge(x, z)
 	def hill(x: Int, z: Int) = heightmaps.hill(x, z)

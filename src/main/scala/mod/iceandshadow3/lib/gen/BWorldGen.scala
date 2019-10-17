@@ -14,7 +14,7 @@ abstract class BWorldGen(
 	val seed: Long,
 	defaultState: Int => WBlockState,
 ) {
-	protected val layers: Seq[TWorldGenLayer[_ <: BWorldGenColumnFn]]
+	protected val layers: Seq[TWorldGenLayer[_ <: TWorldGenColumnFn]]
 	/** Write world gen info to the provided wrapped chunk.
 		*/
 

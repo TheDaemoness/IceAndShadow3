@@ -43,14 +43,15 @@
 	"block.iceandshadow3.gaia_livingstone_purple": "Puralith Block",
 	"block.iceandshadow3.gaia_livingstone_red": "Rosalith Block",
 	"block.iceandshadow3.gaia_livingstone_gold": "Mutyalith Block",
+  "block.iceandshadow3.gaia_petrified_log": "Petrified Log",
+  "block.iceandshadow3.gaia_petrified_leaves": "Petrified Leaves",
+  "block.iceandshadow3.gaia_petrified_bricks": "Petrified Wood Bricks",
 
 	"block.iceandshadow3.gaia_navistra_bedrock": "Navistra Bedrock",
 	"block.iceandshadow3.gaia_navistra_stone": "Navistra Stone",
 	"block.iceandshadow3.nyx_exousia": "Exousia",
 	"block.iceandshadow3.nyx_icicles": "Nyxian Icicles",
-	"block.iceandshadow3.gaia_petrified_log": "Petrified Log",
-	"block.iceandshadow3.gaia_petrified_leaves": "Petrified Leaves",
-	"block.iceandshadow3.gaia_petrified_bricks": "Petrified Wood Bricks",
+  	"block.iceandshadow3.nyx_nifelhium_crystal": "Crystalline Nifelhium",
 
 	"effect.iceandshadow3.frost": "Deadly Frost",
 	"effect.iceandshadow3.exousia": "Exousia Burn",

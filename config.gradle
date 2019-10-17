@@ -1,14 +1,14 @@
 ext {
     version_major = 0
     version_world = 0
-    version_minor = 21
+    version_minor = 22
     version_patch = 0
 
     // Minecraft and Forge version selection.
     version_minecraft = '1.14.4'
     version_forge_maj=28
     version_forge_min=1
-    version_forge_patch=40
+    version_forge_patch=56
 
     // MCP Deobfuscation Mappings.
     // These should match the version that the selected version of Forge uses in its mdk.

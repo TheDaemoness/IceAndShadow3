@@ -11,6 +11,7 @@ object DomainNyx extends BDomain("nyx") {
 	val Blocks = new {
 		val icicles = new LBIcicles
 		val exousia = new LBExousia
+		val nifelhiumCrystal = new LBNifelhiumCrystal
 	}
 	val Items = new {
 		val wayfinder = new LIWayfinder

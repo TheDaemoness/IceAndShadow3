@@ -7,7 +7,7 @@ import scala.reflect.ClassTag
 /** Layer that generates structures that are positioned within a grid.
 	* Said structures will not overlap or cross grid line boundries.
 	*/
-abstract class BWorldGenLayerStructuresSparse[Column <: BWorldGenColumnFn: ClassTag, ParentColumn <: BWorldGenColumnFn](
+abstract class BWorldGenLayerStructuresSparse[Column <: TWorldGenColumnFn: ClassTag, ParentColumn <: TWorldGenColumnFn](
 	seed: Long, parent: TWorldGenLayer[ParentColumn], structType: BWorldGenStructureType[Column, ParentColumn],
 	variance: Int, margin: Int
 ) extends BWorldGenLayerStructures[Column, ParentColumn](parent, structType) {

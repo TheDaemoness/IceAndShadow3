@@ -1,12 +1,13 @@
-package mod.iceandshadow3.multiverse.dim_nyx
+package mod.iceandshadow3.multiverse.dim_nyx.column
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.gen.{BWorldGenLayerTerrain, WorldGenColumn}
 import mod.iceandshadow3.lib.spatial.Cells
+import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx
 import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx.navistra
 
 abstract class BNyxColumnIsle(cell: Cells.Result)
-extends BNyxColumn(cell) {
+extends BNyxColumn(cell, true) {
 	protected def genHeight(): Float
 	override val height = genHeight()
 

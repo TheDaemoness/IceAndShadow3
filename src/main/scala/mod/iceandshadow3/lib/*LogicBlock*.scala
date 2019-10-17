@@ -51,8 +51,8 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 		*/
 	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random): Unit = {}
 
-	def makeBlockType(variant: Int): TBlockStateSource = new WBlockState(this, variant)
-	lazy val _blocktypes = Array.tabulate(countVariants)(makeBlockType)
+	def asWBlockState(variant: Int): WBlockState = new WBlockState(this, variant)
+	lazy val _blocktypes = Array.tabulate(countVariants)(asWBlockState)
 	def apply(variant: Int) = _blocktypes(variant)
 
 	def variables: Array[BVarBlockNew[_]] = Array.empty

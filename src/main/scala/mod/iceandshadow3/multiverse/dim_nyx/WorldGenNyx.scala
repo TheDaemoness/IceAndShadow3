@@ -6,6 +6,8 @@ import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.gen.{BWorldGen, BWorldGenLayerTerrain}
 import mod.iceandshadow3.multiverse.DomainNyx
+import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
+import mod.iceandshadow3.multiverse.dim_nyx.structure.NyxLayerCrystals
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
 object WorldGenNyx {
@@ -24,7 +26,7 @@ object WorldGenNyx {
 	val yNavistraExtra = 2
 	val yFissureFull = 147
 	val yFissureMax = 171
-	val yCaveMax = 147
+	val yCaveMax = 156
 
 	def stoneCommon(rng: Random) = stones(ELivingstoneTypes.getCommon(rng).ordinal())
 	def stoneAny(rng: Random) = stones(ELivingstoneTypes.getAny(rng).ordinal())
@@ -34,11 +36,13 @@ object WorldGenNyx {
 }
 final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultBlock) {
 	private val noises = new NoisesNyx(seed)
-	override protected val layers = List(
-		new BWorldGenLayerTerrain[BNyxColumn] {
-			override protected def newGenerator(xFrom: Int, zFrom: Int, width: Int) =
-				new NyxTerrainMaps(noises, xFrom, zFrom, width)
-		},
+	private val terrain: BWorldGenLayerTerrain[BNyxColumn] = new BWorldGenLayerTerrain[BNyxColumn] {
+		override protected def newGenerator(xFrom: Int, zFrom: Int, width: Int) =
+			new NyxTerrainMaps(noises, xFrom, zFrom, width)
+	}
+	override protected val layers = Seq(
+		terrain,
+		new NyxLayerCrystals(seed, terrain),
 		new NyxWorldGenLayerSnowAndIce(seed, 24)
 	)
 }
