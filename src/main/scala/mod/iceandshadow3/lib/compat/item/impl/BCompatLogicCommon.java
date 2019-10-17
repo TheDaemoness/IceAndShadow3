@@ -2,8 +2,10 @@ package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.lib.BDomain;
 import mod.iceandshadow3.lib.base.BLogic;
+import mod.iceandshadow3.lib.compat.file.BJsonAssetGenItem;
 import mod.iceandshadow3.lib.compat.item.WItemType;
 import net.minecraft.item.Item;
+import scala.Option;
 
 public abstract class BCompatLogicCommon extends BLogic {
 	public BCompatLogicCommon(BDomain domain, String name) {

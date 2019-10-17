@@ -1,6 +1,0 @@
-{
-	"parent": "block/cube_all",
-	"textures": {
-		"all": "iceandshadow3:block/gaia_livingstone_gray"
-	}
-}

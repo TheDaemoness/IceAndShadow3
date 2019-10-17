@@ -5,6 +5,7 @@ import java.util.Random
 import mod.iceandshadow3.lib.LogicBlockSimple
 import mod.iceandshadow3.lib.block.VarBlockBool
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockState}
+import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainGaia
 
 object LBStoneLiving {
@@ -42,4 +43,6 @@ class LBStoneLiving extends LogicBlockSimple(DomainGaia, "livingstone", MatStone
 			}
 		}
 	}
+
+	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockCube)
 }

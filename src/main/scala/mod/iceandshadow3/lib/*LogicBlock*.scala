@@ -5,10 +5,10 @@ import java.util.Random
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.TLootable
 import mod.iceandshadow3.lib.block.BlockShape
-import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
-import mod.iceandshadow3.lib.compat.block.impl.{BVarBlockNew, BCompatLogicBlock, BinderBlock}
+import mod.iceandshadow3.lib.compat.block.impl.{BCompatLogicBlock, BVarBlockNew, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
+import mod.iceandshadow3.lib.compat.file.{BJsonAssetGen, BJsonAssetGenBlock, BJsonAssetGenBlockstates, BJsonAssetGenItem}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
 
@@ -58,6 +58,11 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, mat: BMateria)
 	def variables: Array[BVarBlockNew[_]] = Array.empty
 
 	override def asWItem(variant: Int) = BinderBlock.wrap(this, variant)
+
+	def getBlockModelGen(variant: Int): Option[BJsonAssetGenBlock] = None
+	def getBlockstatesGen(variant: Int): Option[BJsonAssetGenBlockstates] = Some(BJsonAssetGen.blockstatesDefault)
+	def getItemModelGen(variant: Int): Option[BJsonAssetGenItem[BLogicBlock]] =
+		Some(BJsonAssetGen.itemBlockDefault)
 }
 
 class LogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat)

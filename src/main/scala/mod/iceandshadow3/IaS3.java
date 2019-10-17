@@ -126,7 +126,8 @@ public class IaS3 {
 	}
 
 	private void genData(final GatherDataEvent event) {
-		Registrar$.MODULE$.getFileGen().attachTo(event.getGenerator());
+		//Fun fact: at the point when this event runs, the content lists are populated.
+		FileGenerators$.MODULE$.run(event.getGenerator());
 	}
 
 	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)

@@ -39,7 +39,9 @@ Otherwise, you will run into problems with the Forge Gradle plugin.
 	1. You may generate Intellij IDEA project files using the `idea` task, and Eclipse project files with `eclipse`.
 	Note that Eclipse's Scala plugin has been abandoned and is known to be unstable on Eclipse 4.11.
 	2. You may run the client and/or dedicated server with the `runClient` and `runServer` tasks respectively.
-	3. Remember to run `check` frequently!
+	3. `runData` will generate resource files in `src/generated/resources` from mod content.
+	`clean` will NOT delete these files, as they are tracked by version control.
+	4. Remember to run `check` frequently!
 
 Refer to the READMEs under the `src` directory for more information.
 

@@ -1,6 +1,0 @@
-{
-	"parent": "block/tinted_cross",
-	"textures": {
-		"cross": "iceandshadow3:block/$BLOCK"
-	}
-}

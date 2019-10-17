@@ -36,12 +36,6 @@ my %remap = (
 );
 
 IaS3Dev::write_template(
-    "$IaS3Dev::data_prefix/recipes/$recipename.json",
-    "recipes/cooking.json",
-    %remap
-);
-
-IaS3Dev::write_template(
     "$IaS3Dev::data_prefix/advancements/recipes/$recipename.json",
     "advancements/recipes/single.json",
     %remap

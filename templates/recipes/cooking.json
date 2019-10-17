@@ -1,8 +1,0 @@
-{
-	"type": "minecraft:$TYPE",
-	"group": "$OUTPUT",
-	"ingredient": {
-		"item": "iceandshadow3:$INPUT"
-	},
-	"result": "$OUTPUT"$EXTRA
-}

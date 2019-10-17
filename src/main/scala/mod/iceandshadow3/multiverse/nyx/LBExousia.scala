@@ -5,6 +5,7 @@ import mod.iceandshadow3.lib.LogicBlockSimple
 import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
 import mod.iceandshadow3.lib.compat.block.{BMateriaPlasma, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WEntityLiving, WProjectile}
+import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.lib.spatial.UnitVec3s
 import mod.iceandshadow3.lib.util.E3vl
@@ -66,6 +67,7 @@ class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasm
 	}
 
 	override def shouldHaveLootTable = E3vl.FALSE
+	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockCube)
 
 	//TODO: Exousia spreading, fogging.
 }

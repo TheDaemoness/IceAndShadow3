@@ -5,6 +5,7 @@ import mod.iceandshadow3.lib.LogicBlockSimple
 import mod.iceandshadow3.lib.block.{BlockShape, BlockSubCuboid}
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
+import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainNyx
 
 object LBIcicles {
@@ -26,5 +27,7 @@ class LBIcicles extends LogicBlockSimple(DomainNyx, "icicles", MatIcicle) {
 		LBIcicles.damage(who)
 		block.break(true)
 	}
+
+	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockDeco)
 }
 

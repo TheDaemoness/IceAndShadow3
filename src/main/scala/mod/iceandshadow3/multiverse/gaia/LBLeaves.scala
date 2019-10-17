@@ -4,6 +4,7 @@ import mod.iceandshadow3.lib.LogicBlockSimple
 import mod.iceandshadow3.lib.block.VarBlockOrd
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block._
+import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBLeaves(name: String, materia: BMateria, val parent: LBLog)
@@ -41,4 +42,5 @@ extends LogicBlockSimple(DomainGaia, name, materia) {
 	}
 
 	override def areSurfacesFull(variant: Int) = false
+	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockCube)
 }

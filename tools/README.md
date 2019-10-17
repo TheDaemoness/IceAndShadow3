@@ -1,5 +1,8 @@
 # Developer Scripts
 
+**WARNING: All of these scripts are deprecated, and are not long for this world.
+They are being replaced by IaS3's file generators.**
+
 Quick, dirty, and fragile Perl (i.e. Perl 5) scripts to speed up certain tasks associated with creating IaS3.
 
 These scripts are intended to be run from the project root directory
@@ -13,15 +16,6 @@ All of these scripts require one argument: the un-namespaced name of the thing t
 
 ## Scripts
 
-### add_model_item_default.pl
-Generates a default item model file.
-
-### add_model_block_*.pl
-Generates default `blockstate`, `models/block`, and `models/item` files, as follows:
-
-* **default**: A full cube.
-* **deco**: Two intersecting panes, like grass or sugar cane.
-
 ### add_loot_block.*.pl
 Generates a loot table for the specified block, as follows:
 
@@ -30,7 +24,7 @@ Generates a loot table for the specified block, as follows:
 Takes 3 additional arguments: the namespaced name of the item to drop, the minimum count, and the maxiumum count.
 
 ### add_recipe_shapeless.pl
-Generates a shapeless crafting recipe and unlock advancement for it.
+Generates the unlock advancement for a shapeless recipe.
 
 Takes the following arguments:
 * A recipe name to disambiguate among recipes with the same output.
@@ -47,7 +41,7 @@ Takes the following arguments:
 * (Optional) The un-namespaced name of the smaller item. If unspecified, concats `_small` onto the larger item name.
 
 ### add_recipe_cooking.pl
-Generates a cooking (default: smelting) recipe and advancement to unlock it.
+Generates the unlock advancement for a cooking recipe.
 
 Takes the following arguments:
 * The name of the output item.

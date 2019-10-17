@@ -134,4 +134,6 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 			}
 		}
 	)
+
+	override def getItemModelGen(variant: Int) = None
 }

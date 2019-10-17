@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib
 
 import mod.iceandshadow3.ContentLists
+import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.{BCompatLogicItem, BinderItem}
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
@@ -27,6 +28,8 @@ abstract class BLogicItem(dom: BDomain, name: String)
 	override def damageLimit(variant: Int) = 0
 
 	override def asWItem(variant: Int) = BinderItem.wrap(this, variant)
+	def getItemModelGen(variant: Int): Option[BJsonAssetGen[BLogicItem]] =
+		Some(BJsonAssetGen.itemDefault)
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (String, Int)*)
