@@ -7,7 +7,8 @@ import mod.iceandshadow3.lib.util.{Casting, TFaceted}
 
 import scala.reflect.ClassTag
 
-abstract class BLogic(protected val domain: BDomain, protected val name: String) extends INamed with TFaceted[Object] {
+abstract class BLogic(protected val domain: BDomain, protected val name: String)
+extends INamed with TFaceted[Object] {
 	def countVariants: Int
 	def isTechnical: Boolean = false
 	def getTier(variant: Int): Int

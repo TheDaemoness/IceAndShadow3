@@ -5,6 +5,7 @@ import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
 import mod.iceandshadow3.lib.base.BLogic;
+import mod.iceandshadow3.lib.base.BLogicWithItem;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,7 +164,7 @@ class TestsResources {
 
 	@ParameterizedTest(name = "{0} should have item models or the correct overrides.")
 	@MethodSource({"streamLogicBlock", "streamLogicItem"})
-	void logicHasItemModels(BLogic base) {
+	void logicHasItemModels(BLogicWithItem base) {
 		if(base instanceof BLogicBlock && base.isTechnical()) return;
 		assetExistenceTest(base, "/models/item/", " is missing an item model");
 	}

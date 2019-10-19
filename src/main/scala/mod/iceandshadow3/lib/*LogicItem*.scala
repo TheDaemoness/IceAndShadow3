@@ -1,21 +1,23 @@
 package mod.iceandshadow3.lib
 
 import mod.iceandshadow3.ContentLists
+import mod.iceandshadow3.lib.base.BLogicWithItem
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.item._
-import mod.iceandshadow3.lib.compat.item.impl.{BCompatLogicItem, BinderItem}
+import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
 import mod.iceandshadow3.lib.item.BItemProperty
 import mod.iceandshadow3.lib.util.E3vl
 
 abstract class BLogicItem(dom: BDomain, name: String)
-	extends BCompatLogicItem(dom, name)
+	extends BLogicWithItem(dom, name)
 	with TEventFishOwner
 	with BinderItem.TKey
 {
 	BinderItem.add(this)
 	ContentLists.item.add(this)
-	override def getPathPrefix: String = "item"
+	final override def getPathPrefix: String = "item"
+	final override def hasItem(variant: Int): Boolean = true
 
 	//TODO: Expand when we have our own text formatting stuff.
 	def addTooltip(variant: Int, what: WItemStack): String = ""
@@ -25,7 +27,7 @@ abstract class BLogicItem(dom: BDomain, name: String)
 	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
 	def getBurnTicks(variant: Int, stack: WItemStack) = 0
 
-	override def damageLimit(variant: Int) = 0
+	def damageLimit(variant: Int) = 0
 
 	override def asWItem(variant: Int) = BinderItem.wrap(this, variant)
 	def getItemModelGen(variant: Int): Option[BJsonAssetGen[BLogicItem]] =

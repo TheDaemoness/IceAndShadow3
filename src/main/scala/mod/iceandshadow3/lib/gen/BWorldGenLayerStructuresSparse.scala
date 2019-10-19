@@ -8,7 +8,7 @@ import scala.reflect.ClassTag
 	* Said structures will not overlap or cross grid line boundries.
 	*/
 abstract class BWorldGenLayerStructuresSparse[Column <: TWorldGenColumnFn: ClassTag, ParentColumn <: TWorldGenColumnFn](
-	seed: Long, parent: TWorldGenLayer[ParentColumn], structType: BWorldGenStructureType[Column, ParentColumn],
+	seed: Long, mod: Int, parent: TWorldGenLayer[ParentColumn], structType: BWorldGenStructureType[Column, ParentColumn],
 	variance: Int, margin: Int
 ) extends BWorldGenLayerStructures[Column, ParentColumn](parent, structType) {
 	private val xWidthRegion = structType.xWidth+variance+margin*2
@@ -23,7 +23,7 @@ abstract class BWorldGenLayerStructuresSparse[Column <: TWorldGenColumnFn: Class
 	}
 
 	override protected def structureOrigin(structureCoord: PairXZ) = {
-		val rng = new RandomXZ(seed, 22418, structureCoord.x, structureCoord.z)
+		val rng = new RandomXZ(seed, mod, structureCoord.x, structureCoord.z)
 		val xFrom = margin+Cells.cellEdge(xWidthRegion, structureCoord.x)
 		val zFrom = margin+Cells.cellEdge(zWidthRegion, structureCoord.z)
 		IPosColumn.wrap(xFrom+rng.nextInt(1+variance), zFrom+rng.nextInt(1+variance))

@@ -4,13 +4,13 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
+import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.block.*;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.world.WWorld;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
@@ -56,10 +56,10 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 
 	@SuppressWarnings("unchecked")
 	public ABlock(BLogicBlock blocklogic, int variant) {
-		super(((BCompatLogicBlock)blocklogic).toBlockProperties(variant));
+		super(LogicToProperties$.MODULE$.toProperties(blocklogic, variant));
 		logic = blocklogic;
 		this.variant = variant;
-		if(logic.getMateria().isTransparent()) layer = BlockRenderLayer.TRANSLUCENT;
+		if(logic.materia().isTransparent()) layer = BlockRenderLayer.TRANSLUCENT;
 		else if(!logic.areSurfacesFull(variant)) layer = BlockRenderLayer.CUTOUT_MIPPED;
 		else layer = BlockRenderLayer.SOLID;
 
@@ -124,7 +124,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 
 	@Override
 	public int getHarvestLevel(BlockState state) {
-		return logic.getMateria().getBaseHarvestResist();
+		return logic.materia().getBaseHarvestResist();
 	}
 
 	@Nonnull
@@ -148,7 +148,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public boolean isSideInvisible(BlockState state, BlockState abs, Direction side) {
-		return !logic.isDiscrete() && logic.getMateria().isTransparent() && abs.getBlock() == this ||
+		return !logic.isDiscrete() && logic.materia().isTransparent() && abs.getBlock() == this ||
 			super.isSideInvisible(state, abs, side);
 	}
 
@@ -235,7 +235,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 
 	@Override
 	public boolean ticksRandomly(BlockState state) {
-		return logic.randomlyUpdates(new WBlockState(state));
+		return logic.randomlyUpdates().fold(() -> Boolean.FALSE, fn -> (Boolean)fn.apply(new WBlockState(state)));
 	}
 }
 

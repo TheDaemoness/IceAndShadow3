@@ -4,6 +4,7 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.base.LogicProvider;
+import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
 import mod.iceandshadow3.lib.compat.item.WUsageItem;
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock;
@@ -46,7 +47,7 @@ public class AItem extends Item implements LogicProvider.Item {
 	private final int variant;
 	private final LogicPair<BLogicItem> lp;
 	public AItem(BLogicItem itemlogic, int variant) {
-		super(itemlogic.toItemProperties(variant));
+		super(LogicToProperties$.MODULE$.toProperties(itemlogic, variant));
 		logic = itemlogic;
 		this.variant = variant;
 		lp = new LogicPair<>(itemlogic, variant);

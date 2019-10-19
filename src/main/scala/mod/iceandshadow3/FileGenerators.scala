@@ -4,14 +4,14 @@ import java.nio.file.Path
 import java.util
 
 import com.google.common.base.Charsets
+import mod.iceandshadow3.lib.base.BLogicWithItem
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
-import mod.iceandshadow3.lib.compat.item.impl.BCompatLogicCommon
 import mod.iceandshadow3.lib.compat.{BFileGen, Registrar}
 import net.minecraft.data.DataGenerator
 
 object FileGenerators {
 	private val assets: BFileGen = new BFileGen("ias3_json_assets") {
-		def addTo[Logic <: BCompatLogicCommon, AssetGen <: BJsonAssetGen[Logic]](
+		def addTo[Logic <: BLogicWithItem, AssetGen <: BJsonAssetGen[Logic]](
 			map: util.Map[Path, Array[Byte]],
 			assetRoot: Path,
 			item: Logic,

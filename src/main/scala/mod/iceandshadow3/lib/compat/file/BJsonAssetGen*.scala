@@ -1,13 +1,13 @@
 package mod.iceandshadow3.lib.compat.file
 
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.compat.item.impl.BCompatLogicCommon
+import mod.iceandshadow3.lib.base.BLogicWithItem
 
-sealed abstract class BJsonAssetGen[-T <: BCompatLogicCommon] {
+sealed abstract class BJsonAssetGen[-T <: BLogicWithItem] {
 	def apply(logic: T, variant: Int): String
 	def path: String
 }
-abstract class BJsonAssetGenItem[-T <: BCompatLogicCommon] extends BJsonAssetGen[T]{
+abstract class BJsonAssetGenItem[-T <: BLogicWithItem] extends BJsonAssetGen[T]{
 	final override def path = "models/item"
 }
 abstract class BJsonAssetGenBlock extends BJsonAssetGen[BLogicBlock] {
@@ -21,8 +21,8 @@ object BJsonAssetGen {
 		override def apply(logic: BLogicBlock, variant: Int) =
 			"{\"parent\":\"iceandshadow3:block/"+logic.getName(variant)+"\"}"
 	}
-	val itemDefault = new BJsonAssetGenItem[BCompatLogicCommon] {
-		override def apply(logic: BCompatLogicCommon, variant: Int) =
+	val itemDefault = new BJsonAssetGenItem[BLogicWithItem] {
+		override def apply(logic: BLogicWithItem, variant: Int) =
 			"{\"parent\":\"item/generated\",\"textures\":{\"layer0\":\"iceandshadow3:item/"+logic.getName(variant)+"\"}}"
 	}
 	val blockstatesDefault = new BJsonAssetGenBlockstates {

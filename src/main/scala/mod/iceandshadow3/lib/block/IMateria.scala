@@ -1,5 +1,9 @@
 package mod.iceandshadow3.lib.block
 
+import scala.reflect.{ClassTag, classTag}
+
+//TODO: Rework materia in general.
+
 object IMateria {
 	val indestructibleByMining = -1f
 	val indestructibleByBlast = 3600000f
@@ -16,4 +20,5 @@ trait IMateria {
 	def isNonSolid: Boolean = false
 	def getShapes: Set[ECommonBlockType]
 	def isTransparent = false
+	def isTypeOf[Type <: IMateria: ClassTag]: Boolean = classTag[Type].runtimeClass.isInstance(this)
 }

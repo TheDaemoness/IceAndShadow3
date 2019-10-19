@@ -4,9 +4,10 @@ import java.util.Random
 
 import mod.iceandshadow3.lib.LogicBlockSimple
 import mod.iceandshadow3.lib.block.VarBlockBool
-import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockState}
+import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef}
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainGaia
+import mod.iceandshadow3.multiverse.gaia.materia.MatStone
 
 object LBStoneLiving {
 	val varGrowing = new VarBlockBool("growing")
@@ -17,9 +18,7 @@ class LBStoneLiving extends LogicBlockSimple(DomainGaia, "livingstone", MatStone
 
 	override def variables = Array(LBStoneLiving.varGrowing)
 
-	override protected def randomlyUpdates(state: WBlockState) = {
-		if(state == null) true else state(LBStoneLiving.varGrowing).getOrElse(false)
-	}
+	override def randomlyUpdates = Some(wbs => wbs(LBStoneLiving.varGrowing).getOrElse(false))
 
 	override def onRandomTick(variant: Int, block: WBlockRef, rng: Random) = {
 		val adjb = AdjacentBlocks.Surrounding(block)

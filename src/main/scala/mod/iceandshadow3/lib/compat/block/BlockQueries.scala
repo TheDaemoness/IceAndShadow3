@@ -1,9 +1,12 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
+import mod.iceandshadow3.lib.block.IMateria
 import mod.iceandshadow3.lib.compat.block.impl.BVarBlock
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.material.Material
+
+import scala.reflect.ClassTag
 
 object BlockQueries {
 	def stone(bv: WBlockState) = bv.exposeBS().getMaterial == Material.ROCK
@@ -19,8 +22,8 @@ object BlockQueries {
 	def notHarder(hardness: Float): WBlockView => Boolean = _.hardness <= hardness
 	def notSofter(hardness: Float): WBlockView => Boolean = _.hardness >= hardness
 	def crushableBy(what: WBlockView): WBlockView => Boolean = v => { v.hardness < what.hardness }
-	def materia(mat: Class[_]): WBlockState => Boolean = {
-		bv => Option(bv.getLogicPair).fold(false)({_.logic.isOfMateria(mat)})
+	def materia[T <: IMateria: ClassTag]: WBlockState => Boolean = {
+		bv => Option(bv.getLogicPair).fold(false)(lp => {lp.logic.materia.isTypeOf[T]})
 	}
 	def hasLogic(bl: BLogicBlock): WBlockView => Boolean = bv => {
 		val lp = bv.getLogicPair

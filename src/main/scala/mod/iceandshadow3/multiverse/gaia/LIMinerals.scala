@@ -1,7 +1,7 @@
 package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.lib.LogicItemMulti
-import mod.iceandshadow3.lib.compat.block.{BlockQueries, WBlockState}
+import mod.iceandshadow3.lib.compat.block.{BMateriaStone, BlockQueries, WBlockState}
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.lib.util.{E3vl, Is}
@@ -12,7 +12,7 @@ object LIMinerals {
 		import BlockQueries._
 		Is.all[WBlockState](
 			Is.any(stone, sand, glass),
-			Is.any(mineableByWood, materia(classOf[TMateriaGrowable]))
+			Is.any(mineableByWood, materia[BMateriaStone])
 		)
 	}
 

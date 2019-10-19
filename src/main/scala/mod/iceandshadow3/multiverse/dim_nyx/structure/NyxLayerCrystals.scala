@@ -29,7 +29,7 @@ object NyxLayerCrystals {
 }
 class NyxLayerCrystals(seed: Long, parent: TWorldGenLayer[BNyxColumn])
 extends BWorldGenLayerStructuresSparse[TWorldGenColumnFn, BNyxColumn](
-	seed, parent, new NyxLayerCrystals.StructureType(), NyxLayerCrystals.variance, NyxLayerCrystals.margin
+	seed, 47199, parent, new NyxLayerCrystals.StructureType(), NyxLayerCrystals.variance, NyxLayerCrystals.margin
 ) {
 	override protected def defaultColumn(xBlock: Int, zBlock: Int) = NyxLayerCrystals.noOp
 }

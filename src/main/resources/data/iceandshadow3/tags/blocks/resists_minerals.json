@@ -21,6 +21,8 @@
 	"minecraft:glowstone",
 	"minecraft:redstone_lamp",
 	"minecraft:sea_lantern",
-	"minecraft:beacon"
+	"minecraft:beacon",
+	"iceandshadow3:gaia_navistra_stone",
+	"iceandshadow3:gaia_navistra_bedrock"
   ]
 }
