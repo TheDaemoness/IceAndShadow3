@@ -24,15 +24,15 @@ private[compat] object LogicToProperties {
 	}
 
 	def toProperties(block: BLogicBlock, variant: Int): Block.Properties = {
-		val retval = Block.Properties.create(block.materia.mcmat)
+		val retval = Block.Properties.create(block.materia.secrets.material)
 		val materia = block.materia
-		retval.hardnessAndResistance(materia.getBaseHardness, materia.getBaseBlastResist)
-		retval.lightValue(materia.getBaseLuma)
-		retval.slipperiness(materia.getSlipperiness)
+		retval.hardnessAndResistance(materia.hardness, materia.resistance)
+		retval.lightValue(materia.luma)
+		retval.slipperiness(materia.slipperiness)
 		if (block.multipleOpacities) retval.variableOpacity
 		if (block.randomlyUpdates.isDefined) retval.tickRandomly
-		if (materia.isNonSolid) retval.doesNotBlockMovement
-		retval.sound(materia.sound)
+		if (!materia.solid) retval.doesNotBlockMovement
+		retval.sound(materia.secrets.soundType)
 		//TODO: There's more.
 		retval
 	}

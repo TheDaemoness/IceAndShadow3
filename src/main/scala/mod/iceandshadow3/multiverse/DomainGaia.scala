@@ -5,18 +5,17 @@ import mod.iceandshadow3.lib.subtype.{LogicBlockOfMateria, LogicItemTwoForm}
 import mod.iceandshadow3.lib.util.{Color, E3vl}
 import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
 import mod.iceandshadow3.multiverse.gaia._
-import mod.iceandshadow3.multiverse.gaia.materia.{MatNavistraBedrock, MatNavistraStone, MatPetrifiedLeaves, MatPetrifiedWood}
 
 object DomainGaia extends BDomain("gaia") {
 	val Blocks = new {
 		val livingstone = new LBStoneLiving
-		val navistra_bedrock = new LogicBlockOfMateria(DomainGaia, MatNavistraBedrock) {
+		val navistra_bedrock = new LogicBlockOfMateria(DomainGaia, Materias.navistra_bedrock) {
 			override def shouldHaveLootTable = E3vl.FALSE
 		}
-		val navistra_stone = new LogicBlockOfMateria(DomainGaia, MatNavistraStone)
-		val petrified_log = new LBLog("petrified_log", MatPetrifiedWood, 3)
-		val petrified_leaves = new LBLeaves("petrified_leaves", MatPetrifiedLeaves, petrified_log)
-		val petrified_bricks = new LogicBlockOfMateria(DomainGaia, MatPetrifiedWood) {
+		val navistra_stone = new LogicBlockOfMateria(DomainGaia, Materias.navistra_stone)
+		val petrified_log = new LBLog("petrified_log", Materias.petrified_wood, 3)
+		val petrified_leaves = new LBLeaves("petrified_leaves", Materias.petrified_leaves, petrified_log)
+		val petrified_bricks = new LogicBlockOfMateria(DomainGaia, Materias.petrified_wood) {
 			override protected def getBaseName = "petrified_bricks"
 		}
 	}

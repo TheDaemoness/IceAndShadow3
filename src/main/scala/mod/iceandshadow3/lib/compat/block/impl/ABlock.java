@@ -59,7 +59,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 		super(LogicToProperties$.MODULE$.toProperties(blocklogic, variant));
 		logic = blocklogic;
 		this.variant = variant;
-		if(logic.materia().isTransparent()) layer = BlockRenderLayer.TRANSLUCENT;
+		if(logic.materia().transparent()) layer = BlockRenderLayer.TRANSLUCENT;
 		else if(!logic.areSurfacesFull(variant)) layer = BlockRenderLayer.CUTOUT_MIPPED;
 		else layer = BlockRenderLayer.SOLID;
 
@@ -124,7 +124,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 
 	@Override
 	public int getHarvestLevel(BlockState state) {
-		return logic.materia().getBaseHarvestResist();
+		return logic.materia().harvestLevel();
 	}
 
 	@Nonnull
@@ -148,7 +148,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public boolean isSideInvisible(BlockState state, BlockState abs, Direction side) {
-		return !logic.isDiscrete() && logic.materia().isTransparent() && abs.getBlock() == this ||
+		return !logic.isDiscrete() && logic.materia().transparent() && abs.getBlock() == this ||
 			super.isSideInvisible(state, abs, side);
 	}
 

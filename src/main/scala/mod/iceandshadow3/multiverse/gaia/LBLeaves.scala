@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainGaia
 
-class LBLeaves(name: String, materia: BMateria, val parent: LBLog)
+class LBLeaves(name: String, materia: Materia, val parent: LBLog)
 extends LogicBlockSimple(DomainGaia, name, materia) {
 	val varSupport = new VarBlockOrd("support", parent.leafSupport)
 

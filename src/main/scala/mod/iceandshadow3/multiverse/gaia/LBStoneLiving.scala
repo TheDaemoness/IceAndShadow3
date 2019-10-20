@@ -7,12 +7,11 @@ import mod.iceandshadow3.lib.block.VarBlockBool
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef}
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainGaia
-import mod.iceandshadow3.multiverse.gaia.materia.MatStone
 
 object LBStoneLiving {
 	val varGrowing = new VarBlockBool("growing")
 }
-class LBStoneLiving extends LogicBlockSimple(DomainGaia, "livingstone", MatStone) {
+class LBStoneLiving extends LogicBlockSimple(DomainGaia, "livingstone", Materias.livingstone) {
 	override protected def getVariantName(variant: Int) = ELivingstoneTypes.values()(variant).name
 	override def countVariants = ELivingstoneTypes.values().length
 

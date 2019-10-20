@@ -12,7 +12,7 @@ import mod.iceandshadow3.lib.compat.file.{BJsonAssetGen, BJsonAssetGenBlock, BJs
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemType}
 import mod.iceandshadow3.lib.compat.world.WWorld
 
-sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: BMateria)
+sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Materia)
 	extends BLogicWithItem(dom, name)
 	with BinderBlock.TKey
 	with TLootable
@@ -20,7 +20,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: BMate
 	BinderBlock.add(this)
 	ContentLists.block.add(this)
 
-	def isToolClassEffective(variant: Int, m: HarvestMethod) = materia.isToolClassEffective(m)
+	def isToolClassEffective(variant: Int, m: HarvestMethod) = materia.isEffective(m)
 	def randomlyUpdates: Option[WBlockState => Boolean] = None
 	def multipleOpacities = false
 
@@ -41,8 +41,6 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: BMate
 	//TODO: Separate collision shape from selection shape.
 	def shape: BlockShape = BlockShape.FULL_CUBE
 	def isDiscrete = false
-
-	//TODO: WBlockRef with TWBlockLogical or some such.
 
 	def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {}
 	def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): WBlockState = us
@@ -67,8 +65,8 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: BMate
 		Some(BJsonAssetGen.itemBlockDefault)
 }
 
-class LogicBlockSimple(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat)
+class LogicBlockSimple(dom: BDomain, name: String, mat: Materia) extends BLogicBlock(dom, name, mat)
 
-abstract class BLogicBlockComplex(dom: BDomain, name: String, mat: BMateria) extends BLogicBlock(dom, name, mat) {
+abstract class BLogicBlockComplex(dom: BDomain, name: String, mat: Materia) extends BLogicBlock(dom, name, mat) {
 	//TODO: Manually generated class stub. For blocks with tile entities.
 }

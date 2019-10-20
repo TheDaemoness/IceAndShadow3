@@ -2,8 +2,8 @@ package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.damage.{Attack, AttackForm, DamageWithStatus, TDmgTypeExousic}
 import mod.iceandshadow3.lib.LogicBlockSimple
-import mod.iceandshadow3.lib.block.{BlockShape, IMateria}
-import mod.iceandshadow3.lib.compat.block.{BMateriaPlasma, WBlockRef, WBlockState}
+import mod.iceandshadow3.lib.block.BlockShape
+import mod.iceandshadow3.lib.compat.block.{Materia, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WEntityLiving, WProjectile}
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.world.WSound
@@ -13,16 +13,10 @@ import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.misc.{Particles, StatusEffects}
 
 object LBExousia {
+	val materia = Materia.builder(Materia.plasma).luma(9)("exousia")
 	val tagResist = "iceandshadow3:resists_exousia"
 }
-class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", new BMateriaPlasma {
-	override def getName = "exousia"
-	override def getBaseLuma = 9
-	override def getBaseHardness = 0
-	override def getBaseBlastResist = IMateria.indestructibleByBlast
-	override def getBaseHarvestResist = -1
-	override def getShapes = Set()
-}) {
+class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", LBExousia.materia) {
 	val damage = Attack(
 		"exousia", AttackForm.VOLUME,
 		new DamageWithStatus(6f, StatusEffects.exousia.forTicks(119)) with TDmgTypeExousic
