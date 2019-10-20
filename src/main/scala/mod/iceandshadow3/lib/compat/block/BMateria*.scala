@@ -13,7 +13,7 @@ abstract class BMateriaLeaves extends BMateria(Material.LEAVES, SoundType.PLANT)
 	override def getShapes = Set(CUBE)
 }
 
-abstract class BMateriaPlasma extends BMateria(Material.FIRE, SoundType.SLIME) {
+abstract class BMateriaPlasma extends BMateria(Material.LAVA, SoundType.SLIME) {
 	override def isToolClassEffective(m: HarvestMethod): Boolean = false
 	override def isNonSolid = true
 	override def isTransparent = true
@@ -39,8 +39,7 @@ abstract class BMateriaWood extends BMateria(Material.WOOD, SoundType.WOOD) {
 }
 
 abstract class BMateriaGlass extends BMateria(Material.GLASS, SoundType.GLASS) {
-	override def isToolClassEffective(m: HarvestMethod): Boolean =
-		m == HarvestMethod.PICKAXE
+	override def isToolClassEffective(m: HarvestMethod): Boolean = false
 	override def getShapes = Set(CUBE, PANE)
 	override def isTransparent = true
 }
