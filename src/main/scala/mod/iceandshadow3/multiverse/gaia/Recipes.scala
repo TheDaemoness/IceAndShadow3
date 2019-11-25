@@ -34,7 +34,7 @@ object Recipes {
 		Registrar.addRecipeCallback(s"craft.$stonename.grow", name => {
 			val minerals = Items.minerals.asWItem(0)
 			ECraftingType.CRAFT_SHAPELESS(name,
-				ECraftingType.About(Blocks.livingstone.asWItem(id).asWItemStack().changeCount(8)),
+				ECraftingType.About(Blocks.livingstone.asWItemStack(id).changeCount(8)),
 				Items.shale.asWItem(id),
 				minerals, minerals, minerals, minerals,
 				minerals, minerals, minerals, minerals

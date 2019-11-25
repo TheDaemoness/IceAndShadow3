@@ -4,8 +4,8 @@ object Cells {
 	class Result {
 		var distanceClosest = Float.PositiveInfinity
 		var distanceSecond = Float.PositiveInfinity
-		val cellClosest = TriadXYZ(0, 0, 0)
-		val cellSecond = TriadXYZ(0, 0, 0)
+		val cellClosest = TupleXYZ(0, 0, 0)
+		val cellSecond = TupleXYZ(0, 0, 0)
 		def makeRandomXZ(seed: Long, mod: Int) = new RandomXZ(seed, mod, cellClosest.x, cellClosest.z)
 		def makeRandomXYZ(seed: Long, mod: Int) = new RandomXYZ(seed, mod, cellClosest.x, cellClosest.y, cellClosest.z)
 		def update(distance: Float, xCell: Int, yCell: Int, zCell: Int): Unit = {
@@ -13,7 +13,7 @@ object Cells {
 				if (distance < distanceClosest) {
 					distanceSecond = distanceClosest
 					distanceClosest = distance
-					cellSecond.set(cellClosest)
+					cellSecond.update(cellClosest)
 					cellClosest.set(xCell, yCell, zCell)
 				} else {
 					distanceSecond = distance

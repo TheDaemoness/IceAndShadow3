@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.gen
 
-import mod.iceandshadow3.lib.spatial.IPosColumn
-import mod.iceandshadow3.lib.util.collect.{FixedMap2d, IMap2d}
+import mod.iceandshadow3.lib.spatial.{IMap2d, IPosColumn}
+import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 import scala.reflect.ClassTag
 

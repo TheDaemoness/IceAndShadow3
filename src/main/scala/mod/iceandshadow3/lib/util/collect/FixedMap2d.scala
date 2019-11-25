@@ -1,5 +1,7 @@
 package mod.iceandshadow3.lib.util.collect
 
+import mod.iceandshadow3.lib.spatial.{IMap2d, IRegion2d}
+
 import scala.reflect.ClassTag
 
 /** A read-only associative map, mapping 2d coordinates to values in O(1) time.

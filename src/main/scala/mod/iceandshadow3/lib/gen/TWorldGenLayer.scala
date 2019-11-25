@@ -1,8 +1,7 @@
 package mod.iceandshadow3.lib.gen
 
 import mod.iceandshadow3.lib.compat.world.WChunk
-import mod.iceandshadow3.lib.spatial.IPosColumn
-import mod.iceandshadow3.lib.util.collect.{IMap2d, IRegion2d}
+import mod.iceandshadow3.lib.spatial.{IMap2d, IPosColumn}
 
 trait TWorldGenLayer[Column <: TWorldGenColumnFn] extends IMap2d[Column] {
 	def getForRegion(xFrom: Int, zFrom: Int, xWidth: Int, zWidth: Int): IMap2d[Column]

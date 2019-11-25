@@ -5,7 +5,7 @@ package mod.iceandshadow3.lib.gen
 import java.util.Random
 
 import mod.iceandshadow3.lib.spatial.Cells._
-import mod.iceandshadow3.lib.spatial.{Cells, PairXZ, RandomXZ}
+import mod.iceandshadow3.lib.spatial.{Cells, TupleXZ, RandomXZ}
 import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 import scala.reflect.ClassTag
@@ -16,10 +16,10 @@ class Cellmaker2d(
 	protected val scale: Int
 ) {
 	protected val scaleInv = 1f/scale
-	def cellToPoint(xCell: Int, zCell: Int, rng: Random): PairXZ = {
+	def cellToPoint(xCell: Int, zCell: Int, rng: Random): TupleXZ = {
 		val x = rng.nextInt(scale) + Cells.cellEdge(scale, xCell)
 		val z = rng.nextInt(scale) + Cells.cellEdge(scale, zCell)
-		PairXZ(x,z)
+		TupleXZ(x,z)
 	}
 	def getInverseWeightForCell(xCell:Int, zCell:Int): Float = 1f
 	def apply(x: Int, z: Int): Result = apply(x, z, 1, 1)(x, z)

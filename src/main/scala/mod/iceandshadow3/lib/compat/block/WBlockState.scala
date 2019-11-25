@@ -2,6 +2,7 @@ package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.base.LogicProvider
+import mod.iceandshadow3.lib.block.BBlockFn
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BVarBlockNew, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.world.WSound
@@ -65,4 +66,5 @@ with TBlockStateSource {
 	def soundPlace = WSound(exposeBS().getSoundType.getPlaceSound)
 
 	override def asWBlockState = this
+	implicit override def asBlockFn: BBlockFn = (x: Int, y: Int, z: Int, in: WBlockState) => WBlockState.this
 }

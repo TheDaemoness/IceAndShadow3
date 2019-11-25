@@ -5,8 +5,8 @@ import java.util.concurrent.TimeUnit
 import com.google.common.cache.{CacheBuilder, CacheLoader}
 import mod.iceandshadow3.lib.compat.world.WChunk
 import mod.iceandshadow3.lib.data.BVar
-import mod.iceandshadow3.lib.spatial.PairXZ
-import mod.iceandshadow3.lib.util.collect.{FixedMap2d, IMap2d, IRegion2d, MutableMap2d}
+import mod.iceandshadow3.lib.spatial.{IMap2d, IRegion2d, TupleXZ}
+import mod.iceandshadow3.lib.util.collect.{FixedMap2d, MutableMap2d}
 
 import scala.reflect.ClassTag
 
@@ -49,8 +49,8 @@ abstract class BWorldGenLayerTerrain[Column <: TWorldGenColumnFn: ClassTag] exte
 		expireAfterWrite(15, TimeUnit.SECONDS).
 		softValues().
 		build(
-			new CacheLoader[PairXZ, Region] {
-				override def load(key: PairXZ) = new Region(
+			new CacheLoader[TupleXZ, Region] {
+				override def load(key: TupleXZ) = new Region(
 					BWorldGenLayerTerrain.toEdge(key.x),
 					BWorldGenLayerTerrain.toEdge(key.z),
 					newGenerator
@@ -60,7 +60,7 @@ abstract class BWorldGenLayerTerrain[Column <: TWorldGenColumnFn: ClassTag] exte
 
 	import BWorldGenLayerTerrain.remap
 
-	private def getAt(xRemap: Int, zRemap: Int): Region = cache.get(PairXZ(xRemap, zRemap))
+	private def getAt(xRemap: Int, zRemap: Int): Region = cache.get(TupleXZ(xRemap, zRemap))
 
 	final override def apply(x: Int, z: Int) = getAt(remap(x), remap(z)).apply(x, z)
 

@@ -1,5 +1,7 @@
 package mod.iceandshadow3.lib.util.collect
 
+import mod.iceandshadow3.lib.spatial.{IMap2d, IRegion2d}
+
 import scala.collection.mutable
 
 class MutableMap2d[T](

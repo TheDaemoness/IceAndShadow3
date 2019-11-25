@@ -1,7 +1,5 @@
 package mod.iceandshadow3.lib.spatial
 
-import mod.iceandshadow3.lib.util.collect.IRegion2d
-
 abstract class BWorldRegion(val xFrom: Int, val zFrom: Int, val xMax: Int, val zMax: Int)
 extends IRegion2d {
 	final def xWidth: Int = xMax - xFrom + 1

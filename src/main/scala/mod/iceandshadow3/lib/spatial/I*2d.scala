@@ -1,10 +1,8 @@
-package mod.iceandshadow3.lib.util.collect
-
-import mod.iceandshadow3.lib.spatial.PairXZ
+package mod.iceandshadow3.lib.spatial
 
 trait IMap2d[@specialized(Float) +T] {
 	def apply(x: Int, z: Int): T
-	def apply(pair: PairXZ): T = apply(pair.x, pair.z)
+	def apply(pair: TupleXZ): T = apply(pair.x, pair.z)
 }
 
 trait IRange2d {
@@ -20,4 +18,10 @@ trait IRegion2d extends IRange2d {
 	final def isInside(x: Int, z: Int) =
 		x >= xFrom && z >= zFrom &&
 			x <= xMax  && z <= zMax
+	def corners2d = (
+		TupleXZ(xFrom, zFrom),
+		TupleXZ(xFrom, zMax),
+		TupleXZ(xMax, zFrom),
+		TupleXZ(xMax, zMax)
+	)
 }
