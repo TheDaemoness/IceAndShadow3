@@ -6,9 +6,9 @@ import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 import scala.reflect.ClassTag
 
-abstract class BWorldGenLayerStructures[Column <: TWorldGenColumnFn: ClassTag, ParentColumn <: TWorldGenColumnFn](
+abstract class BWorldGenLayerFeatures[Column <: TWorldGenColumnFn: ClassTag, ParentColumn <: TWorldGenColumnFn](
 	parent: TWorldGenLayer[ParentColumn],
-	structType: BWorldGenStructureType[Column, ParentColumn]
+	structType: BWorldGenFeatureType[Column, ParentColumn]
 ) extends TWorldGenLayer[Column] {
 
 	private val cache = CacheBuilder.newBuilder().

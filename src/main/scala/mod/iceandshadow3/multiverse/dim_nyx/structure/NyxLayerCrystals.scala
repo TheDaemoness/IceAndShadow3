@@ -2,7 +2,7 @@ package mod.iceandshadow3.multiverse.dim_nyx.structure
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
-import mod.iceandshadow3.lib.gen.{BWorldGenLayerStructuresSparse, BWorldGenStructureTypeSimple, TWorldGenColumnFn, TWorldGenLayer, WorldGenColumn}
+import mod.iceandshadow3.lib.gen.{BWorldGenLayerFeaturesSparse, BWorldGenFeatureTypeSimple, TWorldGenColumnFn, TWorldGenLayer, WorldGenColumn}
 import mod.iceandshadow3.multiverse.{DomainGaia, DomainNyx}
 import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx
 import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
@@ -23,13 +23,13 @@ object NyxLayerCrystals {
 				col.update(height, block.asWBlockState)
 			}
 	}
-	class StructureType extends BWorldGenStructureTypeSimple[TWorldGenColumnFn, BNyxColumn](1, 1) {
+	class FeatureType extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, BNyxColumn](1, 1) {
 		override def columnAt(xRela: Int, zRela: Int, parent: BNyxColumn) = new Column(Math.min(254, parent.height.toInt))
 	}
 }
 class NyxLayerCrystals(seed: Long, parent: TWorldGenLayer[BNyxColumn])
-extends BWorldGenLayerStructuresSparse[TWorldGenColumnFn, BNyxColumn](
-	seed, 47199, parent, new NyxLayerCrystals.StructureType(), NyxLayerCrystals.variance, NyxLayerCrystals.margin
+extends BWorldGenLayerFeaturesSparse[TWorldGenColumnFn, BNyxColumn](
+	seed, 47199, parent, new NyxLayerCrystals.FeatureType(), NyxLayerCrystals.variance, NyxLayerCrystals.margin
 ) {
 	override protected def defaultColumn(xBlock: Int, zBlock: Int) = NyxLayerCrystals.noOp
 }

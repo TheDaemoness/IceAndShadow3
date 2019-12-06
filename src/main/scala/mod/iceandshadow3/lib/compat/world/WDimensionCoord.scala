@@ -17,7 +17,7 @@ case class WDimensionCoord(dimtype: DimensionType) {
 }
 object WDimensionCoord {
   def isVoid(what: WDimensionCoord) = what == null || what == VOID
-  val VOID = new WDimensionCoord(null) {
+  val VOID: WDimensionCoord = new WDimensionCoord(null) {
     override val isVanilla = false
     override val resourceLocation = new ResourceLocation("", "")
   }

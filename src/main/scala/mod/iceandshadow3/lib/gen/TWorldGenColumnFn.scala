@@ -9,7 +9,8 @@ object TWorldGenColumnFn {
 		override def apply(v1: WorldGenColumn): Unit = ()
 	}
 }
-trait TWorldGenColumnFn extends (WorldGenColumn => Unit) {
+trait TWorldGenColumnFn {
 	def property[T](key: BVar[_]): Option[T] = None
 	def domain: BDomain
+	def apply(to: WorldGenColumn): Unit
 }

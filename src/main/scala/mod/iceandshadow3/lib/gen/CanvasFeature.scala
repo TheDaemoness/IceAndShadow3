@@ -1,21 +1,21 @@
 package mod.iceandshadow3.lib.gen
 
+import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.block.BBlockFn
-import mod.iceandshadow3.lib.compat.block.WBlockState
-import mod.iceandshadow3.lib.compat.block.`type`.{CommonBlockTypes, TBlockStateSource}
-import mod.iceandshadow3.lib.spatial.{IRegion2d, IRegion3d, ITupleXZ, TupleXYZ}
+import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
+import mod.iceandshadow3.lib.spatial.{IRegion3d, ITupleXZ, TupleXYZ}
 import mod.iceandshadow3.lib.util.MathUtils
+import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 /** A mutable class that stores block information in a cuboid for the purposes of world gen structures. */
-final class StructureCanvas protected(val xWidth: Int, val yWidth: Int, val zWidth: Int,
-	val blocks: Array[Array[WBlockState]]
-) extends IRegion2d {
-	class Column(val x: Int, val z: Int) {
-		private val column = blocks(MathUtils.bound(0, x, xMax) + MathUtils.bound(0, z, zMax)*xWidth)
+final class CanvasFeature protected(val domain: BDomain, val yWidth: Int, blocks: FixedMap2d[CanvasColumn])
+extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.xWidth, blocks.zWidth) with IRegion3d {
+	private class Column(val x: Int, val z: Int) {
+		private val column = blocks(MathUtils.bound(0, x, xMax), MathUtils.bound(0, z, zMax))
 		def apply(y: Int) = column(y)
 		def update(y: Int, what: TBlockStateSource) = column(y).asWBlockState
 		def transform(y: Int, fn: BBlockFn): Column = {
-			column(y) = fn(x, y, z, column(y))
+			column(y) = fn(x, y, z, column(y).asWBlockState)
 			this
 		}
 	}
@@ -27,8 +27,9 @@ final class StructureCanvas protected(val xWidth: Int, val yWidth: Int, val zWid
 	def yMax = yWidth-1
 	override def zMax = zWidth-1
 
-	def this(xWidth: Int, yWidth: Int, zWidth: Int) = this(
-		xWidth, yWidth, zWidth, Array.fill(xWidth*zWidth, yWidth)(CommonBlockTypes.STRUCTURE_VOID)
+	def this(domain: BDomain, xWidth: Int, yWidth: Int, zWidth: Int) = this(
+		domain, yWidth,
+		new FixedMap2d[CanvasColumn](0, 0, xWidth, zWidth, (x,z) => new CanvasColumn(domain, yWidth))
 	)
 
 	//The reason why TupleXZ and TupleXYZ are used here is because the IPos coordinates are absolute.
@@ -69,5 +70,5 @@ final class StructureCanvas protected(val xWidth: Int, val yWidth: Int, val zWid
 		for(y <- ys) col.transform(y, fn)
 	}
 
-	//Old vertical corners: IRegion2d, corner2d,
+	override def columnAt(xRela: Int, zRela: Int, parent: TWorldGenColumnFn) = blocks(xRela, zRela)
 }

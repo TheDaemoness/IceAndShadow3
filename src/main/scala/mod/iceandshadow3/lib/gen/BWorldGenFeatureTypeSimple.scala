@@ -5,10 +5,10 @@ import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 import scala.reflect.ClassTag
 
-abstract class BWorldGenStructureTypeSimple[
+abstract class BWorldGenFeatureTypeSimple[
 	Column <: TWorldGenColumnFn: ClassTag,
 	-ParentColumn <: TWorldGenColumnFn
-](xWidth: Int, zWidth: Int) extends BWorldGenStructureType[Column, ParentColumn](xWidth, zWidth) {
+](xWidth: Int, zWidth: Int) extends BWorldGenFeatureType[Column, ParentColumn](xWidth, zWidth) {
 	def columnAt(xRela: Int, zRela: Int, parent: ParentColumn): Column
 	override def create(map: IMap2d[ParentColumn], origin: IPosColumn) = new FixedMap2d[Column](
 		origin.xBlock, origin.zBlock, xWidth, zWidth,
