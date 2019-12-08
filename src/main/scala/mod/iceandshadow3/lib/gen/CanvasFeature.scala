@@ -71,4 +71,9 @@ extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.
 	}
 
 	override def columnAt(xRela: Int, zRela: Int, parent: TWorldGenColumnFn) = blocks(xRela, zRela)
+
+	def copy = new CanvasFeature(domain, yWidth, new FixedMap2d[CanvasColumn](
+		blocks.xFrom, blocks.zFrom, blocks.xWidth, blocks.zWidth,
+		(x,z) => blocks(x,z).copy
+	))
 }
