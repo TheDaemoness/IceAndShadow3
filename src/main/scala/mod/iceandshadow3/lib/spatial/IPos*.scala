@@ -17,6 +17,9 @@ object IPosColumn {
 		override def xBlock = x
 		override def zBlock = z
 	}
+	def withOffset(what: IPosColumn, x: Int, z: Int) = wrap(what.xBlock, what.zBlock)
+	def lookupFrom[T](what: IMap2d[T], coord: IPosColumn, xOffset: Int = 0, zOffset: Int = 0) =
+		what(coord.xBlock + xOffset, coord.zBlock + zOffset)
 }
 trait IPosColumn extends IPosChunk {
 	import IPosChunk._

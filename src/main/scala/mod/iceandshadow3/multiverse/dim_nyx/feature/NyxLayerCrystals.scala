@@ -1,4 +1,4 @@
-package mod.iceandshadow3.multiverse.dim_nyx.structure
+package mod.iceandshadow3.multiverse.dim_nyx.feature
 
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes

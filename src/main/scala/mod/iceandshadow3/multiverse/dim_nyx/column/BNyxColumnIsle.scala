@@ -21,7 +21,7 @@ extends BNyxColumn(cell, true) {
 	protected val lowerstone = stoneLower
 	protected val upperstone = stoneUpper
 
-	final def hasCaveAt(y: Int): Boolean = y < caveSeq.length && caveSeq(y)
+	final override def hasCaveAt(y: Int): Boolean = y < caveSeq.length && caveSeq(y)
 
 	private def change(out: WorldGenColumn, y: Int, state: WBlockState): Unit = {
 		if(!caveSeq(y)) out.update(y, state)

@@ -15,4 +15,15 @@ object MathUtils {
     else if(where >= upper) 0f
     else 1f-((where-lower).toFloat/(upper-lower))
   }
+
+  def isInRadius(radius: Int, dims: Int*): Boolean = {
+    var sum = 0
+    var i = 0
+    while(i < dims.size) {
+      val what = dims(i)
+      sum += what*what
+      i += 1
+    }
+    sum < radius*radius
+  }
 }

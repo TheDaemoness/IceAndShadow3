@@ -10,14 +10,16 @@ import scala.collection.mutable
 	* Structure voids are treated as no-ops, nulls are treated as resets.
 	* The column is initialized to all structure voids.
 	*/
-final class CanvasColumn(val domain: BDomain, private val array: Array[TBlockStateSource])
+class CanvasColumn(val domain: BDomain, private val array: Array[TBlockStateSource])
 extends TWorldGenColumnFn with mutable.Seq[TBlockStateSource] {
 	def this(domain: BDomain, length: Int) = this(
 		domain,
 		Array.fill(length)(CommonBlockTypes.STRUCTURE_VOID.asInstanceOf[TBlockStateSource])
 	)
 
-	override def apply(col: WorldGenColumn): Unit = for(y <- col.indices) {
+	//TODO: We can optimize space usage here.
+
+	final override def apply(col: WorldGenColumn): Unit = for(y <- col.indices) {
 		val block: WBlockState = array(y) match {
 			case null => null
 			case what: TBlockStateSource => what.asWBlockState
@@ -26,9 +28,9 @@ extends TWorldGenColumnFn with mutable.Seq[TBlockStateSource] {
 		else if(block != CommonBlockTypes.STRUCTURE_VOID) col.update(y, block)
 	}
 
-	override def length = array.length
-	override def update(idx: Int, elem: TBlockStateSource): Unit = array.update(idx, elem)
-	override def apply(i: Int) = array(i)
-	override def iterator = array.iterator
+	final override def length = array.length
+	final override def update(idx: Int, elem: TBlockStateSource): Unit = array.update(idx, elem)
+	final override def apply(i: Int) = array(i)
+	final override def iterator = array.iterator
 	def copy = new CanvasColumn(domain, Array.copyOf(array, length))
 }

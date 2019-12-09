@@ -2,12 +2,14 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
+import com.google.common.cache.CacheLoader
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.gen.{BWorldGen, BWorldGenLayerTerrain}
+import mod.iceandshadow3.lib.spatial.{IPosColumn, TupleXZ}
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
-import mod.iceandshadow3.multiverse.dim_nyx.structure.NyxLayerCrystals
+import mod.iceandshadow3.multiverse.dim_nyx.feature.{NyxLayerCrystals, NyxLayerTrees}
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
 object WorldGenNyx {
@@ -36,6 +38,11 @@ object WorldGenNyx {
 }
 final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultBlock) {
 	private val noises = new NoisesNyx(seed)
+	val islesinfo = com.google.common.cache.CacheBuilder.newBuilder().weakValues().build[TupleXZ, NyxIsleProperties](
+		new CacheLoader[TupleXZ, NyxIsleProperties]{
+			override def load(key: TupleXZ) = NyxIsleProperties(seed, key)
+		}
+	)
 	private val terrain: BWorldGenLayerTerrain[BNyxColumn] = new BWorldGenLayerTerrain[BNyxColumn] {
 		override protected def newGenerator(xFrom: Int, zFrom: Int, width: Int) =
 			new NyxTerrainMaps(noises, xFrom, zFrom, width)
@@ -43,6 +50,7 @@ final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultB
 	override protected val layers = Seq(
 		terrain,
 		new NyxLayerCrystals(seed, terrain),
+		new NyxLayerTrees(seed, terrain, noises.getIsleInfo),
 		new NyxWorldGenLayerSnowAndIce(seed, 24)
 	)
 }

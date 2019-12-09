@@ -8,9 +8,9 @@ import mod.iceandshadow3.lib.util.MathUtils
 import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 /** A mutable class that stores block information in a cuboid for the purposes of world gen structures. */
-final class CanvasFeature protected(val domain: BDomain, val yWidth: Int, blocks: FixedMap2d[CanvasColumn])
+class CanvasFeature protected(val domain: BDomain, val yWidth: Int, blocks: FixedMap2d[CanvasColumn])
 extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.xWidth, blocks.zWidth) with IRegion3d {
-	private class Column(val x: Int, val z: Int) {
+	protected class Column(val x: Int, val z: Int) {
 		private val column = blocks(MathUtils.bound(0, x, xMax), MathUtils.bound(0, z, zMax))
 		def apply(y: Int) = column(y)
 		def update(y: Int, what: TBlockStateSource) = column(y).asWBlockState
@@ -20,12 +20,12 @@ extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.
 		}
 	}
 
-	override def xFrom = 0
-	def yFrom = 0
-	override def zFrom = 0
-	override def xMax = xWidth-1
-	def yMax = yWidth-1
-	override def zMax = zWidth-1
+	final override def xFrom = 0
+	final def yFrom = 0
+	final override def zFrom = 0
+	final override def xMax = xWidth-1
+	final def yMax = yWidth-1
+	final override def zMax = zWidth-1
 
 	def this(domain: BDomain, xWidth: Int, yWidth: Int, zWidth: Int) = this(
 		domain, yWidth,
@@ -36,12 +36,13 @@ extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.
 	//These have the same units as IPosBlock, but are relative to something else.
 
 	/** Applies the provided function to one block. Usually inefficient. */
-	def one(fn: BBlockFn, a: TupleXYZ): Unit = {
+	final def one(fn: BBlockFn, a: TupleXYZ): this.type = {
 		new Column(a.x, a.z).transform(a.y, fn)
+		this
 	}
 
 	/** Applies the provided function to every block in the specified region*/
-	def cuboid(fn: BBlockFn, where: IRegion3d): Unit = {
+	final def cuboid(fn: BBlockFn, where: IRegion3d): this.type = {
 		val xStart = Math.max(xFrom, where.xFrom)
 		val yStart = Math.max(yFrom, where.yFrom)
 		val zStart = Math.max(zFrom, where.zFrom)
@@ -62,15 +63,17 @@ extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.
 			}
 			it.x += 1
 		}
+		this
 	}
 
 	/** Appies the provided function to the specified blocks in the same column. */
-	def column(fn: BBlockFn, coord: ITupleXZ, ys: Iterable[Int]): Unit = {
+	final def column(fn: BBlockFn, coord: ITupleXZ, ys: Iterable[Int]): this.type = {
 		val col = new Column(coord.x, coord.z)
 		for(y <- ys) col.transform(y, fn)
+		this
 	}
 
-	override def columnAt(xRela: Int, zRela: Int, parent: TWorldGenColumnFn) = blocks(xRela, zRela)
+	final override def columnAt(xRela: Int, zRela: Int, parent: TWorldGenColumnFn) = blocks(xRela, zRela)
 
 	def copy = new CanvasFeature(domain, yWidth, new FixedMap2d[CanvasColumn](
 		blocks.xFrom, blocks.zFrom, blocks.xWidth, blocks.zWidth,

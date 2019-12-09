@@ -5,6 +5,7 @@ import mod.iceandshadow3.lib.spatial.Cells
 
 class NyxColumnDivide(cell: Cells.Result)
 extends BNyxColumn(cell, false) {
+	override def hasCaveAt(y: Int) = true
 	override val height = 0f
 	override def apply(discard: WorldGenColumn): Unit = () //TODO: Worldgen in the divides.
 }
