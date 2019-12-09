@@ -2,13 +2,17 @@ package mod.iceandshadow3.lib.gen
 
 import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.block.BBlockFn
+import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.spatial.{IRegion3d, ITupleXZ, TupleXYZ}
 import mod.iceandshadow3.lib.util.MathUtils
 import mod.iceandshadow3.lib.util.collect.FixedMap2d
 
 /** A mutable class that stores block information in a cuboid for the purposes of world gen structures. */
-class CanvasFeature protected(val domain: BDomain, val yWidth: Int, blocks: FixedMap2d[CanvasColumn])
+class CanvasFeature protected(
+	val domain: BDomain, val yWidth: Int,
+	blocks: FixedMap2d[CanvasColumn]
+)
 extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.xWidth, blocks.zWidth) with IRegion3d {
 	protected class Column(val x: Int, val z: Int) {
 		private val column = blocks(MathUtils.bound(0, x, xMax), MathUtils.bound(0, z, zMax))
@@ -27,9 +31,11 @@ extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.
 	final def yMax = yWidth-1
 	final override def zMax = zWidth-1
 
-	def this(domain: BDomain, xWidth: Int, yWidth: Int, zWidth: Int) = this(
+	def this(domain: BDomain, xWidth: Int, yWidth: Int, zWidth: Int,
+		applier: (WorldGenColumn, WBlockState, Int) => Unit = (col,b,y) => col.update(y,b)
+	) = this(
 		domain, yWidth,
-		new FixedMap2d[CanvasColumn](0, 0, xWidth, zWidth, (x,z) => new CanvasColumn(domain, yWidth))
+		new FixedMap2d[CanvasColumn](0, 0, xWidth, zWidth, (x,z) => new CanvasColumn(domain, yWidth, applier))
 	)
 
 	//The reason why TupleXZ and TupleXYZ are used here is because the IPos coordinates are absolute.

@@ -6,10 +6,10 @@ import com.google.common.cache.CacheLoader
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.gen.{BWorldGen, BWorldGenLayerTerrain}
-import mod.iceandshadow3.lib.spatial.{IPosColumn, TupleXZ}
+import mod.iceandshadow3.lib.spatial.TupleXZ
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
-import mod.iceandshadow3.multiverse.dim_nyx.feature.{NyxLayerCrystals, NyxLayerTrees}
+import mod.iceandshadow3.multiverse.dim_nyx.feature._
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
 object WorldGenNyx {
@@ -50,7 +50,8 @@ final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultB
 	override protected val layers = Seq(
 		terrain,
 		new NyxLayerCrystals(seed, terrain),
-		new NyxLayerTrees(seed, terrain, noises.getIsleInfo),
+		new NyxLayerTreesForest(seed, terrain, noises.getIsleInfo),
+		new NyxLayerTreesScattered(seed, terrain, noises.getIsleInfo),
 		new NyxWorldGenLayerSnowAndIce(seed, 24)
 	)
 }

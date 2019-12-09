@@ -9,7 +9,7 @@ import mod.iceandshadow3.multiverse.DomainGaia
 import mod.iceandshadow3.multiverse.dim_nyx.NyxIsleProperties
 import mod.iceandshadow3.multiverse.dim_nyx.column.{BNyxColumn, BNyxColumnIsle}
 
-class NyxFeatureTree(seed: Long, isleinfo: IPosColumn => NyxIsleProperties)
+class NyxFeatureTree(seed: Long, shouldTree: IPosColumn => Boolean)
 extends BWorldGenFeatureTypeBuilt[BNyxColumn](
 	new CanvasFeature(DomainGaia, 9, 256, 9)
 ) {
@@ -27,7 +27,7 @@ extends BWorldGenFeatureTypeBuilt[BNyxColumn](
 		if(
 			!MathUtils.isInRadius(96, origin.xBlock, origin.zBlock) &&
 			(height > 76 && height < 172) &&
-			isleinfo(origin).trees &&
+			shouldTree(origin) &&
 			!col.hasCaveAt(height)
 		) {
 			val retval = new Analysis

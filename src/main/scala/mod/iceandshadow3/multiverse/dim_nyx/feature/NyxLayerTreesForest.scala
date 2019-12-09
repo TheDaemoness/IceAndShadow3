@@ -8,9 +8,9 @@ import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
 
 // TODO: FeaturesDense, once written, is better to use here.
 
-class NyxLayerTrees(seed: Long, parent: TWorldGenLayer[BNyxColumn], isleinfo: IPosColumn => NyxIsleProperties)
+class NyxLayerTreesForest(seed: Long, parent: TWorldGenLayer[BNyxColumn], isleinfo: IPosColumn => NyxIsleProperties)
 extends BWorldGenLayerFeaturesSparse[TWorldGenColumnFn, BNyxColumn](
-	seed, 404714, parent, new NyxFeatureTree(seed, isleinfo), 9, 0
+	seed, 404714, parent, new NyxFeatureTree(seed, isleinfo(_).treesDense), 6, 0
 ) {
 	override protected def defaultColumn(xBlock: Int, zBlock: Int) = TWorldGenColumnFn.noOp(DomainGaia)
 }
