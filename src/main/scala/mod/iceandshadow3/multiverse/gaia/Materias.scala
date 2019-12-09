@@ -14,5 +14,6 @@ object Materias {
 	val petrified_wood =
 		builder(Materia.stone).hardness(5f).resistFactor(2f).harvestLevel(2)("petrified_wood")
 	val petrified_leaves =
-		builder(livingstone).sounds(Materia.gravel).hardness(0.6f).harvestWith(HarvestMethod.AXE)("petrified_leaves")
+		builder(livingstone).sounds(Materia.gravel).
+			hardness(0.6f).harvestWith(HarvestMethod.AXE).harvestLevel(1)("petrified_leaves")
 }

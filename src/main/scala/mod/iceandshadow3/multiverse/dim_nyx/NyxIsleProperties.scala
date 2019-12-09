@@ -3,8 +3,9 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import mod.iceandshadow3.lib.spatial.{ITupleXZ, RandomXZ}
 
 case class NyxIsleProperties private(
-	treesA: Boolean,
-	treesB: Boolean //TODO: An enumeration for the possible tree types.
+	private val treesA: Boolean,
+	private val treesB: Boolean
+	//TODO: An enumeration of the possible tree types.
 ) {
 	def treesSparse = treesA || treesB
 	def treesDense = treesA && treesB

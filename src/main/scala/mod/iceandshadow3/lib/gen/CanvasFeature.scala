@@ -42,10 +42,16 @@ extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, TWorldGenColumnFn](blocks.
 	//These have the same units as IPosBlock, but are relative to something else.
 
 	/** Applies the provided function to one block. Usually inefficient. */
-	final def one(fn: BBlockFn, a: TupleXYZ): this.type = {
-		new Column(a.x, a.z).transform(a.y, fn)
+	final def one(fn: BBlockFn, x: Int, y: Int, z: Int): this.type = {
+		new Column(x, z).transform(y, fn)
 		this
 	}
+
+	/** Applies the provided function to one block. Usually inefficient. */
+	final def one(fn: BBlockFn, xz: ITupleXZ, y: Int): this.type = one(fn, xz.x, y, xz.z)
+
+	/** Applies the provided function to one block. Usually inefficient. */
+	final def one(fn: BBlockFn, a: TupleXYZ): this.type = one(fn, a, a.y)
 
 	/** Applies the provided function to every block in the specified region*/
 	final def cuboid(fn: BBlockFn, where: IRegion3d): this.type = {
