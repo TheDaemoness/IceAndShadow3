@@ -20,9 +20,6 @@ plugins {
     //id "de.undercouch.download" version "3.4.3"
     //id "com.github.bhuemer.gbt" //Consider replacing "scala" with this once it gets incremental compilation.
 }
-wrapper {
-    gradleVersion = '4.10.3'
-}
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'bloop'
 

@@ -14,7 +14,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Setup Gradle
-      run: gradle wrapper --gradle-version 4.10.2
-    - name: Build+Test+Check
+    - name: Build
+      run: ./gradlew classes
+    - name: Test+Check
       run: ./gradlew check

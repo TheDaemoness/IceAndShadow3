@@ -25,17 +25,13 @@ If you want to play around with it anyway, follow the added advancements.
 ## Getting Started (As A Developer)
 [![Last GitHub Workflow Run](https://github.com/TheDaemoness/IceAndShadow3/workflows/CI/badge.svg)](https://actions-badge.atrox.dev/TheDaemoness/IceAndShadow3/goto)
 
-IaS3 is written in Scala 2.13 and Java 8. It uses Gradle,
-but does not include a Gradle wrapper in VCS for largely philosophical reasons.
+IaS3 is written in Scala 2.13 and Java 8.
 
 To get a usable development environment:
 1. Ensure you are using Java **8 or later, up to and excluding 11**.
 Otherwise, you will run into problems with the Forge Gradle plugin.
 2. Clone/extract this repository into an empty directory.
-3. Get a compatible copy of the Gradle wrapper (4.9 up to and excluding 5.0). You can either:
-	* (Recommended) If you have Gradle installed, run `gradle wrapper` in the project directory.
-	* Extract a copy of the Forge MDK (28.0 up to and excluding 29.0) into the same directory *without overwriting any existing files*.
-4. Use the Gradle wrapper as usual with a compatible version of Java.
+3. Use the Gradle wrapper as usual with a compatible version of Java.
 	1. You may generate Intellij IDEA project files using the `idea` task, and Eclipse project files with `eclipse`.
 	Note that Eclipse's Scala plugin has been abandoned and is known to be unstable on Eclipse 4.11.
 	2. You may run the client and/or dedicated server with the `runClient` and `runServer` tasks respectively.

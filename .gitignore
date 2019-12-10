@@ -17,16 +17,12 @@ out
 # Gradle
 build
 .gradle
-gradlew
-gradlew.bat
-gradle
 
 # Scala Misc
 .metals
 .bloop
 
 # Other
-*.jar
 eclipse
 run
 sandbox
