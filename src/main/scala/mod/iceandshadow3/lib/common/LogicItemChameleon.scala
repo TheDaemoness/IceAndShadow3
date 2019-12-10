@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.subtype
+package mod.iceandshadow3.lib.common
 
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.misc.TextUtils

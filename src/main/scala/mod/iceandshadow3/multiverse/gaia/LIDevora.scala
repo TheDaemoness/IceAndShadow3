@@ -1,7 +1,7 @@
 package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.lib.subtype.LogicItemTwoForm
+import mod.iceandshadow3.lib.common.LogicItemTwoForm
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LIDevora extends LogicItemTwoForm(DomainGaia, "devora", 2, "small") {

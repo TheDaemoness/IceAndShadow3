@@ -11,7 +11,7 @@ Remember to add both to `iceandshadow3.InitCommon`!
 
 ## Type Name Prefixes
 
-The following rules apply to subpackages. 
+As there are a few common categories of types here, here are some more type name prefixes.
 
 * `Mat` - Scala object that extends BMateria or one of its children.
 * `LB` - Scala class that extends BLogicBlock.
@@ -21,5 +21,5 @@ The following rules apply to subpackages.
 
 ## Nyx Item Freezing
 
-The fixed list of vanilla items that freeze (in addition to the freezing behavior in general)
-can be found in `dim_nyx.LIFrozen`.
+The fixed list of vanilla items that freeze unusually can be found in `dim_nyx.UnusualFreezeMap`.
+Otherwise, see the `antifreeze` and `freezes` item tags.

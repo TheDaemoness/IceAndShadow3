@@ -1,9 +1,9 @@
 # .lib
 
-IaS3's internal "libMinecraft", as it were.
+IaS3's internal "libMinecraft".
 
-This directory specifically contains classes that are fundamental to the creation of IaS3.
-The building blocks, as it were.
+This package specifically contains classes that are fundamental to the creation of IaS3.
+Breakages between Minecraft versions will mainly happen here, and mainly in the `compat` subpackage.
 
 Classes in subpackages are either used in support of the implementation of these, or are more specialized.
 
