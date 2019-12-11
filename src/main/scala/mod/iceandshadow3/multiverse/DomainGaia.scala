@@ -3,7 +3,7 @@ package mod.iceandshadow3.multiverse
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.common.{LogicBlockOfMateria, LogicItemTwoForm}
 import mod.iceandshadow3.lib.util.{Color, E3vl}
-import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
+import mod.iceandshadow3.lib.{BDomain, BLogicItemSimple, LogicItemMulti}
 import mod.iceandshadow3.multiverse.gaia._
 
 object DomainGaia extends BDomain("gaia") {
@@ -18,6 +18,9 @@ object DomainGaia extends BDomain("gaia") {
 		val petrified_bricks = new LogicBlockOfMateria(DomainGaia, Materias.petrified_wood) {
 			override protected def getBaseName = "petrified_bricks"
 		}
+		val moonstone_block = new LogicBlockOfMateria(DomainGaia, Materias.moonstone) {
+			override protected def getBaseName = "moonstone_block"
+		}
 	}
 	val Items = new {
 		val minerals = new LIMinerals
@@ -27,6 +30,7 @@ object DomainGaia extends BDomain("gaia") {
 		val shale = new LIShale
 		val petrified_brick = new LogicItemMulti(DomainGaia, "petrified_brick", 1)
 		val jade = new LIJade
+		val moonstone = new LogicItemMulti(DomainGaia, "moonstone", 1)
 	}
 
 	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx

@@ -1,7 +1,7 @@
 ext {
     version_major = 0
     version_world = 0
-    version_minor = 23
+    version_minor = 24
     version_patch = 0
 
     // Minecraft and Forge version selection.

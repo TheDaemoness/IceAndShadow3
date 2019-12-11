@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"group": "iceandshadow3:gaia_moonstone_block",
+	"pattern": [
+		"###",
+		"###",
+		"###"
+	],
+	"key": {
+		"#": {
+			"item": "iceandshadow3:gaia_moonstone"
+		}
+	},
+	"result": {
+		"item": "iceandshadow3:gaia_moonstone_block"
+	}
+}

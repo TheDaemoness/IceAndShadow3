@@ -16,4 +16,6 @@ object Materias {
 	val petrified_leaves =
 		builder(livingstone).sounds(Materia.gravel).
 			hardness(0.6f).harvestWith(HarvestMethod.AXE).harvestLevel(1)("petrified_leaves")
+	val moonstone =
+		builder(Materia.stone).hardness(1f).harvestLevel(0).luma(9)("moonstone")
 }

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.gen
 
-import mod.iceandshadow3.lib.compat.block.WBlockState
+import mod.iceandshadow3.lib.compat.block.{BlockQueries, WBlockState}
 import mod.iceandshadow3.lib.data.BVar
 import mod.iceandshadow3.lib.spatial.IPosColumn
 
@@ -13,6 +13,17 @@ final class WorldGenColumn private[gen](
 	val rng: java.util.Random,
 	defaultBlock: Int => WBlockState
 ) extends IPosColumn with mutable.Seq[WBlockState] {
+	def highest(query: WBlockState => Boolean, starting: Int): (WBlockState, Int) = {
+		var y: Int = starting
+		while(y >= 0) {
+			val block = apply(y)
+			if(query(block)) return (block, y)
+			y -= 1
+		}
+		(null, -1)
+	}
+	def highest(query: WBlockState => Boolean): (WBlockState, Int) = highest(query, length-1)
+	def highest: (WBlockState, Int) = highest(BlockQueries.notReplaceable)
 	override def length = 256
 	private var array: Array[WBlockState] = _
 	private var metadata: mutable.HashMap[BVar[_], Any] = _

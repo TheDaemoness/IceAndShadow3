@@ -5,6 +5,7 @@ import mod.iceandshadow3.lib.compat.item.{WInventoryCrafting, WItemStack}
 import mod.iceandshadow3.lib.compat.recipe.ECraftingType
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting
+import mod.iceandshadow3.multiverse.DomainNyx
 
 object Recipes {
 	import mod.iceandshadow3.multiverse.DomainGaia._
@@ -27,12 +28,12 @@ object Recipes {
 			WItemStack.empty
 		}
 	}))
+	lazy val minerals = Items.minerals.asWItem(0)
 	for(variant <- ELivingstoneTypes.values()) {
 		val id = variant.ordinal()
 		val stonename = s"gaia_livingstone_${variant.name}"
 		val shalename = s"gaia_livingshale_${variant.name}"
 		Registrar.addRecipeCallback(s"craft.$stonename.grow", name => {
-			val minerals = Items.minerals.asWItem(0)
 			ECraftingType.CRAFT_SHAPELESS(name,
 				ECraftingType.About(Blocks.livingstone.asWItemStack(id).changeCount(8)),
 				Items.shale.asWItem(id),

@@ -6,6 +6,7 @@ import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.material.Material
 
 object BlockQueries {
+	def notReplaceable(bv: WBlockState) = !bv.exposeBS().getMaterial.isReplaceable
 	def stone(bv: WBlockState) = bv.exposeBS().getMaterial == Material.ROCK
 	def sand(bv: WBlockState): Boolean = bv.exposeBS().getMaterial == Material.SAND
 	def glass(bv: WBlockState): Boolean = bv.exposeBS().getMaterial == Material.GLASS
