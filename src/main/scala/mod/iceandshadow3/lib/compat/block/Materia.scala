@@ -28,6 +28,7 @@ case class Materia private(
 object Materia {
 	//TODO: Some of these are probably wrong (especially their blastFactor values).
 	import HarvestMethod._
+	val air = new Builder(Material.AIR, SoundType.SNOW, 0f, HAND).hardness(0).opacity(0)("air")
 	val stone = new Builder(Material.ROCK, SoundType.STONE, 2f, PICKAXE).resistFactor(3f)("stone")
 	val plasma = new Builder(Material.LAVA, SoundType.SLIME, 0f, PICKAXE).opacity(1)("plasma")
 	val glass = new Builder(Material.GLASS, SoundType.GLASS, 0.3f).opacity(0)("glass")

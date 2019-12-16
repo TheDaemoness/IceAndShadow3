@@ -1,5 +1,7 @@
 package mod.iceandshadow3.lib.spatial
 
+import mod.iceandshadow3.lib.compat.block.WBlockRef
+import mod.iceandshadow3.lib.compat.world.TWWorld
 import net.minecraft.util.math.BlockPos
 
 object IPosChunk {

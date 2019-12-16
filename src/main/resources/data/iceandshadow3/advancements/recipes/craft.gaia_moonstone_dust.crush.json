@@ -1,0 +1,30 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"iceandshadow3:craft.gaia_moonstone_dust.crush"
+		]
+	},
+	"criteria": {
+		"i": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{"item": "iceandshadow3:gaia_moonstone"}
+				]
+			}
+		},
+		"r": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "iceandshadow3:craft.gaia_moonstone_dust.crush"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"r",
+			"i"
+		]
+	]
+}

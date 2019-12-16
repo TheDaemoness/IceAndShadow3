@@ -53,7 +53,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Mater
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.
 		*/
 	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random): Unit = {}
-	def asWBlockState(variant: Int): WBlockState = new WBlockState(this, variant)
+	def asWBlockState(variant: Int = 0): WBlockState = new WBlockState(this, variant)
 
 	def variables: Array[BVarBlockNew[_]] = Array.empty
 

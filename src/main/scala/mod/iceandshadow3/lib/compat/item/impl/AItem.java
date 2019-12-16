@@ -24,6 +24,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import scala.Function1;
+import scala.runtime.BoxedUnit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -116,5 +118,19 @@ public class AItem extends Item implements LogicProvider.Item {
 	@Override
 	public int getBurnTime(ItemStack itemStack) {
 		return logic.getBurnTicks(variant, new WItemStack(itemStack, null));
+	}
+
+	@Override
+	public void inventoryTick(
+		ItemStack is, World world, net.minecraft.entity.Entity owner,
+		int slot, boolean held
+	) {
+		final Function1<WItemStack, BoxedUnit> handler = logic.handlerTickOwned(variant, held);
+		//TODO: WItemStack holding owner data is overstaying its welcome.
+		if(handler != null) handler.apply(new WItemStack(
+			is,
+			owner instanceof LivingEntity ? (LivingEntity)owner : null)
+		);
+		super.inventoryTick(is, world, owner, slot, held);
 	}
 }

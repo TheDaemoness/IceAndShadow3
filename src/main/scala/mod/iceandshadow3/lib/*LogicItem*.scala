@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib
 
+import javax.annotation.Nullable
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.BLogicWithItem
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
@@ -29,9 +30,11 @@ abstract class BLogicItem(dom: BDomain, name: String)
 
 	def damageLimit(variant: Int) = 0
 
-	override def asWItem(variant: Int) = BinderItem.wrap(this, variant)
+	override def asWItem(variant: Int = 0) = BinderItem.wrap(this, variant)
 	def getItemModelGen(variant: Int): Option[BJsonAssetGen[BLogicItem]] =
 		Some(BJsonAssetGen.itemDefault)
+
+	@Nullable def handlerTickOwned(variant: Int, held: Boolean): WItemStack => Unit = null
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (String, Int)*)

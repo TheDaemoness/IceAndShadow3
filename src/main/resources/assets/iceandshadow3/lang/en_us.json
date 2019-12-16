@@ -26,6 +26,7 @@
 	"item.iceandshadow3.gaia_jade_4": "Healing Jade Boulder",
   	"item.iceandshadow3.gaia_moonstone": "Moonstone Pebble",
   	"item.iceandshadow3.nyx_bone": "Petrified Bone",
+  	"item.iceandshadow3.gaia_moonstone_dust": "Moonstone Dustball",
 
 	"item.iceandshadow3.gaia_livingshale_gray": "Sagalith Shale",
 	"item.iceandshadow3.gaia_livingshale_brown": "Kapelith Shale",
@@ -55,6 +56,7 @@
 	"block.iceandshadow3.nyx_icicles": "Nyxian Icicles",
   	"block.iceandshadow3.nyx_nifelhium_crystal": "Crystalline Nifelhium",
   	"block.iceandshadow3.gaia_moonstone_block": "Moonstone Block",
+  	"block.iceandshadow3.gaia_moonstone_dust": "Moonstone Dust",
 
 	"effect.iceandshadow3.frost": "Deadly Frost",
 	"effect.iceandshadow3.exousia": "Exousia Burn",

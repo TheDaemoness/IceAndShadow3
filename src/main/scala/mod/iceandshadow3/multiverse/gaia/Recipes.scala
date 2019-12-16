@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.item.{WInventoryCrafting, WItemStack}
 import mod.iceandshadow3.lib.compat.recipe.ECraftingType
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting
-import mod.iceandshadow3.multiverse.DomainNyx
+import mod.iceandshadow3.multiverse.{DomainGaia, DomainNyx}
 
 object Recipes {
 	import mod.iceandshadow3.multiverse.DomainGaia._
@@ -45,6 +45,16 @@ object Recipes {
 			ECraftingType.COOK_SMELT(name,
 				ECraftingType.About(WItemStack.make(s"minecraft:${variant.name}_dye")),
 				Items.shale.asWItem(id)
+			)
+		})
+		Registrar.addRecipeCallback("craft.gaia_moonstone_dust.crush", name => {
+			ECraftingType.CRAFT_SHAPELESS(name,
+				ECraftingType.About({
+					val stack = WItemStack.make(s"iceandshadow3:gaia_moonstone_dust")
+					stack.consume(stack.getDamageMax - LIMoonstoneDust.DUST_PER_ITEM)
+					stack
+				}),
+				Items.moonstone.asWItem(0)
 			)
 		})
 	}

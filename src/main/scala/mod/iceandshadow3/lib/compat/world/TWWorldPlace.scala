@@ -1,11 +1,13 @@
 package mod.iceandshadow3.lib.compat.world
 
+import mod.iceandshadow3.lib.compat.block.WBlockRef
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.spatial.IPositionalCoarse
 import net.minecraft.world.LightType
 
 trait TWWorldPlace extends TWWorld {
   this: IPositionalCoarse =>
+  def block: WBlockRef = new WBlockRef(exposeWorld(), posCoarse.asBlockPos)
   def light: Int = exposeWorld().getLight(posCoarse)
   def sunlight: Int = exposeWorld().getLightFor(LightType.SKY, posCoarse)
   def blocklight: Int = exposeWorld().getLightFor(LightType.BLOCK, posCoarse)

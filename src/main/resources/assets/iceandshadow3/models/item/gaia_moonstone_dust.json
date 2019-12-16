@@ -1,0 +1,27 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "iceandshadow3:item/gaia_moonstone_dust.4"
+	},
+	"overrides": [
+		{
+		  "predicate": {
+			"minecraft:damage": 0.40
+		  },
+		  "model": "iceandshadow3:item/gaia_moonstone_dust.3"
+		},
+	  {
+		"predicate": {
+		  "minecraft:damage": 0.70
+		},
+		"model": "iceandshadow3:item/gaia_moonstone_dust.2"
+	  },
+	  {
+		"predicate": {
+		  "minecraft:damage": 0.90
+		},
+		"model": "iceandshadow3:item/gaia_moonstone_dust.1"
+	  }
+	]
+}
+

@@ -46,8 +46,6 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 		*/
 	def saveItem(what: WItemStack): Boolean = false
 
-	def isCreative = false
-
 	def visibleTo(who: WEntity): Boolean = living.canEntityBeSeen(who.entity)
 	def equipment(where: EquipPoint): WItemStack = where.getItem(living)
 

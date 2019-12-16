@@ -21,16 +21,18 @@ object DomainGaia extends BDomain("gaia") {
 		val moonstone_block = new LogicBlockOfMateria(DomainGaia, Materias.moonstone) {
 			override protected def getBaseName = "moonstone_block"
 		}
+		val moonstone_dust = new LBMoonstoneDust
 	}
 	val Items = new {
 		val minerals = new LIMinerals
 		val navistra = new LINavistra
-		val cortra = new LogicItemTwoForm(DomainGaia, "cortra", 2, "dust")
+		val cortra = new LogicItemTwoForm(DomainGaia, "cortra", 3, "dust")
 		val devora = new LIDevora
 		val shale = new LIShale
 		val petrified_brick = new LogicItemMulti(DomainGaia, "petrified_brick", 1)
 		val jade = new LIJade
-		val moonstone = new LogicItemMulti(DomainGaia, "moonstone", 1)
+		val moonstone = new LogicItemMulti(DomainGaia, "moonstone", 2)
+		val moonstone_dust = new LIMoonstoneDust
 	}
 
 	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx
