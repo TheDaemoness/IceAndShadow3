@@ -2,11 +2,9 @@ package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.item.ItemSeq
 import mod.iceandshadow3.lib.util.E3vl
-import net.minecraft.entity.LivingEntity
 import net.minecraft.inventory.IInventory
 
-//TODO: Incomplete.
-class WInventory(inv: IInventory, owner: LivingEntity = null) extends ItemSeq {
+class WInventory(inv: IInventory) extends ItemSeq {
 	def add(what: WItemStack): Boolean = {
 		if (what.isEmpty) return true
 		val whatexposed = what.asItemStack()
@@ -56,14 +54,14 @@ class WInventory(inv: IInventory, owner: LivingEntity = null) extends ItemSeq {
 		else inv.removeStackFromSlot(idx)
 	}
 	override def length = inv.getSizeInventory
-	override def apply(idx: Int) = new WItemStack(inv.getStackInSlot(idx), null)
+	override def apply(idx: Int) = new WItemStack(inv.getStackInSlot(idx))
 	override def iterator: Iterator[WItemStack] = new Iterator[WItemStack] {
 		var index = 0
 		override def hasNext = index < inv.getSizeInventory
 
 		override def next() = {
 			index += 1
-			new WItemStack(inv.getStackInSlot(index-1), owner)
+			new WItemStack(inv.getStackInSlot(index-1))
 		}
 	}
 }

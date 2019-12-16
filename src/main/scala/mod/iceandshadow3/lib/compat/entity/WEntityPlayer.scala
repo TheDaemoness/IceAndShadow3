@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.entity
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.compat.item.{WInventory, WItemStack}
+import mod.iceandshadow3.lib.compat.item.{WInventory, WInventoryOwned, WItemStack, WItemStackOwned}
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.compat.util.TLocalized
 import mod.iceandshadow3.lib.compat.world.{WDimension, WDimensionCoord}
@@ -27,21 +27,21 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 	override def home(where: WDimension): Option[IVec3] =
 		Option(player.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
 
-	override def isCreative = player.isCreative
+	final override def isCreative = player.isCreative
 
-	def inventory() = new WInventory(player.inventory)
-	def inventoryEnder() = new WInventory(player.getInventoryEnderChest)
+	def inventory() = new WInventoryOwned(player.inventory, this)
+	def inventoryEnder() = new WInventoryOwned[this.type](player.getInventoryEnderChest, this)
 
-	override def items(): Iterator[WItemStack] = {
+	override def items(): Iterator[WItemStackOwned[this.type]] = {
 		val inv = player.inventory
-		new IteratorConcat[ItemStack, WItemStack](
-			(is: ItemStack) => {new WItemStack(is, player)},
+		new IteratorConcat[ItemStack, WItemStackOwned[this.type]](
+			(is: ItemStack) => {new WItemStackOwned(is, this)},
 			inv.offHandInventory.iterator,
 			inv.armorInventory.iterator,
 			inv.mainInventory.iterator
 		)
 	}
-	override def itemsStashed(): Iterator[WItemStack] = inventoryEnder().iterator
+	override def itemsStashed(): Iterator[WItemStackOwned[this.type]] = inventoryEnder().iterator
 
 	override def saveItem(what: WItemStack): Boolean =
 		new WInventory(player.getInventoryEnderChest).add(what)

@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.misc
 
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
-import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
@@ -12,7 +12,6 @@ class WUsage(
 	hand: Hand,
 	val sneaking: Boolean
 ) {
-	val stack = new WItemStack(is, p)
-	val user = CNVEntity.wrap(p)
+	val stack = new WItemStackOwned(is, CNVEntity.wrap(p))
 	val mainhand = hand == Hand.MAIN_HAND
 }

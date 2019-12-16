@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.compat.entity
 import mod.iceandshadow3.lib.StatusEffect
 import mod.iceandshadow3.lib.compat.entity.state.{BStatus, EquipPoint, WAttribute}
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
-import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned}
 import mod.iceandshadow3.lib.compat.world.WDimension
 import mod.iceandshadow3.lib.spatial.{IVec3, Vec3Mutable}
 import mod.iceandshadow3.lib.util.collect.{IteratorConcat, IteratorEmpty}
@@ -47,26 +47,24 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 	def saveItem(what: WItemStack): Boolean = false
 
 	def visibleTo(who: WEntity): Boolean = living.canEntityBeSeen(who.entity)
-	def equipment(where: EquipPoint): WItemStack = where.getItem(living)
+	def equipment(where: EquipPoint): WItemStackOwned[WEntityLiving] = where.getItem(living)
 
-	def usesAds: Boolean = false //TODO: IaS3 Armor NYI
-
-	def findItem(itemid: String, restrictToHands: Boolean): WItemStack =
-		findItem(WItemStack.make(itemid).changeOwner(this), restrictToHands)
-	def findItem(tofind: WItemStack, restrictToHands: Boolean): WItemStack = {
+	def findItem(itemid: String, restrictToHands: Boolean): WItemStackOwned[this.type] =
+		findItem(WItemStack.make(itemid), restrictToHands)
+	def findItem(tofind: WItemStack, restrictToHands: Boolean): WItemStackOwned[this.type] = {
 		val tosearch = if(restrictToHands) itemsHeld() else items()
-		tosearch.find{tofind.matches}.getOrElse(new WItemStack(null, living))
+		tosearch.find{tofind.matches}.getOrElse(new WItemStackOwned(null, this))
 	}
 
-	def itemsWorn(): Iterator[WItemStack] =
-		new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, living.getArmorInventoryList.iterator)
-	def itemsHeld(): Iterator[WItemStack] =
-		new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, living.getHeldEquipment.iterator)
-	def itemsEquipped(): Iterator[WItemStack] =
-		new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, living.getEquipmentAndArmor.iterator)
-	def itemsStashed(): Iterator[WItemStack] =
-		new IteratorConcat((is: ItemStack) => {new WItemStack(is, living)}, new IteratorEmpty[ItemStack])
-	override def items(): Iterator[WItemStack] = itemsEquipped()
+	def itemsWorn(): Iterator[WItemStackOwned[this.type]] =
+		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, living.getArmorInventoryList.iterator)
+	def itemsHeld(): Iterator[WItemStackOwned[this.type]] =
+		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, living.getHeldEquipment.iterator)
+	def itemsEquipped(): Iterator[WItemStackOwned[this.type]] =
+		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, living.getEquipmentAndArmor.iterator)
+	def itemsStashed(): Iterator[WItemStackOwned[this.type]] =
+		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, new IteratorEmpty[ItemStack])
+	override def items(): Iterator[WItemStackOwned[this.type]] = itemsEquipped()
 
 	def baseValue(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getBaseValue
 	def apply(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getValue

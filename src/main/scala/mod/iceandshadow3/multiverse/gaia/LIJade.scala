@@ -15,11 +15,11 @@ class LIJade extends BLogicItem(DomainGaia, "jade") {
 
 	private val ticks = List(120, 150, 250, 470, 940)
 	override def onUseGeneral(variant: Int, context: WUsageItem) = {
-		val user = context.user
+		val user = context.stack.owner
 		if(user.hp < user.hpMax && user(StatusEffects.renewal).getAmp <= variant) {
 			user.playSound(WSound("minecraft:entity.generic.eat"), 0.5f)
 			StatusEffects.renewal.forTicks(ticks(variant), variant+1)(user)
-			context.stack.consume()
+			context.stack.degrade()
 			E3vl.TRUE
 		} else E3vl.FALSE
 	}

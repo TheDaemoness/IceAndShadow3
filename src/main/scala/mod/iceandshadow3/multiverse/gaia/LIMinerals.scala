@@ -27,9 +27,9 @@ class LIMinerals extends LogicItemMulti(DomainGaia, "minerals", 1) {
 			val sb = context.side
 			if(BlockQueries.notHarder(b.hardness)(sb)) {
 				if(sb.break(b.hardness, BlockQueries.mineableByHand(sb)) && sb.place(b.typeForPlace(context))) {
-					context.user.playSound(WSound("minecraft:block.gravel.hit"), 0.3f, 1.1f)
+					context.stack.playSound(WSound("minecraft:block.gravel.hit"), 0.3f, 1.1f)
 					b.playSound(b.soundDig) //Behavior intentional, not a bug.
-					context.stack.consume()
+					context.stack.degrade()
 				}
 				E3vl.TRUE
 			} else E3vl.FALSE

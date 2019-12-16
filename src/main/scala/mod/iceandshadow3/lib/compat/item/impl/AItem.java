@@ -5,11 +5,14 @@ import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.base.LogicProvider;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
+import mod.iceandshadow3.lib.compat.entity.CNVEntity;
+import mod.iceandshadow3.lib.compat.entity.WEntity;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
+import mod.iceandshadow3.lib.compat.item.WItemStackOwned;
 import mod.iceandshadow3.lib.compat.item.WUsageItem;
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock;
 import mod.iceandshadow3.lib.compat.world.WWorld;
-import mod.iceandshadow3.lib.item.BItemProperty;
+import mod.iceandshadow3.lib.item.BItemModelProperty;
 import mod.iceandshadow3.lib.util.E3vl;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -39,10 +42,7 @@ public class AItem extends Item implements LogicProvider.Item {
 
 	@Override
 	public boolean hasEffect(ItemStack stack) {
-		return super.hasEffect(stack) || logic.isShiny(
-			variant,
-				new WItemStack(stack, null)
-		);
+		return super.hasEffect(stack) || logic.isShiny(variant, new WItemStack(stack));
 	}
 
 	private final BLogicItem logic;
@@ -53,14 +53,19 @@ public class AItem extends Item implements LogicProvider.Item {
 		logic = itemlogic;
 		this.variant = variant;
 		lp = new LogicPair<>(itemlogic, variant);
-		for(BItemProperty bpo : logic.propertyOverrides()) {
+		for(BItemModelProperty bpo : logic.propertyOverrides()) {
 			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
-				final BItemProperty impl = bpo;
+				final BItemModelProperty impl = bpo;
 
 				@OnlyIn(Dist.CLIENT)
 				@Override
 				public float call(@Nonnull ItemStack is, @Nullable World world, @Nullable LivingEntity owner) {
-					return impl.call(new WItemStack(is, owner), new WWorld(world));
+					if(owner != null) return impl.valueOwned(new WItemStackOwned<>(is, CNVEntity.wrap(owner)));
+					else {
+						final WItemStack wis = new WItemStack(is);
+						if(world != null) return impl.valueUnowned(wis, new WWorld(world));
+						else return impl.valueUnowned(wis);
+					}
 				}
 			});
 		}
@@ -89,14 +94,14 @@ public class AItem extends Item implements LogicProvider.Item {
 		List<ITextComponent> tooltip,
 		ITooltipFlag flagIn)
 	{
-		final String tt = logic.addTooltip(variant, new WItemStack(stack, null));
+		final String tt = logic.addTooltip(variant, new WItemStack(stack));
 		if(!tt.isEmpty()) tooltip.add(new TranslationTextComponent(tt));
 	}
 
 	@Nonnull
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		final String nameOverride = logic.nameOverride(variant, new WItemStack(stack, null));
+		final String nameOverride = logic.nameOverride(variant, new WItemStack(stack));
 		if(nameOverride == null) return super.getTranslationKey(stack);
 		else return nameOverride;
 	}
@@ -117,7 +122,7 @@ public class AItem extends Item implements LogicProvider.Item {
 
 	@Override
 	public int getBurnTime(ItemStack itemStack) {
-		return logic.getBurnTicks(variant, new WItemStack(itemStack, null));
+		return logic.getBurnTicks(variant, new WItemStack(itemStack));
 	}
 
 	@Override
@@ -125,12 +130,9 @@ public class AItem extends Item implements LogicProvider.Item {
 		ItemStack is, World world, net.minecraft.entity.Entity owner,
 		int slot, boolean held
 	) {
-		final Function1<WItemStack, BoxedUnit> handler = logic.handlerTickOwned(variant, held);
+		final Function1<WItemStackOwned<WEntity>, BoxedUnit> handler = logic.handlerTickOwned(variant, held);
 		//TODO: WItemStack holding owner data is overstaying its welcome.
-		if(handler != null) handler.apply(new WItemStack(
-			is,
-			owner instanceof LivingEntity ? (LivingEntity)owner : null)
-		);
+		if(handler != null) handler.apply(new WItemStackOwned<>(is, CNVEntity.wrap(owner)));
 		super.inventoryTick(is, world, owner, slot, held);
 	}
 }

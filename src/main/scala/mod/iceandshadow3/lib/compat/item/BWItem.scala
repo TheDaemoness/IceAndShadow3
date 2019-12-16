@@ -3,6 +3,7 @@ package mod.iceandshadow3.lib.compat.item
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.base.{LogicPair, LogicProvider}
 import mod.iceandshadow3.lib.compat.block.WBlockState
+import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.util.Casting
 import net.minecraft.item.{BlockItem, Item, Items}
 import net.minecraft.tags.ItemTags
@@ -14,7 +15,9 @@ import scala.reflect.ClassTag
 abstract class BWItem extends LogicProvider.Item with IItemProvider {
 	override def asItem(): Item
 	def asWItem(): WItemType
-	def asWItemStack(): WItemStack = new WItemStack(asItem().getDefaultInstance, null)
+	def asWItemStack(): WItemStack = new WItemStack(asItem().getDefaultInstance)
+	def asWItemStack[Owner <: WEntity](owner: Owner): WItemStackOwned[Owner] =
+		new WItemStackOwned(asItem().getDefaultInstance, owner)
 	def getBlock: Option[WBlockState] = asItem() match {
 		case bi: BlockItem => Some(new WBlockState(bi.getBlock.getDefaultState))
 		case _ => None

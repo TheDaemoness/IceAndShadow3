@@ -27,7 +27,7 @@ class EventHandlerNyx extends BEventHandler {
 	def onInteract(event: PlayerInteractEvent): Unit = {
 		val player = CNVEntity.wrap(event.getPlayer)
 		if (DimensionNyx.coord.worldIs(event.getWorld) && !player.isCreative) {
-			val what = new WItemStack(event.getItemStack, event.getPlayer)
+			val what = new WItemStack(event.getItemStack)
 			val frozen = LIFrozen.freeze(what, new WWorld(event.getWorld), Some(player))
 			if(frozen.isDefined) {
 				event.getPlayer.setHeldItem(event.getHand, frozen.get.asItemStack())
@@ -42,7 +42,7 @@ class EventHandlerNyx extends BEventHandler {
 		if (DimensionNyx.coord.worldIs(event.getWorld)) {
 			event.getEntity match {
 				case ei: ItemEntity =>
-					val initial = new WItemStack(ei.getItem, null)
+					val initial = new WItemStack(ei.getItem)
 					val frozen = LIFrozen.freeze(initial, new WWorld(event.getWorld), None)
 					frozen.foreach(newitems => {
 						if(newitems.isEmpty) event.setCanceled(true)

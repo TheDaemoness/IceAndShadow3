@@ -43,14 +43,14 @@ object HandlerADS {
 								val reducedDmg = (totalArmorValue + totalShieldValue).apply(baseDmg)
 								avgDamage += reducedDmg
 								val degrade = damage.onDamageArmor(reducedDmg, totalArmorValue.soaked(baseDmg), equipped)
-								if (degrade > 0) equipped.consume(Math.ceil(degrade / 3f).toInt)
+								if (degrade > 0) equipped.degrade(Math.ceil(degrade / 3f).toInt)
 							} else avgDamage += baseDmg
 						}
 						avgDamage / equipset.size
 					} else baseDmg
 					if(!shield.isEmpty) {
 						val degrade = damage.onDamageArmor(resultDmg, totalShieldValue.soaked(baseDmg), shield)
-						if (degrade > 0) shield.consume(Math.ceil(degrade).toInt)
+						if (degrade > 0) shield.degrade(Math.ceil(degrade).toInt)
 					}
 					//Miscellaneous resistances.
 					var dmgmult = 1f

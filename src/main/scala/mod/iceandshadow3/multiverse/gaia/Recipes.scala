@@ -23,7 +23,7 @@ object Recipes {
 		}
 		override def apply(what: WInventoryCrafting): WItemStack = {
 			for(item <- what) {
-				if(!item.isEmpty && !item.matches(Items.minerals)) return item.copy.changeCount(2)
+				if(!item.isEmpty && !item.matches(Items.minerals)) return item.copy.setCount(2)
 			}
 			WItemStack.empty
 		}
@@ -35,7 +35,7 @@ object Recipes {
 		val shalename = s"gaia_livingshale_${variant.name}"
 		Registrar.addRecipeCallback(s"craft.$stonename.grow", name => {
 			ECraftingType.CRAFT_SHAPELESS(name,
-				ECraftingType.About(Blocks.livingstone.asWItemStack(id).changeCount(8)),
+				ECraftingType.About(Blocks.livingstone.asWItemStack(id).setCount(8)),
 				Items.shale.asWItem(id),
 				minerals, minerals, minerals, minerals,
 				minerals, minerals, minerals, minerals
@@ -51,7 +51,7 @@ object Recipes {
 			ECraftingType.CRAFT_SHAPELESS(name,
 				ECraftingType.About({
 					val stack = WItemStack.make(s"iceandshadow3:gaia_moonstone_dust")
-					stack.consume(stack.getDamageMax - LIMoonstoneDust.DUST_PER_ITEM)
+					stack.setDamage(stack.getDamageMax - LIMoonstoneDust.DUST_PER_ITEM)
 					stack
 				}),
 				Items.moonstone.asWItem(0)

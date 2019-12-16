@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.{ResourceLocation, ResourceLocationException}
 import net.minecraftforge.registries.ForgeRegistries
 
+import scala.language.implicitConversions
+
 object CNVItem {
   private def invalidIDBug(message: String): Unit =
     IaS3.bug(new IllegalArgumentException(), "newItemStack called with invalid ID \"$name\": $message")

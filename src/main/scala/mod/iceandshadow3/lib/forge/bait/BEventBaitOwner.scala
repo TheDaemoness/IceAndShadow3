@@ -2,8 +2,8 @@ package mod.iceandshadow3.lib.forge.bait
 
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.base.LogicPair
-import mod.iceandshadow3.lib.compat.entity.CNVEntity
-import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
+import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
 import net.minecraftforge.event.entity.living.LivingEvent
 
@@ -14,7 +14,9 @@ abstract class BEventBaitOwner[Event <: LivingEvent: ClassTag]
 {
   type FishType <: TEventFishOwner
   protected def catchFish(logicpair: LogicPair[BLogicItem]): Option[FishType]
-  protected def handleFish(event: Event, item: WItemStack, lp: LogicPair[BLogicItem], fish: FishType): Unit
+  protected def handleFish(
+    event: Event, item: WItemStackOwned[WEntityLiving], lp: LogicPair[BLogicItem], fish: FishType
+  ): Unit
 
   override protected def handle(event: Event): Unit = {
     val owner = CNVEntity.wrap(event.getEntityLiving)

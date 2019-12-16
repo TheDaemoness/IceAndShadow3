@@ -8,7 +8,7 @@ class WContainer(inv: Container) extends ItemSeq {
 	override def iterator: Iterator[WItemStack] = new Iterator[WItemStack] {
 		private val slotit = slots.iterator()
 		override def hasNext = slotit.hasNext
-		override def next() = new WItemStack(slotit.next.getStack, null)
+		override def next() = new WItemStack(slotit.next.getStack)
 	}
 
 	override def update(idx: Int, elem: WItemStack): Unit = {
@@ -18,5 +18,5 @@ class WContainer(inv: Container) extends ItemSeq {
 		else slot.decrStackSize(slot.getSlotStackLimit)
 	}
 	override def length = slots.size()
-	override def apply(idx: Int) = new WItemStack(slots.get(idx).getStack, null)
+	override def apply(idx: Int) = new WItemStack(slots.get(idx).getStack)
 }

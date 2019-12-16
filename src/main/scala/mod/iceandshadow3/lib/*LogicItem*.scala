@@ -3,11 +3,12 @@ package mod.iceandshadow3.lib
 import javax.annotation.Nullable
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.BLogicWithItem
+import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
-import mod.iceandshadow3.lib.item.BItemProperty
+import mod.iceandshadow3.lib.item.BItemModelProperty
 import mod.iceandshadow3.lib.util.E3vl
 
 abstract class BLogicItem(dom: BDomain, name: String)
@@ -25,7 +26,7 @@ abstract class BLogicItem(dom: BDomain, name: String)
 	def isShiny(variant: Int, stack: WItemStack) = false
 	def onUseGeneral(variant: Int, context: WUsageItem) = E3vl.NEUTRAL
 	def onUseBlock(variant: Int, context: WUsageItemOnBlock) = E3vl.NEUTRAL
-	def propertyOverrides(): Array[BItemProperty] = new Array[BItemProperty](0)
+	def propertyOverrides(): Array[BItemModelProperty] = new Array[BItemModelProperty](0)
 	def getBurnTicks(variant: Int, stack: WItemStack) = 0
 
 	def damageLimit(variant: Int) = 0
@@ -34,7 +35,7 @@ abstract class BLogicItem(dom: BDomain, name: String)
 	def getItemModelGen(variant: Int): Option[BJsonAssetGen[BLogicItem]] =
 		Some(BJsonAssetGen.itemDefault)
 
-	@Nullable def handlerTickOwned(variant: Int, held: Boolean): WItemStack => Unit = null
+	@Nullable def handlerTickOwned(variant: Int, held: Boolean): WItemStackOwned[WEntity] => Unit = null
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (String, Int)*)

@@ -1,6 +1,5 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WUsageItem}
 import mod.iceandshadow3.lib.compat.world.WWorld
@@ -19,8 +18,8 @@ object LIFrozen {
 		if(freezability.fold(false)(_.freezes)) {
 			if(freezability.orNull.unusual) {
 				val newname = UnusualFreezeMap(name).orNull
-				if(newname == null) new WItemStack(null, null)
-				else WItemStack.make(newname).changeCount(input.count)
+				if(newname == null) WItemStack.empty
+				else WItemStack.make(newname).setCount(input.count)
 			} else LogicItemChameleon.createFrom(input, DomainAlien.frozen)
 		} else input
 	}
@@ -37,12 +36,12 @@ object LIFrozen {
 
 class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
 	override def onUseGeneral(variant: Int, context: WUsageItem) = {
-		val hellish = E3vl.fromBool(context.user.dimension.isHellish)
+		val hellish = E3vl.fromBool(context.stack.dimension.isHellish)
 		hellish.forBoolean(b => {
 			if(b) {
-				context.user.give(context.stack(LogicItemChameleon.varItemWrapped))
+				context.stack.owner.give(context.stack(LogicItemChameleon.varItemWrapped))
 				context.stack.destroy()
-			} else context.user.message("iced_over")
+			} else context.stack.owner.message("iced_over")
 		})
 		hellish
 	}
