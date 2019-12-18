@@ -27,12 +27,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import scala.Function1;
-import scala.runtime.BoxedUnit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class AItem extends Item implements LogicProvider.Item {
 
@@ -42,7 +42,11 @@ public class AItem extends Item implements LogicProvider.Item {
 
 	@Override
 	public boolean hasEffect(ItemStack stack) {
-		return super.hasEffect(stack) || logic.isShiny(variant, new WItemStack(stack));
+		if(!super.hasEffect(stack)) {
+			final Predicate<WItemStack> handler = logic.handlerShine(variant);
+			if(handler != null) return handler.test(new WItemStack(stack));
+			else return false;
+		} else return true;
 	}
 
 	private final BLogicItem logic;
@@ -130,9 +134,9 @@ public class AItem extends Item implements LogicProvider.Item {
 		ItemStack is, World world, net.minecraft.entity.Entity owner,
 		int slot, boolean held
 	) {
-		final Function1<WItemStackOwned<WEntity>, BoxedUnit> handler = logic.handlerTickOwned(variant, held);
+		final Consumer<WItemStackOwned<WEntity>> handler = logic.handlerTickOwned(variant, held);
 		//TODO: WItemStack holding owner data is overstaying its welcome.
-		if(handler != null) handler.apply(new WItemStackOwned<>(is, CNVEntity.wrap(owner)));
+		if(handler != null) handler.accept(new WItemStackOwned<>(is, CNVEntity.wrap(owner)));
 		super.inventoryTick(is, world, owner, slot, held);
 	}
 }

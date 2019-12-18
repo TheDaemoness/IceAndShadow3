@@ -14,7 +14,7 @@ class WEntityPlayerReal protected[entity](protected[compat] val spe: ServerPlaye
 	override def advancement(name: String, criteria: String*): Unit = {
 		val what = spe.getServer.getAdvancementManager.getAdvancement(new ResourceLocation(IaS3.MODID, name))
 		if(what == null) {
-			IaS3.logger.warn(s"Advancement with id $name does not exist.")
+			IaS3.logger.error(s"Advancement with id $name does not exist.")
 			return
 		}
 		val advancements = spe.getAdvancements

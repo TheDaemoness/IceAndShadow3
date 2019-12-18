@@ -32,9 +32,6 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 	protected def getDefaultCoord(who: WEntityLiving): IVec3 =
 		who.home(who.dimension).getOrElse(who.posFine)
 
-	override def isShiny(variant: Int, stack: WItemStack) =
-		stack(LIWayfinder.varCharged)
-
 	override def onUseGeneral(variant: Int, context: WUsageItem): E3vl = {
 		if (!context.mainhand) {
 			if (!context.stack(LIWayfinder.varCharged)) {
@@ -133,4 +130,5 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 	)
 
 	override def getItemModelGen(variant: Int) = None
+	override def handlerShine(variant: Int) = _.apply(LIWayfinder.varCharged)
 }

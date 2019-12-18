@@ -1,5 +1,7 @@
 package mod.iceandshadow3.lib
 
+import java.util.function.{Consumer, Predicate}
+
 import javax.annotation.Nullable
 import mod.iceandshadow3.ContentLists
 import mod.iceandshadow3.lib.base.BLogicWithItem
@@ -23,7 +25,6 @@ abstract class BLogicItem(dom: BDomain, name: String)
 
 	//TODO: Expand when we have our own text formatting stuff.
 	def addTooltip(variant: Int, what: WItemStack): String = ""
-	def isShiny(variant: Int, stack: WItemStack) = false
 	def onUseGeneral(variant: Int, context: WUsageItem) = E3vl.NEUTRAL
 	def onUseBlock(variant: Int, context: WUsageItemOnBlock) = E3vl.NEUTRAL
 	def propertyOverrides(): Array[BItemModelProperty] = new Array[BItemModelProperty](0)
@@ -35,7 +36,8 @@ abstract class BLogicItem(dom: BDomain, name: String)
 	def getItemModelGen(variant: Int): Option[BJsonAssetGen[BLogicItem]] =
 		Some(BJsonAssetGen.itemDefault)
 
-	@Nullable def handlerTickOwned(variant: Int, held: Boolean): WItemStackOwned[WEntity] => Unit = null
+	@Nullable def handlerTickOwned(variant: Int, held: Boolean): Consumer[WItemStackOwned[WEntity]] = null
+	@Nullable def handlerShine(variant: Int): Predicate[WItemStack] = null
 }
 
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (String, Int)*)
