@@ -8,8 +8,8 @@ abstract class BWBlockType
 extends LogicProvider.Block {
 	protected[compat] def asBlock(): Block
 
-	override def getLogicPair = asBlock() match {
-		case lp: LogicProvider.Block => lp.getLogicPair
+	override def getLogic = asBlock() match {
+		case lp: LogicProvider.Block => lp.getLogic
 		case _ => null
 	}
 

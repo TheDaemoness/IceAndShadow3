@@ -34,8 +34,8 @@ extends LogicBlock(DomainGaia, "livingstone_"+variant.name, Materias.livingstone
 
 	override def onReplaced(us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {
 		for(block <- AdjacentBlocks.Surrounding(us)) {
-			val lp = block.getLogicPair
-			if(lp != null && lp.logic.variables.contains(LBStoneLiving.varGrowing)) {
+			val logic = block.getLogic
+			if(logic != null && logic.variables.contains(LBStoneLiving.varGrowing)) {
 				block.promote(us).change(_ + (LBStoneLiving.varGrowing, true))
 			}
 		}

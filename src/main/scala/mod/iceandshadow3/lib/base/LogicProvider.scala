@@ -9,19 +9,18 @@ import mod.iceandshadow3.multiverse.DomainAlien
 import scala.reflect.ClassTag
 
 sealed trait LogicProvider[LogicType <: BLogic] extends TFaceted[Object] with IRegistered {
-	@Nullable def getLogicPair: LogicPair[LogicType]
+	@Nullable def getLogic: LogicType
 	def getDomain: BDomain = {
-		val logos = getLogicPair
-		if(logos == null) DomainAlien else logos.logic.domain
+		val logos = getLogic
+		if(logos == null) DomainAlien else logos.domain
 	}
 	override def facet[What <: Object : ClassTag] = {
-		val lp = getLogicPair
-		if(lp == null) None else lp.logic.facet[What]
+		val lp = getLogic
+		if(lp == null) None else lp.facet[What]
 	}
-
 	override def modName = {
-		val lp = getLogicPair
-		lp.logic.name
+		val lp = getLogic
+		lp.name
 	}
 	override def namespace = IaS3.MODID
 }

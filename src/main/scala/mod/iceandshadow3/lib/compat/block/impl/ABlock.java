@@ -2,7 +2,6 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.block.*;
@@ -45,8 +44,8 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 
 	@Nonnull
 	@Override
-	public LogicPair<BLogicBlock> getLogicPair() {
-		return new LogicPair<>(logic, 0);
+	public BLogicBlock getLogic() {
+		return logic;
 	}
 
 	private final VoxelShape defaultShape;

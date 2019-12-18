@@ -19,7 +19,7 @@ object BlockQueries {
 	def mineableByDiamond(bv: WBlockState) = bv.exposeBS().getHarvestLevel <= 3
 
 	def materia(materia: Materia): WBlockState => Boolean =
-		bv => Option(bv.getLogicPair).fold(false)(lp => {lp.logic.materia.isTypeOf(materia)})
+		bv => Option(bv.getLogic).fold(false)(logic => {logic.materia.isTypeOf(materia)})
 	def notTougher(bs: WBlockState): WBlockState => Boolean =
 		_.exposeBS().getHarvestLevel >= bs.exposeBS().getHarvestLevel
 	def isFurnace: WBlockState => Boolean =
@@ -28,10 +28,7 @@ object BlockQueries {
 	def notHarder(hardness: Float): WBlockView => Boolean = _.hardness <= hardness
 	def notSofter(hardness: Float): WBlockView => Boolean = _.hardness >= hardness
 	def crushableBy(what: WBlockView): WBlockView => Boolean = v => { v.hardness < what.hardness }
-	def hasLogic(bl: BLogicBlock): WBlockView => Boolean = bv => {
-		val lp = bv.getLogicPair
-		lp != null && lp.logic == bl
-	}
+	def hasLogic(bl: BLogicBlock): WBlockView => Boolean = bv => bl == bv.getLogic
 	def varMatches[T](variable: BVarBlock[T], pred: T => Boolean): WBlockView => Boolean = {
 		wbv => wbv ? (variable, pred)
 	}

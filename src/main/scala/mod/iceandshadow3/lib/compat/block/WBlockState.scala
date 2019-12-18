@@ -52,8 +52,8 @@ with TBlockStateSource {
 		else exposeBS().isIn(tag)
 	}
 
-	override def getLogicPair = exposeBS().getBlock match {
-		case lp: LogicProvider.Block => lp.getLogicPair
+	override def getLogic = exposeBS().getBlock match {
+		case lp: LogicProvider.Block => lp.getLogic
 		case _ => null
 	}
 

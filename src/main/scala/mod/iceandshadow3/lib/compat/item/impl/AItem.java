@@ -2,7 +2,6 @@ package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicItem;
-import mod.iceandshadow3.lib.base.LogicPair;
 import mod.iceandshadow3.lib.base.LogicProvider;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
@@ -51,11 +50,9 @@ public class AItem extends Item implements LogicProvider.Item {
 	}
 
 	private final BLogicItem logic;
-	private final LogicPair<BLogicItem> lp;
 	public AItem(BLogicItem itemlogic) {
 		super(LogicToProperties$.MODULE$.toProperties(itemlogic));
 		logic = itemlogic;
-		lp = new LogicPair<>(itemlogic, 0);
 		for(BItemModelProperty bpo : logic.propertyOverrides()) {
 			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
 				final BItemModelProperty impl = bpo;
@@ -76,8 +73,8 @@ public class AItem extends Item implements LogicProvider.Item {
 
 	@Nonnull
 	@Override
-	public LogicPair<BLogicItem> getLogicPair() {
-		return lp;
+	public BLogicItem getLogic() {
+		return logic;
 	}
 
 	@Nonnull
@@ -85,7 +82,7 @@ public class AItem extends Item implements LogicProvider.Item {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
 		final boolean mainhand = handIn == Hand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
-		final WUsageItem context = new WUsageItem(getLogicPair(), is, playerIn, handIn, playerIn.isSneaking());
+		final WUsageItem context = new WUsageItem(getLogic(), is, playerIn, handIn, playerIn.isSneaking());
 		final E3vl result = logic.onUseGeneral(context);
 		return new ActionResult<>(toEActionResult(result), context.stack().asItemStack());
 	}
@@ -115,7 +112,7 @@ public class AItem extends Item implements LogicProvider.Item {
 	@Override
 	@Nonnull
 	public ActionResultType onItemUse(ItemUseContext ctxi) {
-		final WUsageItemOnBlock context = new WUsageItemOnBlock(getLogicPair(), ctxi);
+		final WUsageItemOnBlock context = new WUsageItemOnBlock(getLogic(), ctxi);
 		final E3vl result = logic.onUseBlock(context);
 		return toEActionResult(result);
 	}

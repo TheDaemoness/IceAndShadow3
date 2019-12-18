@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.base.{LogicPair, LogicProvider}
+import mod.iceandshadow3.lib.base.LogicProvider
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.util.Casting
@@ -35,9 +35,9 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider {
 		case _ => None
 	}
 
-	override def getLogicPair: LogicPair[BLogicItem] =
+	override def getLogic: BLogicItem =
 		asItem() match {
-			case lp: LogicProvider.Item => lp.getLogicPair
+			case lp: LogicProvider.Item => lp.getLogic
 			case _ => null
 		}
 
@@ -54,7 +54,7 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider {
 	def matches(what: BWItem) =
 		asItem() == what.asItem()
 	def matches(what: BLogicItem) = {
-		val lp = getLogicPair
-		lp != null && lp.logic == what
+		val lp = getLogic
+		lp != null && lp == what
 	}
 }
