@@ -46,7 +46,7 @@ class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
 		hellish
 	}
 
-	override def addTooltip(what: WItemStack) = "iceandshadow3.tooltip.iced_over"
+	override val handlerTooltip = _ => "iceandshadow3.tooltip.iced_over"
 
 	//TODO: This could use its own model, one which loads the source model and adds ice textures to it.
 }

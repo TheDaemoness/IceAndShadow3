@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.compat.block
 
+import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.compat.block.`type`.{CommonBlockTypes, TBlockStateSource}
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.{TWWorld, TWWorldPlace, WSound}

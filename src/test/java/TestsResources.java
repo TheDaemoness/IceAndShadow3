@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
 import mod.iceandshadow3.lib.base.BLogic;
-import mod.iceandshadow3.lib.base.BLogicWithItem;
+import mod.iceandshadow3.lib.base.TLogicWithItem;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import scala.runtime.BoxedUnit;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -160,9 +161,11 @@ class TestsResources {
 
 	@ParameterizedTest(name = "{0} should have item models or the correct overrides.")
 	@MethodSource({"streamLogicBlock", "streamLogicItem"})
-	void logicHasItemModels(BLogicWithItem base) {
-		if(base instanceof BLogicBlock && base.isTechnical()) return;
-		assetExistenceTest(base, "/models/item/", " is missing an item model");
+	void logicHasItemModels(BLogic base) {
+		((BLogic) base).itemLogic().foreach(logic -> {
+			assetExistenceTest(logic, "/models/item/", " is missing an item model");
+			return null;
+		});
 	}
 
 	@ParameterizedTest(name = "{0} should have block models.")

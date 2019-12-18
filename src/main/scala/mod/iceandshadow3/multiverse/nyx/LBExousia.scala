@@ -1,7 +1,7 @@
 package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.damage.{Attack, AttackForm, DamageWithStatus, TDmgTypeExousic}
-import mod.iceandshadow3.lib.LogicBlockSimple
+import mod.iceandshadow3.lib.{LogicBlock, LogicBlockTechnical}
 import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.{Materia, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WEntityLiving, WProjectile}
@@ -16,7 +16,7 @@ object LBExousia {
 	val materia = Materia.builder(Materia.plasma).luma(9)("exousia")
 	val tagResist = "iceandshadow3:resists_exousia"
 }
-class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", LBExousia.materia) {
+class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.materia) {
 	val damage = Attack(
 		"exousia", AttackForm.VOLUME,
 		new DamageWithStatus(6f, StatusEffects.exousia.forTicks(119)) with TDmgTypeExousic
@@ -46,16 +46,13 @@ class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", LBExousia.materia
 		}
 	}
 
-	override def isTechnical = true
-
-	lazy val blocktype = new WBlockState(this)
 	override def onNeighborChanged(us: WBlockRef, them: WBlockRef): WBlockState = {
 		if(them.posFine.yBlock <= us.posFine.yBlock && !them.hasTag(LBExousia.tagResist)) {
 			if(!them.isAir) {
 				//TODO: Previous particle effects were placeholder AND looked bad. Make better ones.
 				them.playSound(WSound("minecraft:entity.generic.burn"), 1f, them.rng(0.9f, 0.2f))
 			}
-			them.set(blocktype)
+			them.set(this.toWBlockState)
 		}
 		us
 	}

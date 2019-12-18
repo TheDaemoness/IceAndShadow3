@@ -32,6 +32,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class AItem extends Item implements LogicProvider.Item {
@@ -96,8 +97,11 @@ public class AItem extends Item implements LogicProvider.Item {
 		List<ITextComponent> tooltip,
 		ITooltipFlag flagIn)
 	{
-		final String tt = logic.addTooltip(new WItemStack(stack));
-		if(!tt.isEmpty()) tooltip.add(new TranslationTextComponent(tt));
+		final Function<WItemStack, String> handler = logic.handlerTooltip();
+		if(handler != null) {
+			final String tt = handler.apply(new WItemStack(stack));
+			if(tt != null) tooltip.add(new TranslationTextComponent(tt));
+		}
 	}
 
 	@Nonnull

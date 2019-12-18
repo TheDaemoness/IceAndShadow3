@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.gaia
 
-import mod.iceandshadow3.lib.LogicBlockSimple
+import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.VarBlockOrd
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block._
@@ -8,7 +8,7 @@ import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBLeaves(name: String, materia: Materia, val parent: LBLog)
-extends LogicBlockSimple(DomainGaia, name, materia) {
+extends LogicBlock(DomainGaia, name, materia) {
 	val varSupport = new VarBlockOrd("support", parent.leafSupport)
 
 	override def variables = Array(varSupport)

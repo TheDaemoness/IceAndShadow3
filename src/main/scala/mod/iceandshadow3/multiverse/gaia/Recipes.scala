@@ -27,15 +27,15 @@ object Recipes {
 			WItemStack.empty
 		}
 	}))
-	lazy val minerals = Items.minerals.toWItem
+	lazy val minerals = Items.minerals.toWItemType
 	for(variant <- ELivingstoneTypes.values()) {
 		val id = variant.ordinal()
 		val stonename = s"gaia_livingstone_${variant.name}"
 		val shalename = s"gaia_livingshale_${variant.name}"
 		Registrar.addRecipeCallback(s"craft.$stonename.grow", name => {
 			ECraftingType.CRAFT_SHAPELESS(name,
-				ECraftingType.About(Blocks.livingstones(id).asWItemStack.setCount(8)),
-				Items.shales(id).toWItem,
+				ECraftingType.About(Blocks.livingstones(id).toWItemStack.setCount(8)),
+				Items.shales(id).toWItemType,
 				minerals, minerals, minerals, minerals,
 				minerals, minerals, minerals, minerals
 			)
@@ -43,7 +43,7 @@ object Recipes {
 		Registrar.addRecipeCallback(s"smelting.$shalename", name => {
 			ECraftingType.COOK_SMELT(name,
 				ECraftingType.About(WItemStack.make(s"minecraft:${variant.name}_dye")),
-				Items.shales(id).toWItem
+				Items.shales(id).toWItemType
 			)
 		})
 		Registrar.addRecipeCallback("craft.gaia_moonstone_dust.crush", name => {
@@ -53,7 +53,7 @@ object Recipes {
 					stack.setDamage(stack.getDamageMax - LIMoonstoneDust.DUST_PER_ITEM)
 					stack
 				}),
-				Items.moonstone.toWItem
+				Items.moonstone.toWItemType
 			)
 		})
 	}

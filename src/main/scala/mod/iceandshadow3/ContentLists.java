@@ -30,7 +30,7 @@ public class ContentLists {
 	public static Stream<BLogic> logicsWithItems() {
 		return Stream.concat(
 			item.stream(),
-			block.stream().filter(l -> !l.isTechnical())
+			block.stream().filter(l -> l.itemLogic().isDefined())
 		);
 	}
 }

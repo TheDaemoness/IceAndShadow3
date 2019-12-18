@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.lib.LogicBlockSimple
+import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.{BlockShape, BlockSubCuboid}
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, Materia, WBlockRef, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
@@ -11,7 +11,7 @@ object LBNifelhiumCrystal {
 	val materia =
 		Materia.builder(Materia.ice_blue).hardness(0f).opacity(8)("nifehlium_crystal")
 }
-class LBNifelhiumCrystal extends LogicBlockSimple(DomainNyx, "nifelhium_crystal", LBNifelhiumCrystal.materia) {
+class LBNifelhiumCrystal extends LogicBlock(DomainNyx, "nifelhium_crystal", LBNifelhiumCrystal.materia) {
 	override def areSurfacesFull = false
 	override def harvestXP(what: WBlockView, silktouch: Boolean): Int = 13
 	override def canStayAt(block: WBlockView, preexisting: Boolean) =

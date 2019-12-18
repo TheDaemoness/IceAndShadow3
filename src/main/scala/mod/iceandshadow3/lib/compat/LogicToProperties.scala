@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.compat
 
 import mod.iceandshadow3.lib.{BLogicBlock, BLogicItem}
-import mod.iceandshadow3.lib.base.BLogicWithItem
+import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
 import mod.iceandshadow3.lib.compat.item.impl.CreativeTab
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 
 private[compat] object LogicToProperties {
 
-	def toPropertiesPartial(item: BLogicWithItem): Item.Properties = {
+	def toPropertiesPartial(item: BLogic with TLogicWithItem): Item.Properties = {
 		val retval = new Item.Properties
 		retval.maxStackSize(item.stackLimit)
 		retval.rarity(item.domain.tierToRarity(item.tier).rarity)

@@ -4,14 +4,14 @@ import java.nio.file.Path
 import java.util
 
 import com.google.common.base.Charsets
-import mod.iceandshadow3.lib.base.BLogicWithItem
+import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.{BFileGen, Registrar}
 import net.minecraft.data.DataGenerator
 
 object FileGenerators {
 	private val assets: BFileGen = new BFileGen("ias3_json_assets") {
-		def addTo[Logic <: BLogicWithItem, AssetGen <: BJsonAssetGen[Logic]](
+		def addTo[Logic <: BLogic, AssetGen <: BJsonAssetGen[Logic]](
 			map: util.Map[Path, Array[Byte]],
 			assetRoot: Path,
 			item: Logic,
@@ -38,10 +38,9 @@ object FileGenerators {
 				val model = block.getBlockModelGen
 				blockstates.foreach(gen => addTo(retval, assetRoot, block, gen))
 				model.foreach(gen => addTo(retval, assetRoot, block, gen))
-				if(!block.isTechnical) {
-					val modelItem = block.getItemModelGen
-					modelItem.foreach(gen => addTo(retval, assetRoot, block, gen))
-				}
+				block.itemLogic.foreach(blockItem => {
+						blockItem.getItemModelGen.foreach(gen => addTo(retval, assetRoot, blockItem, gen))
+				})
 			}
 			retval
 		}

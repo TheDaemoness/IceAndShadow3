@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.item
 
-import mod.iceandshadow3.lib.BLogicItem
+import mod.iceandshadow3.lib.compat.block.impl.BinderBlock
+import mod.iceandshadow3.lib.{BLogicBlock, BLogicItem}
 import mod.iceandshadow3.lib.compat.entity.state.{AttributeModTotal, EquipPointVanilla, WAttribute}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
@@ -100,8 +101,12 @@ object WItemStack {
 	}
 	def make(id: String): WItemStack =
 		new WItemStack(CNVItem.newItemStack(id))
-	def make(logic: BLogicItem): WItemStack = {
-		val item: Item = BinderItem(logic).asInstanceOf[Item]
+	private[lib] def make(logic: BLogicItem): WItemStack = {
+		val item = BinderItem(logic)
+		if(item == null) new WItemStack() else new WItemStack(item)
+	}
+	private[lib] def make(logic: BLogicBlock): WItemStack = {
+		val item: Item = BinderBlock(logic)._2
 		if(item == null) new WItemStack() else new WItemStack(item)
 	}
 }

@@ -11,6 +11,7 @@ abstract class BLogic(val domain: BDomain, protected val baseName: String)
 extends INamed with TFaceted[Object] {
 	def isTechnical: Boolean = false
 	def tier: Int
+	def itemLogic: Option[BLogic with TLogicWithItem]
 
 	/** Used for both localization and model directory querying. */
 	def pathPrefix: String

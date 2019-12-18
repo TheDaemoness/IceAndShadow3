@@ -3,17 +3,17 @@ package mod.iceandshadow3.lib
 import java.util.Random
 
 import mod.iceandshadow3.ContentLists
-import mod.iceandshadow3.lib.base.{BLogicWithItem, TLootable}
+import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TLootable}
 import mod.iceandshadow3.lib.block.{BlockShape, HarvestMethod}
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlockNew, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.{BJsonAssetGen, BJsonAssetGenBlock, BJsonAssetGenBlockstates, BJsonAssetGenItem}
-import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemType}
 import mod.iceandshadow3.lib.compat.world.WWorld
 
 sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Materia)
-	extends BLogicWithItem(dom, name)
+	extends BLogic(dom, name)
 	with BinderBlock.TKey
 	with TLootable
 {
@@ -23,9 +23,7 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Mater
 	def isToolClassEffective(m: HarvestMethod) = materia.isEffective(m)
 	def randomlyUpdates: Option[WBlockState => Boolean] = None
 	def multipleOpacities = false
-
-	override def stackLimit = 64
-	final override def hasItem = isTechnical
+	override def itemLogic: Option[LogicBlock]
 
 	final override def pathPrefix: String = "block"
 
@@ -54,17 +52,26 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Mater
 	def clientSideTick(client: WWorld, us: WBlockView, rng: Random): Unit = {}
 	def variables: Array[BVarBlockNew[_]] = Array.empty
 
-	def toWBlockState: WBlockState = new WBlockState(this)
-	override def toWItem = BinderBlock.wrap(this)
+	final lazy val toWBlockState: WBlockState = new WBlockState(this)
 
 	def getBlockModelGen: Option[BJsonAssetGenBlock] = None
 	def getBlockstatesGen: Option[BJsonAssetGenBlockstates] = Some(BJsonAssetGen.blockstatesDefault)
-	def getItemModelGen: Option[BJsonAssetGenItem[BLogicBlock]] =
+}
+
+class LogicBlock(dom: BDomain, name: String, mat: Materia)
+	extends BLogicBlock(dom, name, mat)
+	with TLogicWithItem
+{
+	override def stackLimit = 64
+	override def itemLogic: Option[LogicBlock] = Some(this)
+	final override def toWItemType = WItemType.make(this)
+	final def toWItemStack = WItemStack.make(this)
+
+	def getItemModelGen: Option[BJsonAssetGenItem[LogicBlock]] =
 		Some(BJsonAssetGen.itemBlockDefault)
 }
 
-class LogicBlockSimple(dom: BDomain, name: String, mat: Materia) extends BLogicBlock(dom, name, mat)
-
-abstract class BLogicBlockComplex(dom: BDomain, name: String, mat: Materia) extends BLogicBlock(dom, name, mat) {
-	//TODO: Manually generated class stub. For blocks with tile entities.
+class LogicBlockTechnical(dom: BDomain, name: String, mat: Materia) extends BLogicBlock(dom, name, mat) {
+	final override def itemLogic = None
+	override final def isTechnical = true
 }

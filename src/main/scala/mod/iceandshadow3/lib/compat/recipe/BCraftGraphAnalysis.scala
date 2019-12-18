@@ -40,7 +40,7 @@ extends (BWItem => T) {
 				values.update(what, resolveFinal(default, list))
 			}
 		}
-		ForgeRegistries.ITEMS.getValues.asScala.map(WItemType).foreach(dfs)
+		ForgeRegistries.ITEMS.getValues.asScala.map(WItemType.apply).foreach(dfs)
 		values.toMap
 	}
 

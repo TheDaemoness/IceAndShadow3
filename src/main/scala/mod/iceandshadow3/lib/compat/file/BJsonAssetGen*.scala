@@ -1,13 +1,13 @@
 package mod.iceandshadow3.lib.compat.file
 
-import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.base.BLogicWithItem
+import mod.iceandshadow3.lib.{BLogicBlock, LogicBlock}
+import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
 
-sealed abstract class BJsonAssetGen[-T <: BLogicWithItem] {
+sealed abstract class BJsonAssetGen[-T <: BLogic] {
 	def apply(logic: T): String
 	def path: String
 }
-abstract class BJsonAssetGenItem[-T <: BLogicWithItem] extends BJsonAssetGen[T]{
+abstract class BJsonAssetGenItem[-T <: BLogic with TLogicWithItem] extends BJsonAssetGen[T]{
 	final override def path = "models/item"
 }
 abstract class BJsonAssetGenBlock extends BJsonAssetGen[BLogicBlock] {
@@ -17,12 +17,12 @@ abstract class BJsonAssetGenBlockstates extends BJsonAssetGen[BLogicBlock] {
 	final override def path = "blockstates"
 }
 object BJsonAssetGen {
-	val itemBlockDefault = new BJsonAssetGenItem[BLogicBlock] {
-		override def apply(logic: BLogicBlock) =
+	val itemBlockDefault = new BJsonAssetGenItem[LogicBlock] {
+		override def apply(logic: LogicBlock) =
 			"{\"parent\":\"iceandshadow3:block/"+logic.name+"\"}"
 	}
-	val itemDefault = new BJsonAssetGenItem[BLogicWithItem] {
-		override def apply(logic: BLogicWithItem) =
+	val itemDefault = new BJsonAssetGenItem[BLogic with TLogicWithItem] {
+		override def apply(logic: BLogic with TLogicWithItem) =
 			"{\"parent\":\"item/generated\",\"textures\":{\"layer0\":\"iceandshadow3:item/"+logic.name+"\"}}"
 	}
 	val blockstatesDefault = new BJsonAssetGenBlockstates {
