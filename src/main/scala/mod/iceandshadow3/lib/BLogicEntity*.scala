@@ -20,9 +20,9 @@ abstract class BLogicEntityMob(dom: BDomain, name: String)
 	extends BLogicEntity(dom, name)
 	with TLootable
 {
-	def isBoss(variant: Int) = false
-	def getMeleeAttacksToKill(variant: Int): Float
-	def getBaseHP(variant: Int, zone: Int): Float = dom.tierToMobHealthFactor(this.getTier(variant), zone)
-	def getXP(variant: Int) = dom.tierToMobXP(this.getTier(variant), isBoss(variant))
+	def isBoss = false
+	def getMeleeAttacksToKill: Float
+	def getBaseHP(zone: Int): Float = dom.tierToMobHealthFactor(this.tier, zone)
+	def getXP = dom.tierToMobXP(this.tier, isBoss)
 	override def canBurn: Boolean = true
 }

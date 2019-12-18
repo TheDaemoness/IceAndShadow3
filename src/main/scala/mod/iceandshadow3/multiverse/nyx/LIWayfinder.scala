@@ -32,7 +32,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 	protected def getDefaultCoord(who: WEntityLiving): IVec3 =
 		who.home(who.dimension).getOrElse(who.posFine)
 
-	override def onUseGeneral(variant: Int, context: WUsageItem): E3vl = {
+	override def onUseGeneral(context: WUsageItem) = {
 		if (!context.mainhand) {
 			if (!context.stack(LIWayfinder.varCharged)) {
 				val found = context.stack.owner.findItem("minecraft:totem_of_undying", restrictToHands = true)
@@ -59,7 +59,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		item.owner.saveItem(item)
 	}
 
-	override def onOwnerDeath(variant: Int, item: WItemStackOwned[WEntityLiving], isCanceled: Boolean): E3vl = {
+	override def onOwnerDeath(item: WItemStackOwned[WEntityLiving], isCanceled: Boolean): E3vl = {
 		val preventDeath = !isCanceled && item(LIWayfinder.varCharged)
 		val owner = item.owner
 		if (preventDeath) {
@@ -79,7 +79,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		E3vl.FALSE.unlessFalse(preventDeath)
 	}
 
-	override def onOwnerVoided(variant: Int, item: WItemStackOwned[WEntityLiving], isCanceled: Boolean) = {
+	override def onOwnerVoided(item: WItemStackOwned[WEntityLiving], isCanceled: Boolean) = {
 		val owner = item.owner
 		val preventDeath = !isCanceled && item(LIWayfinder.varCharged) && owner.posFine.yBlock < -60
 		if (preventDeath) {
@@ -99,13 +99,13 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		E3vl.FALSE.unlessFalse(preventDeath)
 	}
 
-	override def onOwnerToss(variant: Int, item: WItemStackOwned[WEntityPlayer]): E3vl = {
+	override def onOwnerToss(item: WItemStackOwned[WEntityPlayer]): E3vl = {
 		val result = E3vl.FALSE.unlessFalse(teleportItem(item))
 		if(result.isFalse) item.playSound(WSound("minecraft:item.chorus_fruit.teleport"), 0.5f, 1.1f)
 		result
 	}
 
-	override def propertyOverrides() = Array(
+	override def propertyOverrides = Array(
 		new BItemModelProperty(this) {
 			override def name = "charged"
 			override def valueUnowned(item: WItemStack) = if(item(LIWayfinder.varCharged)) 1f else 0f
@@ -129,6 +129,6 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 		}
 	)
 
-	override def getItemModelGen(variant: Int) = None
-	override def handlerShine(variant: Int) = _.apply(LIWayfinder.varCharged)
+	override def getItemModelGen = None
+	override def handlerShine = _.apply(LIWayfinder.varCharged)
 }

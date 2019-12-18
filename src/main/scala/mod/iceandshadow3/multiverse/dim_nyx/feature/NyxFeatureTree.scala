@@ -23,8 +23,8 @@ object NyxFeatureTree {
 		Array(0,1,2,1,2,3,2,3,0)
 	)
 	private val center = TupleXZ(2,2)
-	val trunk = DomainGaia.Blocks.petrified_log.asWBlockState(0).asBlockFn
-	private val leaves = DomainGaia.Blocks.petrified_leaves.asWBlockState(0)
+	val trunk = DomainGaia.Blocks.petrified_log.toWBlockState.asBlockFn
+	private val leaves = DomainGaia.Blocks.petrified_leaves.toWBlockState
 	val leaves_1 = leaves.+(DomainGaia.Blocks.petrified_leaves.varSupport, 2).asBlockFn
 	val leaves_2 = leaves.+(DomainGaia.Blocks.petrified_leaves.varSupport, 1).asBlockFn
 	val leaves_3 = leaves.+(DomainGaia.Blocks.petrified_leaves.varSupport, 0).asBlockFn

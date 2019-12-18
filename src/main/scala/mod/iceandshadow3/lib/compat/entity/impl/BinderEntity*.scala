@@ -26,8 +26,8 @@ extends BinderLazy[K, K, EntityType[_ <: V]](logic => {
 	)
 	if(logic.isTechnical) builder.disableSummoning()
 	if(logic.canBurn) builder.immuneToFire()
-	val etype = builder.build(logic.getName)
-	etype.setRegistryName(IaS3.MODID, logic.getName)
+	val etype = builder.build(logic.name)
+	etype.setRegistryName(IaS3.MODID, logic.name)
 	etype
 }) {
 	BinderEntity.binders += this

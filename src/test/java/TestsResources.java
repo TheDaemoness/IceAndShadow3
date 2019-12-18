@@ -114,15 +114,13 @@ class TestsResources {
 	@ParameterizedTest(name = "{0} should have localized names.")
 	@MethodSource({"streamLogicBlock", "streamLogicItem"})
 	void logicHasNames(BLogic base) {
-		final String prefix = base.getPathPrefix()+'.'+IaS3.MODID;
+		final String prefix = base.pathPrefix()+'.'+IaS3.MODID;
 		for(Map.Entry<String, JSONObject> lang : langfiles.entrySet()) {
-			for(int i = 0; i < base.countVariants(); ++i) {
-				final String name = prefix+'.'+base.getName(i);
-				try {
-					lang.getValue().getString(name);
-				} catch(JSONException e) {
-					fail(lang.getKey()+": "+e.getMessage());
-				}
+			final String name = prefix+'.'+base.name();
+			try {
+				lang.getValue().getString(name);
+			} catch(JSONException e) {
+				fail(lang.getKey()+": "+e.getMessage());
 			}
 		}
 	}
@@ -151,11 +149,9 @@ class TestsResources {
 	}
 
 	void resourceExistenceTest(BLogic what, String base, String where, boolean expected, String ismissingwhat) {
-		for(int i = 0; i < what.countVariants(); ++i) {
-			final String name = what.getName(i);
-			final String path = base + MODID + where + name+".json";
-			if(new File(path).exists() != expected) fail(name+ismissingwhat);
-		}
+		final String name = what.name();
+		final String path = base + MODID + where + name+".json";
+		if(new File(path).exists() != expected) fail(name+ismissingwhat);
 	}
 	void assetExistenceTest(BLogic what, String where, String ismissingwhat) {
 		resourceExistenceTest(what, "./main/assets/", where, true, ismissingwhat);

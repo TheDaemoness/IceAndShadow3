@@ -11,16 +11,14 @@ import javax.annotation.Nullable;
 
 public class AItemBlock extends BlockItem implements LogicProvider.Block {
 	private final BLogicBlock logic;
-	private final int variant;
-	public AItemBlock(BLogicBlock logic, int variant, ABlock ab) {
-		super(ab, LogicToProperties$.MODULE$.toPropertiesPartial(logic, variant));
+	public AItemBlock(BLogicBlock logic, ABlock ab) {
+		super(ab, LogicToProperties$.MODULE$.toPropertiesPartial(logic));
 		this.logic = logic;
-		this.variant = variant;
 	}
 
 	@Nullable
 	@Override
 	public LogicPair<BLogicBlock> getLogicPair() {
-		return LogicPair.apply(logic, variant);
+		return LogicPair.apply(logic, 0);
 	}
 }

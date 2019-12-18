@@ -7,8 +7,8 @@ import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx
 import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
 
 object NyxLayerCrystals {
-	val moonstone = DomainGaia.Blocks.moonstone_block.asWBlockState(0)
-	val nifelhium = DomainNyx.Blocks.nifelhiumCrystal.asWBlockState(0)
+	val moonstone = DomainGaia.Blocks.moonstone_block.toWBlockState
+	val nifelhium = DomainNyx.Blocks.nifelhiumCrystal.toWBlockState
 	val variance = 16
 	val margin = 6
 	def block(height: Int): WBlockState = if(height > WorldGenNyx.yBald) nifelhium else moonstone

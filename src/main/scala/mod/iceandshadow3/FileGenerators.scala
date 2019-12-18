@@ -15,33 +15,32 @@ object FileGenerators {
 			map: util.Map[Path, Array[Byte]],
 			assetRoot: Path,
 			item: Logic,
-			variant: Int,
 			assetGen: AssetGen
 		): Unit = {
-			val name = item.getName(variant)
+			val name = item.name
 			map.put(
 				assetRoot.resolve(assetGen.path).resolve(s"$name.json"),
-				assetGen.apply(item, variant).getBytes(Charsets.US_ASCII)
+				assetGen.apply(item).getBytes(Charsets.US_ASCII)
 			)
 		}
 		override protected def getData(root: Path) = {
 			import scala.jdk.CollectionConverters._
 			val assetRoot = root.resolve(s"assets/${IaS3.MODID}")
 			val retval = new util.HashMap[Path, Array[Byte]]
-			for(item <- ContentLists.item.asScala;
-				variant <- 0 until item.countVariants;
-				model <- item.getItemModelGen(variant)
+			for(
+				item <- ContentLists.item.asScala;
+				model <- item.getItemModelGen
 			) {
-				addTo(retval, assetRoot, item, variant, model)
+				addTo(retval, assetRoot, item, model)
 			}
-			for(block <- ContentLists.block.asScala; variant <- 0 until block.countVariants) {
-				val blockstates = block.getBlockstatesGen(variant)
-				val model = block.getBlockModelGen(variant)
-				blockstates.foreach(gen => addTo(retval, assetRoot, block, variant, gen))
-				model.foreach(gen => addTo(retval, assetRoot, block, variant, gen))
+			for(block <- ContentLists.block.asScala) {
+				val blockstates = block.getBlockstatesGen
+				val model = block.getBlockModelGen
+				blockstates.foreach(gen => addTo(retval, assetRoot, block, gen))
+				model.foreach(gen => addTo(retval, assetRoot, block, gen))
 				if(!block.isTechnical) {
-					val modelItem = block.getItemModelGen(variant)
-					modelItem.foreach(gen => addTo(retval, assetRoot, block, variant, gen))
+					val modelItem = block.getItemModelGen
+					modelItem.foreach(gen => addTo(retval, assetRoot, block, gen))
 				}
 			}
 			retval

@@ -8,22 +8,22 @@ import net.minecraft.item.Item
 
 private[compat] object LogicToProperties {
 
-	def toPropertiesPartial(item: BLogicWithItem, variant: Int): Item.Properties = {
+	def toPropertiesPartial(item: BLogicWithItem): Item.Properties = {
 		val retval = new Item.Properties
-		retval.maxStackSize(item.stackLimit(variant))
-		retval.rarity(item.getDomain.tierToRarity(item.getTier(variant)).rarity)
+		retval.maxStackSize(item.stackLimit)
+		retval.rarity(item.domain.tierToRarity(item.tier).rarity)
 		if (!item.isTechnical) retval.group(CreativeTab)
 		retval
 	}
 
-	def toProperties(item: BLogicItem, variant: Int): Item.Properties = {
-		val retval = toPropertiesPartial(item, variant)
-		val damageLimit = item.damageLimit(variant)
-		if (item.stackLimit(variant) == 1 && damageLimit > 0) retval.defaultMaxDamage(damageLimit)
+	def toProperties(item: BLogicItem): Item.Properties = {
+		val retval = toPropertiesPartial(item)
+		val damageLimit = item.damageLimit
+		if (item.stackLimit == 1 && damageLimit > 0) retval.defaultMaxDamage(damageLimit)
 		retval
 	}
 
-	def toProperties(block: BLogicBlock, variant: Int): Block.Properties = {
+	def toProperties(block: BLogicBlock): Block.Properties = {
 		val retval = Block.Properties.create(block.materia.secrets.material)
 		val materia = block.materia
 		retval.hardnessAndResistance(materia.hardness, materia.resistance)

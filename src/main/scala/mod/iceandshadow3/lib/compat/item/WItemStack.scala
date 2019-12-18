@@ -100,8 +100,8 @@ object WItemStack {
 	}
 	def make(id: String): WItemStack =
 		new WItemStack(CNVItem.newItemStack(id))
-	def make(logic: BLogicItem, variant: Int): WItemStack = {
-		val item: Item = BinderItem(logic)(variant).asInstanceOf[Item]
+	def make(logic: BLogicItem): WItemStack = {
+		val item: Item = BinderItem(logic).asInstanceOf[Item]
 		if(item == null) new WItemStack() else new WItemStack(item)
 	}
 }

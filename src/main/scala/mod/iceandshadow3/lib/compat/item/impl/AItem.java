@@ -43,20 +43,18 @@ public class AItem extends Item implements LogicProvider.Item {
 	@Override
 	public boolean hasEffect(ItemStack stack) {
 		if(!super.hasEffect(stack)) {
-			final Predicate<WItemStack> handler = logic.handlerShine(variant);
+			final Predicate<WItemStack> handler = logic.handlerShine();
 			if(handler != null) return handler.test(new WItemStack(stack));
 			else return false;
 		} else return true;
 	}
 
 	private final BLogicItem logic;
-	private final int variant;
 	private final LogicPair<BLogicItem> lp;
-	public AItem(BLogicItem itemlogic, int variant) {
-		super(LogicToProperties$.MODULE$.toProperties(itemlogic, variant));
+	public AItem(BLogicItem itemlogic) {
+		super(LogicToProperties$.MODULE$.toProperties(itemlogic));
 		logic = itemlogic;
-		this.variant = variant;
-		lp = new LogicPair<>(itemlogic, variant);
+		lp = new LogicPair<>(itemlogic, 0);
 		for(BItemModelProperty bpo : logic.propertyOverrides()) {
 			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
 				final BItemModelProperty impl = bpo;
@@ -87,7 +85,7 @@ public class AItem extends Item implements LogicProvider.Item {
 		final boolean mainhand = handIn == Hand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final WUsageItem context = new WUsageItem(getLogicPair(), is, playerIn, handIn, playerIn.isSneaking());
-		final E3vl result = logic.onUseGeneral(variant, context);
+		final E3vl result = logic.onUseGeneral(context);
 		return new ActionResult<>(toEActionResult(result), context.stack().asItemStack());
 	}
 
@@ -98,14 +96,14 @@ public class AItem extends Item implements LogicProvider.Item {
 		List<ITextComponent> tooltip,
 		ITooltipFlag flagIn)
 	{
-		final String tt = logic.addTooltip(variant, new WItemStack(stack));
+		final String tt = logic.addTooltip(new WItemStack(stack));
 		if(!tt.isEmpty()) tooltip.add(new TranslationTextComponent(tt));
 	}
 
 	@Nonnull
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		final String nameOverride = logic.nameOverride(variant, new WItemStack(stack));
+		final String nameOverride = logic.nameOverride(new WItemStack(stack));
 		if(nameOverride == null) return super.getTranslationKey(stack);
 		else return nameOverride;
 	}
@@ -114,7 +112,7 @@ public class AItem extends Item implements LogicProvider.Item {
 	@Nonnull
 	public ActionResultType onItemUse(ItemUseContext ctxi) {
 		final WUsageItemOnBlock context = new WUsageItemOnBlock(getLogicPair(), ctxi);
-		final E3vl result = logic.onUseBlock(variant, context);
+		final E3vl result = logic.onUseBlock(context);
 		return toEActionResult(result);
 	}
 
@@ -126,7 +124,7 @@ public class AItem extends Item implements LogicProvider.Item {
 
 	@Override
 	public int getBurnTime(ItemStack itemStack) {
-		return logic.getBurnTicks(variant, new WItemStack(itemStack));
+		return logic.getBurnTicks(new WItemStack(itemStack));
 	}
 
 	@Override
@@ -134,7 +132,7 @@ public class AItem extends Item implements LogicProvider.Item {
 		ItemStack is, World world, net.minecraft.entity.Entity owner,
 		int slot, boolean held
 	) {
-		final Consumer<WItemStackOwned<WEntity>> handler = logic.handlerTickOwned(variant, held);
+		final Consumer<WItemStackOwned<WEntity>> handler = logic.handlerTickOwned(held);
 		//TODO: WItemStack holding owner data is overstaying its welcome.
 		if(handler != null) handler.accept(new WItemStackOwned<>(is, CNVEntity.wrap(owner)));
 		super.inventoryTick(is, world, owner, slot, held);

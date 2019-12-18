@@ -5,7 +5,6 @@ import mod.iceandshadow3.lib.compat.item.{WInventoryCrafting, WItemStack}
 import mod.iceandshadow3.lib.compat.recipe.ECraftingType
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting
-import mod.iceandshadow3.multiverse.{DomainGaia, DomainNyx}
 
 object Recipes {
 	import mod.iceandshadow3.multiverse.DomainGaia._
@@ -28,15 +27,15 @@ object Recipes {
 			WItemStack.empty
 		}
 	}))
-	lazy val minerals = Items.minerals.asWItem(0)
+	lazy val minerals = Items.minerals.toWItem
 	for(variant <- ELivingstoneTypes.values()) {
 		val id = variant.ordinal()
 		val stonename = s"gaia_livingstone_${variant.name}"
 		val shalename = s"gaia_livingshale_${variant.name}"
 		Registrar.addRecipeCallback(s"craft.$stonename.grow", name => {
 			ECraftingType.CRAFT_SHAPELESS(name,
-				ECraftingType.About(Blocks.livingstone.asWItemStack(id).setCount(8)),
-				Items.shale.asWItem(id),
+				ECraftingType.About(Blocks.livingstones(id).asWItemStack.setCount(8)),
+				Items.shales(id).toWItem,
 				minerals, minerals, minerals, minerals,
 				minerals, minerals, minerals, minerals
 			)
@@ -44,7 +43,7 @@ object Recipes {
 		Registrar.addRecipeCallback(s"smelting.$shalename", name => {
 			ECraftingType.COOK_SMELT(name,
 				ECraftingType.About(WItemStack.make(s"minecraft:${variant.name}_dye")),
-				Items.shale.asWItem(id)
+				Items.shales(id).toWItem
 			)
 		})
 		Registrar.addRecipeCallback("craft.gaia_moonstone_dust.crush", name => {
@@ -54,7 +53,7 @@ object Recipes {
 					stack.setDamage(stack.getDamageMax - LIMoonstoneDust.DUST_PER_ITEM)
 					stack
 				}),
-				Items.moonstone.asWItem(0)
+				Items.moonstone.toWItem
 			)
 		})
 	}

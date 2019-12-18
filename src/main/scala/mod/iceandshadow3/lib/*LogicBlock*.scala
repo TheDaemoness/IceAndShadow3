@@ -9,7 +9,7 @@ import mod.iceandshadow3.lib.compat.block.impl.{BVarBlockNew, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.{BJsonAssetGen, BJsonAssetGenBlock, BJsonAssetGenBlockstates, BJsonAssetGenItem}
-import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemType}
+import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
 
 sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Materia)
@@ -20,48 +20,46 @@ sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Mater
 	BinderBlock.add(this)
 	ContentLists.block.add(this)
 
-	def isToolClassEffective(variant: Int, m: HarvestMethod) = materia.isEffective(m)
+	def isToolClassEffective(m: HarvestMethod) = materia.isEffective(m)
 	def randomlyUpdates: Option[WBlockState => Boolean] = None
 	def multipleOpacities = false
 
-	override def countVariants = 1
-	override def stackLimit(variant: Int) = 64
-	final override def hasItem(variant: Int): Boolean = isTechnical
+	override def stackLimit = 64
+	final override def hasItem = isTechnical
 
-	final override def getPathPrefix: String = "block"
+	final override def pathPrefix: String = "block"
 
 	/** Whether or not the surfaces of the blocks have any visible holes in them.
 		* Controls the rendering layer in conjunction with the materia.
 		*/
-	override def getTier(variant: Int): Int = 1
-	def areSurfacesFull(variant: Int) = true
-	def harvestOverride(variant: Int, block: WBlockRef, fortune: Int): Array[WItemStack] = null
-	def harvestXP(variant: Int, what: WBlockView, silktouch: Boolean): Int = 0
-	def canStayAt(variant: Int, block: WBlockView, preexisting: Boolean) = true
+	override def tier: Int = 1
+	def areSurfacesFull = true
+	def harvestOverride(block: WBlockRef, fortune: Int): Array[WItemStack] = null
+	def harvestXP(what: WBlockView, silktouch: Boolean): Int = 0
+	def canStayAt(block: WBlockView, preexisting: Boolean) = true
 	//TODO: Separate collision shape from selection shape.
 	def shape: BlockShape = BlockShape.FULL_CUBE
 	def isDiscrete = false
 
-	def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {}
-	def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): WBlockState = us
-	def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {}
-	def onRandomTick(variant: Int, block: WBlockRef, rng: Random): Boolean = true
-	def onTick(variant: Int, block: WBlockRef, rng: Random): Unit = {}
+	def onInside(block: WBlockRef, who: WEntity): Unit = {}
+	def onNeighborChanged(us: WBlockRef, them: WBlockRef): WBlockState = us
+	def onReplaced(us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {}
+	def onRandomTick(block: WBlockRef, rng: Random): Boolean = true
+	def onTick(block: WBlockRef, rng: Random): Unit = {}
 	def toPlace(state: WBlockState, context: WUsagePlace): WBlockState = state
 
 	/** Called to provide purely client-side (decorative) effects.
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.
 		*/
-	def clientSideTick(variant: Int, client: WWorld, us: WBlockView, rng: Random): Unit = {}
-	def asWBlockState(variant: Int = 0): WBlockState = new WBlockState(this, variant)
-
+	def clientSideTick(client: WWorld, us: WBlockView, rng: Random): Unit = {}
 	def variables: Array[BVarBlockNew[_]] = Array.empty
 
-	override def asWItem(variant: Int): WItemType = BinderBlock.wrap(this, variant)
+	def toWBlockState: WBlockState = new WBlockState(this)
+	override def toWItem = BinderBlock.wrap(this)
 
-	def getBlockModelGen(variant: Int): Option[BJsonAssetGenBlock] = None
-	def getBlockstatesGen(variant: Int): Option[BJsonAssetGenBlockstates] = Some(BJsonAssetGen.blockstatesDefault)
-	def getItemModelGen(variant: Int): Option[BJsonAssetGenItem[BLogicBlock]] =
+	def getBlockModelGen: Option[BJsonAssetGenBlock] = None
+	def getBlockstatesGen: Option[BJsonAssetGenBlockstates] = Some(BJsonAssetGen.blockstatesDefault)
+	def getItemModelGen: Option[BJsonAssetGenItem[BLogicBlock]] =
 		Some(BJsonAssetGen.itemBlockDefault)
 }
 

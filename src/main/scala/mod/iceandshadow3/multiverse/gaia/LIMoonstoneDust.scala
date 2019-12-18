@@ -1,22 +1,18 @@
 package mod.iceandshadow3.multiverse.gaia
 
-import java.util.function.Consumer
-
 import mod.iceandshadow3.lib.LogicItemSingle
 import mod.iceandshadow3.lib.compat.block.BlockQueries
-import mod.iceandshadow3.lib.compat.entity.WEntity
-import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LIMoonstoneDust extends LogicItemSingle(DomainGaia, "moonstone_dust", 512, 2) {
 	private val materiaQuery = BlockQueries.materia(Materias.moonstone_dust)
-	override def handlerTickOwned(variant: Int, held: Boolean): Consumer[WItemStackOwned[WEntity]] = if(held) items => {
+	override def handlerTickOwned(held: Boolean) = if(held) items => {
 		val block = items.block
 		if(block.isAir && !materiaQuery(block)) {
-			if(block.place(DomainGaia.Blocks.moonstone_dust.asWBlockState())) items.degrade()
+			if(block.place(DomainGaia.Blocks.moonstone_dust.toWBlockState)) items.degrade()
 		}
 	} else null
-	override def getItemModelGen(variant: Int) = None
+	override def getItemModelGen = None
 }
 object LIMoonstoneDust {
 	val DUST_PER_ITEM = 32

@@ -15,7 +15,7 @@ class EventBaitOwnerToss extends BEventBait[ItemTossEvent] {
 	override protected def handle(event: ItemTossEvent): Unit = {
 		val item = new WItemStackOwned(event.getEntityItem.getItem, CNVEntity.wrap(event.getPlayer))
 		forEventFish[TEventFishOwnerToss, BLogicItem, Unit](item, (pair, feesh) => {
-			feesh.onOwnerToss(pair.variant,  item).forBoolean(uncancel => {event.setCanceled(!uncancel)})
+			feesh.onOwnerToss(item).forBoolean(uncancel => {event.setCanceled(!uncancel)})
 		})
 	}
 }

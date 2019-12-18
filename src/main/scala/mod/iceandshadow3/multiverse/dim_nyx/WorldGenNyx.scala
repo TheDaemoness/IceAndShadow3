@@ -14,11 +14,11 @@ import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 
 object WorldGenNyx {
 	import mod.iceandshadow3.multiverse.DomainGaia.Blocks._
-	val stones = ELivingstoneTypes.values().map(st => {new WBlockState(livingstone, st.ordinal())})
-	val navistra = new WBlockState(navistra_stone, 0)
-	val bedrock = new WBlockState(navistra_bedrock, 0)
-	val icicles = new WBlockState(DomainNyx.Blocks.icicles, 0)
-	val exousia = new WBlockState(DomainNyx.Blocks.exousia, 0)
+	val stones = ELivingstoneTypes.values().map(st => {new WBlockState(livingstones(st.ordinal()))})
+	val navistra = new WBlockState(navistra_stone)
+	val bedrock = new WBlockState(navistra_bedrock)
+	val icicles = new WBlockState(DomainNyx.Blocks.icicles)
+	val exousia = new WBlockState(DomainNyx.Blocks.exousia)
 
 	val yBald = 187
 	val yThinning = 175

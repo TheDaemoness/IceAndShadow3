@@ -42,7 +42,6 @@ with INamed {
 		* @return The damage they should take. Return 0 for no damage, or a negative number to heal from the damage. */
 	def onHarm(who: WEntityLiving, how: WDamage, amp: Int) = how.severity
 
-	override final def getNames = Array(name)
 	override def intervalTicks(amp: Int) = 20
 	override def toString = s"$name (status)"
 }

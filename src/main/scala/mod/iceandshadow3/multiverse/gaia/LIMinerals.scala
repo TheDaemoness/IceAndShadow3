@@ -21,7 +21,7 @@ object LIMinerals {
 	}
 }
 class LIMinerals extends LogicItemMulti(DomainGaia, "minerals", 1) {
-	override def onUseBlock(variant: Int, context: WUsageItemOnBlock): E3vl = {
+	override def onUseBlock(context: WUsageItemOnBlock) = {
 		val b = context.block
 		if(LIMinerals.canGrow(b)) {
 			val sb = context.side

@@ -12,5 +12,5 @@ extends LogicBlockSimple(DomainGaia, name, materia) {
 	override def toPlace(state: WBlockState, context: WUsagePlace) =
 		state + (CommonBlockVars.axis, context.axis)
 
-	override def getBlockstatesGen(variant: Int) = None
+	override def getBlockstatesGen = None
 }

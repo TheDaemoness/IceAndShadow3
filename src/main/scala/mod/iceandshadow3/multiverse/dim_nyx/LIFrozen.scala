@@ -35,7 +35,7 @@ object LIFrozen {
 }
 
 class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
-	override def onUseGeneral(variant: Int, context: WUsageItem) = {
+	override def onUseGeneral(context: WUsageItem) = {
 		val hellish = E3vl.fromBool(context.stack.dimension.isHellish)
 		hellish.forBoolean(b => {
 			if(b) {
@@ -46,7 +46,7 @@ class LIFrozen extends LogicItemChameleon(DomainAlien, "item_frozen") {
 		hellish
 	}
 
-	override def addTooltip(variant: Int, what: WItemStack) = "iceandshadow3.tooltip.iced_over"
+	override def addTooltip(what: WItemStack) = "iceandshadow3.tooltip.iced_over"
 
 	//TODO: This could use its own model, one which loads the source model and adds ice textures to it.
 }

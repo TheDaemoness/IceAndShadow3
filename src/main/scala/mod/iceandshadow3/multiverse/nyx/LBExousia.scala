@@ -21,11 +21,11 @@ class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", LBExousia.materia
 		"exousia", AttackForm.VOLUME,
 		new DamageWithStatus(6f, StatusEffects.exousia.forTicks(119)) with TDmgTypeExousic
 	)
-	override def harvestOverride(variant: Int, block: WBlockRef, fortune: Int) = Array()
+	override def harvestOverride(block: WBlockRef, fortune: Int) = Array()
 
 	override val shape: BlockShape = BlockShape.EMPTY
 
-	override def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {
+	override def onInside(block: WBlockRef, who: WEntity): Unit = {
 		import LBExousia._
 		who.slow(1d, 4d, 1d)
 		if(who match {
@@ -48,8 +48,8 @@ class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", LBExousia.materia
 
 	override def isTechnical = true
 
-	lazy val blocktype = new WBlockState(this, 0)
-	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): WBlockState = {
+	lazy val blocktype = new WBlockState(this)
+	override def onNeighborChanged(us: WBlockRef, them: WBlockRef): WBlockState = {
 		if(them.posFine.yBlock <= us.posFine.yBlock && !them.hasTag(LBExousia.tagResist)) {
 			if(!them.isAir) {
 				//TODO: Previous particle effects were placeholder AND looked bad. Make better ones.
@@ -61,7 +61,7 @@ class LBExousia extends LogicBlockSimple(DomainNyx, "exousia", LBExousia.materia
 	}
 
 	override def shouldHaveLootTable = E3vl.FALSE
-	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockCube)
+	override def getBlockModelGen = Some(BJsonAssetGen.blockCube)
 
 	//TODO: Exousia spreading, fogging.
 }

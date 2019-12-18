@@ -24,13 +24,11 @@ class TestsInit {
 		final HashMap<String, In> seen = new HashMap<>();
 		while(input.hasNext()) {
 			final In elem = input.next();
-			final String[] names = elem.getNames();
-			for(String name : names) {
-				final In old = seen.putIfAbsent(name, elem);
-				if(old != null) {
-					if(old == elem) fail("ID "+name+" is used twice by "+elem);
-					else fail("ID " + name + " is used by both "+old+" and "+elem);
-				}
+			final String name = elem.name();
+			final In old = seen.putIfAbsent(name, elem);
+			if(old != null) {
+				if(old == elem) fail("ID "+name+" is used twice by "+elem);
+				else fail("ID " + name + " is used by both "+old+" and "+elem);
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 package mod.iceandshadow3.lib.compat
 
 import java.nio.file.Path
-import java.util
 
 import com.google.common.base.Charsets
 import com.google.gson.JsonObject
@@ -73,28 +72,22 @@ object Registrar {
 	}
 
 	private[iceandshadow3] def registerBlocks(reg: IForgeRegistry[Block]): Unit = {
-		for (bindings <- BinderBlock) {
-			for (binding <- bindings) {
-				binding._1.setRegistryName(binding._1.namespace, binding._1.modName)
-				reg.register(binding._1)
-			}
+		for (binding <- BinderBlock) {
+			binding._1.setRegistryName(binding._1.namespace, binding._1.modName)
+			reg.register(binding._1)
 		}
 	}
 
 	private[iceandshadow3] def registerItems(reg: IForgeRegistry[Item]): Unit = {
-		for (bindings <- BinderBlock) {
-			for (binding <- bindings) {
-				if (binding._2 != null) {
-					binding._2.setRegistryName(binding._2.namespace, binding._2.modName)
-					reg.register(binding._2)
-				}
+		for (binding <- BinderBlock) {
+			if (binding._2 != null) {
+				binding._2.setRegistryName(binding._2.namespace, binding._2.modName)
+				reg.register(binding._2)
 			}
 		}
-		for (items <- BinderItem.freeze()) {
-			for (item <- items) {
-				item.setRegistryName(item.namespace, item.modName)
-				reg.register(item)
-			}
+		for (item <- BinderItem.freeze()) {
+			item.setRegistryName(item.namespace, item.modName)
+			reg.register(item)
 		}
 		//TODO: Spawn eggs.
 	}

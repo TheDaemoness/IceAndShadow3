@@ -11,10 +11,10 @@ trait TEventFishOwnerDeath extends TEventFishOwner {
     * The attached item is guaranteed to have an owner.
     * @return FALSE if the owner does NOT die.
     */
-  def onOwnerDeath(variant: Int, item: WItemStackOwned[WEntityLiving], isCanceled: Boolean): E3vl
+  def onOwnerDeath(item: WItemStackOwned[WEntityLiving], isCanceled: Boolean): E3vl
   //TODO: When the alternate damage system works, pass the killing damage here.
 
   /** As onOwnerDeath, but in response to void damage in specific (which onOwnerDeath does NOT reply to).
     */
-  def onOwnerVoided(variant: Int, item: WItemStackOwned[WEntityLiving], isCanceled: Boolean): E3vl = E3vl.NEUTRAL
+  def onOwnerVoided(item: WItemStackOwned[WEntityLiving], isCanceled: Boolean): E3vl = E3vl.NEUTRAL
 }

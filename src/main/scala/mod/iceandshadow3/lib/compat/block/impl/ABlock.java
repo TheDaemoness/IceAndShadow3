@@ -41,13 +41,12 @@ public class ABlock extends Block
 implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	
 	private final BLogicBlock logic;
-	private final int variant;
 	private final BlockRenderLayer layer;
 
 	@Nonnull
 	@Override
 	public LogicPair<BLogicBlock> getLogicPair() {
-		return new LogicPair<>(logic, variant);
+		return new LogicPair<>(logic, 0);
 	}
 
 	private final VoxelShape defaultShape;
@@ -55,16 +54,15 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	private final StateContainer<net.minecraft.block.Block, BlockState> realContainer;
 
 	@SuppressWarnings("unchecked")
-	public ABlock(BLogicBlock blocklogic, int variant) {
-		super(LogicToProperties$.MODULE$.toProperties(blocklogic, variant));
+	public ABlock(BLogicBlock blocklogic) {
+		super(LogicToProperties$.MODULE$.toProperties(blocklogic));
 		logic = blocklogic;
-		this.variant = variant;
 		if(logic.materia().transparent()) layer = BlockRenderLayer.TRANSLUCENT;
-		else if(!logic.areSurfacesFull(variant)) layer = BlockRenderLayer.CUTOUT_MIPPED;
+		else if(!logic.areSurfacesFull()) layer = BlockRenderLayer.CUTOUT_MIPPED;
 		else layer = BlockRenderLayer.SOLID;
 
 		defaultShape = CNVBlockShape$.MODULE$.toVoxelShape(logic);
-		lootTable = new ResourceLocation(IaS3.MODID,"blocks/"+logic.getName(variant));
+		lootTable = new ResourceLocation(IaS3.MODID,"blocks/"+logic.name());
 
 		//State container init happens too early for IaS3. We need to make our own.
 		final StateContainer.Builder<net.minecraft.block.Block, BlockState> builder =
@@ -119,7 +117,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 
 	@Override
 	public boolean isToolEffective(BlockState state, ToolType tool) {
-		return logic.isToolClassEffective(variant, HarvestMethod$.MODULE$.get(tool));
+		return logic.isToolClassEffective(HarvestMethod$.MODULE$.get(tool));
 	}
 
 	@Override
@@ -130,19 +128,19 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	@Nonnull
 	@Override
 	public List<ItemStack> onSheared(@Nonnull ItemStack item, IWorld world, BlockPos pos, int fortune) {
-		logic.isToolClassEffective(variant, HarvestMethod$.MODULE$.SHEAR()); //TODO: Drops.
+		logic.isToolClassEffective(HarvestMethod$.MODULE$.SHEAR()); //TODO: Drops.
 		return Collections.emptyList();
 	}
 
 	@Override
 	public int getExpDrop(BlockState state, IWorldReader world, BlockPos pos, int fortune, int silktouch) {
-		return logic.harvestXP(variant, new WBlockView(world, pos, state), silktouch > 0);
+		return logic.harvestXP(new WBlockView(world, pos, state), silktouch > 0);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-		logic.clientSideTick(variant, new WWorld(worldIn), new WBlockView(worldIn, pos, stateIn), rand);
+		logic.clientSideTick(new WWorld(worldIn), new WBlockView(worldIn, pos, stateIn), rand);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -161,7 +159,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		return logic.canStayAt(variant, new WBlockView(worldIn, pos), false);
+		return logic.canStayAt(new WBlockView(worldIn, pos), false);
 	}
 
 	@Nonnull
@@ -171,12 +169,12 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 		IWorld worldIn, BlockPos currentPos, BlockPos facingPos
 	) {
 		//TODO: BlockType on breakage.
-		if(!logic.canStayAt(variant, new WBlockView(worldIn, currentPos), true)) {
+		if(!logic.canStayAt(new WBlockView(worldIn, currentPos), true)) {
 			return Blocks.AIR.getDefaultState();
 		} else {
 			final WBlockRef us = new WBlockRef(worldIn, currentPos, stateIn);
 			final WBlockRef them = new WBlockRef(worldIn, facingPos, facingState);
-			final WBlockState nova = logic.onNeighborChanged(variant, us, them);
+			final WBlockState nova = logic.onNeighborChanged(us, them);
 			return (nova == null ? us : nova).exposeBS();
 		}
 	}
@@ -191,7 +189,6 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	) {
 		if(state.getBlock() != newState.getBlock()) {
 			logic.onReplaced(
-				variant,
 				new WBlockRef(worldIn, pos, state),
 				new WBlockRef(worldIn, pos, newState),
 				isMoving
@@ -213,7 +210,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 		BlockPos pos,
 		net.minecraft.entity.Entity entityIn
 	) {
-		logic.onInside(variant, new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
+		logic.onInside(new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
 	}
 
 	@Override
@@ -223,14 +220,14 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 			@Nonnull BlockPos pos,
 			@Nonnull Random random
 	) {
-		if(logic.onRandomTick(variant, new WBlockRef(worldIn, pos, state), random)) {
+		if(logic.onRandomTick(new WBlockRef(worldIn, pos, state), random)) {
 			this.tick(state, worldIn, pos, random);
 		}
 	}
 
 	@Override
 	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
-		logic.onRandomTick(variant, new WBlockRef(worldIn,pos, state), random);
+		logic.onRandomTick(new WBlockRef(worldIn,pos, state), random);
 	}
 
 	@Override

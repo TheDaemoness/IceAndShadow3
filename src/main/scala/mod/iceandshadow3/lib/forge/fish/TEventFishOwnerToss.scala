@@ -11,5 +11,5 @@ trait TEventFishOwnerToss extends TEventFishOwner {
     * At the time of calling, the item is no longer in its owner's inventory.
     * @return FALSE to NOT spawn an EntityItem.
     */
-  def onOwnerToss(variant: Int, item: WItemStackOwned[WEntityPlayer]): E3vl
+  def onOwnerToss(item: WItemStackOwned[WEntityPlayer]): E3vl
 }

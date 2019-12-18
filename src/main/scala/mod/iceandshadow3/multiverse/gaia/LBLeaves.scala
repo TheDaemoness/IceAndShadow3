@@ -13,7 +13,7 @@ extends LogicBlockSimple(DomainGaia, name, materia) {
 
 	override def variables = Array(varSupport)
 
-	override def canStayAt(variant: Int, block: WBlockView, preexisting: Boolean) = {
+	override def canStayAt(block: WBlockView, preexisting: Boolean) = {
 		preexisting || calcSupport(block) >= 0
 		// ^ We avoid doing the support calculations twice for preexisting blocks.
 	}
@@ -22,7 +22,7 @@ extends LogicBlockSimple(DomainGaia, name, materia) {
 		state + (varSupport, calcSupport(context.block, 0))
 	}
 
-	override def onNeighborChanged(variant: Int, us: WBlockRef, them: WBlockRef): WBlockState = {
+	override def onNeighborChanged(us: WBlockRef, them: WBlockRef): WBlockState = {
 		val newsupport = calcSupport(us)
 		if(newsupport < 0) CommonBlockTypes.AIR
 		else if(us.get(varSupport).intValue() != newsupport) us + (varSupport, newsupport)
@@ -41,6 +41,6 @@ extends LogicBlockSimple(DomainGaia, name, materia) {
 		support
 	}
 
-	override def areSurfacesFull(variant: Int) = false
-	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockCube)
+	override def areSurfacesFull = false
+	override def getBlockModelGen = Some(BJsonAssetGen.blockCube)
 }

@@ -11,15 +11,14 @@ import mod.iceandshadow3.multiverse.DomainGaia
 object LBStoneLiving {
 	val varGrowing = new VarBlockBool("growing")
 }
-class LBStoneLiving extends LogicBlockSimple(DomainGaia, "livingstone", Materias.livingstone) {
-	override protected def getVariantName(variant: Int) = ELivingstoneTypes.values()(variant).name
-	override def countVariants = ELivingstoneTypes.values().length
+class LBStoneLiving(variant: ELivingstoneTypes)
+extends LogicBlockSimple(DomainGaia, "livingstone_"+variant.name, Materias.livingstone) {
 
-	override def variables = Array(LBStoneLiving.varGrowing)
+	override val variables = Array(LBStoneLiving.varGrowing)
 
 	override def randomlyUpdates = Some(wbs => wbs(LBStoneLiving.varGrowing).getOrElse(false))
 
-	override def onRandomTick(variant: Int, block: WBlockRef, rng: Random) = {
+	override def onRandomTick(block: WBlockRef, rng: Random) = {
 		val adjb = AdjacentBlocks.Surrounding(block)
 		if(adjb.forall(BlockQueries.stone)) {
 			block.change(_ + (LBStoneLiving.varGrowing, false))
@@ -33,14 +32,14 @@ class LBStoneLiving extends LogicBlockSimple(DomainGaia, "livingstone", Materias
 		false
 	}
 
-	override def onReplaced(variant: Int, us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {
+	override def onReplaced(us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {
 		for(block <- AdjacentBlocks.Surrounding(us)) {
 			val lp = block.getLogicPair
-			if(lp != null && lp.logic == this) {
+			if(lp != null && lp.logic.variables.contains(LBStoneLiving.varGrowing)) {
 				block.promote(us).change(_ + (LBStoneLiving.varGrowing, true))
 			}
 		}
 	}
 
-	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockCube)
+	override def getBlockModelGen = Some(BJsonAssetGen.blockCube)
 }

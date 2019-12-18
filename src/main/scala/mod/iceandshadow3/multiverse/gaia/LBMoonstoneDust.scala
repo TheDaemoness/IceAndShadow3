@@ -7,9 +7,8 @@ import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBMoonstoneDust extends LogicBlockOfMateria(DomainGaia, Materias.moonstone_dust) {
-
 	override def isTechnical = true
-	override def canStayAt(variant: Int, block: WBlockView, preexisting: Boolean) =
+	override def canStayAt(block: WBlockView, preexisting: Boolean) =
 		AdjacentBlocks.Below(block).forall(_.isPlain)
 	override def shouldHaveLootTable = E3vl.FALSE
 	override def shape = BlockShape.EMPTY

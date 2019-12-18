@@ -8,15 +8,14 @@ import mod.iceandshadow3.lib.{BDomain, BLogicItem}
 /** An item that pretends to be whole stacks of other items.
 	*/
 class LogicItemChameleon(domain: BDomain, name: String) extends BLogicItem(domain, name) {
-	override def countVariants = 1
-	override def getTier(variant: Int) = 1
+	override def tier = 1
 	override def isTechnical = true
 
-	override def nameOverride(variant: Int, what: WItemStack) = TextUtils.itemIdToUnlocalized(
+	override def nameOverride(what: WItemStack) = TextUtils.itemIdToUnlocalized(
 		what(LogicItemChameleon.varItemWrappedName)
 	)
 
-	override def stackLimit(variant: Int) = 1
+	override def stackLimit = 1
 }
 object LogicItemChameleon {
 	val varItemWrappedName: VarNbtString = new VarNbtString("id", "minecraft:snowball") {
@@ -24,7 +23,7 @@ object LogicItemChameleon {
 	}
 	val varItemWrapped = new VarNbtItemStack("itemstack")
 	def createFrom(what: WItemStack, logic: LogicItemChameleon): WItemStack = {
-		val base = WItemStack.make(logic, 0)
+		val base = WItemStack.make(logic)
 		base(varItemWrapped) = what
 		base
 	}

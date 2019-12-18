@@ -14,22 +14,22 @@ object LBIcicles {
 	val damage = Attack("icicles", AttackForm.CEILING, new Damage(4f) with TDmgTypeIce)
 }
 class LBIcicles extends LogicBlockSimple(DomainNyx, "icicles", LBIcicles.materia) {
-	override def areSurfacesFull(variant: Int) = false
+	override def areSurfacesFull = false
 
-	override def harvestXP(variant: Int, what: WBlockView, silktouch: Boolean): Int = if(silktouch) 0 else 2
+	override def harvestXP(what: WBlockView, silktouch: Boolean): Int = if(silktouch) 0 else 2
 
-	override def canStayAt(variant: Int, block: WBlockView, preexisting: Boolean) =
+	override def canStayAt(block: WBlockView, preexisting: Boolean) =
 		AdjacentBlocks.Above(block).forall(BlockQueries.solid)
 
 	override def isDiscrete = true
 
 	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(11, 3, 14))
 
-	override def onInside(variant: Int, block: WBlockRef, who: WEntity): Unit = {
+	override def onInside(block: WBlockRef, who: WEntity): Unit = {
 		LBIcicles.damage(who)
 		block.break(true)
 	}
 
-	override def getBlockModelGen(variant: Int) = Some(BJsonAssetGen.blockDeco)
+	override def getBlockModelGen = Some(BJsonAssetGen.blockDeco)
 }
 

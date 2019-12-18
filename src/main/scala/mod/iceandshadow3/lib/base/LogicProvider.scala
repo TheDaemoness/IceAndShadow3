@@ -12,7 +12,7 @@ sealed trait LogicProvider[LogicType <: BLogic] extends TFaceted[Object] with IR
 	@Nullable def getLogicPair: LogicPair[LogicType]
 	def getDomain: BDomain = {
 		val logos = getLogicPair
-		if(logos == null) DomainAlien else logos.logic.getDomain
+		if(logos == null) DomainAlien else logos.logic.domain
 	}
 	override def facet[What <: Object : ClassTag] = {
 		val lp = getLogicPair
@@ -21,7 +21,7 @@ sealed trait LogicProvider[LogicType <: BLogic] extends TFaceted[Object] with IR
 
 	override def modName = {
 		val lp = getLogicPair
-		lp.logic.getName(lp.variant)
+		lp.logic.name
 	}
 	override def namespace = IaS3.MODID
 }

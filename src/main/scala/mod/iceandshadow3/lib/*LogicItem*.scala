@@ -13,57 +13,46 @@ import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
 import mod.iceandshadow3.lib.item.BItemModelProperty
 import mod.iceandshadow3.lib.util.E3vl
 
-abstract class BLogicItem(dom: BDomain, name: String)
-	extends BLogicWithItem(dom, name)
+abstract class BLogicItem(dom: BDomain, baseName: String)
+	extends BLogicWithItem(dom, baseName)
 	with TEventFishOwner
 	with BinderItem.TKey
 {
 	BinderItem.add(this)
 	ContentLists.item.add(this)
-	final override def getPathPrefix: String = "item"
-	final override def hasItem(variant: Int): Boolean = true
+	final override def pathPrefix: String = "item"
+	final override def hasItem = true
 
 	//TODO: Expand when we have our own text formatting stuff.
-	def addTooltip(variant: Int, what: WItemStack): String = ""
-	def onUseGeneral(variant: Int, context: WUsageItem) = E3vl.NEUTRAL
-	def onUseBlock(variant: Int, context: WUsageItemOnBlock) = E3vl.NEUTRAL
-	def propertyOverrides(): Array[BItemModelProperty] = new Array[BItemModelProperty](0)
-	def getBurnTicks(variant: Int, stack: WItemStack) = 0
+	def addTooltip(what: WItemStack) = ""
+	def onUseGeneral(context: WUsageItem) = E3vl.NEUTRAL
+	def onUseBlock(context: WUsageItemOnBlock) = E3vl.NEUTRAL
+	def propertyOverrides: Array[BItemModelProperty] = new Array[BItemModelProperty](0)
+	def getBurnTicks(stack: WItemStack) = 0
 
-	def damageLimit(variant: Int) = 0
+	def damageLimit = 0
 
-	override def asWItem(variant: Int = 0) = BinderItem.wrap(this, variant)
-	def getItemModelGen(variant: Int): Option[BJsonAssetGen[BLogicItem]] =
+	override def toWItem: WItemType = BinderItem.wrap(this)
+	def getItemModelGen: Option[BJsonAssetGen[BLogicItem]] =
 		Some(BJsonAssetGen.itemDefault)
 
-	@Nullable def handlerTickOwned(variant: Int, held: Boolean): Consumer[WItemStackOwned[WEntity]] = null
-	@Nullable def handlerShine(variant: Int): Predicate[WItemStack] = null
+	@Nullable def handlerTickOwned(held: Boolean): Consumer[WItemStackOwned[WEntity]] = null
+	@Nullable def handlerShine: Predicate[WItemStack] = null
 }
 
-sealed abstract class BLogicItemSimple(dom: BDomain, name: String, variants: (String, Int)*)
+sealed abstract class BLogicItemSimple(dom: BDomain, name: String, override val tier: Int)
 	extends BLogicItem(dom, name)
+
+class LogicItemMulti(dom: BDomain, name: String, stacklimit: Int = 64, tier: Int = 1)
+	extends BLogicItemSimple(dom, name, tier)
 {
-	override def countVariants = variants.size
-	override protected def getVariantName(variant: Int) = variants(variant)._1
-	override def getTier(variant: Int) = variants(variant)._2
+	override def stackLimit = stacklimit
+	override final def damageLimit = 0
 }
 
-class LogicItemMulti(dom: BDomain, name: String, stacklimit: Int, variants: (String, Int)*)
-	extends BLogicItemSimple(dom, name, variants:_*)
+class LogicItemSingle(dom: BDomain, name: String, dmglimit: Int = 0, tier: Int = 1)
+	extends BLogicItemSimple(dom, name, tier)
 {
-	def this(dom: BDomain, name: String, variants: (String, Int)*) = this(dom, name, 64, variants:_*)
-	def this(dom: BDomain, name: String, stacklimit: Int, tier: Int) = this(dom, name, stacklimit, (null, tier))
-	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, 64, (null, tier))
-	override def stackLimit(variant: Int) = stacklimit
-	override final def damageLimit(variant: Int) = 0
-}
-
-class LogicItemSingle(dom: BDomain, name: String, dmglimit: Int, variants: (String, Int)*)
-	extends BLogicItemSimple(dom, name, variants:_*)
-{
-	def this(dom: BDomain, name: String, variants: (String, Int)*) = this(dom, name, 0, variants:_*)
-	def this(dom: BDomain, name: String, dmglimit: Int, tier: Int) = this(dom, name, dmglimit, (null, tier))
-	def this(dom: BDomain, name: String, tier: Int) = this(dom, name, 0, (null, tier))
-	override final def stackLimit(variant: Int) = 1
-	override def damageLimit(variant: Int) = dmglimit
+	override final def stackLimit = 1
+	override def damageLimit = dmglimit
 }

@@ -28,7 +28,7 @@ with TBlockStateSource {
 	def isComplex = exposeBS().hasTileEntity
 
 	def this(bl: Block) = this(bl.getDefaultState)
-	def this(bl: BLogicBlock, variant: Int) = this(BinderBlock(bl)(variant)._1.getDefaultState)
+	def this(bl: BLogicBlock) = this(BinderBlock(bl)._1.getDefaultState)
 	def this(name: String) = this(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name)))
 
 	protected[compat] def exposeBS(): BlockState = bs
