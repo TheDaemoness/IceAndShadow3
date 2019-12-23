@@ -27,6 +27,7 @@ eclipse
 run
 sandbox
 .*/*
+art
 
 # Forge Files
 CREDITS.txt

@@ -18,14 +18,11 @@ abstract class BEventBaitOwner[Event <: LivingEvent: ClassTag]
   ): Unit
 
   override protected def handle(event: Event): Unit = {
-    val owner = CNVEntity.wrap(event.getEntityLiving)
-    owner.items().foreach(item => {
+    for(item <- CNVEntity.wrap(event.getEntityLiving).items()) {
       val logic = item.getLogic
-      if(logic != null) {
-        catchFish(logic).foreach(fish => {
-          handleFish(event, item, logic, fish)
-        })
-      }
-    })
+      if(logic != null) catchFish(logic).foreach(
+        handleFish(event, item, logic, _)
+      )
+    }
   }
 }
