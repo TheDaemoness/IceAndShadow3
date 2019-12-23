@@ -2,7 +2,7 @@
 	"parent": "minecraft:recipes/root",
 	"rewards": {
 		"recipes": [
-			"iceandshadow3:craft.gaia_petrified_brick.fromlog"
+			"iceandshadow3:craft.polis_petrified_brick.fromlog"
 		]
 	},
 	"criteria": {
@@ -17,7 +17,7 @@
 		"r": {
 			"trigger": "minecraft:recipe_unlocked",
 			"conditions": {
-				"recipe": "iceandshadow3:craft.gaia_petrified_brick.fromlog"
+				"recipe": "iceandshadow3:craft.polis_petrified_brick.fromlog"
 			}
 		}
 	},

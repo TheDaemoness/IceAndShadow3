@@ -4,9 +4,11 @@ import java.util.Random
 
 import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.VarBlockBool
+import mod.iceandshadow3.lib.compat.Registrar
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef}
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
-import mod.iceandshadow3.multiverse.DomainGaia
+import mod.iceandshadow3.lib.compat.recipe.ECraftingType
+import mod.iceandshadow3.multiverse.{DomainGaia, DomainPolis}
 
 object LBStoneLiving {
 	val varGrowing = new VarBlockBool("growing")
@@ -42,4 +44,20 @@ extends LogicBlock(DomainGaia, "livingstone_"+variant.name, Materias.livingstone
 	}
 
 	override def getBlockModelGen = Some(BJsonAssetGen.blockCube)
+
+	Registrar.addRecipeCallback("smelting."+name, name => {
+		ECraftingType.COOK_SMELT.apply(name, ECraftingType.About(
+			DomainPolis.Blocks.polished_stones(variant.ordinal()).toWItemStack
+		), this.toWItemStack)
+	})
+
+	Registrar.addRecipeCallback(s"craft.$name.grow", name => {
+		val minerals = DomainGaia.Items.minerals
+		ECraftingType.CRAFT_SHAPELESS(name,
+			ECraftingType.About(this.toWItemStack.setCount(8)),
+			DomainGaia.Items.shales(variant.ordinal).toWItemType,
+			minerals, minerals, minerals, minerals,
+			minerals, minerals, minerals, minerals
+		)
+	})
 }

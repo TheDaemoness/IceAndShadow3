@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+	"textures": {
+		"layer0": "iceandshadow3:item/polis_moonstone_dust.1"
+	}
+}
+

@@ -1,11 +1,11 @@
 {
 	"type": "minecraft:crafting_shapeless",
-	"group": "iceandshadow3:gaia_petrified_brick",
+	"group": "iceandshadow3:polis_petrified_brick",
 	"ingredients": [
 		{"item": "iceandshadow3:gaia_petrified_log"}
 	],
 	"result": {
-		"item": "iceandshadow3:gaia_petrified_brick",
+		"item": "iceandshadow3:polis_petrified_brick",
 		"count": 4
 	}
 }

@@ -25,11 +25,11 @@
 									}
 								}
 							],
-							"name": "iceandshadow3:gaia_petrified_bricks"
+							"name": "iceandshadow3:polis_petrified_bricks"
 						},
 						{
 							"type": "minecraft:item",
-							"name": "iceandshadow3:gaia_petrified_brick",
+							"name": "iceandshadow3:polis_petrified_brick",
 							"functions": [
 								{
 									"function": "minecraft:set_count",

@@ -11,9 +11,4 @@ import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 class LBStone(variant: ELivingstoneTypes)
 extends LogicBlock(DomainPolis, "stone_"+variant.name, Materias.stone) {
 	override def getBlockModelGen = Some(BJsonAssetGen.blockCube)
-
-	Registrar.addRecipeCallback("smelting.gaia_livingstone_"+variant.name, name => {
-		ECraftingType.COOK_SMELT.apply(name, ECraftingType.About(this.toWItemStack),
-			DomainGaia.Blocks.livingstones(variant.ordinal()).toWItemStack)
-	})
 }

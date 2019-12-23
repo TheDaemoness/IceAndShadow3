@@ -18,6 +18,4 @@ object Materias {
 			hardness(0.6f).harvestWith(HarvestMethod.AXE).harvestLevel(1)("petrified_leaves")
 	val moonstone =
 		builder(Materia.stone).hardness(1f).harvestLevel(0).luma(9)("moonstone")
-	val moonstone_dust =
-		builder(Materia.plasma).luma(9).opacity(0).transparent(true)("moonstone_dust")
 }

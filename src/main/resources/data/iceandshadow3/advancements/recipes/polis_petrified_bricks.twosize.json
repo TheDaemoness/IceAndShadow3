@@ -2,8 +2,8 @@
 	"parent": "minecraft:recipes/root",
 	"rewards": {
 		"recipes": [
-			"iceandshadow3:craft.gaia_petrified_bricks.from_small",
-			"iceandshadow3:craft.gaia_petrified_bricks.to_small"
+			"iceandshadow3:craft.polis_petrified_bricks.from_small",
+			"iceandshadow3:craft.polis_petrified_bricks.to_small"
 		]
 	},
 	"criteria": {
@@ -12,7 +12,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "iceandshadow3:gaia_petrified_bricks"
+						"item": "iceandshadow3:polis_petrified_bricks"
 					}
 				]
 			}
@@ -22,7 +22,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "iceandshadow3:gaia_petrified_brick"
+						"item": "iceandshadow3:polis_petrified_brick"
 					}
 				]
 			}
@@ -30,13 +30,13 @@
 		"r1": {
 			"trigger": "minecraft:recipe_unlocked",
 			"conditions": {
-				"recipe": "iceandshadow3:craft.gaia_petrified_bricks.from_small"
+				"recipe": "iceandshadow3:craft.polis_petrified_bricks.from_small"
 			}
 		},
 		"r2": {
 			"trigger": "minecraft:recipe_unlocked",
 			"conditions": {
-				"recipe": "iceandshadow3:craft.gaia_petrified_bricks.to_small"
+				"recipe": "iceandshadow3:craft.polis_petrified_bricks.to_small"
 			}
 		}
 	},

@@ -15,13 +15,9 @@ object DomainGaia extends BDomain("gaia") {
 		val navistra_stone = new LogicBlockOfMateria(DomainGaia, Materias.navistra_stone)
 		val petrified_log = new LBLog("petrified_log", Materias.petrified_wood, 3)
 		val petrified_leaves = new LBLeaves("petrified_leaves", Materias.petrified_leaves, petrified_log)
-		val petrified_bricks = new LogicBlockOfMateria(DomainGaia, Materias.petrified_wood) {
-			override protected val baseName = "petrified_bricks"
-		}
 		val moonstone_block = new LogicBlockOfMateria(DomainGaia, Materias.moonstone) {
 			override protected val baseName = "moonstone_block"
 		}
-		val moonstone_dust = new LBMoonstoneDust
 	}
 	val Items = new {
 		val minerals = new LIMinerals
@@ -31,10 +27,8 @@ object DomainGaia extends BDomain("gaia") {
 		val devora = new LIDevora(false)
 		val devora_small = new LIDevora(true)
 		val shales = ELivingstoneTypes.values().map(new LIShale(_))
-		val petrified_brick = new LogicItemMulti(DomainGaia, "petrified_brick", 1)
 		val jades = LIJade.variants.map(new LIJade(_))
 		val moonstone = new LogicItemMulti(DomainGaia, "moonstone", 2)
-		val moonstone_dust = new LIMoonstoneDust
 	}
 
 	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx

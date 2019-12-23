@@ -15,9 +15,9 @@
 		}
 	],
 	"textures": {
-		"particle": "iceandshadow3:block/gaia_petrified_bricks.y",
-		"x": "iceandshadow3:block/gaia_petrified_bricks.x",
-		"y": "iceandshadow3:block/gaia_petrified_bricks.y",
-		"z": "iceandshadow3:block/gaia_petrified_bricks.z"
+		"particle": "iceandshadow3:block/polis_petrified_bricks.y",
+		"x": "iceandshadow3:block/polis_petrified_bricks.x",
+		"y": "iceandshadow3:block/polis_petrified_bricks.y",
+		"z": "iceandshadow3:block/polis_petrified_bricks.z"
 	}
 }
