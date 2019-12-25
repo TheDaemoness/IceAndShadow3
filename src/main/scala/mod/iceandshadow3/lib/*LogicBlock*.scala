@@ -21,7 +21,7 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 {
 	BinderBlock.add(this)
 	ContentLists.block.add(this)
-	implicit final val id: WIdBlock = new WIdBlock(IaS3.MODID, domain.makeName(baseName))
+	final val id: WIdBlock = new WIdBlock(IaS3.MODID, domain.makeName(baseName))
 
 	def isToolClassEffective(m: HarvestMethod) = materia.isEffective(m)
 	def randomlyUpdates: Option[WBlockState => Boolean] = None

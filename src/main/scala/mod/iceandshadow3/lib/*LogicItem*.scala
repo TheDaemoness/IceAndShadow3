@@ -23,7 +23,7 @@ abstract class BLogicItem(dom: BDomain, baseName: String)
 {
 	BinderItem.add(this)
 	ContentLists.item.add(this)
-	implicit final val id: WIdItem = new WIdItem(IaS3.MODID, domain.makeName(baseName))
+	final val id: WIdItem = new WIdItem(IaS3.MODID, domain.makeName(baseName))
 	final override def pathPrefix: String = "item"
 	final override def itemLogic = Some(this)
 

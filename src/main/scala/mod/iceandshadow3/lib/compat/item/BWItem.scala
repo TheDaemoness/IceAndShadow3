@@ -59,5 +59,5 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider with TNamed[
 		lp != null && lp == what
 	}
 
-	override implicit def id: WIdItem = new WIdItem(asItem().getRegistryName)
+	override def id: WIdItem = new WIdItem(asItem().getRegistryName)
 }

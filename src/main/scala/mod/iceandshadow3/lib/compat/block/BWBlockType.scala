@@ -17,5 +17,5 @@ extends LogicProvider.Block {
 	def typeForPlace(what: TWUsageOnBlock) = new WBlockState(asBlock().getStateForPlacement(what.expose))
 	def typeDefault = new WBlockState(asBlock().getDefaultState)
 
-	override implicit def id: WIdBlock = new WIdBlock(asBlock().getRegistryName)
+	override def id: WIdBlock = new WIdBlock(asBlock().getRegistryName)
 }
