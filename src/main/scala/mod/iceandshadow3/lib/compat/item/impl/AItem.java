@@ -4,6 +4,7 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.base.LogicProvider;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
+import mod.iceandshadow3.lib.compat.WId;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
 import mod.iceandshadow3.lib.compat.entity.WEntity;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
@@ -137,5 +138,11 @@ public class AItem extends Item implements LogicProvider.Item {
 		//TODO: WItemStack holding owner data is overstaying its welcome.
 		if(handler != null) handler.accept(new WItemStackOwned<>(is, CNVEntity.wrap(owner)));
 		super.inventoryTick(is, world, owner, slot, held);
+	}
+
+	@Nonnull
+	@Override
+	public WId id() {
+		return logic.id();
 	}
 }

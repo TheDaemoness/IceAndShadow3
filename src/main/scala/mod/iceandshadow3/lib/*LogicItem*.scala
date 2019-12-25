@@ -3,8 +3,9 @@ package mod.iceandshadow3.lib
 import java.util.function.{Consumer, Predicate}
 
 import javax.annotation.Nullable
-import mod.iceandshadow3.ContentLists
-import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
+import mod.iceandshadow3.{ContentLists, IaS3}
+import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TNamed}
+import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.item._
@@ -18,9 +19,11 @@ abstract class BLogicItem(dom: BDomain, baseName: String)
 	with TLogicWithItem
 	with TEventFishOwner
 	with BinderItem.TKey
+	with TNamed[WIdItem]
 {
 	BinderItem.add(this)
 	ContentLists.item.add(this)
+	implicit final val id: WIdItem = new WIdItem(IaS3.MODID, domain.makeName(baseName))
 	final override def pathPrefix: String = "item"
 	final override def itemLogic = Some(this)
 

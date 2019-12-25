@@ -4,9 +4,11 @@ import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.LogicBlock;
 import mod.iceandshadow3.lib.base.LogicProvider;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
+import mod.iceandshadow3.lib.compat.WId;
 import mod.iceandshadow3.lib.compat.block.impl.ABlock;
 import net.minecraft.item.BlockItem;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class AItemBlock extends BlockItem implements LogicProvider.Block {
@@ -20,5 +22,11 @@ public class AItemBlock extends BlockItem implements LogicProvider.Block {
 	@Override
 	public BLogicBlock getLogic() {
 		return logic;
+	}
+
+	@Nonnull
+	@Override
+	public WId id() {
+		return logic.id();
 	}
 }

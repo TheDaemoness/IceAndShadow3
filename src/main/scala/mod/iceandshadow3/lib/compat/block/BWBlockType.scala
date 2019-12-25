@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.base.LogicProvider
+import mod.iceandshadow3.lib.compat.{WId, WIdBlock}
 import mod.iceandshadow3.lib.compat.misc.TWUsageOnBlock
 import net.minecraft.block.Block
 
@@ -15,4 +16,6 @@ extends LogicProvider.Block {
 
 	def typeForPlace(what: TWUsageOnBlock) = new WBlockState(asBlock().getStateForPlacement(what.expose))
 	def typeDefault = new WBlockState(asBlock().getDefaultState)
+
+	override implicit def id: WIdBlock = new WIdBlock(asBlock().getRegistryName)
 }

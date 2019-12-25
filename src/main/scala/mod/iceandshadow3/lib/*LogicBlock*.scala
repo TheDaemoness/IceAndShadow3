@@ -2,9 +2,10 @@ package mod.iceandshadow3.lib
 
 import java.util.Random
 
-import mod.iceandshadow3.ContentLists
-import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TLootable}
+import mod.iceandshadow3.{ContentLists, IaS3}
+import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TLootable, TNamed}
 import mod.iceandshadow3.lib.block.{BlockShape, HarvestMethod}
+import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlockNew, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
@@ -12,13 +13,15 @@ import mod.iceandshadow3.lib.compat.file.{BJsonAssetGen, BJsonAssetGenBlock, BJs
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemType}
 import mod.iceandshadow3.lib.compat.world.WWorld
 
-sealed abstract class BLogicBlock(dom: BDomain, name: String, val materia: Materia)
-	extends BLogic(dom, name)
+sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: Materia)
+	extends BLogic(dom, baseName)
 	with BinderBlock.TKey
 	with TLootable
+	with TNamed[WIdBlock]
 {
 	BinderBlock.add(this)
 	ContentLists.block.add(this)
+	implicit final val id: WIdBlock = new WIdBlock(IaS3.MODID, domain.makeName(baseName))
 
 	def isToolClassEffective(m: HarvestMethod) = materia.isEffective(m)
 	def randomlyUpdates: Option[WBlockState => Boolean] = None

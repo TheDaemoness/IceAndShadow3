@@ -1,23 +1,20 @@
 package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.lib.compat.item.WRarity
-import mod.iceandshadow3.lib.common.LogicBlockOfMateria
 import mod.iceandshadow3.lib.util.{Color, E3vl}
-import mod.iceandshadow3.lib.{BDomain, BLogicItemSimple, LogicItemMulti}
+import mod.iceandshadow3.lib.{BDomain, BLogicItemSimple, LogicBlock, LogicItemMulti}
 import mod.iceandshadow3.multiverse.gaia._
 
 object DomainGaia extends BDomain("gaia") {
 	val Blocks = new {
 		val livingstones = ELivingstoneTypes.values().map(new LBStoneLiving(_))
-		val navistra_bedrock = new LogicBlockOfMateria(DomainGaia, Materias.navistra_bedrock) {
+		val navistra_bedrock = new LogicBlock(DomainGaia, "navistra_bedrock", Materias.navistra_bedrock) {
 			override def shouldHaveLootTable = E3vl.FALSE
 		}
-		val navistra_stone = new LogicBlockOfMateria(DomainGaia, Materias.navistra_stone)
+		val navistra_stone = new LogicBlock(DomainGaia, "navistra_stone", Materias.navistra_stone)
 		val petrified_log = new LBLog("petrified_log", Materias.petrified_wood, 3)
 		val petrified_leaves = new LBLeaves("petrified_leaves", Materias.petrified_leaves, petrified_log)
-		val moonstone_block = new LogicBlockOfMateria(DomainGaia, Materias.moonstone) {
-			override protected val baseName = "moonstone_block"
-		}
+		val moonstone_block = new LogicBlock(DomainGaia, "moonstone_block", Materias.moonstone)
 	}
 	val Items = new {
 		val minerals = new LIMinerals

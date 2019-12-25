@@ -1,7 +1,8 @@
 package mod.iceandshadow3.lib
 
-import mod.iceandshadow3.ContentLists
-import mod.iceandshadow3.lib.base.INamed
+import mod.iceandshadow3.{ContentLists, IaS3}
+import mod.iceandshadow3.lib.base.TNamed
+import mod.iceandshadow3.lib.compat.WId
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving
 import mod.iceandshadow3.lib.compat.entity.state.{BStatus, WDamage}
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
@@ -28,11 +29,12 @@ final class StatusEffectPlaceholder(ticksForAmp: Int => Int = _ => 20) extends S
 	override def intervalTicks(amp: Int) = ticksForAmp(amp)
 }
 
-abstract class BStatusEffect(val name: String, val isBeneficial: E3vl, val color: Color)
+abstract class BStatusEffect(basename: String, val isBeneficial: E3vl, val color: Color)
 extends StatusEffect
-with INamed {
+with TNamed[WId] {
 	BinderStatusEffect.add(this)
 	ContentLists.status.add(this)
+	implicit override val id: WId = new WId(IaS3.MODID, basename)
 
 	def onStart(who: WEntityLiving, amp: Int): Unit = ()
 	def shouldTick(duration: Int, amp: Int): Boolean = false

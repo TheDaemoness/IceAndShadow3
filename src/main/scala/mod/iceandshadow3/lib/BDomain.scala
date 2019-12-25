@@ -33,6 +33,7 @@ abstract class BDomain(val name: java.lang.String) {
 	def resistsFreezing = true
 
 	def addRecipes(): Unit = {}
+	def makeName(string: String): String = s"${name}_${string}"
 }
 
 object BDomain {

@@ -1,6 +1,6 @@
 package mod.iceandshadow3;
 
-import mod.iceandshadow3.lib.base.INamed;
+import mod.iceandshadow3.lib.base.TNamed;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class TestsInit {
 		Assertions.assertFalse(IaS3.bugged(), "bug() was called at least once during initialization.");
 	}
 
-	static <In extends INamed> void testNames(Iterator<In> input) {
+	static <In extends TNamed> void testNames(Iterator<In> input) {
 		final HashMap<String, In> seen = new HashMap<>();
 		while(input.hasNext()) {
 			final In elem = input.next();

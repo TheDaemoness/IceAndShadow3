@@ -1,7 +1,8 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.BLogicItem
-import mod.iceandshadow3.lib.base.LogicProvider
+import mod.iceandshadow3.lib.base.{LogicProvider, TNamed}
+import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.util.Casting
@@ -12,7 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries
 
 import scala.reflect.ClassTag
 
-abstract class BWItem extends LogicProvider.Item with IItemProvider {
+abstract class BWItem extends LogicProvider.Item with IItemProvider with TNamed[WIdItem] {
 	override def asItem(): Item
 	def asWItem(): WItemType
 	def asWItemStack(): WItemStack = new WItemStack(asItem().getDefaultInstance)
@@ -43,8 +44,8 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider {
 
 	def isEmpty: Boolean = asItem() == Items.AIR
 
-	def registryName: String = ForgeRegistries.ITEMS.getKey(asItem()).toString
-	override def modName: String = ForgeRegistries.ITEMS.getKey(asItem()).getPath
+	def registryName: String = id.toString
+	override def name: String = ForgeRegistries.ITEMS.getKey(asItem()).getPath
 	override def namespace: String = ForgeRegistries.ITEMS.getKey(asItem()).getNamespace
 
 	override def facet[What <: Object : ClassTag] = asItem() match {
@@ -57,4 +58,6 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider {
 		val lp = getLogic
 		lp != null && lp == what
 	}
+
+	override implicit def id: WIdItem = new WIdItem(asItem().getRegistryName)
 }

@@ -4,6 +4,7 @@ import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
+import mod.iceandshadow3.lib.compat.WId;
 import mod.iceandshadow3.lib.compat.block.*;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.world.WWorld;
@@ -232,6 +233,12 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	@Override
 	public boolean ticksRandomly(BlockState state) {
 		return logic.randomlyUpdates().fold(() -> Boolean.FALSE, fn -> (Boolean)fn.apply(new WBlockState(state)));
+	}
+
+	@Nonnull
+	@Override
+	public WId id() {
+		return logic.id();
 	}
 }
 

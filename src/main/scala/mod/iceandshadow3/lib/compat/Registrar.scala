@@ -73,7 +73,7 @@ object Registrar {
 
 	private[iceandshadow3] def registerBlocks(reg: IForgeRegistry[Block]): Unit = {
 		for (binding <- BinderBlock) {
-			binding._1.setRegistryName(binding._1.namespace, binding._1.modName)
+			binding._1.setRegistryName(binding._1.id.asVanilla)
 			reg.register(binding._1)
 		}
 	}
@@ -81,12 +81,12 @@ object Registrar {
 	private[iceandshadow3] def registerItems(reg: IForgeRegistry[Item]): Unit = {
 		for (binding <- BinderBlock) {
 			if (binding._2 != null) {
-				binding._2.setRegistryName(binding._2.namespace, binding._2.modName)
+				binding._2.setRegistryName(binding._2.id.asVanilla)
 				reg.register(binding._2)
 			}
 		}
 		for (item <- BinderItem.freeze()) {
-			item.setRegistryName(item.namespace, item.modName)
+			item.setRegistryName(item.id.asVanilla)
 			reg.register(item)
 		}
 		//TODO: Spawn eggs.
