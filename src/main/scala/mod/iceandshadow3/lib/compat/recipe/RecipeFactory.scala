@@ -4,15 +4,15 @@ import com.google.gson.{JsonArray, JsonObject}
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.base.TNamed
 import mod.iceandshadow3.lib.compat.WId
-import net.minecraft.item.crafting.IRecipe
+import net.minecraft.item.crafting.{IRecipe, Ingredient}
 
 sealed class RecipeFactory(
-	protected val metadata: NewRecipeMetadata,
-	builder: Seq[IngredientFactory] => IRecipe[_],
+	protected val metadata: RecipeMetadata,
+	builder: Seq[Ingredient] => IRecipe[_],
 	inputs: IngredientFactory*
 ) extends TNamed[WId] {
 	final override val id = new WId(IaS3.MODID, metadata.name)
-	final protected[compat] def build: IRecipe[_] = builder(inputs)
+	final protected[compat] def build: IRecipe[_] = builder(inputs.map(_.build))
 	protected[compat] def advancement: Option[(String, Option[JsonObject])] = {
 		import scala.util.chaining._
 		val retval = new JsonObject
@@ -48,7 +48,9 @@ sealed class RecipeFactory(
 	}
 }
 object RecipeFactory {
-	private def makeCriterion(criteria: JsonObject, key: String, trigger: String, conditions: JsonObject => Unit) = {
+	private def makeCriterion(
+		criteria: JsonObject, key: String, trigger: String, conditions: JsonObject => Unit
+	): Unit = {
 		import scala.util.chaining._
 		criteria.add(key, new JsonObject().tap(criterion => {
 			criterion.addProperty("trigger", trigger)

@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.base.{LogicProvider, TNamed}
 import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.WEntity
-import mod.iceandshadow3.lib.util.Casting
+import mod.iceandshadow3.lib.util.GeneralUtils
 import net.minecraft.item.{BlockItem, Item, Items}
 import net.minecraft.tags.ItemTags
 import net.minecraft.util.{IItemProvider, ResourceLocation}
@@ -50,7 +50,7 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider with TNamed[
 
 	override def facet[What <: Object : ClassTag] = asItem() match {
 		case lp: LogicProvider.Item => lp.facet[What]
-		case item => Casting.cast[What](item)
+		case item => GeneralUtils.cast[What](item)
 	}
 	def matches(what: BWItem) =
 		asItem() == what.asItem()

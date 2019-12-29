@@ -29,7 +29,7 @@ extends WItemStack(inputstack) with TWWorldPlace with IPositionalFine {
 		val is = this.is.get //Warning: shadowing.
 		//TODO: There's no reason why IaS3 items can't have an override for this.
 		if(is.isDamageable) {
-			import mod.iceandshadow3.lib.util.Casting._
+			import mod.iceandshadow3.lib.util.GeneralUtils._
 			val dmg = Math.max(0, getDamageMax - getDamage - count) //Intended: ignoring the actual durability increase.
 			val multiplayer = cast[ServerPlayerEntity](owner).orNull
 			if (is.attemptDamageItem(count, GlobalRandom.getRNG(owner.entity), multiplayer)) {

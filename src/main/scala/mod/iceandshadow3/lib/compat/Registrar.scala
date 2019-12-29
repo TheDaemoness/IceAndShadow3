@@ -1,15 +1,19 @@
 package mod.iceandshadow3.lib.compat
 
 import java.nio.file.Path
+import java.util.concurrent.ConcurrentHashMap
 
 import com.google.common.base.Charsets
+import com.google.common.cache.{CacheBuilder, CacheLoader}
 import com.google.gson.JsonObject
+import javax.annotation.Nullable
 import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.compat.block.impl.{BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
 import mod.iceandshadow3.lib.compat.entity.impl.{BinderEntity, BinderEntityMob}
 import mod.iceandshadow3.lib.compat.entity.state.impl.{AStatusEffect, BinderStatusEffect}
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
+import mod.iceandshadow3.lib.compat.recipe.{AddedRecipesInfo, RecipeFactory}
 import mod.iceandshadow3.lib.compat.world.WSound
 import net.minecraft.block.Block
 import net.minecraft.entity.{Entity, EntityType}
@@ -58,6 +62,58 @@ object Registrar {
 			IaS3.logger().debug(s"Received ${map.size()} builtin recipes")
 			this
 		}
+	}
+	private object RecipeHandler
+	extends net.minecraftforge.registries.ForgeRegistryEntry[IRecipeSerializer[_]]
+	with IRecipeSerializer[IRecipe[_]] {
+		final val fileGen: BFileGen = new BFileGen("ias3_builtin_recipes") {
+			final private val recipeStub = ("{\"type\":\""+IaS3.MODID+":builtin\"}").getBytes(Charsets.US_ASCII)
+			final protected def getData(root: Path) = {
+				val retval = new java.util.HashMap[Path, Array[Byte]]()
+				for((id, factory) <- factories) {
+					retval.put(BFileGen.getDataPath(root, s"recipes/${id.name}.json"), recipeStub)
+					for(advancement <- factory.advancement; json <- advancement._2) retval.putIfAbsent(
+						BFileGen.getDataPath(root, s"advancements/recipes/${advancement._1}.json"),
+						json.toString.getBytes(Charsets.US_ASCII)
+					)
+				}
+				retval
+			}
+		}
+		@Nullable private var factories = new scala.collection.mutable.HashMap[WId, RecipeFactory]
+		private val forRecipeGen = new ConcurrentHashMap[ResourceLocation, RecipeFactory]
+		private lazy val activeCache = CacheBuilder.newBuilder().build(new CacheLoader[ResourceLocation, IRecipe[_]] {
+				override def load(key: ResourceLocation) = {
+					val retval = forRecipeGen.remove(key)
+					if(retval != null) retval.build else null
+				}
+			})
+		override def read(recipeId: ResourceLocation, json: JsonObject) = activeCache.get(recipeId)
+		override def read(recipeId: ResourceLocation, buffer: PacketBuffer) = activeCache.get(recipeId)
+		override def write(buffer: PacketBuffer, recipe: IRecipe[_]): Unit = {}
+
+		def freeze(): AddedRecipesInfo = {
+			for((id, factory) <- factories) forRecipeGen.put(id.asVanilla, factory)
+			val retval = new AddedRecipesInfo(factories)
+			factories = null
+			IaS3.logger().debug(s"RecipeHandler frozen with ${retval.size} recipes")
+			retval
+		}
+
+		def add(what: RecipeFactory): Boolean = {
+			if(factories == null) {
+				IaS3.bug(new IllegalStateException(s"Attempted to add $what after the recipe handler was frozen"))
+				false
+			} else {
+				val present = factories.getOrElseUpdate(what.id, what)
+				if (present != what) {
+					IaS3.bug(new IllegalArgumentException(s"Recipe ID collision for ${present.id}"))
+					false
+				} else true
+			}
+		}
+
+		@Nullable def info: AddedRecipesInfo = if(factories == null) null else new AddedRecipesInfo(factories)
 	}
 
 	private[iceandshadow3] def getFileGen = BuiltinRecipeProxy.fileGen
@@ -129,4 +185,7 @@ object Registrar {
 		BuiltinRecipeProxy.add(IaS3.rloc(name), fn)
 		ContentLists.namesRecipe.add(name)
 	}
+
+	private[compat] def addRecipeFactory(factory: RecipeFactory): Boolean = RecipeHandler.add(factory)
+	@Nullable def recipeInfo = RecipeHandler.info
 }

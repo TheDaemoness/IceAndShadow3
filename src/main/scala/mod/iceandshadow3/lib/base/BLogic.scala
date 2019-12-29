@@ -4,7 +4,7 @@ import javax.annotation.Nullable
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.BDomain
 import mod.iceandshadow3.lib.compat.WId
-import mod.iceandshadow3.lib.util.{Casting, TFaceted}
+import mod.iceandshadow3.lib.util.{GeneralUtils, TFaceted}
 
 import scala.reflect.ClassTag
 
@@ -22,5 +22,5 @@ extends TNamed[WId] with TFaceted[Object] {
 	@Nullable
 	def nameOverride(stack: WItemStack): String = null
 
-	override def facet[T <: Object: ClassTag]: Option[T] = Casting.cast[T](this)
+	override def facet[T <: Object: ClassTag]: Option[T] = GeneralUtils.cast[T](this)
 }

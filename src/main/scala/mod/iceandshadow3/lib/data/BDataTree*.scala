@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.data
 
-import mod.iceandshadow3.lib.util.Casting
+import mod.iceandshadow3.lib.util.GeneralUtils
 import net.minecraft.nbt._
 
 import scala.reflect.ClassTag
@@ -28,7 +28,7 @@ abstract class BDataTreeBranch[Container, Key](c: Container) extends BDataTree(c
 
 	def getAndCast[T <: IDataTreeRW[_ <: BDataTree[_]]: ClassTag](key: Key): Option[T] = {
 		val getopt = get(key)
-		if(getopt.isEmpty) None else Casting.cast[T](getopt.get)
+		if(getopt.isEmpty) None else GeneralUtils.cast[T](getopt.get)
 	}
 	def getAndUnwrap[V, T <: BDataTree[V]: ClassTag](key: Key): Option[V] = {
 		val wrappedopt: Option[T] = getAndCast[T](key)

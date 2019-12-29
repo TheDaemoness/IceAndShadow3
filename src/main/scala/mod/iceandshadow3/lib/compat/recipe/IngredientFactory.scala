@@ -17,6 +17,10 @@ sealed abstract class IngredientFactory { //No relation to BuildCraft.
 object IngredientFactory {
 	import scala.util.chaining._
 
+	val empty: IngredientFactory = new IngredientFactory {
+		override protected[compat] def build = Ingredient.EMPTY
+		override def conditionJson = None
+	}
 	implicit def apply(what: BLogic with TLogicWithItem): IngredientFactory = new IngredientFactory {
 		override protected[compat] def build = Ingredient.fromItems(what.toWItemType.asItem)
 		override def conditionJson =
