@@ -4,16 +4,19 @@ import mod.iceandshadow3.lib.compat.WId
 import com.google.gson.{JsonArray, JsonObject}
 
 abstract class BRecipeUnlockGen {
-	def apply(name: WId, nrm: NewRecipeMetadata, inputs: IngredientFactory*): Option[(String, Option[JsonObject])]
+	def name(id: WId): String = id.name
+	def apply(name: WId, nrm: NewRecipeMetadata, inputs: IngredientFactory*): Option[JsonObject]
 }
 object BRecipeUnlockGen {
 	def handwritten(nameOverride: String) = new BRecipeUnlockGen {
-		override def apply(id: WId, nrm: NewRecipeMetadata, inputs: IngredientFactory*) = Some(nameOverride, None)
+		override def name(name: WId) = nameOverride
+		override def apply(id: WId, nrm: NewRecipeMetadata, inputs: IngredientFactory*) = None
 	}
 	def handwritten(): BRecipeUnlockGen = new BRecipeUnlockGen {
-		override def apply(id: WId, nrm: NewRecipeMetadata, inputs: IngredientFactory*) = Some(id.name, None)
+		override def apply(id: WId, nrm: NewRecipeMetadata, inputs: IngredientFactory*) = None
 	}
 	def none(): BRecipeUnlockGen = new BRecipeUnlockGen {
+		override def name(name: WId) = ""
 		override def apply(id: WId, nrm: NewRecipeMetadata, inputs: IngredientFactory*) = None
 	}
 	def standard(canDeduce: Boolean = false): BRecipeUnlockGen = new BRecipeUnlockGen {
@@ -51,7 +54,7 @@ object BRecipeUnlockGen {
 				array.add(criterionIdInventory)
 				array.add(criterionIdRecipe)
 			}))))
-			Some(id.name, Some(retval))
+			Some(retval)
 		}
 	}
 

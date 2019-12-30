@@ -87,6 +87,11 @@ class TestsResources {
 		//noinspection OptionalGetWithoutIsPresent
 		return ContentLists.getRecipeInfo().get().namesRecipesIterator();
 	}
+	static Iterator<String> iteratorRecipeUnlockNameFromCode() {
+		//NOTE: We want an exception to happen here.
+		//noinspection OptionalGetWithoutIsPresent
+		return ContentLists.getRecipeInfo().get().namesUnlocksIterator();
+	}
 	static Stream<String> streamSoundNameFromCode() {
 		return ContentLists.namesSound.stream();
 	}
@@ -288,6 +293,17 @@ class TestsResources {
 				if(!(MODID+":builtin").contentEquals(type)) fail(path+": Builtin recipe shadowed by "+type+" recipe");
 			}
 			catch(JSONException e) { fail(path+": Malformed recipe file"); }
+		} catch(IOException e) {
+			fail(path+": Missing a file for builtin recipe");
+		}
+	}
+
+	@ParameterizedTest(name = "{0} (recipe unlock advancement) should exist")
+	@MethodSource("iteratorRecipeUnlockNameFromCode")
+	void advancementHasUnlock(String name) {
+		final String path = "data/"+MODID+"/advancements/recipes/"+name+".json";
+		try(final FileInputStream fis = new FileInputStream("./main/"+path)) {
+			//TODO: Validation?
 		} catch(IOException e) {
 			fail(path+": Missing a file for builtin recipe");
 		}
