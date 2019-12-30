@@ -74,4 +74,9 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 	def playSound(sound: WSound): Unit = sound.play(this, this.posCoarse, this.soundVolume, this.soundPitch)
 
 	override def toString = exposeBS().toString+s" @ $posCoarse"
+
+	def scheduleTick(): Unit = scheduleTick(asBlock().tickRate(exposeWorld()))
+	def scheduleTick(delay: Int): Unit = {
+		this.exposeWorld().getPendingBlockTicks.scheduleTick(this.toBlockPos, this.asBlock(), delay)
+	}
 }

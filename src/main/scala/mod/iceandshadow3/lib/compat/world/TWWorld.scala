@@ -26,5 +26,5 @@ trait TWWorld {
     where.xDouble, where.yDouble, where.zDouble,
     vel.xDouble, vel.yDouble, vel.zDouble
   )
-  def height(where: IPosColumn): Int = exposeWorld().getChunk(where.xChunk, where.zChunk).getTopFilledSegment
+  def heightAt(where: IPosColumn): Int = exposeWorld().getChunk(where.xChunk, where.zChunk).getTopFilledSegment
 }

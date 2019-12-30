@@ -41,13 +41,19 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 	//TODO: Separate collision shape from selection shape.
 	def shape: BlockShape = BlockShape.FULL_CUBE
 	def isDiscrete = false
+	
+	def onInside(us: WBlockRef, who: WEntity): Unit = {}
 
-	def onInside(block: WBlockRef, who: WEntity): Unit = {}
-	def onNeighborChanged(us: WBlockRef, them: WBlockRef): WBlockState = us
-	def onReplaced(us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {}
-	def onRandomTick(block: WBlockRef, rng: Random): Boolean = true
-	def onTick(block: WBlockRef, rng: Random): Unit = {}
 	def toPlace(state: WBlockState, context: WUsagePlace): WBlockState = state
+	def onAdded(us: WBlockRef, them: WBlockState, moving: Boolean): Unit = {}
+	def onReplaced(us: WBlockState, them: WBlockRef, moved: Boolean): Unit = {}
+	def onNeighborChanged(us: WBlockRef, them: WBlockRef): WBlockState = us
+	/** Called on random ticks.
+		* @return true if onTick should also be called by this tick.
+		*/
+	def onRandomTick(us: WBlockRef, rng: Random): Boolean = true
+	/** Called on scheduled update ticks or after onRandomTick. */
+	def onTick(us: WBlockRef, rng: Random): Unit = {}
 
 	/** Called to provide purely client-side (decorative) effects.
 		* Provides a WWorld + WBlockView out of principle, even if we can construct a WBlockRef here.

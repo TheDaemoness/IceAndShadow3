@@ -24,6 +24,9 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 	)
 	def isCreative = false
 
+	/** Returns the entity's eye height. */
+	def height: Float = entity.getEyeHeight
+
 	def teleport(newpos: IVec3): Unit = {
 		//TODO: For very long teleports, do we still need to do chunk loading shenanigans ala gatestones?
 		val pitchyaw = entity.getPitchYaw

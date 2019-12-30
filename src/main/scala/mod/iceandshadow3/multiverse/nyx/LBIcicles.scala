@@ -25,9 +25,9 @@ class LBIcicles extends LogicBlock(DomainNyx, "icicles", LBIcicles.materia) {
 
 	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(11, 3, 14))
 
-	override def onInside(block: WBlockRef, who: WEntity): Unit = {
+	override def onInside(us: WBlockRef, who: WEntity): Unit = {
 		LBIcicles.damage(who)
-		block.break(true)
+		us.break(true)
 	}
 
 	override def getBlockModelGen = Some(BJsonAssetGen.blockDeco)

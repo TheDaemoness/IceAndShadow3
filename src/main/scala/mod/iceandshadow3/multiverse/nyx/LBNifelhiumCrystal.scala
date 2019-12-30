@@ -2,7 +2,7 @@ package mod.iceandshadow3.multiverse.nyx
 
 import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.{BlockShape, BlockSubCuboid}
-import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, Materia, WBlockRef, WBlockView}
+import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, Materia, WBlockRef, WBlockState, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.multiverse.DomainNyx
@@ -18,10 +18,10 @@ class LBNifelhiumCrystal extends LogicBlock(DomainNyx, "nifelhium_crystal", LBNi
 		AdjacentBlocks.Below(block).forall(BlockQueries.solid)
 	override def isDiscrete = true
 	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(10, 0, 13)) //Slightly inside the texture bounds.
-	override def onInside(block: WBlockRef, who: WEntity): Unit = {
-		block.break(true)
+	override def onInside(us: WBlockRef, who: WEntity): Unit = {
+		us.break(true)
 	}
-	override def onReplaced(us: WBlockRef, them: WBlockRef, moved: Boolean): Unit = {
+	override def onReplaced(us: WBlockState, them: WBlockRef, moved: Boolean): Unit = {
 		//TODO: AoE damage burst that creates icicles.
 	}
 

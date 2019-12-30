@@ -15,7 +15,7 @@ object DimensionNyx extends BDimension("nyx") {
 
 	override def getRespawnDim = coord
 	override def getWorldSpawn(world: TWWorld) = new IPosBlock {
-		override def yBlock = 1 + world.height(this)
+		override def yBlock = 1 + world.heightAt(this)
 		override def xBlock = 0
 		override def zBlock = 0
 	}

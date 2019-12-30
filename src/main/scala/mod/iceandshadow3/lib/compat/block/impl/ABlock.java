@@ -189,7 +189,7 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 	) {
 		if(state.getBlock() != newState.getBlock()) {
 			logic.onReplaced(
-				new WBlockRef(worldIn, pos, state),
+				new WBlockState(state),
 				new WBlockRef(worldIn, pos, newState),
 				isMoving
 			);
@@ -220,14 +220,23 @@ implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
 			@Nonnull BlockPos pos,
 			@Nonnull Random random
 	) {
-		if(logic.onRandomTick(new WBlockRef(worldIn, pos, state), random)) {
-			this.tick(state, worldIn, pos, random);
-		}
+		final WBlockRef ref = new WBlockRef(worldIn, pos, state);
+		if(logic.onRandomTick(ref, random)) logic.onTick(ref, random);
+	}
+
+	@Override
+	public void onBlockAdded(BlockState us, World w, BlockPos pos, BlockState old, boolean moving) {
+		logic.onAdded(new WBlockRef(w, pos, us), new WBlockState(old), moving);
+	}
+
+	@Override
+	public int tickRate(IWorldReader p_149738_1_) {
+		return super.tickRate(p_149738_1_);
 	}
 
 	@Override
 	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
-		logic.onRandomTick(new WBlockRef(worldIn,pos, state), random);
+		logic.onTick(new WBlockRef(worldIn,pos, state), random);
 	}
 
 	@Override
