@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.base.TNamed
 import mod.iceandshadow3.lib.compat.WId
+import mod.iceandshadow3.lib.compat.file.BRecipeUnlockGen
 import net.minecraft.item.crafting.{IRecipe, Ingredient}
 
 final class RecipeFactory(

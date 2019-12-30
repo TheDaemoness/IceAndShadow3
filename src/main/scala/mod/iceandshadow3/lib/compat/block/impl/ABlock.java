@@ -38,7 +38,7 @@ import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class ABlock extends Block
-implements mod.iceandshadow3.lib.base.LogicProvider.Block, IShearable {
+implements IABlock, IShearable {
 	
 	private final BLogicBlock logic;
 	private final BlockRenderLayer layer;

@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.recipe
 
 import mod.iceandshadow3.lib.compat.Registrar
+import mod.iceandshadow3.lib.compat.file.BRecipeUnlockGen
 import mod.iceandshadow3.lib.compat.item.WItemStack
 
 abstract class BRecipeBuilder(

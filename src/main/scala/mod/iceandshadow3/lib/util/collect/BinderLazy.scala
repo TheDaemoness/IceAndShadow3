@@ -4,9 +4,9 @@ import mod.iceandshadow3.IaS3
 
 import scala.reflect.ClassTag
 
-class BinderLazy[KeyType: ClassTag, CnvType <: KeyType, ValueType <: Object: ClassTag](cnv: CnvType => ValueType)
-	extends Binder[KeyType, ValueType]
-{
+abstract class BinderLazy[KeyType: ClassTag, CnvType <: KeyType, ValueType <: Object: ClassTag] (
+	cnv: CnvType => ValueType
+) extends Binder[KeyType, ValueType] {
 	type ConvertType = CnvType
 	var later = new scala.collection.mutable.ListBuffer[CnvType with TKey]
 	final def add(key: CnvType with TKey): Unit = {
@@ -16,7 +16,6 @@ class BinderLazy[KeyType: ClassTag, CnvType <: KeyType, ValueType <: Object: Cla
 		}
 		later += intercept(key)
 	}
-
 	protected def intercept(key: CnvType with TKey): CnvType with TKey = key
 
 	override def freeze() = {

@@ -1,7 +1,8 @@
-package mod.iceandshadow3.lib.compat.recipe
+package mod.iceandshadow3.lib.compat.file
 
-import mod.iceandshadow3.lib.compat.WId
 import com.google.gson.{JsonArray, JsonObject}
+import mod.iceandshadow3.lib.compat.WId
+import mod.iceandshadow3.lib.compat.recipe.{IngredientFactory, NewRecipeMetadata}
 
 abstract class BRecipeUnlockGen {
 	def name(id: WId): String = id.name
