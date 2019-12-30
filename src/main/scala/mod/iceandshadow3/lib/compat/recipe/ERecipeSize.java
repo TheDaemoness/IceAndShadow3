@@ -16,4 +16,8 @@ public enum ERecipeSize {
 		width = x;
 		height = y;
 	}
+
+	public int size() {
+		return width*height;
+	}
 }

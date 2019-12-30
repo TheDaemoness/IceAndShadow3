@@ -7,7 +7,7 @@ import com.google.common.base.Charsets
 import com.google.common.cache.{CacheBuilder, CacheLoader}
 import com.google.gson.JsonObject
 import javax.annotation.Nullable
-import mod.iceandshadow3.{ContentLists, IaS3}
+import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.block.impl.{BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
 import mod.iceandshadow3.lib.compat.entity.impl.{BinderEntity, BinderEntityMob}
@@ -26,44 +26,7 @@ import net.minecraft.util.{ResourceLocation, SoundEvent}
 import net.minecraftforge.registries.IForgeRegistry
 
 object Registrar {
-	private[compat] object BuiltinRecipeProxy
-	extends net.minecraftforge.registries.ForgeRegistryEntry[IRecipeSerializer[_]]
-	with IRecipeSerializer[IRecipe[_]] {
-		final val fileGen: BFileGen = new BFileGen("ias3_builtin_recipes") {
-			final private val data = ("{\"type\":\""+IaS3.MODID+":builtin\"}").getBytes(Charsets.US_ASCII)
-			final protected def getData(root: Path) = {
-				import scala.jdk.CollectionConverters._
-				val retval = new java.util.HashMap[Path, Array[Byte]]()
-				for(rloc <- map.keySet().asScala) {
-					val name = rloc.getPath
-					retval.put(BFileGen.getDataPath(root, s"recipes/$name.json"), data)
-				}
-				retval
-			}
-		}
-		//Set registry name in the registerRecipeSerializers bit.
-		private val map = new java.util.HashMap[ResourceLocation, String => IRecipe[_]]
-		override def read(recipeId: ResourceLocation, json: JsonObject) = map.get(recipeId)(recipeId.getPath)
-		override def read(recipeId: ResourceLocation, buffer: PacketBuffer) = map.get(recipeId)(recipeId.getPath)
-		override def write(buffer: PacketBuffer, recipe: IRecipe[_]): Unit = {}
-		private var frozeRecipes: Boolean = false
-
-		private[compat] def add(loc: ResourceLocation, what: String => IRecipe[_]): Boolean = {
-			if(frozeRecipes) {
-				IaS3.logger().error("Crafting recipe factory added too late: "+loc.getPath)
-				false
-			} else if(map.putIfAbsent(loc, what) != null) {
-				IaS3.logger().error("ID collision for crafting recipe: "+loc.getPath)
-				false
-			} else true
-		}
-		private[iceandshadow3] def freeze(): IRecipeSerializer[_] = {
-			frozeRecipes = true
-			IaS3.logger().debug(s"Received ${map.size()} builtin recipes")
-			this
-		}
-	}
-	private object RecipeHandler
+	private[compat] object RecipeHandler
 	extends net.minecraftforge.registries.ForgeRegistryEntry[IRecipeSerializer[_]]
 	with IRecipeSerializer[IRecipe[_]] {
 		final val fileGen: BFileGen = new BFileGen("ias3_builtin_recipes") {
@@ -116,15 +79,14 @@ object Registrar {
 		@Nullable def info: AddedRecipesInfo = if(factories == null) null else new AddedRecipesInfo(factories)
 	}
 
-	private[iceandshadow3] def getFileGen = BuiltinRecipeProxy.fileGen
+	private[iceandshadow3] def getFileGen = RecipeHandler.fileGen
 	private[iceandshadow3] def freeze(): Unit = {
 		BinderBlock.freeze()
 	}
 
 	private[iceandshadow3] def registerRecipeSerializers(reg: IForgeRegistry[IRecipeSerializer[_]]): Unit = {
-		BuiltinRecipeProxy.freeze()
-		BuiltinRecipeProxy.setRegistryName(IaS3.MODID, "builtin")
-		reg.register(BuiltinRecipeProxy)
+		RecipeHandler.setRegistryName(IaS3.MODID, "builtin")
+		reg.register(RecipeHandler)
 	}
 
 	private[iceandshadow3] def registerBlocks(reg: IForgeRegistry[Block]): Unit = {
@@ -178,12 +140,7 @@ object Registrar {
 
 	private[iceandshadow3] def finish(): Unit = {
 		BinderBlockVar.freeze()
-	}
-
-	def addRecipeCallback(name: String, fn: String => IRecipe[_]) = {
-		//Yes, with the methods in ECraftingType, we do end up generating a resource location twice.
-		BuiltinRecipeProxy.add(IaS3.rloc(name), fn)
-		ContentLists.namesRecipe.add(name)
+		RecipeHandler.freeze()
 	}
 
 	private[compat] def addRecipeFactory(factory: RecipeFactory): Boolean = RecipeHandler.add(factory)

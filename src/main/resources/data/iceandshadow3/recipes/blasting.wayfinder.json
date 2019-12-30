@@ -1,9 +1,0 @@
-{
-	"type": "minecraft:blasting",
-	"group": "iceandshadow3:nyx_wayfinder",
-	"ingredient": {
-		"item": "iceandshadow3:nyx_wayfinder"
-	},
-	"result": "minecraft:lapis_lazuli",
-	"cookingtime": 400
-}

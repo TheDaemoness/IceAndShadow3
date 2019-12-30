@@ -27,6 +27,7 @@ private[iceandshadow3] object InitCommon {
 
 	def initEarly(): Unit = {
 		for (domain <- domains) {domain.initEarly()}
+		Recipes()
 		if(!IaS3.ToolMode.isActive) Registrar.freeze()
 	}
 

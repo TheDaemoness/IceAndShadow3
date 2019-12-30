@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.item.WItemStack
 
 abstract class BRecipeBuilder(
 	protected val ect: ECraftingType,
-	protected val craftResult: BCraftResult
+	craftResult: => CraftResult
 ) {
 	protected var unlock: Either[Boolean, Option[String]] = Left(true)
 	protected var nameIsSuffix: Boolean = true
@@ -55,9 +55,9 @@ abstract class BRecipeBuilder(
 		unlock = Left(false)
 		this
 	}
-	protected def factory(nrm: RecipeMetadata): RecipeFactory
+	protected def factory(nrm: NewRecipeMetadata): RecipeFactory
 	final def register(): Boolean = {
-		val factoryObj = factory(new RecipeMetadata(craftResult, ect, name, nameIsSuffix, group, resultMod))
+		val factoryObj = factory(new NewRecipeMetadata(craftResult, ect, name, nameIsSuffix, group, resultMod))
 		Registrar.addRecipeFactory(unlock match {
 			case Left(hasUnlock) => if(!hasUnlock) factoryObj.withNoUnlock() else factoryObj
 			case Right(name) => name.fold(factoryObj.withCustomUnlock())(factoryObj.withCustomUnlock)

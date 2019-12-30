@@ -1,0 +1,1 @@
+{"parent":"minecraft:recipes/root","rewards":{"recipes":["iceandshadow3:smelt.minecraft.white_dye"]},"criteria":{"i":{"trigger":"minecraft:inventory_changed","conditions":{"items":[{"item":"iceandshadow3:gaia_livingshale_white"}]}},"r":{"trigger":"minecraft:recipe_unlocked","conditions":{"recipe":"iceandshadow3:smelt.minecraft.white_dye"}}},"requirements":[["i","r"]]}

@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.compat.WId
 import net.minecraft.item.crafting.{IRecipe, Ingredient}
 
 sealed class RecipeFactory(
-	protected val metadata: RecipeMetadata,
+	protected val metadata: NewRecipeMetadata,
 	builder: Seq[Ingredient] => IRecipe[_],
 	inputs: IngredientFactory*
 ) extends TNamed[WId] {

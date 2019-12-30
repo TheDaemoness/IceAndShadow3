@@ -20,7 +20,6 @@ public class ContentLists {
 	public static final List<BLogicBlock> block = new ArrayList<>();
 	public static final List<BStatusEffect> status = new ArrayList<>();
 	public static final List<String> namesSound = new ArrayList<>();
-	public static final List<String> namesRecipe = new ArrayList<>();
 	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	private static Optional<AddedRecipesInfo> recipesInfo = Optional.ofNullable(Registrar.recipeInfo());
 	// Suppressing the above warning because this field is never serializied,
@@ -30,10 +29,9 @@ public class ContentLists {
 		block.clear();
 		status.clear();
 		namesSound.clear();
-		namesRecipe.clear();
 		recipesInfo = Optional.empty();
 	}
-	static Optional<AddedRecipesInfo> getRecipeInfo() {
+	public static Optional<AddedRecipesInfo> getRecipeInfo() {
 		return recipesInfo;
 	}
 	//TODO: Make this instead a stream of item names (and change the relevant test).

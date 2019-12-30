@@ -5,7 +5,6 @@ import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
 import mod.iceandshadow3.lib.base.BLogic;
-import mod.iceandshadow3.lib.base.TLogicWithItem;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,14 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import scala.runtime.BoxedUnit;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static mod.iceandshadow3.IaS3.MODID;
@@ -87,8 +82,10 @@ class TestsResources {
 	static Stream<BStatusEffect> streamStatus() {
 		return ContentLists.status.stream();
 	}
-	static Stream<String> streamRecipeNameFromCode() {
-		return ContentLists.namesRecipe.stream();
+	static Iterator<String> iteratorRecipeNameFromCode() {
+		//NOTE: We want an exception to happen here.
+		//noinspection OptionalGetWithoutIsPresent
+		return ContentLists.getRecipeInfo().get().namesRecipesIterator();
 	}
 	static Stream<String> streamSoundNameFromCode() {
 		return ContentLists.namesSound.stream();
@@ -281,7 +278,7 @@ class TestsResources {
 	}
 
 	@ParameterizedTest(name = "{0} (builtin recipe) should have a matching JSON file")
-	@MethodSource("streamRecipeNameFromCode")
+	@MethodSource("iteratorRecipeNameFromCode")
 	void builtinRecipeIsEnabled(String name) {
 		final String path = "data/"+MODID+"/recipes/"+name+".json";
 		try(final FileInputStream fis = new FileInputStream("./main/"+path)) {

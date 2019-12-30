@@ -8,7 +8,7 @@ import mod.iceandshadow3.multiverse.polis._
 
 object DomainPolis extends BDomain("polis") {
 	val Blocks = new {
-		val polished_stones = ELivingstoneTypes.values().map(new LBStone(_))
+		val stones = ELivingstoneTypes.values().map(new LBStone(_))
 		val petrified_bricks = new LogicBlock(DomainPolis, "petrified_bricks", Materias.petrified_brick)
 		val moonstone_dust = new LBMoonstoneDust
 	}

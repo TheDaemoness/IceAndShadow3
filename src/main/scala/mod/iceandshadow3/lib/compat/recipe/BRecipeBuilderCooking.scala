@@ -9,7 +9,7 @@ object BRecipeBuilderCooking {
 	type RecipeMaker = (ResourceLocation, String, Ingredient, ItemStack, Float, Int) => IRecipe[_]
 }
 class BRecipeBuilderCooking(
-	ect: ECraftingType, craftResult: BCraftResult,
+	ect: ECraftingType, craftResult: => CraftResult,
 	defaultTicks: Int, input: IngredientFactory,
 	recipeFn: BRecipeBuilderCooking.RecipeMaker
 ) extends BRecipeBuilder(ect, craftResult) {
@@ -23,10 +23,10 @@ class BRecipeBuilderCooking(
 		experience = amount
 		this
 	}
-	final override protected def factory(nrm: RecipeMetadata) = new RecipeFactory(
+	final override protected def factory(nrm: NewRecipeMetadata) = new RecipeFactory(
 		nrm,
 		inputs => recipeFn(
-			IaS3.rloc(nrm.name), nrm.group, inputs.head, nrm.result.get.asItemStack(), experience, cookticks
+			IaS3.rloc(nrm.name), nrm.group, inputs.head, nrm.result.asItemStack(), experience, cookticks
 		),
 		input
 	)
