@@ -1,0 +1,1 @@
+{"parent":"minecraft:recipes/root","rewards":{"recipes":["iceandshadow3:destroy_wayfinder"]},"criteria":{"i":{"trigger":"minecraft:inventory_changed","conditions":{"items":[{"item":"iceandshadow3:nyx_wayfinder"}]}},"r":{"trigger":"minecraft:recipe_unlocked","conditions":{"recipe":"iceandshadow3:destroy_wayfinder"}}},"requirements":[["i","r"]]}

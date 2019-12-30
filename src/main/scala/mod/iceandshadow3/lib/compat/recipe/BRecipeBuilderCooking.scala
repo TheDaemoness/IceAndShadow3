@@ -28,6 +28,7 @@ class BRecipeBuilderCooking(
 		inputs => recipeFn(
 			IaS3.rloc(nrm.name), nrm.group, inputs.head, nrm.result.asItemStack(), experience, cookticks
 		),
-		input
+		unlock,
+		Seq(input)
 	)
 }

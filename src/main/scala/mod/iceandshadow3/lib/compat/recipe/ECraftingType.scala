@@ -33,8 +33,10 @@ object ECraftingType {
 				override def getRemainingItems(inv: CraftingInventory) =
 					CNVCompat.toNonNullList(logic.leftovers(new WInventoryCrafting(inv)))
 				override def getSerializer = Registrar.RecipeHandler
-			}
-		).withNoUnlock())
+			},
+			BRecipeUnlockGen.none(),
+			Seq.empty
+		))
 	} 
 	case object CRAFT_SHAPELESS extends ECraftingType("combine") {
 		def apply(output: => CraftResult, inputs: IngredientFactory*) =
@@ -45,7 +47,8 @@ object ECraftingType {
 						IaS3.rloc(nrm.name), nrm.group, nrm.result.asItemStack(),
 						NonNullList.from(Ingredient.EMPTY, ingrs:_*)
 					),
-					inputs:_*
+					unlock,
+					inputs
 				)
 			}
 	}
@@ -59,7 +62,8 @@ object ECraftingType {
 						NonNullList.from(Ingredient.EMPTY, ingrs:_*),
 						nrm.result.asItemStack()
 					),
-					inputs:_*
+					unlock,
+					inputs
 				)
 			}
 		/** Create a builder for a recipe that uses n items of the same type in a certain basic shape. */
@@ -86,7 +90,8 @@ object ECraftingType {
 					ins => new StonecuttingRecipe(
 						IaS3.rloc(nrm.name), nrm.group, ins.head, nrm.result.asItemStack()
 					),
-					input
+					unlock,
+					Seq(input)
 				)
 			}
 	}
@@ -101,13 +106,13 @@ object ECraftingType {
 			val idS = resultS.id
 			ECraftingType.CRAFT_SHAPED(resultL, smaller, size).suffix(
 				s"ab_from.${idS.namespace}.${idS.name}"
-			).register()
+			).unlockDeduce.register()
 		}
 		; {
 			val idL = resultL.id
 			ECraftingType.CRAFT_SHAPELESS(resultS, larger).suffix(
 				s"ab_from.${idL.namespace}.${idL.name}"
-			).transformResult(_.setCount(size.size)).register()
+			).alterResult(_.setCount(size.size)).unlockDeduce.register()
 		}
 	}
 }

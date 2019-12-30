@@ -8,7 +8,7 @@ import mod.iceandshadow3.lib.item.LogicCrafting
 import mod.iceandshadow3.multiverse.gaia.{ELivingstoneTypes, LIMinerals}
 import mod.iceandshadow3.multiverse.polis.LIMoonstoneDust
 
-object Recipes { private[iceandshadow3] def apply(): Boolean = {
+object Recipes { private[iceandshadow3] def apply(): Unit = {
 	import mod.iceandshadow3.lib.compat.recipe.CraftResult.apply
 	import ERecipeSize._
 
@@ -20,7 +20,7 @@ object Recipes { private[iceandshadow3] def apply(): Boolean = {
 		ECraftingType.CRAFT_SHAPELESS(DomainGaia.Blocks.livingstones(id),
 			DomainGaia.Items.shales(id),
 			minerals, minerals, minerals, minerals, minerals, minerals, minerals, minerals //x8
-		).transformResult(_.setCount(8)).suffix("mineralize").register()
+		).alterResult(_.setCount(8)).suffix("mineralize").register()
 	}
 
 	ECraftingType.CRAFT_SPECIAL.register(new LogicCrafting("grow_with_minerals") {
@@ -45,13 +45,13 @@ object Recipes { private[iceandshadow3] def apply(): Boolean = {
 
 	ECraftingType.CRAFT_SHAPELESS(DomainPolis.Items.moonstone_dust,
 		DomainGaia.Items.moonstone
-	).transformResult(
+	).alterResult(
 		stack => stack.setDamage(stack.getDamageMax - LIMoonstoneDust.DUST_PER_ITEM)
 	).suffix("crush").register()
 
 	ECraftingType.CRAFT_SHAPELESS(DomainPolis.Items.petrified_brick,
 		DomainGaia.Blocks.petrified_log
-	).transformResult(_.setCount(4)).suffix("from_wood").register()
+	).alterResult(_.setCount(4)).suffix("from_wood").register()
 	ECraftingType.registerAB(DomainNyx.Items.nifelhium_small, DomainNyx.Items.nifelhium)
 	ECraftingType.registerAB(DomainPolis.Items.petrified_brick, DomainPolis.Blocks.petrified_bricks, TWO_X_TWO)
 	ECraftingType.registerAB(DomainGaia.Items.devora_small, DomainGaia.Items.devora)
@@ -59,5 +59,9 @@ object Recipes { private[iceandshadow3] def apply(): Boolean = {
 	ECraftingType.COOK_SMELT(DomainGaia.Items.cortra, DomainGaia.Items.cortra_dust).register()
 	ECraftingType.CRAFT_SHAPELESS(DomainNyx.Items.bone,
 		WIdItem("minecraft:bone"), minerals
-	).suffix("mineralize").register()
+	).suffix("mineralize").unlockDeduce.register()
+
+	ECraftingType.COOK_BLAST(WIdItem("minecraft:ender_pearl"),
+		DomainNyx.Items.wayfinder
+	).ticks(400).xp(13f).name("destroy_wayfinder").register()
 }}

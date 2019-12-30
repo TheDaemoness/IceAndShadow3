@@ -7,7 +7,7 @@ abstract class BRecipeBuilder(
 	protected val ect: ECraftingType,
 	craftResult: => CraftResult
 ) {
-	protected var unlock: Either[Boolean, Option[String]] = Left(true)
+	protected var unlock: BRecipeUnlockGen = BRecipeUnlockGen.standard()
 	protected var nameIsSuffix: Boolean = true
 	protected var name: String = ""
 	protected var group: Option[String] = None
@@ -22,7 +22,7 @@ abstract class BRecipeBuilder(
 		name = string
 		this
 	}
-	final def defaultName: this.type = {
+	final def nameDefault: this.type = {
 		nameIsSuffix = true
 		name = ""
 		this
@@ -31,36 +31,28 @@ abstract class BRecipeBuilder(
 		group = Some(string)
 		this
 	}
-	final def defaultGroup: this.type = {
+	final def groupDefault: this.type = {
 		group = None
 		this
 	}
-	final def transformResult(fn: WItemStack => Unit): this.type = {
+	final def alterResult(fn: WItemStack => Unit): this.type = {
 		resultMod = fn
 		this
 	}
-	final def defaultUnlock: this.type = {
-		unlock = Left(true)
+	final def unlockDefault: this.type = {
+		unlock = BRecipeUnlockGen.standard()
 		this
 	}
-	final def customUnlock: this.type = {
-		unlock = Right(None)
+	final def unlockDeduce: this.type = {
+		unlock = BRecipeUnlockGen.standard(true)
 		this
 	}
-	final def customUnlock(id: String): this.type = {
-		unlock = Right(Some(id))
-		this
-	}
-	final def noUnlock: this.type = {
-		unlock = Left(false)
+	final def unlock(gen: BRecipeUnlockGen): this.type = {
+		unlock = gen
 		this
 	}
 	protected def factory(nrm: NewRecipeMetadata): RecipeFactory
-	final def register(): Boolean = {
-		val factoryObj = factory(new NewRecipeMetadata(craftResult, ect, name, nameIsSuffix, group, resultMod))
-		Registrar.addRecipeFactory(unlock match {
-			case Left(hasUnlock) => if(!hasUnlock) factoryObj.withNoUnlock() else factoryObj
-			case Right(name) => name.fold(factoryObj.withCustomUnlock())(factoryObj.withCustomUnlock)
-		})
-	}
+	final def register(): Boolean = Registrar.addRecipeFactory(factory(
+		new NewRecipeMetadata(craftResult, ect, name, nameIsSuffix, group, resultMod)
+	))
 }
