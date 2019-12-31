@@ -39,7 +39,7 @@ object JsonGenAssetsBlockSlab {
 		("side", tex.side),
 	))
 	def defaultBottom(logic: BLogicBlock, textures: Column2Values[String]): BJsonGenModelBlock =
-		new BJsonGenModelBlock(logic.name+".bottom") {
+		new BJsonGenModelBlock(logic.name) {
 			override def apply = modelString("block/slab", textures)
 		}
 	def defaultTop(logic: BLogicBlock, textures: Column2Values[String]): BJsonGenModelBlock =
@@ -48,7 +48,7 @@ object JsonGenAssetsBlockSlab {
 		}
 	def defaultDouble(logic: BLogicBlock, textures: Column2Values[String]): BJsonGenModelBlock =
 		new BJsonGenModelBlock(logic.name+".double") {
-			override def apply = BJsonGenModelBlock.simpleModel("block/cube_bottom_top", Map(
+			override def apply = BJsonGenModelBlock.simpleModel("block/cube_column", Map(
 				("end", textures.end),
 				("side", textures.side),
 			))

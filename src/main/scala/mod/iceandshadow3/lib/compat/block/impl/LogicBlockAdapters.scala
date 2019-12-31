@@ -8,16 +8,16 @@ import scala.collection.mutable
 
 private[lib] object LogicBlockAdapters {
 	type Adapter = Block with IABlock
-	type AdapterFn = BLogicBlock => Adapter
+	type AdapterGen = () => Adapter
 
 	private class Manager {
-		val block: AdapterFn = new ABlock(_)
-		val stairs: AdapterFn = new ABlockStairs(_)
-		val slab: AdapterFn = new ABlockSlab(_)
-		val wall: AdapterFn = new ABlockWall(_)
-		private val atypicalAdapters = new mutable.HashMap[BLogicBlock, AdapterFn]()
-		def add(what: BLogicBlock, adapter: AdapterFn): Boolean = atypicalAdapters.put(what, adapter).isEmpty
-		def apply(what: BLogicBlock): Adapter = atypicalAdapters.getOrElse(what, block)(what)
+		def defaultWrap(what: BLogicBlock): AdapterGen = () => new ABlock(what)
+		def stairs(what: LogicBlockMateria): AdapterGen = () => new ABlockStairs(what)
+		def slab(what: LogicBlockMateria): AdapterGen = () => new ABlockSlab(what)
+		def wall(what: LogicBlockMateria): AdapterGen = () => new ABlockWall(what)
+		private val atypicalAdapters = new mutable.HashMap[BLogicBlock, AdapterGen]()
+		def add(what: BLogicBlock, adapter: AdapterGen): Boolean = atypicalAdapters.put(what, adapter).isEmpty
+		def apply(key: BLogicBlock): Adapter = atypicalAdapters.getOrElse(key, defaultWrap(key))()
 	}
 	/** DO NOT ACCESS DIRECTLY! Access through run to ensure a better exception gets thrown in case of SNAFU. */
 	private var obj = new Manager
@@ -32,7 +32,7 @@ private[lib] object LogicBlockAdapters {
 	}
 
 	private[impl] def apply(what: BLogicBlock): Adapter = run(_(what))
-	def stairs(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.stairs); what})
-	def slab(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.slab); what})
-	def wall(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.wall); what})
+	def stairs(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.stairs(what)); what})
+	def slab(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.slab(what)); what})
+	def wall(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.wall(what)); what})
 }

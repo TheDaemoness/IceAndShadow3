@@ -14,6 +14,7 @@ class JsonGenAssetsBlockWall(
 		JsonGenAssetsBlockWall.defaultPost(logic.name, texture),
 		JsonGenAssetsBlockWall.defaultSide(logic.name, texture)
 	)
+	override def modelForItemName = Some(inventory.name)
 	override val models = Seq(inventory, post, side)
 	override def apply = {
 		val parts = Map(
@@ -57,7 +58,7 @@ object JsonGenAssetsBlockWall {
 			("wall", texture)
 		))
 	}
-	def defaultInventory(name: String, texture: String) = defaultUsing(name, "block/wall_inventory", texture)
-	def defaultPost(name: String, texture: String) = defaultUsing(name, "block/template_wall_post", texture)
-	def defaultSide(name: String, texture: String) = defaultUsing(name, "block/template_wall_side", texture)
+	def defaultInventory(name: String, texture: String) = defaultUsing(name+".item", "block/wall_inventory", texture)
+	def defaultPost(name: String, texture: String) = defaultUsing(name+".post", "block/template_wall_post", texture)
+	def defaultSide(name: String, texture: String) = defaultUsing(name+".side", "block/template_wall_side", texture)
 }

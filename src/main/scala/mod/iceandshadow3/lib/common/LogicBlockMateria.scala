@@ -1,6 +1,8 @@
 package mod.iceandshadow3.lib.common
 
+import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.common.model._
+import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.block.Materia
 import mod.iceandshadow3.lib.compat.block.impl.LogicBlockAdapters
 import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
@@ -14,23 +16,26 @@ import mod.iceandshadow3.lib.{BDomain, LogicBlock}
 final class LogicBlockMateria private[common](
 	domain: BDomain,
 	materia: Materia,
-	suffix: String,
+	variant: String,
+	form: String,
+	val relative: WIdBlock,
 	modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]
-) extends LogicBlock(domain, GeneralUtils.join(materia.name, suffix), materia) {
+) extends LogicBlock(domain, GeneralUtils.join(GeneralUtils.join(materia.name, variant), form), materia) {
 	override def getGenAssetsBlock = modelgenGen(this)
-	def coreName = LogicBlockMateria.coreName(domain, materia)
 }
 
 object LogicBlockMateria {
-	def coreName(domain: BDomain, materia: Materia) =  GeneralUtils.join(domain.name, materia.name)
-	def apply(domain: BDomain, materia: Materia) = new Object {
-		private var _textures = CubeValues.builder(coreName(domain, materia)).result
+	def apply(domain: BDomain, materia: Materia, variant: String = "") = new Object {
+		private val coreName =
+			GeneralUtils.join(s"${domain.name}_${materia.name}", variant)
+		val coreRelative = new WIdBlock(IaS3.MODID, coreName)
+		private var _textures = CubeValues.builder(coreName).result
 		def useTextures(what: CubeValues[String]): this.type = {
 			_textures = what
 			this
 		}
 		private def form(suffix: String, modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) =
-			new LogicBlockMateria(domain, materia, suffix, modelgenGen)
+			new LogicBlockMateria(domain, materia, variant, suffix, coreRelative, modelgenGen)
 
 		def blockCustom(suffix: String = "", modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) = {
 			form(suffix, modelgenGen)
@@ -43,7 +48,7 @@ object LogicBlockMateria {
 		}
 		def stairs(suffix: String = "stairs", reuse: ETextureReusePolicy = ETextureReusePolicy.ALL) = {
 			stairsCustom(suffix, logic => {
-				val joined = GeneralUtils.join(coreName(domain, materia), suffix)
+				val joined = GeneralUtils.join(coreName, suffix)
 				Some(new JsonGenAssetsBlockStairs(logic, Column3Values(
 					if(reuse.ends) _textures.top else s"$joined.top",
 					if(reuse.sides) _textures.back else s"$joined.side",
@@ -55,9 +60,9 @@ object LogicBlockMateria {
 		def slabCustom(suffix: String = "slab", modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) = {
 			LogicBlockAdapters.slab(form(suffix, modelgenGen))
 		}
-		def slab(suffix: String = "slab", reuse: ETextureReusePolicy = ETextureReusePolicy.ENDS) = {
+		def slab(suffix: String = "slab", reuse: ETextureReusePolicy = ETextureReusePolicy.ALL) = {
 			slabCustom(suffix, logic => {
-				val joined = GeneralUtils.join(coreName(domain, materia), suffix)
+				val joined = GeneralUtils.join(coreName, suffix)
 				Some(new JsonGenAssetsBlockSlab(logic, Column2Values(
 					if(reuse.ends) _textures.top else s"$joined.end",
 					if(reuse.sides) _textures.back else s"$joined.side"
@@ -71,31 +76,31 @@ object LogicBlockMateria {
 		def wall(suffix: String = "wall", reuse: Boolean = true) = {
 			wallCustom(suffix, logic => {
 				Some(new JsonGenAssetsBlockWall(logic,
-					if(reuse) _textures.top else GeneralUtils.join(coreName(domain, materia), suffix)
+					if(reuse) _textures.top else GeneralUtils.join(coreName, suffix)
 				))
 			})
 		}
 	}
-	def stoneVariants(domain: BDomain, materia: Materia) = {
-		val factory = apply(domain, materia)
+	def stoneVariants(domain: BDomain, materia: Materia, variant: String = "", blockNeedsSuffix: Boolean = false) = {
+		val factory = apply(domain, materia, variant)
 		new Object {
-			val blocks = factory.block()
-			val stairs = factory.stairs()
+			val block = factory.block(if(blockNeedsSuffix) "block" else "")
 			val slab = factory.slab()
+			val stairs = factory.stairs()
 			val wall = factory.wall()
 			import IngredientFactory.empty
 			ECraftingType.CRAFT_SHAPED(stairs,
-				ERecipeSize.THREE_X_THREE, empty, empty, blocks, empty, blocks, blocks, blocks, blocks, blocks
+				ERecipeSize.THREE_X_THREE, empty, empty, block, empty, block, block, block, block, block
 			).unlockDeduce.alterResult(_.setCount(6)).register()
-			ECraftingType.STONECUT(stairs, blocks).unlockDeduce.register()
+			ECraftingType.STONECUT(stairs, block).unlockDeduce.register()
 			ECraftingType.CRAFT_SHAPED(slab,
-				blocks, ERecipeSize.THREE_X_ONE
+				block, ERecipeSize.THREE_X_ONE
 			).unlockDeduce.alterResult(_.setCount(6)).register()
-			ECraftingType.STONECUT(slab, blocks).alterResult(_.setCount(2)).unlockDeduce.register()
+			ECraftingType.STONECUT(slab, block).alterResult(_.setCount(2)).unlockDeduce.register()
 			ECraftingType.CRAFT_SHAPED(wall,
-				blocks, ERecipeSize.THREE_X_TWO
+				block, ERecipeSize.THREE_X_TWO
 			).unlockDeduce.alterResult(_.setCount(12)).register()
-			ECraftingType.STONECUT(wall, blocks).unlockDeduce.register()
+			ECraftingType.STONECUT(wall, block).alterResult(_.setCount(2)).unlockDeduce.register()
 		}
 	}
 }

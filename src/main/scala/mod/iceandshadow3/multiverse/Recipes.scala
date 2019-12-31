@@ -16,7 +16,7 @@ object Recipes { private[iceandshadow3] def apply(): Unit = {
 	for(variant <- ELivingstoneTypes.values()) {
 		val id = variant.ordinal()
 		ECraftingType.COOK_SMELT(WIdItem(s"minecraft:${variant.name}_dye"), DomainGaia.Items.shales(id)).register()
-		ECraftingType.COOK_SMELT(DomainPolis.Blocks.stones(id), DomainGaia.Blocks.livingstones(id)).register()
+		ECraftingType.COOK_SMELT(DomainPolis.Blocks.stones(id).block, DomainGaia.Blocks.livingstones(id)).register()
 		ECraftingType.CRAFT_SHAPELESS(DomainGaia.Blocks.livingstones(id),
 			DomainGaia.Items.shales(id),
 			minerals, minerals, minerals, minerals, minerals, minerals, minerals, minerals //x8

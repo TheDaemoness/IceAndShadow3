@@ -58,7 +58,10 @@ object JsonGenAssetsBlockStairs {
 			("side", textures.side)
 		))
 	}
-	def defaultNormal(name: String, textures: Column3Values[String]) = defaultUsing(name, "block/stairs", textures)
-	def defaultOuter(name: String, textures: Column3Values[String]) = defaultUsing(name, "block/outer_stairs", textures)
-	def defaultInner(name: String, textures: Column3Values[String]) = defaultUsing(name, "block/inner_stairs", textures)
+	def defaultNormal(name: String, textures: Column3Values[String]) =
+		defaultUsing(name, "block/stairs", textures)
+	def defaultOuter(name: String, textures: Column3Values[String]) =
+		defaultUsing(name+".outer", "block/outer_stairs", textures)
+	def defaultInner(name: String, textures: Column3Values[String]) =
+		defaultUsing(name+".inner", "block/inner_stairs", textures)
 }

@@ -85,7 +85,7 @@ class LogicBlock(dom: BDomain, name: String, mat: Materia)
 			_.modelForItemName.fold[Option[BJsonGenModelItem]](
 				None
 			)(name =>
-				Some(BJsonGenAsset.modelItemBlockDefault(this))
+				Some(BJsonGenAsset.modelItemBlockDefault(this, name))
 			)
 		)
 	}
