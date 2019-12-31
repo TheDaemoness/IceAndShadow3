@@ -12,6 +12,7 @@ final class LogicBlockMateria private[common](
 	materia: Materia,
 	suffix: String
 ) extends LogicBlock(domain, if(suffix.isEmpty) materia.name else s"${materia.name}_$suffix", materia)
+
 object LogicBlockMateria {
 	def apply(domain: BDomain, materia: Materia) = new Object {
 		def block(suffix: String = "") = new LogicBlockMateria(domain, materia, suffix)

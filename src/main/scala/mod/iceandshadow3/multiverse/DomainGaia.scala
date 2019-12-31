@@ -1,8 +1,9 @@
 package mod.iceandshadow3.multiverse
 
+import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.util.{Color, E3vl}
-import mod.iceandshadow3.lib.{BDomain, BLogicItemSimple, LogicBlock, LogicItemMulti}
+import mod.iceandshadow3.lib.{BDomain, LogicBlock, LogicItemMulti}
 import mod.iceandshadow3.multiverse.gaia._
 
 object DomainGaia extends BDomain("gaia") {
@@ -10,6 +11,7 @@ object DomainGaia extends BDomain("gaia") {
 		val livingstones = ELivingstoneTypes.values().map(new LBStoneLiving(_))
 		val navistra_bedrock = new LogicBlock(DomainGaia, "navistra_bedrock", Materias.navistra_bedrock) {
 			override def shouldHaveLootTable = E3vl.FALSE
+			override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.customSingleModel(this))
 		}
 		val navistra_stone = new LogicBlock(DomainGaia, "navistra_stone", Materias.navistra_stone)
 		val petrified_log = new LBLog("petrified_log", Materias.petrified_wood, 3)

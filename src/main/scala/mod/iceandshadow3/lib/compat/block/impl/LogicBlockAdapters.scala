@@ -10,25 +10,29 @@ private[lib] object LogicBlockAdapters {
 	type Adapter = Block with IABlock
 	type AdapterFn = BLogicBlock => Adapter
 
-	private var _default: AdapterFn = new ABlock(_)
-	private var _stairs: AdapterFn = new ABlockStairs(_)
-	private var _slab: AdapterFn = new ABlockSlab(_)
-	private var _wall: AdapterFn = new ABlockWall(_)
+	private class Manager {
+		val block: AdapterFn = new ABlock(_)
+		val stairs: AdapterFn = new ABlockStairs(_)
+		val slab: AdapterFn = new ABlockSlab(_)
+		val wall: AdapterFn = new ABlockWall(_)
+		private val atypicalAdapters = new mutable.HashMap[BLogicBlock, AdapterFn]()
+		def add(what: BLogicBlock, adapter: AdapterFn): Boolean = atypicalAdapters.put(what, adapter).isEmpty
+		def apply(what: BLogicBlock): Adapter = atypicalAdapters.getOrElse(what, block)(what)
+	}
+	/** DO NOT ACCESS DIRECTLY! Access through run to ensure a better exception gets thrown in case of SNAFU. */
+	private var obj = new Manager
+	private def run[T](fn: Manager => T) = {
+		if(obj == null) throw new IllegalStateException("LogicBlockAdapters was disabled")
+		fn(obj)
+	}
 
-	private var atypicalAdapters = new mutable.HashMap[BLogicBlock, AdapterFn]()
 	/** Called from BinderBlock after the freeze happens and none of the contents are needed anymore. */
 	private[impl] def disable(): Unit = {
-		atypicalAdapters = null
-		_default = null
-		_stairs = null
-		_slab = null
-		_wall = null
+		obj = null
 	}
-	private[impl] def apply(what: BLogicBlock): Adapter = {
-		if(atypicalAdapters == null) throw new IllegalStateException("LogicBlockWrappers used after being disabled")
-		atypicalAdapters.getOrElse(what, _default)(what)
-	}
-	def stairs(what: LogicBlockMateria): LogicBlockMateria = {atypicalAdapters.put(what, _stairs); what}
-	def slab(what: LogicBlockMateria): LogicBlockMateria = {atypicalAdapters.put(what, _slab); what}
-	def wall(what: LogicBlockMateria): LogicBlockMateria = {atypicalAdapters.put(what, _wall); what}
+
+	private[impl] def apply(what: BLogicBlock): Adapter = run(_(what))
+	def stairs(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.stairs); what})
+	def slab(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.slab); what})
+	def wall(what: LogicBlockMateria): LogicBlockMateria = run(m => {m.add(what, m.wall); what})
 }

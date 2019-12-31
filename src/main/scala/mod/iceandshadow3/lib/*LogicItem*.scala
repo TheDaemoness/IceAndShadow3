@@ -7,7 +7,7 @@ import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TNamed}
 import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.compat.entity.WEntity
-import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
+import mod.iceandshadow3.lib.compat.file.BJsonGenAsset
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
@@ -36,8 +36,8 @@ abstract class BLogicItem(dom: BDomain, baseName: String)
 
 	final override def toWItemType: WItemType = WItemType.make(this)
 	final def toWItemStack: WItemStack = WItemStack.make(this)
-	def getItemModelGen: Option[BJsonAssetGen[BLogicItem]] =
-		Some(BJsonAssetGen.itemDefault)
+	def getItemModelGen: Option[BJsonGenAsset] =
+		Some(BJsonGenAsset.modelItemDefault(this))
 
 	@Nullable def handlerTooltip: java.util.function.Function[WItemStack, String] = null
 	@Nullable def handlerTickOwned(held: Boolean): Consumer[WItemStackOwned[WEntity]] = null

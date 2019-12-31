@@ -9,7 +9,7 @@ import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlockNew, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
-import mod.iceandshadow3.lib.compat.file.{BJsonAssetGen, BJsonAssetGenBlock, BJsonAssetGenBlockstates, BJsonAssetGenItem}
+import mod.iceandshadow3.lib.compat.file.{BJsonGenAsset, BJsonGenAssetsBlock, BJsonGenModelItem}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemType}
 import mod.iceandshadow3.lib.compat.world.WWorld
 
@@ -63,8 +63,7 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 
 	final lazy val toWBlockState: WBlockState = new WBlockState(this)
 
-	def getBlockModelGen: Option[BJsonAssetGenBlock] = None
-	def getBlockstatesGen: Option[BJsonAssetGenBlockstates] = Some(BJsonAssetGen.blockstatesDefault)
+	def getGenAssetsBlock: Option[BJsonGenAssetsBlock] = Some(BJsonGenAssetsBlock.cube(this))
 }
 
 class LogicBlock(dom: BDomain, name: String, mat: Materia)
@@ -76,8 +75,20 @@ class LogicBlock(dom: BDomain, name: String, mat: Materia)
 	final override def toWItemType = WItemType.make(this)
 	final def toWItemStack = WItemStack.make(this)
 
-	def getItemModelGen: Option[BJsonAssetGenItem[LogicBlock]] =
-		Some(BJsonAssetGen.itemBlockDefault)
+	def getGenModelItem = {
+		def default = Some(BJsonGenAsset.modelItemBlockDefault(this))
+		//If a block assets gen doesn't exist, assume a custom model with the same name as this logic exists.
+		//Else, get the gen it specifies should also be used for the item block. If DNE, require something custom.
+		getGenAssetsBlock.fold[Option[BJsonGenModelItem]](
+			default
+		)(
+			_.modelForItemName.fold[Option[BJsonGenModelItem]](
+				None
+			)(name =>
+				Some(BJsonGenAsset.modelItemBlockDefault(this))
+			)
+		)
+	}
 }
 
 class LogicBlockTechnical(dom: BDomain, name: String, mat: Materia) extends BLogicBlock(dom, name, mat) {

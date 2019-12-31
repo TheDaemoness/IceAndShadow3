@@ -8,7 +8,6 @@ import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, Materia, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WProjectile}
-import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
 import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.{IPositionalFine, UnitVec3s}
 import mod.iceandshadow3.lib.util.E3vl
@@ -76,7 +75,6 @@ class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.mate
 	}
 
 	override def shouldHaveLootTable = E3vl.FALSE
-	override def getBlockModelGen = Some(BJsonAssetGen.blockCube)
 
 	def resistsExousia(them: WBlockState): Boolean =
 		them.getLogic == this || them.hasTag(LBExousia.tagResist)

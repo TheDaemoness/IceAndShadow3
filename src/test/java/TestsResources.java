@@ -5,6 +5,7 @@ import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.BStatusEffect;
 import mod.iceandshadow3.lib.base.BLogic;
+import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import scala.runtime.BoxedUnit;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -151,13 +153,13 @@ class TestsResources {
 		if(!new File(path).exists()) fail(what + " is missing an icon");
 	}
 
-	void resourceExistenceTest(BLogic what, String base, String where, boolean expected, String ismissingwhat) {
+	void resourceExistenceTest(BLogic what, String base, String where, boolean expected, String comment) {
 		final String name = what.name();
 		final String path = base + MODID + where + name+".json";
-		if(new File(path).exists() != expected) fail(name+ismissingwhat);
+		if(new File(path).exists() != expected) fail(name+comment);
 	}
-	void assetExistenceTest(BLogic what, String where, String ismissingwhat) {
-		resourceExistenceTest(what, "./main/assets/", where, true, ismissingwhat);
+	void assetExistenceTest(BLogic what, String where, String comment) {
+		resourceExistenceTest(what, "./main/assets/", where, true, comment);
 	}
 
 
@@ -172,9 +174,16 @@ class TestsResources {
 
 	@ParameterizedTest(name = "{0} should have block models.")
 	@MethodSource("streamLogicBlock")
-	void logicHasBlockModels(BLogicBlock base) {
-		//At the moment, the "correct overrides" do not exist.
-		assetExistenceTest(base, "/models/block/", " is missing a block model");
+	void logicHasBlockModels(BLogicBlock block) {
+		//TODO: This test could actually read the blockstates file and try to extract model names from it.
+		block.getGenAssetsBlock().foreach((BJsonGenAssetsBlock bjgab) -> {
+			bjgab.modelNames().foreach(naem -> {
+				assetExistenceTest(block, "/models/block/", " is missing a model: "+naem+".json");
+				return BoxedUnit.UNIT;
+			});
+			return BoxedUnit.UNIT;
+		});
+		;
 	}
 
 	@ParameterizedTest(name = "{0} should have blockstate files.")

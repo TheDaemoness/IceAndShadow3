@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.{BlockShape, BlockSubCuboid}
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, Materia, WBlockRef, WBlockState, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
-import mod.iceandshadow3.lib.compat.file.BJsonAssetGen
+import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
 import mod.iceandshadow3.multiverse.DomainNyx
 
 object LBNifelhiumCrystal {
@@ -25,5 +25,5 @@ class LBNifelhiumCrystal extends LogicBlock(DomainNyx, "nifelhium_crystal", LBNi
 		//TODO: AoE damage burst that creates icicles.
 	}
 
-	override def getBlockModelGen = Some(BJsonAssetGen.blockDeco)
+	override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.deco(this))
 }

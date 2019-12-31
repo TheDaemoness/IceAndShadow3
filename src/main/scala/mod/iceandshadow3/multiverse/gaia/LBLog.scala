@@ -12,5 +12,6 @@ extends LogicBlock(DomainGaia, name, materia) {
 	override def toPlace(state: WBlockState, context: WUsagePlace) =
 		state + (CommonBlockVars.axis, context.axis)
 
-	override def getBlockstatesGen = None
+	//TODO: Log asset gen.
+	override def getGenAssetsBlock = None
 }
