@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.util
+package mod.iceandshadow3.lib.util.collect
 
 import scala.collection.immutable
 import scala.jdk.CollectionConverters._

@@ -3,7 +3,7 @@ package mod.iceandshadow3.damage.impl
 import mod.iceandshadow3.damage.{AdsArmorValue, TDmgTypeNatural}
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
-import mod.iceandshadow3.lib.util.CollectUtils
+import mod.iceandshadow3.lib.util.GeneralUtils
 import mod.iceandshadow3.multiverse.misc.StatusEffects
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.living.LivingDamageEvent
@@ -21,7 +21,7 @@ object HandlerADS {
 			if(event.getAmount <= 0f || base <= 0f) event.setCanceled(true)
 			else {
 				val mult = event.getAmount / base
-				val equipset = CollectUtils.randomPick(attack.form.relevantArmor.toIndexedSeq, victim.rng())
+				val equipset = GeneralUtils.randomPick(attack.form.relevantArmor.toIndexedSeq, victim.rng())
 				var finaldamage = 0f
 				for(idx <- attack.instances.indices) {
 					val damage = attack.instances(idx)

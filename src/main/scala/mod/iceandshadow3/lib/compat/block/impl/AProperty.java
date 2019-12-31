@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.block.impl;
 
-import mod.iceandshadow3.lib.util.OrdSet;
+import mod.iceandshadow3.lib.util.collect.OrdSet;
 import net.minecraft.state.IProperty;
 
 import javax.annotation.Nonnull;

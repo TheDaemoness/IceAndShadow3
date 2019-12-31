@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.file
 
 import mod.iceandshadow3.lib.BLogicBlock
+import mod.iceandshadow3.lib.misc.CubeValues
 
 abstract class BJsonGenAssetsBlock(logic: BLogicBlock) extends BJsonGenAsset(logic.name) {
 	def modelForItemName: Option[String] = models.headOption.map(_.name)
@@ -27,6 +28,8 @@ object BJsonGenAssetsBlock {
 		override val apply = defaultBlockstates(logic.name)
 		override val models = Seq(using)
 	}
-	def cube[Logic <: BLogicBlock](logic: Logic) = basic(logic, BJsonGenAsset.modelBlockCube(logic))
-	def deco[Logic <: BLogicBlock](logic: Logic) = basic(logic, BJsonGenAsset.modelBlockDeco(logic))
+	def cube[Logic <: BLogicBlock](logic: Logic, textures: CubeValues[String]) =
+		basic(logic, BJsonGenModelBlock.cube(logic.name, textures))
+	def cube[Logic <: BLogicBlock](logic: Logic) = basic(logic, BJsonGenModelBlock.cube(logic))
+	def deco[Logic <: BLogicBlock](logic: Logic) = basic(logic, BJsonGenModelBlock.deco(logic))
 }
