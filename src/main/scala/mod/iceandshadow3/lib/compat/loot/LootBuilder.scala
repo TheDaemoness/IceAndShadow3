@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack
 
 import scala.collection.mutable
 
-class LootBuilder[Context <: WLootContext](context: Context) {
+class LootBuilder[Context <: WLootContext](val context: Context) {
 	private val lootSources = new mutable.ListBuffer[BLoot[Context]]
 	final def addOne(what: BLoot[Context]): this.type = {lootSources.addOne(what); this}
 	final def addOne(what: WItemStack): this.type = addOne(BLoot(what))

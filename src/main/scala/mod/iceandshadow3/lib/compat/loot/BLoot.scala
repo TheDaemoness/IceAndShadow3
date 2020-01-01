@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.compat.loot
 
+import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
 import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack, WItemType}
 import mod.iceandshadow3.lib.util.MathUtils
@@ -14,12 +15,13 @@ abstract class BLoot[-Context <: WLootContext] extends (Context => WItemStack) {
 			if(tried.isEmpty) b(context) else tried
 		}
 	}
-	final def map(fn: WItemStack => WItemStack) = new BLoot[Context] {
-		override def apply(context: Context) = {
+	final def map[NewContext <: Context](fn: (WItemStack, NewContext) => WItemStack) = new BLoot[NewContext] {
+		override def apply(context: NewContext) = {
 			val tried = BLoot.this.apply(context)
-			if(tried.isEmpty) tried else fn(tried)
+			if(tried.isEmpty) tried else fn(tried, context)
 		}
 	}
+	final def map(fn: WItemStack => WItemStack): BLoot[Context] = map((is: WItemStack, _) => fn(is))
 	final def require[NewContext <: Context](fn: NewContext => Boolean) = new BLoot[NewContext] {
 		override def apply(context: NewContext) = if(fn(context)) BLoot.this.apply(context) else WItemStack.empty
 	}

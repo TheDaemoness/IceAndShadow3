@@ -5,9 +5,12 @@ import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.WIdBlock;
 import mod.iceandshadow3.lib.compat.block.WBlockView;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
@@ -25,6 +28,11 @@ public class ABlockSlab extends SlabBlock implements IABlock {
 	public ABlockSlab(BLogicBlock source) {
 		super(LogicToProperties$.MODULE$.toProperties(source));
 		logic = source;
+	}
+
+	@Override
+	public boolean isIn(Tag<net.minecraft.block.Block> tag) {
+		return super.isIn(tag) || tag == BlockTags.SLABS;
 	}
 
 	@Nullable

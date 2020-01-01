@@ -3,9 +3,10 @@ package mod.iceandshadow3.lib.common
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.common.model._
 import mod.iceandshadow3.lib.compat.WIdBlock
-import mod.iceandshadow3.lib.compat.block.Materia
+import mod.iceandshadow3.lib.compat.block.{CommonBlockVars, Materia}
 import mod.iceandshadow3.lib.compat.block.impl.LogicBlockAdapters
 import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
+import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.compat.recipe.{ECraftingType, ERecipeSize, IngredientFactory}
 import mod.iceandshadow3.lib.misc.{Column2Values, Column3Values, CubeValues}
 import mod.iceandshadow3.lib.util.GeneralUtils
@@ -19,32 +20,38 @@ final class LogicBlockMateria private[common](
 	variant: String,
 	form: String,
 	val relative: WIdBlock,
+	loot: LogicBlockMateria => Option[LootBuilder[WLootContextBlock] => Unit],
 	modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]
 ) extends LogicBlock(domain, GeneralUtils.join(GeneralUtils.join(materia.name, variant), form), materia) {
 	override def getGenAssetsBlock = modelgenGen(this)
+	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit =
+		loot(this).fold(super.addDrops(what))(_.apply(what))
 }
 
 object LogicBlockMateria {
 	def apply(domain: BDomain, materia: Materia, variant: String = "") = new Object {
-		private val coreName =
-			GeneralUtils.join(s"${domain.name}_${materia.name}", variant)
+		type LootGenBuilder = LogicBlockMateria => Option[LootBuilder[WLootContextBlock] => Unit]
+		val coreName = GeneralUtils.join(s"${domain.name}_${materia.name}", variant)
 		val coreRelative = new WIdBlock(IaS3.MODID, coreName)
+
 		private var _textures = CubeValues.builder(coreName).result
-		def useTextures(what: CubeValues[String]): this.type = {
-			_textures = what
-			this
-		}
-		private def form(suffix: String, modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) =
-			new LogicBlockMateria(domain, materia, variant, suffix, coreRelative, modelgenGen)
+		private var _lootgen: LootGenBuilder = _ => None
+		def useTextures(what: CubeValues[String]): this.type = {_textures = what;this}
+		def useLootGen(what: LootGenBuilder) = {_lootgen = what; this}
+
+		private def form(
+			suffix: String, lootgen: LootGenBuilder, modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]
+		) = new LogicBlockMateria(domain, materia, variant, suffix, coreRelative, lootgen, modelgenGen)
 
 		def blockCustom(suffix: String = "", modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) = {
-			form(suffix, modelgenGen)
+			form(suffix, _lootgen, modelgenGen)
 		}
 		def block(suffix: String = "") = {
 			blockCustom(suffix, logic => Some(BJsonGenAssetsBlock.cube(logic, _textures)))
 		}
+
 		def stairsCustom(suffix: String = "slab", modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) = {
-			LogicBlockAdapters.stairs(form(suffix, modelgenGen))
+			LogicBlockAdapters.stairs(form(suffix, _lootgen, modelgenGen))
 		}
 		def stairs(suffix: String = "stairs", reuse: ETextureReusePolicy = ETextureReusePolicy.ALL) = {
 			stairsCustom(suffix, logic => {
@@ -58,7 +65,15 @@ object LogicBlockMateria {
 		}
 
 		def slabCustom(suffix: String = "slab", modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) = {
-			LogicBlockAdapters.slab(form(suffix, modelgenGen))
+			LogicBlockAdapters.slab(form(suffix, logic => Some(lb => {
+				// TL;DR: Get the lootgen function, or a sensible default otherwise. 
+				val lootgen = _lootgen(logic).getOrElse(
+					(lootbuild: LootBuilder[WLootContextBlock]) => lootbuild.addOne(BLoot(logic))
+				)
+				// If the mined block is a double, call it twice.
+				if(lb.context.state(CommonBlockVars.slab).get.ab) lootgen(lb)
+				lootgen(lb)
+			}), modelgenGen))
 		}
 		def slab(suffix: String = "slab", reuse: ETextureReusePolicy = ETextureReusePolicy.ALL) = {
 			slabCustom(suffix, logic => {
@@ -71,7 +86,7 @@ object LogicBlockMateria {
 		}
 
 		def wallCustom(suffix: String = "wall", modelgenGen: LogicBlockMateria => Option[BJsonGenAssetsBlock]) = {
-			LogicBlockAdapters.wall(form(suffix, modelgenGen))
+			LogicBlockAdapters.wall(form(suffix, _lootgen, modelgenGen))
 		}
 		def wall(suffix: String = "wall", reuse: Boolean = true) = {
 			wallCustom(suffix, logic => {
@@ -80,27 +95,29 @@ object LogicBlockMateria {
 				))
 			})
 		}
-	}
-	def stoneVariants(domain: BDomain, materia: Materia, variant: String = "", blockNeedsSuffix: Boolean = false) = {
-		val factory = apply(domain, materia, variant)
-		new Object {
-			val block = factory.block(if(blockNeedsSuffix) "block" else "")
-			val slab = factory.slab()
-			val stairs = factory.stairs()
-			val wall = factory.wall()
-			import IngredientFactory.empty
-			ECraftingType.CRAFT_SHAPED(stairs,
-				ERecipeSize.THREE_X_THREE, empty, empty, block, empty, block, block, block, block, block
-			).unlockDeduce.alterResult(_.setCount(6)).register()
-			ECraftingType.STONECUT(stairs, block).unlockDeduce.register()
-			ECraftingType.CRAFT_SHAPED(slab,
-				block, ERecipeSize.THREE_X_ONE
-			).unlockDeduce.alterResult(_.setCount(6)).register()
-			ECraftingType.STONECUT(slab, block).alterResult(_.setCount(2)).unlockDeduce.register()
-			ECraftingType.CRAFT_SHAPED(wall,
-				block, ERecipeSize.THREE_X_TWO
-			).unlockDeduce.alterResult(_.setCount(12)).register()
-			ECraftingType.STONECUT(wall, block).alterResult(_.setCount(2)).unlockDeduce.register()
+		def stoneVariants(blockNeedsSuffix: Boolean = false, addRecipes: Boolean = true) = {
+			val parent = this
+			new Object {
+				val block = parent.block(if(blockNeedsSuffix) "block" else "")
+				val slab = parent.slab()
+				val stairs = parent.stairs()
+				val wall = parent.wall()
+				if(addRecipes) {
+					import IngredientFactory.empty
+					ECraftingType.CRAFT_SHAPED(stairs,
+						ERecipeSize.THREE_X_THREE, empty, empty, block, empty, block, block, block, block, block
+					).unlockDeduce.alterResult(_.setCount(6)).register()
+					ECraftingType.STONECUT(stairs, block).unlockDeduce.register()
+					ECraftingType.CRAFT_SHAPED(slab,
+						block, ERecipeSize.THREE_X_ONE
+					).unlockDeduce.alterResult(_.setCount(6)).register()
+					ECraftingType.STONECUT(slab, block).alterResult(_.setCount(2)).unlockDeduce.register()
+					ECraftingType.CRAFT_SHAPED(wall,
+						block, ERecipeSize.THREE_X_TWO
+					).unlockDeduce.alterResult(_.setCount(12)).register()
+					ECraftingType.STONECUT(wall, block).alterResult(_.setCount(2)).unlockDeduce.register()
+				}
+			}
 		}
 	}
 }

@@ -2,11 +2,11 @@ package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.compat.item.{WInventoryCrafting, WItemStack}
-import mod.iceandshadow3.lib.compat.recipe.{ECraftingType, ERecipeSize}
+import mod.iceandshadow3.lib.compat.recipe.{ECraftingType, ERecipeSize, IngredientFactory}
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting
 import mod.iceandshadow3.multiverse.gaia.{ELivingstoneTypes, LIMinerals}
-import mod.iceandshadow3.multiverse.polis.LIMoonstoneDust
+import mod.iceandshadow3.multiverse.polis.{LIMoonstoneDust, PetrifiedBricksUtils}
 
 object Recipes { private[iceandshadow3] def apply(): Unit = {
 	import mod.iceandshadow3.lib.compat.recipe.CraftResult.apply
@@ -52,8 +52,9 @@ object Recipes { private[iceandshadow3] def apply(): Unit = {
 	ECraftingType.CRAFT_SHAPELESS(DomainPolis.Items.petrified_brick,
 		DomainGaia.Blocks.petrified_log
 	).alterResult(_.setCount(4)).suffix("from_wood").register()
+	PetrifiedBricksUtils.recipes()
+
 	ECraftingType.registerAB(DomainNyx.Items.nifelhium_small, DomainNyx.Items.nifelhium)
-	ECraftingType.registerAB(DomainPolis.Items.petrified_brick, DomainPolis.Blocks.petrified_bricks, TWO_X_TWO)
 	ECraftingType.registerAB(DomainGaia.Items.devora_small, DomainGaia.Items.devora)
 	ECraftingType.CRAFT_SHAPELESS(DomainGaia.Items.cortra_dust, DomainGaia.Items.cortra).suffix("crush").register()
 	ECraftingType.COOK_SMELT(DomainGaia.Items.cortra, DomainGaia.Items.cortra_dust).register()

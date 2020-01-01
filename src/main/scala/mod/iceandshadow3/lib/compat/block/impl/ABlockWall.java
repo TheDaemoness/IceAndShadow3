@@ -4,9 +4,12 @@ import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.WId;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
@@ -24,6 +27,11 @@ public class ABlockWall extends WallBlock implements IABlock {
 	public ABlockWall(BLogicBlock blb) {
 		super(LogicToProperties$.MODULE$.toProperties(blb));
 		logic = blb;
+	}
+
+	@Override
+	public boolean isIn(Tag<net.minecraft.block.Block> tag) {
+		return super.isIn(tag) || tag == BlockTags.WALLS;
 	}
 
 	@Nullable

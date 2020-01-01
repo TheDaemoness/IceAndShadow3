@@ -7,7 +7,8 @@ object Materias {
 	import mod.iceandshadow3.multiverse._
 
 	val stone = builder(gaia.Materias.livingstone).hardness(2.5f)("stone")
-	def petrified_brick = gaia.Materias.petrified_wood
+	val petrified_brick = builder(gaia.Materias.petrified_wood
+		).hardness(1f).resistFactor(gaia.Materias.petrified_wood.resistance).harvestLevel(0)("petrified_bricks")
 	val moonstone_dust =
 		builder(Materia.plasma).luma(9).opacity(0).transparent(true)("moonstone_dust")
 }

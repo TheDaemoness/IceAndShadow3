@@ -3,6 +3,8 @@ package mod.iceandshadow3.lib.compat.block.impl
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.common.LogicBlockMateria
 import net.minecraft.block.Block
+import net.minecraft.tags.BlockTags
+import net.minecraftforge.common.Tags
 
 import scala.collection.mutable
 

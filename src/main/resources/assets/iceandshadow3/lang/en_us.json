@@ -49,6 +49,9 @@
 	"block.iceandshadow3.gaia_petrified_log": "Petrified Log",
 	"block.iceandshadow3.gaia_petrified_leaves": "Petrified Leaves",
 	"block.iceandshadow3.polis_petrified_bricks": "Petrified Wood Bricks",
+	"block.iceandshadow3.polis_petrified_bricks_slab": "Petrified Wood Slab",
+	"block.iceandshadow3.polis_petrified_bricks_stairs": "Petrified Wood Stairs",
+	"block.iceandshadow3.polis_petrified_bricks_wall": "Petrified Wood Wall",
 
 	"block.iceandshadow3.polis_stone_gray": "Dead Sagalith",
 	"block.iceandshadow3.polis_stone_brown": "Dead Kapelith",
