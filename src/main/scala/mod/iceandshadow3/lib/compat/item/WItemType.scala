@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.compat.item
 
+import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.{BLogicBlock, BLogicItem}
 import mod.iceandshadow3.lib.compat.block.impl.BinderBlock
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
@@ -20,6 +21,8 @@ case class WItemType(final override val asItem: Item) extends BWItem with Compar
 	}
 }
 object WItemType {
+	@throws[NoSuchElementException]
+	def apply(name: String): WItemType = WIdItem(name).unapply.get
 	private[lib] def make(what: BLogicItem): WItemType = new WItemType(BinderItem.apply(what))
 	private[lib] def make(what: BLogicBlock): WItemType = new WItemType(BinderBlock.apply(what)._2)
 }

@@ -10,7 +10,6 @@ import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, Materia, WBlockRef, W
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WProjectile}
 import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.{IPositionalFine, UnitVec3s}
-import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.misc.{Particles, StatusEffects}
 
@@ -24,11 +23,10 @@ class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.mate
 		"exousia", AttackForm.VOLUME,
 		new DamageWithStatus(6f, StatusEffects.exousia.forTicks(119)) with TDmgTypeExousic
 	)
-	override def harvestOverride(block: WBlockRef, fortune: Int) = Array()
 
 	override val shape: BlockShape = BlockShape.EMPTY
 
-	override def onInside(us: WBlockRef, who: WEntity): Unit = {
+	final override val handlerEntityInside = (us: WBlockRef, who: WEntity) => {
 		import LBExousia._
 		who.slow(0.5d, 0.5d, 0.5d)
 		who.impulse(0, 0.01, 0)
@@ -64,7 +62,7 @@ class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.mate
 		us
 	}
 
-	override def onTick(us: WBlockRef, rng: Random): Unit = {
+	override def onUpdateTick(us: WBlockRef, rng: Random): Unit = {
 		for(them <- AdjacentBlocks.Cupping.apply(us)) {
 			if(!resistsExousia(them)) {
 				val themRef = them.promote(us)
@@ -73,8 +71,6 @@ class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.mate
 			}
 		}
 	}
-
-	override def shouldHaveLootTable = E3vl.FALSE
 
 	def resistsExousia(them: WBlockState): Boolean =
 		them.getLogic == this || them.hasTag(LBExousia.tagResist)

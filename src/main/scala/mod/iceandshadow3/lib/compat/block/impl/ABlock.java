@@ -7,7 +7,7 @@ import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.WId;
 import mod.iceandshadow3.lib.compat.block.*;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
-import mod.iceandshadow3.lib.compat.world.WWorld;
+import mod.iceandshadow3.lib.compat.entity.WEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,6 +22,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IShearable;
@@ -32,6 +33,7 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiConsumer;
 
 //NOTE: The deprecation suppression is here because the methods are supposed to be called indirectly via IBlockState.
 //Overriding them is fine.
@@ -42,17 +44,9 @@ implements IABlock, IShearable {
 	
 	private final BLogicBlock logic;
 	private final BlockRenderLayer layer;
-
-	@Nonnull
-	@Override
-	public BLogicBlock getLogic() {
-		return logic;
-	}
-
 	private final VoxelShape defaultShape;
 	private final ResourceLocation lootTable;
 	private final StateContainer<net.minecraft.block.Block, BlockState> realContainer;
-
 	@SuppressWarnings("unchecked")
 	public ABlock(BLogicBlock blocklogic) {
 		super(LogicToProperties$.MODULE$.toProperties(blocklogic));
@@ -77,6 +71,12 @@ implements IABlock, IShearable {
 			bbs = binder.get(bbv).addTo(bbs, bbv.defaultVal());
 		}
 		setDefaultState(bbs);
+	}
+
+	@Nonnull
+	@Override
+	public BLogicBlock getLogic() {
+		return logic;
 	}
 
 	@Override
@@ -105,8 +105,8 @@ implements IABlock, IShearable {
 
 	@Nonnull
 	@Override
-	public ResourceLocation getLootTable() {
-		return lootTable;
+	public List<ItemStack> getDrops(@Nonnull BlockState state, @Nonnull LootContext.Builder cb) {
+		return ABlockUtils.getDrops(logic, state, cb);
 	}
 
 	@Nonnull
@@ -140,7 +140,7 @@ implements IABlock, IShearable {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-		logic.clientSideTick(new WWorld(worldIn), new WBlockView(worldIn, pos, stateIn), rand);
+		ABlockUtils.animateTick(logic, stateIn, worldIn, pos, rand);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -210,7 +210,8 @@ implements IABlock, IShearable {
 		BlockPos pos,
 		net.minecraft.entity.Entity entityIn
 	) {
-		logic.onInside(new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
+		final BiConsumer<WBlockRef, WEntity> handler = logic.handlerEntityInside();
+		if(handler != null) handler.accept(new WBlockRef(worldIn, pos, state), CNVEntity$.MODULE$.wrap(entityIn));
 	}
 
 	@Override
@@ -221,7 +222,7 @@ implements IABlock, IShearable {
 			@Nonnull Random random
 	) {
 		final WBlockRef ref = new WBlockRef(worldIn, pos, state);
-		if(logic.onRandomTick(ref, random)) logic.onTick(ref, random);
+		if(logic.onRandomTick(ref, random)) logic.onUpdateTick(ref, random);
 	}
 
 	@Override
@@ -236,7 +237,7 @@ implements IABlock, IShearable {
 
 	@Override
 	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
-		logic.onTick(new WBlockRef(worldIn,pos, state), random);
+		logic.onUpdateTick(new WBlockRef(worldIn,pos, state), random);
 	}
 
 	@Override

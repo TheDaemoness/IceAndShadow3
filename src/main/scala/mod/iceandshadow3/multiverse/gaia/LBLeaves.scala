@@ -4,6 +4,8 @@ import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.VarBlockOrd
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block._
+import mod.iceandshadow3.lib.compat.item.WItemType
+import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBLeaves(name: String, materia: Materia, val parent: LBLog)
@@ -41,4 +43,9 @@ extends LogicBlock(DomainGaia, name, materia) {
 	}
 
 	override def areSurfacesFull = false
+
+	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = what.addOne(
+		//TODO: Fortune.
+		BLoot.silktouch(this).orElse(BLoot(WItemType("minecraft:flint")).chance(0.125f))
+	)
 }

@@ -5,6 +5,7 @@ import java.util.Random
 import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.VarBlockBool
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockState}
+import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.multiverse.DomainGaia
 
 object LBStoneLiving {
@@ -12,7 +13,7 @@ object LBStoneLiving {
 }
 class LBStoneLiving(variant: ELivingstoneTypes)
 extends LogicBlock(DomainGaia, "livingstone_"+variant.name, Materias.livingstone) {
-
+	override def tier = variant.rarity-1
 	override val variables = Array(LBStoneLiving.varGrowing)
 
 	override def randomlyUpdates = Some(wbs => wbs(LBStoneLiving.varGrowing).getOrElse(false))
@@ -39,4 +40,12 @@ extends LogicBlock(DomainGaia, "livingstone_"+variant.name, Materias.livingstone
 			}
 		}
 	}
+
+	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = what.addOne(
+		BLoot.silktouch(this).orElse(
+			BLoot(DomainGaia.Items.minerals).chance(0.5f)
+		).orElse(
+			BLoot(DomainGaia.Items.shales(variant.ordinal())).chance(0.125f) //TODO: Fortune.
+		)
+	)
 }

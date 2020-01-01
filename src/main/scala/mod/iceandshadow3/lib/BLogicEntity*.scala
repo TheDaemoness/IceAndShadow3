@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib
 
-import mod.iceandshadow3.lib.base.{BLogic, TLootable}
+import mod.iceandshadow3.lib.base.BLogic
 
 sealed abstract class BLogicEntity(dom: BDomain, name: String) extends BLogic(dom, name) {
 	def canBurn: Boolean
@@ -18,7 +18,6 @@ abstract class BLogicEntityProjectile(dom: BDomain, name: String) extends BLogic
 
 abstract class BLogicEntityMob(dom: BDomain, name: String)
 	extends BLogicEntity(dom, name)
-	with TLootable
 {
 	def isBoss = false
 	def getMeleeAttacksToKill: Float

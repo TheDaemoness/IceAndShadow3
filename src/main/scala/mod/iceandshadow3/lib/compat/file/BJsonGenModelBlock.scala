@@ -5,7 +5,7 @@ import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.misc.CubeValues
 
-abstract class BJsonGenModelBlock(name: String) extends BJsonGenAsset(name) {
+abstract class BJsonGenModelBlock(name: String) extends BJsonGen(name) {
 	final override def basePath = "models/block"
 }
 object BJsonGenModelBlock {

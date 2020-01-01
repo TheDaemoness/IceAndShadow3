@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.compat.file
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.misc.CubeValues
 
-abstract class BJsonGenAssetsBlock(logic: BLogicBlock) extends BJsonGenAsset(logic.name) {
+abstract class BJsonGenAssetsBlock(logic: BLogicBlock) extends BJsonGen(logic.name) {
 	def modelForItemName: Option[String] = models.headOption.map(_.name)
 	def models: Seq[BJsonGenModelBlock]
 	final override def basePath = "blockstates"

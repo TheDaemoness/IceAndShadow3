@@ -3,12 +3,12 @@ package mod.iceandshadow3.lib.compat.file
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
 
-abstract class BJsonGenAsset(val name: String) {
+abstract class BJsonGen(val name: String) {
 	def apply: String
 	def basePath: String
 }
 
-object BJsonGenAsset {
+object BJsonGen {
 	def modelItemBlockDefault(logic: BLogic with TLogicWithItem, parentPath: String): BJsonGenModelItem =
 		new BJsonGenModelItem(logic.name) {
 			override def apply =

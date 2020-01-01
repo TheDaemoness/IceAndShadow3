@@ -7,7 +7,7 @@ import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TNamed}
 import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.compat.entity.WEntity
-import mod.iceandshadow3.lib.compat.file.BJsonGenAsset
+import mod.iceandshadow3.lib.compat.file.BJsonGen
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
@@ -36,8 +36,8 @@ abstract class BLogicItem(dom: BDomain, baseName: String)
 
 	final override def toWItemType: WItemType = WItemType.make(this)
 	final def toWItemStack: WItemStack = WItemStack.make(this)
-	def getItemModelGen: Option[BJsonGenAsset] =
-		Some(BJsonGenAsset.modelItemDefault(this))
+	def getItemModelGen: Option[BJsonGen] =
+		Some(BJsonGen.modelItemDefault(this))
 
 	@Nullable def handlerTooltip: java.util.function.Function[WItemStack, String] = null
 	@Nullable def handlerTickOwned(held: Boolean): Consumer[WItemStackOwned[WEntity]] = null
@@ -47,14 +47,14 @@ abstract class BLogicItem(dom: BDomain, baseName: String)
 sealed abstract class BLogicItemSimple(dom: BDomain, name: String, override val tier: Int)
 	extends BLogicItem(dom, name)
 
-class LogicItemMulti(dom: BDomain, name: String, stacklimit: Int = 64, tier: Int = 1)
+class LogicItemMulti(dom: BDomain, name: String, tier: Int = 1, stacklimit: Int = 64)
 	extends BLogicItemSimple(dom, name, tier)
 {
 	override def stackLimit = stacklimit
 	override final def damageLimit = 0
 }
 
-class LogicItemSingle(dom: BDomain, name: String, dmglimit: Int = 0, tier: Int = 1)
+class LogicItemSingle(dom: BDomain, name: String, tier: Int = 1, dmglimit: Int = 0)
 	extends BLogicItemSimple(dom, name, tier)
 {
 	override final def stackLimit = 1

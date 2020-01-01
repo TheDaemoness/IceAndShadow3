@@ -4,19 +4,20 @@ import java.nio.file.Path
 import java.util
 
 import com.google.common.base.Charsets
-import mod.iceandshadow3.lib.compat.file.BJsonGenAsset
+import mod.iceandshadow3.lib.compat.file.BJsonGen
 import mod.iceandshadow3.lib.compat.{BFileGen, Registrar}
 import net.minecraft.data.DataGenerator
 
 object FileGenerators {
-	private val assets: BFileGen = new BFileGen("ias3_json_assets") {
-		def addTo(map: util.Map[Path, Array[Byte]], assetRoot: Path, assetGen: BJsonGenAsset): Unit = map.put(
-			assetRoot.resolve(assetGen.basePath).resolve(s"${assetGen.name}.json"),
+	private val logicFilesGen: BFileGen = new BFileGen("ias3_logic_json") {
+		def addTo(map: util.Map[Path, Array[Byte]], root: Path, assetGen: BJsonGen): Unit = map.put(
+			root.resolve(assetGen.basePath).resolve(s"${assetGen.name}.json"),
 			assetGen.apply.getBytes(Charsets.US_ASCII)
 		)
 		override protected def getData(root: Path) = {
 			import scala.jdk.CollectionConverters._
 			val assetRoot = root.resolve(s"assets/${IaS3.MODID}")
+			val dataRoot = root.resolve(s"data/${IaS3.MODID}")
 			val retval = new util.HashMap[Path, Array[Byte]]
 			for(
 				item <- ContentLists.item.asScala;
@@ -36,6 +37,6 @@ object FileGenerators {
 	}
 	def run(gen: DataGenerator): Unit = {
 		Registrar.getFileGen.attachTo(gen)
-		assets.attachTo(gen)
+		logicFilesGen.attachTo(gen)
 	}
 }

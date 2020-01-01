@@ -1,5 +1,7 @@
 package mod.iceandshadow3.lib.util
 
+import scala.util.Random
+
 object MathUtils {
   def bound(min: Int, what: Int, max: Int) = Math.min(max, Math.max(min, what))
   def bound(min: Long, what: Long, max: Long) = Math.min(max, Math.max(min, what))
@@ -25,5 +27,11 @@ object MathUtils {
       i += 1
     }
     sum < radius*radius
+  }
+
+  def roundRandom(float: Float, rng: Random): Int = {
+    val floored = float.intValue()
+    val chance = float - floored.toFloat
+    if(rng.nextFloat() <= chance) floored+1 else floored
   }
 }

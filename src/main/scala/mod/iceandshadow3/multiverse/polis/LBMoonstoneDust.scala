@@ -10,7 +10,6 @@ import mod.iceandshadow3.multiverse.DomainPolis
 class LBMoonstoneDust extends LogicBlockTechnical(DomainPolis, "moonstone_dust", Materias.moonstone_dust) {
 	override def canStayAt(block: WBlockView, preexisting: Boolean) =
 		AdjacentBlocks.Below(block).forall(_.isPlain)
-	override def shouldHaveLootTable = E3vl.FALSE
 	override def shape = BlockShape.EMPTY
 
 	//TODO: Subtle particle effect?

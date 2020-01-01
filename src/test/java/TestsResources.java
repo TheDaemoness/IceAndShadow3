@@ -153,13 +153,15 @@ class TestsResources {
 		if(!new File(path).exists()) fail(what + " is missing an icon");
 	}
 
-	void resourceExistenceTest(BLogic what, String base, String where, boolean expected, String comment) {
-		final String name = what.name();
+	void resourceExistenceTest(String name, String base, String where, boolean expected, String comment) {
 		final String path = base + MODID + where + name+".json";
 		if(new File(path).exists() != expected) fail(name+comment);
 	}
+	void assetExistenceTest(String name, String where, String comment) {
+		resourceExistenceTest(name, "./main/assets/", where, true, comment);
+	}
 	void assetExistenceTest(BLogic what, String where, String comment) {
-		resourceExistenceTest(what, "./main/assets/", where, true, comment);
+		assetExistenceTest(what.name(), where, comment);
 	}
 
 
@@ -178,7 +180,7 @@ class TestsResources {
 		//TODO: This test could actually read the blockstates file and try to extract model names from it.
 		block.getGenAssetsBlock().foreach((BJsonGenAssetsBlock bjgab) -> {
 			bjgab.modelNames().foreach(naem -> {
-				assetExistenceTest(block, "/models/block/", " is missing a model: "+naem+".json");
+				assetExistenceTest(naem, "/models/block/", " is missing a model: "+naem+".json");
 				return BoxedUnit.UNIT;
 			});
 			return BoxedUnit.UNIT;
@@ -186,21 +188,10 @@ class TestsResources {
 		;
 	}
 
-	@ParameterizedTest(name = "{0} should have blockstate files.")
+	@ParameterizedTest(name = "{0} should have a blockstates file.")
 	@MethodSource("streamLogicBlock")
 	void logicHasBlockstateFiles(BLogicBlock base) {
 		assetExistenceTest(base, "/blockstates/", " is missing a blockstates.json file.");
-	}
-
-	@ParameterizedTest(name = "Test for loot tables for {0}")
-	@MethodSource("streamLogicBlock")
-	void logicMaybeHasLootTable(BLogicBlock bl) {
-		bl.shouldHaveLootTable().forBoolean(bool ->
-			resourceExistenceTest(bl, "./main/data/", "/loot_tables/blocks/", bool, bool ?
-				" is missing a loot table." :
-				" has a loot table when it shouldn't."
-			)
-		);
 	}
 
 	@ParameterizedTest(name = "{0} (sound name) should exist in sounds.json")

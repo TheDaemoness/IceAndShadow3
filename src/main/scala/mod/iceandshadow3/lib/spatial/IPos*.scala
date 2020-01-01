@@ -38,3 +38,11 @@ trait IPosBlock extends IPosColumn {
 	def toBlockPos: BlockPos = new BlockPos(xBlock, yBlock, zBlock)
 	def asBlockPos: BlockPos = toBlockPos
 }
+object IPosBlock {
+	def wrap(vanilla: BlockPos) = new IPosBlock {
+		override def yBlock = vanilla.getY
+		override def xBlock = vanilla.getX
+		override def zBlock = vanilla.getZ
+		override def asBlockPos = vanilla
+	}
+}

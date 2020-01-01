@@ -6,6 +6,7 @@ import mod.iceandshadow3.lib.block.{BlockShape, BlockSubCuboid}
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, Materia, WBlockRef, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
+import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.multiverse.DomainNyx
 
 object LBIcicles {
@@ -25,11 +26,15 @@ class LBIcicles extends LogicBlock(DomainNyx, "icicles", LBIcicles.materia) {
 
 	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(11, 3, 14))
 
-	override def onInside(us: WBlockRef, who: WEntity): Unit = {
+	final override val handlerEntityInside = (us: WBlockRef, who: WEntity) => {
 		LBIcicles.damage(who)
 		us.break(true)
 	}
 
 	override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.deco(this))
+
+	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = {
+		what.addOne(BLoot.silktouch(this).orElse(BLoot.of(DomainNyx.Items.icicle.toWItemType, 2, 2)))
+	}
 }
 

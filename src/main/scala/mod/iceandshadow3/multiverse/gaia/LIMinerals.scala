@@ -20,7 +20,7 @@ object LIMinerals {
 		!what.isComplex && !what.hasTag("iceandshadow3:resists_minerals") && defaultBehavior(what)
 	}
 }
-class LIMinerals extends LogicItemMulti(DomainGaia, "minerals", 1) {
+class LIMinerals extends LogicItemMulti(DomainGaia, "minerals") {
 	override def onUseBlock(context: WUsageItemOnBlock) = {
 		val b = context.block
 		if(LIMinerals.canGrow(b)) {

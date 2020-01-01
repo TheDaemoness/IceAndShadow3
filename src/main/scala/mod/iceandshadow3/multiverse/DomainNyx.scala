@@ -14,10 +14,10 @@ object DomainNyx extends BDomain("nyx") {
 	}
 	val Items = new {
 		val wayfinder = new LIWayfinder
-		val icicle = new LogicItemMulti(DomainNyx, "icicle", 1)
+		val icicle = new LogicItemMulti(DomainNyx, "icicle")
 		val nifelhium = new LINifelhium(false)
 		val nifelhium_small = new LINifelhium(true)
-		val bone = new LogicItemMulti(DomainNyx, "bone", 1)
+		val bone = new LogicItemMulti(DomainNyx, "bone")
 	}
 	val Sounds = new {
 		val portal_subtle = WSound.addSound(DomainNyx, "portal_subtle")
