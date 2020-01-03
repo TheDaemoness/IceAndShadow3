@@ -6,6 +6,8 @@ import mod.iceandshadow3.lib.compat.WIdItem
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import net.minecraft.item.crafting.Ingredient
 
+import scala.language.implicitConversions
+
 sealed abstract class IngredientFactory { //No relation to BuildCraft.
 	protected[compat] def build: Ingredient
 	def conditionJson: Option[JsonObject]
@@ -32,7 +34,7 @@ object IngredientFactory {
 		override def toResult = what
 	}
 	implicit def apply(what: WIdItem): IngredientFactory = new IngredientFactory {
-		override protected[compat] def build = Ingredient.fromItems(what.unapply.get)
+		override protected[compat] def build = Ingredient.fromItems(what.getOrThrow)
 		override def conditionJson =
 			Some(new JsonObject().tap(_.addProperty("item", what.toString)))
 		override def toResult = what

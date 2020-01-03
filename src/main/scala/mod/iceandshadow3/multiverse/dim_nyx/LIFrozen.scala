@@ -4,10 +4,13 @@ import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WUsageItem}
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.common.LogicItemChameleon
+import mod.iceandshadow3.lib.compat.WIdTagItem
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.multiverse.DomainAlien
 
 object LIFrozen {
+	val tagAntifreeze = WIdTagItem("iceandshadow3:antifreeze")
+	val tagFreezes = WIdTagItem("iceandshadow3:freezes")
 
 	ItemFreezability.enable()
 

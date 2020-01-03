@@ -16,7 +16,7 @@ object CraftResult {
 		override protected[compat] def id = what.id
 	}
 	implicit def apply(what: WIdItem): CraftResult = new CraftResult {
-		override protected[compat] def toItemStack = what.unapply.get.asWItemStack()
+		override protected[compat] def toItemStack = what.getOrThrow.asWItemStack()
 		override protected[compat] def id = what
 	}
 }

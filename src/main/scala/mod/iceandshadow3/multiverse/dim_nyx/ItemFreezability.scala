@@ -1,5 +1,6 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
+import mod.iceandshadow3.lib.compat.WIdTagItem
 import mod.iceandshadow3.lib.compat.block.BlockQueries
 import mod.iceandshadow3.lib.compat.item.{BWItem, ItemQueries, WItemType}
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzerDerived
@@ -14,13 +15,15 @@ extends ServerAnalyzerDerived[WItemType, java.util.Set[CraftingSummary], ItemFre
 		ItemQueries.ingestable,
 		ItemQueries.compostable,
 		_.toBlockState.fold(false)(BlockQueries.isFurnace(_)),
-		_.hasTag("minecraft:coals")
+		WIdTagItem("minecraft:coals").unapply
 		//End conditions for natural freezing.
 	)) {
+		import LIFrozen.tagAntifreeze
+		import LIFrozen.tagFreezes
 
 		override protected def defaultValue(input: BWItem) = {
-			def hasTagAntifreeze = input.hasTag("iceandshadow3:antifreeze")
-			def hasTagFreezes = input.hasTag("iceandshadow3:freezes")
+			val hasTagAntifreeze = tagAntifreeze.unapply(input)
+			val hasTagFreezes = tagFreezes.unapply(input)
 			val freezes = !input.getDomain.resistsFreezing && (
 				hasTagFreezes ||
 				(!hasTagAntifreeze && arg(input))
@@ -62,7 +65,7 @@ extends ServerAnalyzerDerived[WItemType, java.util.Set[CraftingSummary], ItemFre
 		}
 
 		override protected def shouldFollow(what: CraftingSummary) = {
-			!(what.output.getDomain.resistsFreezing || what.output.hasTag("iceandshadow3:antifreeze")) &&
+			!(what.output.getDomain.resistsFreezing || tagAntifreeze.unapply(what.output)) &&
 			!(what.craftType == ECraftingType.COOK_SMELT || what.craftType == ECraftingType.COOK_BLAST)
 		}
 	}

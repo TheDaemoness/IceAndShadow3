@@ -5,6 +5,7 @@ import java.util.Random
 import mod.iceandshadow3.damage.{Attack, AttackForm, DamageWithStatus, TDmgTypeExousic}
 import mod.iceandshadow3.lib.LogicBlockTechnical
 import mod.iceandshadow3.lib.block.BlockShape
+import mod.iceandshadow3.lib.compat.{WIdTagBlock, WIdTagItem}
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, Materia, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WProjectile}
@@ -15,7 +16,8 @@ import mod.iceandshadow3.multiverse.misc.{Particles, StatusEffects}
 
 object LBExousia {
 	val materia = Materia.builder(Materia.plasma).luma(9)("exousia")
-	val tagResist = "iceandshadow3:resists_exousia"
+	val tagItemResist = WIdTagItem("iceandshadow3:resists_exousia")
+	val tagBlockResist = WIdTagBlock("iceandshadow3:resists_exousia")
 	val spreadDelayTicks = 4
 }
 class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.materia) {
@@ -32,7 +34,7 @@ class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.mate
 		who.impulse(0, 0.01, 0)
 		if(who match {
 			case items: WEntityItem =>
-				!items.item.hasTag(tagResist) &&
+				!tagItemResist.unapply(items.item) &&
 				!items.item.toBlockState.fold(false)(resistsExousia)
 			case _ => true
 		}) {
@@ -73,7 +75,7 @@ class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.mate
 	}
 
 	def resistsExousia(them: WBlockState): Boolean =
-		them.getLogic == this || them.hasTag(LBExousia.tagResist)
+		them.getLogic == this || LBExousia.tagBlockResist.unapply(them)
 
 	def burnFx(where: TWWorldPlace with IPositionalFine): Unit = {
 		//TODO: Better particles

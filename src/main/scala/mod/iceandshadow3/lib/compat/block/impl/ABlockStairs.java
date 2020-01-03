@@ -5,8 +5,6 @@ import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.common.LogicBlockMateria;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.WIdBlock;
-import mod.iceandshadow3.lib.compat.block.WBlockView;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.item.ItemStack;
@@ -29,7 +27,7 @@ public class ABlockStairs extends StairsBlock implements IABlock {
 	public ABlockStairs(LogicBlockMateria source) {
 		super(
 			//Note that we very much want an exception to be thrown here.
-			() -> source.relative().unapply().get().typeDefault().exposeBS(),
+			() -> source.relative().get().get().typeDefault().exposeBS(),
 			LogicToProperties$.MODULE$.toProperties(source)
 		);
 		logic = source;

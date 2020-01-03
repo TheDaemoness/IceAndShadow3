@@ -27,11 +27,16 @@ public enum ELivingstoneTypes {
 	}
 	public static ELivingstoneTypes getAny(Random r) {
 		final ELivingstoneTypes res = common[r.nextInt(common.length)];
-		if(res == null) return rare[r.nextInt(rare.length)];
+		if(res == null) {
+			final ELivingstoneTypes resB = uncommon[r.nextInt(uncommon.length)];
+			if(resB == null) return rare[r.nextInt(rare.length)];
+			else return resB;
+		}
 		else return res;
 	}
 
-	private static final ELivingstoneTypes[] common = {COMMON, COMMON, CYAN, BLUE, GREEN, WHITE, null};
-	private static final ELivingstoneTypes[] rare = {BROWN, BROWN, PURPLE, PURPLE, RED};
+	private static final ELivingstoneTypes[] common = {COMMON, BLUE, CYAN, null};
+	private static final ELivingstoneTypes[] uncommon = {GREEN, WHITE, null};
+	private static final ELivingstoneTypes[] rare = {PURPLE, PURPLE, BROWN, BROWN, RED};
 	private static final ELivingstoneTypes[] synth = {RED, GOLD}; //To use later.
 }

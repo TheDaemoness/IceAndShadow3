@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.recipe
 
 import mod.iceandshadow3.IaS3
+import mod.iceandshadow3.lib.compat.WIdTagItem
 import mod.iceandshadow3.lib.compat.item.{BWItem, WItemType}
 import net.minecraftforge.registries.ForgeRegistries
 
@@ -21,11 +22,12 @@ extends (BWItem => T) {
 	protected def resolveFinal(default: T, fromRecipes: Iterable[T]): T
 	protected def shouldFollow(what: CraftingSummary): Boolean = true
 	val values = new mutable.HashMap[BWItem, T]
+	val tagNoInfer = WIdTagItem("iceandshadow3:no_infer")
 	private val map = {
 		def dfs(what: WItemType): Unit = {
 			val default = defaultValue(what)
 			values.put(what, default)
-			if(!what.hasTag("iceandshadow3:no_infer")) {
+			if(!tagNoInfer.unapply(what)) {
 				val list = new mutable.ListBuffer[T]
 				for (recipe <- craftmap(what).asScala) {
 					if (shouldFollow(recipe)) {

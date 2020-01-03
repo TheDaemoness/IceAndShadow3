@@ -7,10 +7,14 @@ import mod.iceandshadow3.lib.compat.world.TWWorldPlace
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalCoarse}
 import net.minecraft.world.storage.loot.{LootContext, LootParameters}
 
-class WLootContextBlock(lootContext: LootContext) extends WLootContext(lootContext) with TWWorldPlace with IPositionalCoarse {
+class WLootContextBlock(lootContext: LootContext) extends WLootContext(lootContext)
+with TWWorldPlace with IPositionalCoarse {
 	override def posCoarse = IPosBlock.wrap(lootContext.get(LootParameters.POSITION))
 	def state = new WBlockState(lootContext.get(LootParameters.BLOCK_STATE))
 	def tool = new WItemStack(lootContext.get(LootParameters.TOOL))
 	def harvester = Option(lootContext.get(LootParameters.THIS_ENTITY)).map(CNVEntity.wrap)
-	def blast = Option(lootContext.get(LootParameters.EXPLOSION_RADIUS))
+	def blast = {
+		val result = lootContext.get(LootParameters.EXPLOSION_RADIUS)
+		if(result == null) 0f else result.floatValue()
+	}
 }

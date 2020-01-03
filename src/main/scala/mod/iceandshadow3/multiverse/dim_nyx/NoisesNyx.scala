@@ -20,7 +20,7 @@ class NoisesNyx(val seed: Long) {
 
 	val noisemakerDip = new Noise2dTfLayered(1,
 		new Noise2dCell(seed, 4921, 45),
-		new Noise2dCell(seed, 1936, 60)
+		new Noise2dCell(seed, 1936, 70)
 	)
 	val noisemakerMountain = new Noise2dCell(seed, 3092, 150)
 	val noisemakerRidgeScale = new Noise2dCell(seed, 4815, 420)

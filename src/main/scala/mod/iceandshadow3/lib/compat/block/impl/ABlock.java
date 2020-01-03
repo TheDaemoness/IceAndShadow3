@@ -62,12 +62,12 @@ implements IABlock, IShearable {
 		final StateContainer.Builder<net.minecraft.block.Block, BlockState> builder =
 			new StateContainer.Builder<>(this);
 		final BinderBlockVar$ binder = BinderBlockVar$.MODULE$;
-		for(BVarBlockNew bbv : logic.variables()) {
-			builder.add(binder.apply(bbv).ip());
+		for(BVarBlock<?> bbv : logic.variables().asJava()) {
+			builder.add(binder.apply(bbv).expose());
 		}
 		realContainer = builder.create(BlockState::new);
 		BlockState bbs = this.getStateContainer().getBaseState();
-		for(BVarBlockNew bbv : logic.variables()) {
+		for(BVarBlock bbv : logic.variables().asJava()) {
 			bbs = binder.get(bbv).addTo(bbs, bbv.defaultVal());
 		}
 		setDefaultState(bbs);

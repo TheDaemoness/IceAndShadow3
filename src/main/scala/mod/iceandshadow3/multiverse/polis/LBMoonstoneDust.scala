@@ -14,4 +14,6 @@ class LBMoonstoneDust extends LogicBlockTechnical(DomainPolis, "moonstone_dust",
 
 	//TODO: Subtle particle effect?
 	override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.customSingleModel(this))
+
+
 }

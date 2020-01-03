@@ -22,7 +22,7 @@ case class WItemType(final override val asItem: Item) extends BWItem with Compar
 }
 object WItemType {
 	@throws[NoSuchElementException]
-	def apply(name: String): WItemType = WIdItem(name).unapply.get
+	def apply(name: String): WItemType = WIdItem(name).getOrThrow
 	private[lib] def make(what: BLogicItem): WItemType = new WItemType(BinderItem.apply(what))
 	private[lib] def make(what: BLogicBlock): WItemType = new WItemType(BinderBlock.apply(what)._2)
 }

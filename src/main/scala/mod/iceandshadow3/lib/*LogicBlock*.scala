@@ -3,18 +3,17 @@ package mod.iceandshadow3.lib
 import java.util.Random
 import java.util.function.{BiConsumer, Consumer}
 
-import javax.annotation.Nullable
 import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TNamed}
 import mod.iceandshadow3.lib.block.{BlockShape, HarvestMethod}
 import mod.iceandshadow3.lib.compat.WIdBlock
-import mod.iceandshadow3.lib.compat.block.impl.{BVarBlockNew, BinderBlock}
+import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.{BJsonGen, BJsonGenAssetsBlock, BJsonGenModelItem}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemType}
 import mod.iceandshadow3.lib.compat.loot.{LootBuilder, WLootContextBlock}
-import mod.iceandshadow3.lib.compat.world.WWorld
+import mod.iceandshadow3.lib.data.VarSet
 
 sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: Materia)
 	extends BLogic(dom, baseName)
@@ -54,7 +53,7 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 	/** Called on scheduled update ticks or after onRandomTick. */
 	def onUpdateTick(us: WBlockRef, rng: Random): Unit = {}
 
-	def variables: Array[BVarBlockNew[_]] = Array.empty
+	val variables: VarSet[BVarBlock[_]] = VarSet.empty
 
 	final lazy val toWBlockState: WBlockState = new WBlockState(this)
 

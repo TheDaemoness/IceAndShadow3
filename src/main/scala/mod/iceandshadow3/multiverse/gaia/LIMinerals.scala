@@ -1,6 +1,7 @@
 package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.lib.LogicItemMulti
+import mod.iceandshadow3.lib.compat.WIdTagBlock
 import mod.iceandshadow3.lib.compat.block.{BlockQueries, WBlockState}
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock
 import mod.iceandshadow3.lib.compat.world.WSound
@@ -16,8 +17,10 @@ object LIMinerals {
 		)
 	}
 
+	val tagResists = WIdTagBlock("iceandshadow3:resists_minerals")
+
 	def canGrow(what: WBlockState): Boolean = {
-		!what.isComplex && !what.hasTag("iceandshadow3:resists_minerals") && defaultBehavior(what)
+		!what.isComplex && !tagResists.unapply(what) && defaultBehavior(what)
 	}
 }
 class LIMinerals extends LogicItemMulti(DomainGaia, "minerals") {

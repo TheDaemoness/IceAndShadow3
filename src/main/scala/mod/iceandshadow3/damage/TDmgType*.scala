@@ -31,12 +31,7 @@ trait TDmgTypeCold extends TDmgTypeThermal {this: BDamage => override def name =
 trait TDmgTypeHeat extends TDmgTypeThermal {this: BDamage => override def name = "heat"}
 trait TDmgTypeMagic extends TDmgTypeNatural {this: BDamage => override def name = "magic"}
 
-trait TDmgTypeIce extends TDmgTypeSharp with TDmgTypeCold {this: BDamage => override def name = "ice"
-	override def onDamageEntity(dmg: Float, dmgResisted: Float, who: WEntityLiving):Float = {
-		//TODO: Status effect that does half the damage.
-		dmg
-	}
-}
+trait TDmgTypeIce extends TDmgTypeSharp with TDmgTypeCold {this: BDamage => override def name = "ice"}
 
 trait TDmgTypeExousic extends TDmgTypeOmni {this: BDamage => override def name = "exousic"
 	override def onDamageArmor(dmg: Float, dmgResisted: Float, what: WItemStack):Float = dmg*15

@@ -6,6 +6,7 @@ import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.VarBlockBool
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
+import mod.iceandshadow3.lib.data.VarSet
 import mod.iceandshadow3.multiverse.DomainGaia
 
 object LBStoneLiving {
@@ -14,7 +15,7 @@ object LBStoneLiving {
 class LBStoneLiving(variant: ELivingstoneTypes)
 extends LogicBlock(DomainGaia, "livingstone_"+variant.name, Materias.livingstone) {
 	override def tier = variant.rarity-1
-	override val variables = Array(LBStoneLiving.varGrowing)
+	override val variables = VarSet(LBStoneLiving.varGrowing)
 
 	override def randomlyUpdates = Some(wbs => wbs(LBStoneLiving.varGrowing).getOrElse(false))
 

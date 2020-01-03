@@ -6,13 +6,14 @@ import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.item.WItemType
 import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
+import mod.iceandshadow3.lib.data.VarSet
 import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBLeaves(name: String, materia: Materia, val parent: LBLog)
 extends LogicBlock(DomainGaia, name, materia) {
 	val varSupport = new VarBlockOrd("support", parent.leafSupport)
 
-	override def variables = Array(varSupport)
+	override val variables = VarSet(varSupport)
 
 	override def canStayAt(block: WBlockView, preexisting: Boolean) = {
 		preexisting || calcSupport(block) >= 0

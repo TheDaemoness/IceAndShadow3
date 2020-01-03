@@ -24,13 +24,6 @@ abstract class BWItem extends LogicProvider.Item with IItemProvider with TNamed[
 		case _ => None
 	}
 
-	def hasTag(tagname: String): Boolean = {
-		//TODO: WTag?
-		val tag = ItemTags.getCollection.get(new ResourceLocation(tagname))
-		if(tag == null) false
-		else asItem().isIn(tag)
-	}
-
 	def toBlockState: Option[WBlockState] = asItem() match {
 		case bli: BlockItem => Some(new WBlockState(bli.getBlock.getDefaultState))
 		case _ => None

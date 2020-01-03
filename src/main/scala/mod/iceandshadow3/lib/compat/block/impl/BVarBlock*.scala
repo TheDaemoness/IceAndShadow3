@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.compat.block.impl
 
+import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.data.BVar
 import net.minecraft.state.IProperty
 
@@ -11,6 +12,7 @@ extends BVar[T](name) with BinderBlockVar.TKey {
 
 	protected def toUs(in: Underlying): T
 	protected def toThem(in: T): Underlying
+	def unapply(what: WBlockState): Option[T] = what.apply(this)
 }
 
 abstract class BVarBlockExisting[T, Original <: Comparable[Original]] protected[block] (
@@ -20,7 +22,7 @@ abstract class BVarBlockExisting[T, Original <: Comparable[Original]] protected[
 	override type Underlying = Original
 	val size = ip.getAllowedValues.size()
 
-	BinderBlockVar.add(this, WrappedIProperty[T, Original](ip, toUs, toThem))
+	BinderBlockVar.add(this, WIProperty[T, Original](ip, toUs, toThem))
 }
 
 abstract class BVarBlockNew[T](name: String, defaultVal: T) extends BVarBlock[T](name, defaultVal) {
@@ -29,5 +31,5 @@ abstract class BVarBlockNew[T](name: String, defaultVal: T) extends BVarBlock[T]
 	def fromString(value: String): Int
 	def toString(value: Int): String //Can be implemented here, but let's keep things together now.
 
-	BinderBlockVar.add(this, WrappedIProperty(new AProperty(this), toUs, toThem))
+	BinderBlockVar.add(this, WIProperty(new AProperty(this), toUs, toThem))
 }

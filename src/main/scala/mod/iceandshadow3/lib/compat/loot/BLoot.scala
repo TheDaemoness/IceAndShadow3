@@ -1,6 +1,5 @@
 package mod.iceandshadow3.lib.compat.loot
 
-import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
 import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItemStack, WItemType}
 import mod.iceandshadow3.lib.util.MathUtils
@@ -28,10 +27,17 @@ abstract class BLoot[-Context <: WLootContext] extends (Context => WItemStack) {
 	final def filter(fn: WItemStack => Boolean) = new BLoot[Context] {
 		override def apply(context: Context) = {
 			val result = BLoot.this.apply(context)
-			if(fn(result)) result else WItemStack.empty
+			if (fn(result)) result else WItemStack.empty
 		}
 	}
 	final def chance(chance: Float) = require((context: Context) => context.rng().nextFloat() <= chance)
+	final def blastDecay[NewContext <: WLootContextBlock with Context] = map[NewContext]((is, context) => {
+		val blast = context.blast
+		if(blast > 0) {
+			val count = is.count / (blast + 1)
+			is.setCount(MathUtils.roundRandom(count, context.rng()))
+		} else is
+	})
 }
 
 object BLoot {

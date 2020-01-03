@@ -4,10 +4,9 @@ import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.base.LogicProvider
 import mod.iceandshadow3.lib.block.BBlockFn
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
-import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BVarBlockNew, BinderBlock, BinderBlockVar}
+import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BinderBlock, BinderBlockVar}
 import mod.iceandshadow3.lib.compat.world.WSound
 import net.minecraft.block.{Block, BlockState}
-import net.minecraft.tags.BlockTags
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries
 
@@ -16,9 +15,8 @@ extends BWBlockType
 with TBlockStateSource {
 	override protected[compat] def asBlock() = exposeBS().getBlock
 
-	def +[T](variable: BVarBlockNew[T], value: T): WBlockState =
+	def +[T](variable: BVarBlock[T], value: T): WBlockState =
 		new WBlockState(BinderBlockVar.get(variable).addTo(exposeBS(), value))
-
 	def ?[T](variable: BVarBlock[T], pred: T => Boolean): Boolean = {
 		val bs = exposeBS()
 		val wip = BinderBlockVar.get(variable)
@@ -43,13 +41,6 @@ with TBlockStateSource {
 		val bs = exposeBS()
 		val wip = BinderBlockVar.get(which)
 		wip.in(bs)
-	}
-
-	def hasTag(tagname: String): Boolean = {
-		//TODO: WTag?
-		val tag = BlockTags.getCollection.get(new ResourceLocation(tagname))
-		if(tag == null) false
-		else exposeBS().isIn(tag)
 	}
 
 	override def getLogic = exposeBS().getBlock match {
