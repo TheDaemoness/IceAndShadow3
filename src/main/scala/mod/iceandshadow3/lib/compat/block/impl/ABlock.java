@@ -39,7 +39,7 @@ import java.util.function.BiConsumer;
 //Overriding them is fine.
 
 @SuppressWarnings("deprecation")
-public class ABlock extends Block
+final public class ABlock extends Block
 implements IABlock, IShearable {
 	
 	private final BLogicBlock logic;

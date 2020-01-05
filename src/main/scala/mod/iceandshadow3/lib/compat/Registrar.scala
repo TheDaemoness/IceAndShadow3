@@ -7,8 +7,8 @@ import com.google.common.base.Charsets
 import com.google.common.cache.{CacheBuilder, CacheLoader}
 import com.google.gson.JsonObject
 import javax.annotation.Nullable
-import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.compat.block.impl.{BinderBlock, BinderBlockVar}
+import mod.iceandshadow3.{ContentLists, IaS3}
+import mod.iceandshadow3.lib.compat.block.impl.{BinderBlock, BinderBlockVar, TileEntities}
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
 import mod.iceandshadow3.lib.compat.entity.impl.{BinderEntity, BinderEntityMob}
 import mod.iceandshadow3.lib.compat.entity.state.impl.{AStatusEffect, BinderStatusEffect}
@@ -22,6 +22,7 @@ import net.minecraft.item.crafting.{IRecipe, IRecipeSerializer}
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.{IParticleData, ParticleType}
 import net.minecraft.potion.Effect
+import net.minecraft.tileentity.TileEntityType
 import net.minecraft.util.{ResourceLocation, SoundEvent}
 import net.minecraftforge.registries.IForgeRegistry
 
@@ -108,6 +109,11 @@ object Registrar {
 			reg.register(item)
 		}
 		//TODO: Spawn eggs.
+	}
+
+	private[iceandshadow3] def registerTileEntities(reg: IForgeRegistry[TileEntityType[_]]): Unit = {
+		import scala.jdk.CollectionConverters._
+		TileEntities.collect(ContentLists.block.iterator().asScala).foreach(reg.register)
 	}
 
 	private[iceandshadow3] def registerEntities(reg: IForgeRegistry[EntityType[_ <: Entity]]): Unit = {

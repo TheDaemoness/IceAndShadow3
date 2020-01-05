@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class ABlockStairs extends StairsBlock implements IABlock {
+final public class ABlockStairs extends StairsBlock implements IABlock {
 	private final BLogicBlock logic;
 	public ABlockStairs(LogicBlockMateria source) {
 		super(

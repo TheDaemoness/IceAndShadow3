@@ -54,6 +54,7 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 	def onUpdateTick(us: WBlockRef, rng: Random): Unit = {}
 
 	val variables: VarSet[BVarBlock[_]] = VarSet.empty
+	val tileEntity: Option[LogicTileEntity] = LogicTileEntity.optionNone
 
 	final lazy val toWBlockState: WBlockState = new WBlockState(this)
 

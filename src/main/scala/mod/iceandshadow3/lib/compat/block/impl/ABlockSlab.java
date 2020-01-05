@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class ABlockSlab extends SlabBlock implements IABlock {
+final public class ABlockSlab extends SlabBlock implements IABlock {
 	private final BLogicBlock logic;
 	public ABlockSlab(BLogicBlock source) {
 		super(LogicToProperties$.MODULE$.toProperties(source));
