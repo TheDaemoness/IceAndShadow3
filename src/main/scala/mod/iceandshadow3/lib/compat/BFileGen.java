@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+
+import com.google.common.hash.HashCode;
 import mod.iceandshadow3.IaS3;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
@@ -18,11 +20,11 @@ public abstract class BFileGen {
 		this.name = name;
 	}
 
-	public static Path getDataPath(Path root, String subpath) {
-		return root.resolve("./data/"+IaS3.MODID+'/'+subpath);
+	public static Path getDataPath(Path root) {
+		return root.resolve("data/"+IaS3.MODID);
 	}
-	public static Path getAssetsPath(Path root, String subpath) {
-		return root.resolve("./assets/"+IaS3.MODID+'/'+subpath);
+	public static Path getAssetsPath(Path root) {
+		return root.resolve("assets/"+IaS3.MODID);
 	}
 
 	@Nonnull
@@ -35,9 +37,11 @@ public abstract class BFileGen {
 				for(Map.Entry<Path, byte[]> pair : getData(gen.getOutputFolder()).entrySet()) {
 					final Path path = pair.getKey();
 					final byte[] data = pair.getValue();
-					final String hashed = IDataProvider.HASH_FUNCTION.hashBytes(data).toString();
+					final String hashed = String.valueOf(IDataProvider.HASH_FUNCTION.hashBytes(data).asLong());
+					cache.func_208316_a(path, hashed);
 					final boolean exists = Files.exists(path);
-					if (!exists || !hashed.equals(cache.getPreviousHash(path))) {
+					final String previousHash = exists ? cache.getPreviousHash(path) : null;
+					if (previousHash == null || !hashed.contentEquals(previousHash)) {
 						if (!exists) Files.createDirectories(path.getParent());
 						try (final OutputStream fos = Files.newOutputStream(path)) {
 							fos.write(data);
@@ -45,7 +49,6 @@ public abstract class BFileGen {
 							IaS3.logger().error("Cannot update " + path + ": " + e.getMessage());
 						}
 					}
-					cache.func_208316_a(path, hashed);
 				}
 			}
 

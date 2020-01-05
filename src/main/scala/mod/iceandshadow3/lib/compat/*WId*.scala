@@ -42,10 +42,13 @@ abstract class BWId[+Return](vanilla: ResourceLocation) extends WId(vanilla) wit
 	override def iterator = get.iterator
 	override def foreach[U](f: Return => U): Unit = get.foreach(f)
 	override def map[B](f: Return => B) = get.map(f)
-	final override def toString = super.toString()
+	final override def toString = nameFull
+	def translationKeyPrefix: String
+	def translationKey: String = s"$translationKeyPrefix.$namespace.$name"
 }
 
 final class WIdItem(vanilla: ResourceLocation) extends BWId[WItemType](vanilla) with TNamed[WIdItem] {
+	override def translationKeyPrefix = "item"
 	def this(namespace: String, name: String) = this(new ResourceLocation(namespace, name))
 	override def id = this
 	override def get = {
@@ -58,6 +61,7 @@ object WIdItem {
 }
 
 final class WIdBlock(vanilla: ResourceLocation) extends BWId[BWBlockType](vanilla) with TNamed[WIdBlock] {
+	override def translationKeyPrefix = "block"
 	def this(namespace: String, fullname: String) = this(new ResourceLocation(namespace, fullname))
 	override def id = this
 	override def get = {

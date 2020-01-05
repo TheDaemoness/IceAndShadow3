@@ -3,10 +3,10 @@ package mod.iceandshadow3.lib.util
 abstract class BFunctionOptions[-In, @specialized(Boolean) Med, @specialized(Boolean) +Out] (
 	protected val fns: (In => Med)*
 ) extends (In => Out) {
-	def apply(what: In) = {
+	def apply(what: In): Out = {
 		for(fn <- fns) {
 			val med = fn(what)
-			if(!discard(med)) transform(med)
+			if(!discard(med)) return transform(med)
 		}
 		transform(default)
 	}

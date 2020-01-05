@@ -1,5 +1,6 @@
-package mod.iceandshadow3.lib.compat.item
+package mod.iceandshadow3.lib.compat.item.container
 
+import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.item.ItemSeq
 import net.minecraft.inventory.container.Container
 
@@ -18,5 +19,6 @@ class WContainer(inv: Container) extends ItemSeq {
 		else slot.decrStackSize(slot.getSlotStackLimit)
 	}
 	override def length = slots.size()
+	override def knownSize = slots.size()
 	override def apply(idx: Int) = new WItemStack(slots.get(idx).getStack)
 }

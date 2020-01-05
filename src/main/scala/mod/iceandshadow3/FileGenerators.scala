@@ -16,9 +16,8 @@ object FileGenerators {
 		)
 		override protected def getData(root: Path) = {
 			import scala.jdk.CollectionConverters._
-			val assetRoot = root.resolve(s"assets/${IaS3.MODID}")
-			val dataRoot = root.resolve(s"data/${IaS3.MODID}")
 			val retval = new util.HashMap[Path, Array[Byte]]
+			val assetRoot = BFileGen.getAssetsPath(root)
 			for(
 				item <- ContentLists.item.asScala;
 				model <- item.getItemModelGen

@@ -30,13 +30,13 @@ object IngredientFactory {
 	implicit def apply(what: BLogic with TLogicWithItem): IngredientFactory = new IngredientFactory {
 		override protected[compat] def build = Ingredient.fromItems(what.toWItemType.asItem)
 		override def conditionJson =
-			Some(new JsonObject().tap(_.addProperty("item", what.id.toString)))
+			Some(new JsonObject().tap(_.addProperty("item", what.id.nameFull)))
 		override def toResult = what
 	}
 	implicit def apply(what: WIdItem): IngredientFactory = new IngredientFactory {
 		override protected[compat] def build = Ingredient.fromItems(what.getOrThrow)
 		override def conditionJson =
-			Some(new JsonObject().tap(_.addProperty("item", what.toString)))
+			Some(new JsonObject().tap(_.addProperty("item", what.id.nameFull)))
 		override def toResult = what
 	}
 	implicit def apply(what: => WItemStack): IngredientFactory = new IngredientFactory {

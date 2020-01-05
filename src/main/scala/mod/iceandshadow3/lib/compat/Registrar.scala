@@ -34,10 +34,11 @@ object Registrar {
 			final private val recipeStub = ("{\"type\":\""+IaS3.MODID+":builtin\"}").getBytes(Charsets.US_ASCII)
 			final protected def getData(root: Path) = {
 				val retval = new java.util.HashMap[Path, Array[Byte]]()
+				val subroot = BFileGen.getDataPath(root)
 				for((id, factory) <- factories) {
-					retval.put(BFileGen.getDataPath(root, s"recipes/${id.name}.json"), recipeStub)
+					retval.put(subroot.resolve(s"recipes/${id.name}.json"), recipeStub)
 					for(advancement <- factory.advancement; json <- advancement._2) retval.putIfAbsent(
-						BFileGen.getDataPath(root, s"advancements/recipes/${advancement._1}.json"),
+						subroot.resolve(s"advancements/recipes/${advancement._1}.json"),
 						json.toString.getBytes(Charsets.US_ASCII)
 					)
 				}

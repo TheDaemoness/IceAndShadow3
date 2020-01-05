@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
+import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized, TWLogical}
 import mod.iceandshadow3.lib.compat.world.TWWorld
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}
@@ -22,8 +23,6 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 	def this(w: IBlockReader, p: IPosBlock) = {
 		this(w, new BlockPos(p.xBlock, p.yBlock, p.zBlock), null)
 	}
-	override def registryName: String = exposeBS().getBlock.getRegistryName.toString
-	//TODO: Fluids.
 
 	def promote(wr: TWWorld): WBlockRef = new WBlockRef(wr.exposeWorld(), pos, exposeBS())
 

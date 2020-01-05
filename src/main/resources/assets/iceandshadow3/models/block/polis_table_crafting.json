@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+	"north": "iceandshadow3:block/polis_petrified_bricks.x",
+	"east": "iceandshadow3:block/polis_petrified_bricks.z",
+	"west": "iceandshadow3:block/polis_petrified_bricks.z",
+	"south": "iceandshadow3:block/polis_petrified_bricks.x",
+	"particle": "iceandshadow3:block/polis_petrified_bricks.y",
+	"up": "iceandshadow3:block/polis_table_crafting",
+	"down": "iceandshadow3:block/polis_petrified_bricks.y"
+  }
+}

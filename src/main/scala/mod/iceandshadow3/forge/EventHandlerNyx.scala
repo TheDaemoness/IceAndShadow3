@@ -1,7 +1,8 @@
 package mod.iceandshadow3.forge
 
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
-import mod.iceandshadow3.lib.compat.item.{WContainer, WItemStack}
+import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.item.container.WContainer
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.forge.BEventHandler
 import mod.iceandshadow3.multiverse.DimensionNyx

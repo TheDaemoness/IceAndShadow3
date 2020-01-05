@@ -9,9 +9,10 @@ import mod.iceandshadow3.lib.block.{BlockShape, HarvestMethod}
 import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
-import mod.iceandshadow3.lib.compat.entity.WEntity
+import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.file.{BJsonGen, BJsonGenAssetsBlock, BJsonGenModelItem}
-import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemType}
+import mod.iceandshadow3.lib.compat.item.container.WContainerSource
+import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WItemType}
 import mod.iceandshadow3.lib.compat.loot.{LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
 
@@ -23,25 +24,22 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 	BinderBlock.add(this)
 	ContentLists.block.add(this)
 	final val id: WIdBlock = new WIdBlock(IaS3.MODID, domain.makeName(baseName))
-
-	def isToolClassEffective(m: HarvestMethod) = materia.isEffective(m)
-	def randomlyUpdates: Option[WBlockState => Boolean] = None
-	def multipleOpacities = false
-	override def itemLogic: Option[LogicBlock]
-
+	final lazy val toWBlockState: WBlockState = new WBlockState(this)
 	final override def pathPrefix: String = "block"
 
-	/** Whether or not the surfaces of the blocks have any visible holes in them.
-		* Controls the rendering layer in conjunction with the materia.
-		*/
-	override def tier: Int = 1
-	def areSurfacesFull = true
-	def harvestXP(what: WBlockView, silktouch: Boolean): Int = 0
+	override def itemLogic: Option[LogicBlock]
 	def canStayAt(block: WBlockView, preexisting: Boolean) = true
+	def harvestXP(what: WBlockView, silktouch: Boolean): Int = 0
+	def isToolClassEffective(m: HarvestMethod) = materia.isEffective(m)
+
+	override def tier: Int = 1
 	//TODO: Separate collision shape from selection shape.
 	def shape: BlockShape = BlockShape.FULL_CUBE
 	def isDiscrete = false
+	def multipleOpacities = false
+	def getGenAssetsBlock: Option[BJsonGenAssetsBlock] = Some(BJsonGenAssetsBlock.cube(this))
 
+	def randomlyUpdates: Option[WBlockState => Boolean] = None
 	def toPlace(state: WBlockState, context: WUsagePlace): WBlockState = state
 	def onAdded(us: WBlockRef, them: WBlockState, moving: Boolean): Unit = {}
 	def onReplaced(us: WBlockState, them: WBlockRef, moved: Boolean): Unit = {}
@@ -52,17 +50,19 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 	def onRandomTick(us: WBlockRef, rng: Random): Boolean = true
 	/** Called on scheduled update ticks or after onRandomTick. */
 	def onUpdateTick(us: WBlockRef, rng: Random): Unit = {}
+	//TODO: Expose the BlockRayTraceResult to logics.
+	def onUsed(us: WBlockRef, item: WItemStackOwned[WEntityPlayer]): Boolean = false
 
-	val variables: VarSet[BVarBlock[_]] = VarSet.empty
-	val tileEntity: Option[LogicTileEntity] = LogicTileEntity.optionNone
-
-	final lazy val toWBlockState: WBlockState = new WBlockState(this)
-
-	def getGenAssetsBlock: Option[BJsonGenAssetsBlock] = Some(BJsonGenAssetsBlock.cube(this))
-	def addDrops(what: LootBuilder[WLootContextBlock]): Unit
-
+	/** Whether or not the surfaces of the blocks have any visible holes in them.
+		* Controls the rendering layer in conjunction with the materia.
+		*/
+	def areSurfacesFull = true
 	def handlerEntityInside: BiConsumer[WBlockRef, WEntity] = null
 	def handlerClientTick: Consumer[WBlockRef] = null
+	val variables: VarSet[BVarBlock[_]] = VarSet.empty
+	val tileEntity: Option[LogicTileEntity] = LogicTileEntity.optionNone
+	def container(us: WBlockRef): WContainerSource = WContainerSource.none
+	def addDrops(what: LootBuilder[WLootContextBlock]): Unit
 }
 
 class LogicBlock(dom: BDomain, name: String, mat: Materia)

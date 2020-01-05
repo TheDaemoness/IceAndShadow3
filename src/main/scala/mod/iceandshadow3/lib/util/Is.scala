@@ -1,9 +1,11 @@
 package mod.iceandshadow3.lib.util
 
-class Is[-T] protected(wanted: Boolean, invert: Boolean, preds: (T => Boolean)*)
-extends BFunctionOptions[T, Boolean, Boolean] (preds:_*) {
+class Is[-T] protected(
+	wanted: Boolean, invert: Boolean,
+	preds: (T => Boolean)*
+) extends BFunctionOptions[T, Boolean, Boolean] (preds:_*) {
 	override protected def discard(what: Boolean) = what != wanted
-	override protected def transform(what: Boolean) = what ^ invert
+	override protected def transform(what: Boolean) = if(invert) !what else what
 	override protected def default = !wanted
 	def unapply(what: T): Boolean = apply(what)
 }

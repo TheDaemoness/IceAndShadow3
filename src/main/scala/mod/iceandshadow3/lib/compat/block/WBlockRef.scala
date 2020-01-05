@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
-import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.compat.block.`type`.{CommonBlockTypes, TBlockStateSource}
+import mod.iceandshadow3.lib.compat.item.container.WContainerSource
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.{TWWorld, TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.IPosBlock
@@ -19,14 +19,12 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 
 	final override def promote(wr: TWWorld): WBlockRef = this
 
-	def this(w: IWorld, v: IPosBlock) {
+	def this(w: IWorld, v: IPosBlock) = {
 		this(w.getChunk(v.xChunk, v.zChunk), CNVCompat.toBlockPos(v), null)
 	}
-
 	def this(w: IWorld, p: BlockPos) = {
 		this(w.getChunk(p.getX >> 4, p.getZ >> 4), p, null)
 	}
-
 	def this(w: IWorld, p: BlockPos, bs: BlockState) = {
 		this(w.getChunk(p.getX >> 4, p.getZ >> 4), p, bs)
 	}
@@ -79,4 +77,8 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 	def scheduleTick(delay: Int): Unit = {
 		this.exposeWorld().getPendingBlockTicks.scheduleTick(this.toBlockPos, this.asBlock(), delay)
 	}
+
+	def container(): WContainerSource = new WContainerSource(
+		exposeBS().getContainer(exposeWorld().getWorld, pos)
+	)
 }

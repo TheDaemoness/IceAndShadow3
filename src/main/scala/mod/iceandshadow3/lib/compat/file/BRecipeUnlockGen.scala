@@ -26,14 +26,14 @@ object BRecipeUnlockGen {
 			val retval = new JsonObject
 			retval.addProperty("parent", "minecraft:recipes/root")
 			retval.add("rewards", new JsonObject().tap(_.add("recipes", new JsonArray().tap(
-				_.add(id.toString)
+				_.add(id.nameFull)
 			))))
 			retval.add("criteria", new JsonObject().tap(criteria => {
 				if(canDeduce) {
 					makeCriterion(
 						criteria, criterionIdDeduce, "minecraft:inventory_changed",
 						_.add("items", new JsonArray().tap(array => {
-							array.add(new JsonObject().tap(_.addProperty("item", nrm.result.id.toString)))
+							array.add(new JsonObject().tap(_.addProperty("item", nrm.result.id.nameFull)))
 						}))
 					)
 				}
@@ -47,7 +47,7 @@ object BRecipeUnlockGen {
 				)
 				makeCriterion(
 					criteria, criterionIdRecipe, "minecraft:recipe_unlocked",
-					_.addProperty("recipe", id.toString)
+					_.addProperty("recipe", id.nameFull)
 				)
 			}))
 			retval.add("requirements", new JsonArray().tap(_.add(new JsonArray().tap(array => {

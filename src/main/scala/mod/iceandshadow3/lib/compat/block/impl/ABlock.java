@@ -6,16 +6,22 @@ import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.WId;
 import mod.iceandshadow3.lib.compat.block.*;
+import mod.iceandshadow3.lib.compat.entity.CNVEntity;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.entity.WEntity;
+import mod.iceandshadow3.lib.compat.entity.WEntityPlayer;
+import mod.iceandshadow3.lib.compat.item.WItemStackOwned;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -101,6 +107,23 @@ implements IABlock, IShearable {
 
 	protected void fillStateContainer(StateContainer.Builder<net.minecraft.block.Block, BlockState> builder) {
 		//No-op. DON'T PUT STUFF HERE!
+	}
+
+	@Override
+	public boolean onBlockActivated(
+		BlockState state, World worldIn, BlockPos pos,
+		PlayerEntity player, Hand handIn, BlockRayTraceResult rt
+	) {
+		return logic.onUsed(
+			new WBlockRef(worldIn, pos, state),
+			new WItemStackOwned<>(player.getHeldItem(handIn), CNVEntity.wrap(player))
+		);
+	}
+
+	@Nullable
+	@Override
+	public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
+		return logic.container(new WBlockRef(worldIn, pos, state)).expose();
 	}
 
 	@Nonnull

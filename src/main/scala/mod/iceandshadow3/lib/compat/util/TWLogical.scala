@@ -6,8 +6,6 @@ import net.minecraft.nbt.CompoundNBT
 
 trait TWLogical[LogicType <: BLogic] {
 	this: LogicProvider[LogicType] =>
-	@Nullable
-	def registryName: String
 
 	protected def exposeCompoundOrNull(): CompoundNBT
 }

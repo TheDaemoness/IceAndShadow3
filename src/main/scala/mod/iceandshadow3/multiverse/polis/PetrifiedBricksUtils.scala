@@ -39,5 +39,6 @@ object PetrifiedBricksUtils {
 			s"ab_from.${bricks.stairs.namespace}.${bricks.stairs.name}"
 		).alterResult(_.setCount(3)).unlockDeduce.register()
 		ECraftingType.registerAB(brick, bricks.wall, ONE_X_TWO)
+		ECraftingType.STONECUT(DomainPolis.Blocks.table_crafting, bricks.block).unlockDeduce.register()
 	}
 }
