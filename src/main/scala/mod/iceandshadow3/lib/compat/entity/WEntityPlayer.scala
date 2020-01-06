@@ -1,7 +1,8 @@
 package mod.iceandshadow3.lib.compat.entity
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.compat.item.{WInventory, WInventoryOwned, WItemStack, WItemStackOwned}
+import mod.iceandshadow3.lib.compat.inventory.{WInventory, WInventoryOwned}
+import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned}
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.compat.util.TLocalized
 import mod.iceandshadow3.lib.compat.world.{WDimension, WDimensionCoord}

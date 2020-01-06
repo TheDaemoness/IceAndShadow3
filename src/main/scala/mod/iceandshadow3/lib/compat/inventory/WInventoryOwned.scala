@@ -1,6 +1,7 @@
-package mod.iceandshadow3.lib.compat.item
+package mod.iceandshadow3.lib.compat.inventory
 
 import mod.iceandshadow3.lib.compat.entity.WEntity
+import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import net.minecraft.inventory.IInventory
 
 class WInventoryOwned[+Owner <: WEntity](inv: IInventory, val owner: Owner) extends WInventory(inv) {

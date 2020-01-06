@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.compat.item
+package mod.iceandshadow3.lib.compat.inventory
 
 import net.minecraft.inventory.CraftingInventory
 

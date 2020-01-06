@@ -5,11 +5,11 @@ import java.util.function.{BiConsumer, Consumer}
 
 import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TNamed}
-import mod.iceandshadow3.lib.block.{BlockShape, HarvestMethod}
+import mod.iceandshadow3.lib.block.{BHandlerComparator, BlockShape, HarvestMethod}
 import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
-import mod.iceandshadow3.lib.compat.container.WContainerSource
+import mod.iceandshadow3.lib.compat.inventory.WContainerSource
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.file.{BJsonGen, BJsonGenAssetsBlock, BJsonGenModelItem}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WItemType}
@@ -59,6 +59,7 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 	def areSurfacesFull = true
 	def handlerEntityInside: BiConsumer[WBlockRef, WEntity] = null
 	def handlerClientTick: Consumer[WBlockRef] = null
+	val handlerComparator: BHandlerComparator = BHandlerComparator.none
 	val variables: VarSet[BVarBlock[_]] = VarSet.empty
 	val tileEntity: Option[LogicTileEntity] = LogicTileEntity.optionNone
 	def container(us: WBlockRef): WContainerSource = WContainerSource.none

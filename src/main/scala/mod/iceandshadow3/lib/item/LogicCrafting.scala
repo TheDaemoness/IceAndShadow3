@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.item
 
-import mod.iceandshadow3.lib.compat.item.{WInventoryCrafting, WItemStack}
+import mod.iceandshadow3.lib.compat.inventory.WInventoryCrafting
+import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
 
 abstract class LogicCrafting(val name: String) {

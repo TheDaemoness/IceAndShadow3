@@ -11,12 +11,14 @@ import mod.iceandshadow3.lib.data.{BVar, VarSet}
 
 class LogicTileEntity(override val name: String, val variables: VarSet.WithNbt[_])
 extends TNamed[WId] with BinderTileEntity.TKey {
+	final val id = new WId(IaS3.MODID, name)
+
+	val itemCapacity = 0
 	def onLoad(data: NbtVarMap): Unit = ()
 	def onUnload(data: NbtVarMap): Unit = ()
-	val itemCapacity = 0
 	def isUsableBy(who: WEntityPlayer) = true
 	def canStore(slot: Int, stack: WItemStack) = true
-	final val id = new WId(IaS3.MODID, name)
+	def syncInventoryOnLoad = false
 }
 object LogicTileEntity {
 	def apply(name: String, vars: (BVar[_] with TVarNbt[_])*) = new LogicTileEntity(name, VarSet(vars:_*))

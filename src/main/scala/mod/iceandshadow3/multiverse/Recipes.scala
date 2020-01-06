@@ -1,7 +1,8 @@
 package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.lib.compat.WIdItem
-import mod.iceandshadow3.lib.compat.item.{WInventoryCrafting, WItemStack}
+import mod.iceandshadow3.lib.compat.inventory.WInventoryCrafting
+import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.recipe.{ECraftingType, ERecipeSize, IngredientFactory}
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting

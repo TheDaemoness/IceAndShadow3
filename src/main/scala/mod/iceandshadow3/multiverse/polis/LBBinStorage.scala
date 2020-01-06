@@ -1,8 +1,9 @@
 package mod.iceandshadow3.multiverse.polis
 
+import mod.iceandshadow3.lib.block.BHandlerComparator
 import mod.iceandshadow3.lib.{LogicBlock, LogicTileEntity}
 import mod.iceandshadow3.lib.compat.block.{Materia, WBlockRef}
-import mod.iceandshadow3.lib.compat.container.WContainerSource
+import mod.iceandshadow3.lib.compat.inventory.WContainerSource
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.lib.data.VarSet
@@ -18,4 +19,9 @@ class LBBinStorage(name: String, mat: Materia) extends LogicBlock(DomainPolis, n
 		true
 	}
 	override def container(us: WBlockRef) = WContainerSource.chestlike(us, this.id.translationKey)
+
+	override val handlerComparator = BHandlerComparator(_.inventory().fold(0)(inv => {
+		val count = inv.countFilled
+		if(count <= 0) 0 else 1+(count*14/inv.size)
+	}))
 }

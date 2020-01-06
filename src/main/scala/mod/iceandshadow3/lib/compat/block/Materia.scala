@@ -21,7 +21,7 @@ case class Materia private(
 	private val effectiveMethods: Set[HarvestMethod],
 	private var parent: Option[Materia]
 ) {
-	def isTypeOf(materia: Materia): Boolean = parent.fold(false)(_.isTypeOf(materia))
+	def isTypeOf(materia: Materia): Boolean = if(this != materia) parent.fold(false)(_.isTypeOf(materia)) else true
 	def isEffective(what: HarvestMethod): Boolean = effectiveMethods.contains(what)
 }
 

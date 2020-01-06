@@ -73,11 +73,11 @@ final class NbtVarMap(keys: VarSet.WithNbt[_]) {
 		this
 	}
 
-	private[compat] def writeTo(what: CompoundNBT): this.type = {
+	private[compat] def writeNbt(what: CompoundNBT): this.type = {
 		map.foreach(_.writeTo(what))
 		this
 	}
-	private[compat] def loadFrom(what: CompoundNBT): this.type  = {
+	private[compat] def readNbt(what: CompoundNBT): this.type  = {
 		map.foreach(_.loadFrom(what))
 		this
 	}

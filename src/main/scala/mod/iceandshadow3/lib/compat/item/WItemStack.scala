@@ -45,7 +45,7 @@ class WItemStack(inputstack: ItemStack)
 
 	/* TODO: Narrow scope. */ def asItemStack(): ItemStack = is.getOrElse(ItemStack.EMPTY)
 
-	protected[item] def move(): ItemStack = {
+	protected[compat] def move(): ItemStack = {
 		val retval = asItemStack().copy()
 		destroy()
 		retval

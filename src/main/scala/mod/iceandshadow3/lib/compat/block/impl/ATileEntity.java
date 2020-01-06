@@ -2,92 +2,55 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.lib.LogicTileEntity;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
+import mod.iceandshadow3.lib.compat.inventory.InventoryImpl;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
-import mod.iceandshadow3.lib.compat.nbt.NbtTagUtils;
 import mod.iceandshadow3.lib.compat.nbt.NbtVarMap;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Arrays;
 
 final public class ATileEntity extends TileEntity implements IInventory {
-	public static String inventoryKey = "items";
-	//TODO: Delta updates using Forge-based netcode.
-	//TODO: The inventory stuff could use its own class.
-	private final ItemStack[] inventory;
-	private int filledSlots;
-
-	private void triggerUpdate() {
-		markDirty();
-	}
-	private ItemStack exchange(int index, @Nonnull ItemStack nu) {
-		if(index < inventory.length) {
-			final ItemStack old = inventory[index];
-			inventory[index] = nu;
-			if(old.isEmpty() && !nu.isEmpty()) ++filledSlots;
-			else if(!old.isEmpty() && nu.isEmpty()) --filledSlots;
-			triggerUpdate();
-			return old;
-		}
-		return ItemStack.EMPTY;
-	}
-
+	private final InventoryImpl inventory;
 	private final LogicTileEntity logic;
 	final NbtVarMap vars;
 
-	private void doReadNbt(CompoundNBT nbt) {
-		vars.loadFrom(nbt);
-		doClear();
-		if(nbt.contains(inventoryKey, NbtTagUtils.ID_LIST())) {
-			final ListNBT inv = nbt.getList(inventoryKey, NbtTagUtils.ID_COMPOUND());
-			for(int i = 0; i < inv.size() && i < inventory.length; ++i) {
-				final ItemStack is = ItemStack.read(inv.getCompound(i));
-				if(!is.isEmpty()) {
-					inventory[i] = is;
-					++filledSlots;
-				}
-			}
-		}
-	}
-	private void doWriteNbt(CompoundNBT nbt) {
-		vars.writeTo(nbt);
-		final ListNBT inv = new ListNBT();
-		for(int i = 0, n = 0; i < inventory.length && n < filledSlots; ++i) {
-			final ItemStack is = inventory[i];
-			inv.add(is.serializeNBT());
-			if(!is.isEmpty()) ++n;
-		}
-		nbt.put(inventoryKey, inv);
-	}
+	public static String inventoryKey = "items";
 
 	ATileEntity(LogicTileEntity logic, NbtVarMap vars) {
 		super((ATileEntityType)BinderTileEntity.apply(logic));
 		this.logic = logic;
 		this.vars = vars;
-		this.inventory = new ItemStack[logic.itemCapacity()];
-		doClear();
+		this.inventory = new InventoryImpl(logic.itemCapacity(), inventoryKey);
+	}
+
+	private void triggerUpdate() {
+		//TODO: Delta updates using Forge-based netcode.
+		final BlockState bs = this.getBlockState();
+		if(world != null) world.notifyBlockUpdate( pos, bs, bs, 2);
+		markDirty();
 	}
 
 	@Nonnull
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
-		doWriteNbt(compound);
+		vars.writeNbt(compound);
+		inventory.writeNbt(compound);
 		return compound;
 	}
 
 	@Override
 	public void read(CompoundNBT compound) {
 		super.read(compound);
-		doReadNbt(compound);
+		inventory.readNbt(compound);
+		vars.readNbt(compound);
 	}
 
 	@Nonnull
@@ -95,39 +58,46 @@ final public class ATileEntity extends TileEntity implements IInventory {
 	public CompoundNBT getUpdateTag() {
 		//Misnamed: function is called on chunk load.
 		final CompoundNBT nbt = super.getUpdateTag();
-		doWriteNbt(nbt);
+		vars.writeNbt(nbt);
+		if(logic.syncInventoryOnLoad()) inventory.writeNbt(nbt);
 		return nbt;
 	}
 
 	@Override
 	public void handleUpdateTag(CompoundNBT tag) {
 		//Misnamed: function is called on chunk load.
-		doReadNbt(tag);
+		vars.readNbt(tag);
+		if(logic.syncInventoryOnLoad()) inventory.readNbt(tag);
 	}
 
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
 		final CompoundNBT nbt = new CompoundNBT();
-		doWriteNbt(nbt);
+		vars.writeNbt(nbt);
+		inventory.writeNbt(nbt);
 		return new SUpdateTileEntityPacket(this.pos, -1, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		doReadNbt(pkt.getNbtCompound());
+		final CompoundNBT nbt = pkt.getNbtCompound();
+		inventory.readNbt(nbt);
+		vars.readNbt(nbt);
 	}
 
 	@Override
 	public CompoundNBT serializeNBT() {
 		final CompoundNBT nbt = super.serializeNBT();
-		doWriteNbt(nbt);
+		vars.writeNbt(nbt);
+		inventory.writeNbt(nbt);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		super.deserializeNBT(nbt);
-		doReadNbt(nbt);
+		inventory.readNbt(nbt);
+		vars.readNbt(nbt);
 	}
 
 	@Override
@@ -142,51 +112,39 @@ final public class ATileEntity extends TileEntity implements IInventory {
 
 	@Override
 	public int getSizeInventory() {
-		return inventory.length;
+		return inventory.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return filledSlots <= 0;
+		return inventory.isEmpty();
 	}
 
 	@Nonnull
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		if(index < inventory.length) return inventory[index];
-		else return ItemStack.EMPTY;
+		return inventory.apply(index);
 	}
 
 	@Nonnull
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
-		if(index < inventory.length) {
-			final ItemStack is = inventory[index];
-			if (count >= is.getCount() && !is.isEmpty()) {
-				inventory[index] = ItemStack.EMPTY;
-				--filledSlots;
-				triggerUpdate();
-			} else {
-				final ItemStack r = is.copy();
-				r.setCount(is.getCount() - count);
-				inventory[index] = r;
-				is.setCount(count);
-				triggerUpdate();
-			}
-			return is;
-		}
-		return ItemStack.EMPTY;
+		final ItemStack retval = inventory.splitFrom(index, count);
+		if(!retval.isEmpty()) triggerUpdate();
+		return retval;
 	}
 
 	@Nonnull
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		return exchange(index, ItemStack.EMPTY);
+		final ItemStack retval = inventory.take(index);
+		if(!retval.isEmpty()) triggerUpdate();
+		return retval;
 	}
 
 	@Override
 	public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
-		exchange(index, stack);
+		if(inventory.update(index, stack)) triggerUpdate();
 	}
 
 	@Override
@@ -194,16 +152,14 @@ final public class ATileEntity extends TileEntity implements IInventory {
 		return logic.isUsableBy(CNVEntity.wrap(player));
 	}
 
-	private void doClear() {
-		filledSlots = 0;
-		Arrays.fill(inventory, ItemStack.EMPTY);
-	}
-
 	@Override
 	public void clear() {
+		inventory.clear();
 		triggerUpdate();
-		filledSlots = 0;
-		Arrays.fill(inventory, ItemStack.EMPTY);
+	}
+
+	public int countFilled() {
+		return inventory.countFilled();
 	}
 
 	@Override

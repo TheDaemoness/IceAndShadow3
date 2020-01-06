@@ -2,8 +2,8 @@ package mod.iceandshadow3.lib.compat.recipe
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.Registrar
+import mod.iceandshadow3.lib.compat.inventory.WInventoryCrafting
 import mod.iceandshadow3.lib.compat.file.BRecipeUnlockGen
-import mod.iceandshadow3.lib.compat.item.WInventoryCrafting
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting

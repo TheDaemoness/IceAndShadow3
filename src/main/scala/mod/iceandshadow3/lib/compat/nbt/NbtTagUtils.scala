@@ -34,8 +34,8 @@ object NbtTagUtils {
 		if(tag.getId == ID_COMPOUND) Some(tag.asInstanceOf[CompoundNBT]) else None
 
 	def toNbtList(tag: INBT): Option[mutable.Seq[INBT]] =
-		if(tag.getId == ID_LIST) Some(tag.asInstanceOf[ListNBT].asScala) else None
+		if(tag != null && tag.getId == ID_LIST) Some(tag.asInstanceOf[ListNBT].asScala) else None
 
 	def toNbtFn(tag: INBT): Option[String => Option[INBT]] =
-		if(tag.getId == ID_COMPOUND) Some(key => Option(tag.asInstanceOf[CompoundNBT].get(key))) else None
+		if(tag != null && tag.getId == ID_COMPOUND) Some(key => Option(tag.asInstanceOf[CompoundNBT].get(key))) else None
 }

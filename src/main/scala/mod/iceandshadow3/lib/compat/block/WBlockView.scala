@@ -2,7 +2,6 @@ package mod.iceandshadow3.lib.compat.block
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized, TWLogical}
 import mod.iceandshadow3.lib.compat.world.TWWorld
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}

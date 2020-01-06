@@ -2,6 +2,7 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
+import mod.iceandshadow3.lib.block.BHandlerComparator;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.WId;
@@ -11,6 +12,7 @@ import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.entity.WEntity;
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer;
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned;
+import mod.iceandshadow3.lib.util.E3vl;
 import mod.iceandshadow3.lib.util.collect.Binder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -52,6 +54,7 @@ implements IABlock, IShearable {
 	
 	private final BLogicBlock logic;
 	private final BlockRenderLayer layer;
+	private final BHandlerComparator handlerComparator;
 	private final VoxelShape defaultShape;
 	private final ResourceLocation lootTable;
 	private final StateContainer<net.minecraft.block.Block, BlockState> realContainer;
@@ -79,6 +82,7 @@ implements IABlock, IShearable {
 			bbs = binder.get(bbv).addTo(bbs, bbv.defaultVal());
 		}
 		setDefaultState(bbs);
+		handlerComparator = logic.handlerComparator();
 	}
 
 	@Nonnull
@@ -285,6 +289,19 @@ implements IABlock, IShearable {
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return BinderTileEntity.create(logic.tileEntity());
+	}
+
+	@Override
+	public boolean hasComparatorInputOverride(BlockState state) {
+		final E3vl shortcut = handlerComparator.hasValue();
+		if(shortcut.isNeutral()) {
+			return handlerComparator.hasValue(new WBlockState(state));
+		} else return shortcut.isTrue();
+	}
+
+	@Override
+	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
+		return handlerComparator.value(new WBlockRef(worldIn, pos, blockState));
 	}
 }
 

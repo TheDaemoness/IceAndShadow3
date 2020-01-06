@@ -1,10 +1,17 @@
-package mod.iceandshadow3.lib.compat.item
+package mod.iceandshadow3.lib.compat.inventory
 
+import mod.iceandshadow3.lib.compat.block.impl.ATileEntity
+import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.item.ItemSeq
 import mod.iceandshadow3.lib.util.E3vl
 import net.minecraft.inventory.IInventory
 
 class WInventory(private[compat] val expose: IInventory) extends ItemSeq {
+	def countFilled = expose match {
+		case ate: ATileEntity => ate.countFilled //Is there actually a point of having this match check?
+		case _ => count(!_.isEmpty)
+	}
+
 	def add(what: WItemStack): Boolean = {
 		if (what.isEmpty) return true
 		val whatexposed = what.asItemStack()

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.forge
 
-import mod.iceandshadow3.lib.compat.container.WContainer
+import mod.iceandshadow3.lib.compat.inventory.WContainer
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
