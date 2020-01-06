@@ -6,12 +6,11 @@ import net.minecraft.nbt._
 
 sealed class VarNbtNumeric[T](
 	name: String,
-	default: T,
+	override val defaultVal: T,
 	validId: Int => Boolean,
 	fromNumberTag: NumberNBT => T,
 	makeTag: T => INBT
 ) extends BVar[T](name) with TVarNbt[T] {
-	override def defaultVal = default
 	override protected[compat] def fromTag(what: INBT): Option[T] = if(validId(what.getId)) {
 		val cnvd = try {
 			what.asInstanceOf[NumberNBT]
@@ -21,7 +20,7 @@ sealed class VarNbtNumeric[T](
 		}
 		Some(fromNumberTag(cnvd))
 	} else None
-
+	override def isDefaultValue(value: T) = value == defaultVal
 	override protected def toTag(value: T) = makeTag(value)
 }
 
@@ -48,8 +47,9 @@ extends VarNbtNumeric(name, default, NbtTagUtils.canReadToFloat, _.getFloat, new
 class VarNbtDouble(name: String, default: Double)
 extends VarNbtNumeric(name, default, NbtTagUtils.canReadToDouble, _.getDouble, new DoubleNBT(_: Double))
 
-class VarNbtString(name: String, default: String) extends BVar[String](name) with TVarNbt[String] {
-	override def defaultVal = default
+class VarNbtString(name: String, override val defaultVal: String)
+extends BVar[String](name) with TVarNbt[String] {
+	override def isDefaultValue(value: String) = defaultVal.contentEquals(value)
 	override protected def fromTag(what: INBT) = Some(what.getString)
 	override protected def toTag(value: String) = new StringNBT(value)
 }

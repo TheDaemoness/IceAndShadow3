@@ -1,3 +1,3 @@
-# .lib.compat.gui
+# .lib.compat.container
 
-Package containing wrappers for containers
+Package containing wrappers for GUI-enabled containers.

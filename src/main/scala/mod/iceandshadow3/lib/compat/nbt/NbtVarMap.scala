@@ -14,36 +14,25 @@ object NbtVarMap {
 
 	@specialized final class ValueType[T](
 		val key: BVar[T] with TVarNbt[T],
-		private var value: T, private var _changed: Boolean
+		private var value: T
 	) {
-		def changed = _changed
-		def notDirty(): Unit = {_changed = false}
 		def get = value
 		def update(what: T): this.type = {
-			val prev = value
 			value = what
-			_changed = _changed || prev != value
 			this
 		}
-		def loadNbt(nbt: CompoundNBT): Unit = {
+		def loadFrom(nbt: CompoundNBT): Unit = {
 			val tmp = key.readNbt(nbt)
-			if(tmp.isDefined) {
-				value = tmp.get
-				_changed = true
-			}
+			if(tmp.isDefined) value = tmp.get
+			else if(!key.isDefaultValue(value)) value = key.defaultVal
 		}
-		def writeNbtNondefault(nbt: CompoundNBT): Unit = {
+		def writeTo(nbt: CompoundNBT): Unit = {
 			if(!key.isDefaultValue(value)) key.writeNbt(nbt, value)
 		}
-		def writeNbtChanged(nbt: CompoundNBT): Boolean = {
-			if(changed) {
-				key.writeNbt(nbt, value)
-				notDirty()
-				true
-			} else false
-		}
+		//Originally there was a delta optimization here, but I'm pretty sure MC netcode won't trivially allow it.
+		//Further R&D necessary.
 	}
-	def newValue[T](key: BVar[T] with TVarNbt[T]) = new ValueType[T](key, key.defaultVal, false)
+	def newValue[T](key: BVar[T] with TVarNbt[T]) = new ValueType[T](key, key.defaultVal)
 }
 
 /** Java-friendly Nbt-ready variable map. */
@@ -84,17 +73,12 @@ final class NbtVarMap(keys: VarSet.WithNbt[_]) {
 		this
 	}
 
-	private[compat] def writeChanges(what: CompoundNBT): Boolean = {
-		var wereAny = false
-		map.foreach(value => {wereAny |= value.writeNbtChanged(what)})
-		wereAny
-	}
-	private[compat] def writeNondefaults(what: CompoundNBT): this.type = {
-		map.foreach(_.writeNbtNondefault(what))
+	private[compat] def writeTo(what: CompoundNBT): this.type = {
+		map.foreach(_.writeTo(what))
 		this
 	}
 	private[compat] def loadFrom(what: CompoundNBT): this.type  = {
-		map.foreach(_.loadNbt(what))
+		map.foreach(_.loadFrom(what))
 		this
 	}
 }

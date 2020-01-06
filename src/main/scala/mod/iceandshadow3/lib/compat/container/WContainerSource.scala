@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.compat.item.container
+package mod.iceandshadow3.lib.compat.container
 
 import java.util.OptionalInt
 

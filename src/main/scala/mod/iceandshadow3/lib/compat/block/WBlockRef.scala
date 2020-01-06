@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.compat.block.`type`.{CommonBlockTypes, TBlockStateSource}
-import mod.iceandshadow3.lib.compat.item.container.WContainerSource
+import mod.iceandshadow3.lib.compat.container.WContainerSource
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.{TWWorld, TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.IPosBlock

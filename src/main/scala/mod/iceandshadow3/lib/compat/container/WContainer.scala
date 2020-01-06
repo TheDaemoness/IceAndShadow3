@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.compat.item.container
+package mod.iceandshadow3.lib.compat.container
 
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.item.ItemSeq

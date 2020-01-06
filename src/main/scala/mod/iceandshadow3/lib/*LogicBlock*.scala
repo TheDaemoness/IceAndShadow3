@@ -9,9 +9,9 @@ import mod.iceandshadow3.lib.block.{BlockShape, HarvestMethod}
 import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.block.impl.{BVarBlock, BinderBlock}
 import mod.iceandshadow3.lib.compat.block._
+import mod.iceandshadow3.lib.compat.container.WContainerSource
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.file.{BJsonGen, BJsonGenAssetsBlock, BJsonGenModelItem}
-import mod.iceandshadow3.lib.compat.item.container.WContainerSource
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WItemType}
 import mod.iceandshadow3.lib.compat.loot.{LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
