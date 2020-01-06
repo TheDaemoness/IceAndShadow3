@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.compat.block
 
+import javax.annotation.Nullable
 import mod.iceandshadow3.lib.BLogicBlock
 import mod.iceandshadow3.lib.compat.WIdBlock
 import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized, TWLogical}
@@ -7,6 +8,7 @@ import mod.iceandshadow3.lib.compat.world.TWWorld
 import mod.iceandshadow3.lib.spatial.{IPosBlock, IPositionalFine}
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockReader
 
@@ -52,4 +54,6 @@ class WBlockView(protected val ibr: IBlockReader, protected val pos: BlockPos, b
 	override def yBlock = pos.getY
 	override def xBlock = pos.getX
 	override def zBlock = pos.getZ
+
+	@Nullable private[compat] def tileEntity: TileEntity = ibr.getTileEntity(pos)
 }

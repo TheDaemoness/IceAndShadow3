@@ -22,7 +22,7 @@ import net.minecraft.item.crafting.{IRecipe, IRecipeSerializer}
 import net.minecraft.network.PacketBuffer
 import net.minecraft.particles.{IParticleData, ParticleType}
 import net.minecraft.potion.Effect
-import net.minecraft.tileentity.TileEntityType
+import net.minecraft.tileentity.{TileEntity, TileEntityType}
 import net.minecraft.util.{ResourceLocation, SoundEvent}
 import net.minecraftforge.registries.IForgeRegistry
 
@@ -112,7 +112,7 @@ object Registrar {
 		//TODO: Spawn eggs.
 	}
 
-	private[iceandshadow3] def registerTileEntities(reg: IForgeRegistry[TileEntityType[_]]): Unit = {
+	private[iceandshadow3] def registerTileEntities(reg: IForgeRegistry[TileEntityType[_ <: TileEntity]]): Unit = {
 		import scala.jdk.CollectionConverters._
 		TileEntities.collect(ContentLists.block.iterator().asScala).foreach(reg.register)
 	}

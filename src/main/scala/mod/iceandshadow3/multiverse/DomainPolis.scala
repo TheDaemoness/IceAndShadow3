@@ -1,11 +1,9 @@
 package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.lib.common.LogicBlockMateria
-import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
 import mod.iceandshadow3.lib.compat.item.WRarity
-import mod.iceandshadow3.lib.compat.loot.BLoot
 import mod.iceandshadow3.lib.util.Color
-import mod.iceandshadow3.lib.{BDomain, LogicBlock, LogicItemMulti}
+import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
 import mod.iceandshadow3.multiverse.polis._
 
@@ -17,6 +15,7 @@ object DomainPolis extends BDomain("polis") {
 		val petrified_bricks = PetrifiedBricksUtils.build
 		val moonstone_dust = new LBMoonstoneDust
 		val table_crafting = new LBTableCrafting
+		val bin_storage = new LBBinStorage("bin_storage", Materias.petrified_brick)
 	}
 	val Items = new {
 		val petrified_brick = new LogicItemMulti(DomainPolis, "petrified_brick")

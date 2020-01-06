@@ -11,6 +11,7 @@ import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.entity.WEntity;
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer;
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned;
+import mod.iceandshadow3.lib.util.collect.Binder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -19,6 +20,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -272,6 +274,17 @@ implements IABlock, IShearable {
 	@Override
 	public WId id() {
 		return logic.id();
+	}
+
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return logic.tileEntity().isDefined();
+	}
+
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return BinderTileEntity.create(logic.tileEntity());
 	}
 }
 

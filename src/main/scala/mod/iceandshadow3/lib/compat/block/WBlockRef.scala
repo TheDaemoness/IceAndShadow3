@@ -2,11 +2,13 @@ package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.compat.block.`type`.{CommonBlockTypes, TBlockStateSource}
 import mod.iceandshadow3.lib.compat.container.WContainerSource
+import mod.iceandshadow3.lib.compat.item.WInventory
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.{TWWorld, TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.IPosBlock
 import net.minecraft.block.BlockState
 import net.minecraft.entity.item.FallingBlockEntity
+import net.minecraft.inventory.IInventory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.chunk.IChunk
 import net.minecraft.world.{IWorld, World}
@@ -81,4 +83,9 @@ class WBlockRef(chunk: IChunk, pos: BlockPos, bs: BlockState) extends WBlockView
 	def container(): WContainerSource = new WContainerSource(
 		exposeBS().getContainer(exposeWorld().getWorld, pos)
 	)
+
+	def inventory(): Option[WInventory] = exposeWorld().getTileEntity(pos) match {
+		case inv: IInventory => Some(new WInventory(inv))
+		case _ => None
+	}
 }

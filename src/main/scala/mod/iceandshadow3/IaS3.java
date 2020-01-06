@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
@@ -140,6 +141,10 @@ public class IaS3 {
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> reg) {
 			registrar.registerItems(reg.getRegistry());
+		}
+		@SubscribeEvent
+		public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> reg) {
+			registrar.registerTileEntities(reg.getRegistry());
 		}
 		@SubscribeEvent
 		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> reg) {

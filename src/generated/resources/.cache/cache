@@ -14,6 +14,7 @@
 -9206176570556238316 assets/iceandshadow3/blockstates/nyx_exousia.json
 -5962325467403101326 assets/iceandshadow3/blockstates/nyx_icicles.json
 7760992804041744225 assets/iceandshadow3/blockstates/nyx_nifelhium_crystal.json
+-5700086599558353690 assets/iceandshadow3/blockstates/polis_bin_storage.json
 -8477084445249447246 assets/iceandshadow3/blockstates/polis_moonstone_dust.json
 2477333173254090244 assets/iceandshadow3/blockstates/polis_petrified_bricks.json
 3637753902300957944 assets/iceandshadow3/blockstates/polis_petrified_bricks_slab.json
@@ -71,6 +72,7 @@
 -4564613038780386646 assets/iceandshadow3/models/block/nyx_exousia.json
 -3900447584793267888 assets/iceandshadow3/models/block/nyx_icicles.json
 -220917703263421667 assets/iceandshadow3/models/block/nyx_nifelhium_crystal.json
+1369973442049102660 assets/iceandshadow3/models/block/polis_bin_storage.json
 -2773148950979484904 assets/iceandshadow3/models/block/polis_petrified_bricks_slab.double.json
 4048549954162212625 assets/iceandshadow3/models/block/polis_petrified_bricks_slab.json
 6852269827914826325 assets/iceandshadow3/models/block/polis_petrified_bricks_slab.top.json
@@ -212,6 +214,7 @@
 5192823226288030181 assets/iceandshadow3/models/item/nyx_nifelhium.json
 -3814448892786433652 assets/iceandshadow3/models/item/nyx_nifelhium_crystal.json
 2792983081600893010 assets/iceandshadow3/models/item/nyx_nifelhium_small.json
+-3031411105666240008 assets/iceandshadow3/models/item/polis_bin_storage.json
 8112288737322239492 assets/iceandshadow3/models/item/polis_petrified_brick.json
 7717131237372534781 assets/iceandshadow3/models/item/polis_petrified_bricks.json
 -2681127622651805805 assets/iceandshadow3/models/item/polis_petrified_bricks_slab.json
