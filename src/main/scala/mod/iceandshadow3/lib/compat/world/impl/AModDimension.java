@@ -10,6 +10,8 @@ import mod.iceandshadow3.lib.spatial.IPosBlock;
 import mod.iceandshadow3.lib.spatial.IPosChunk;
 import mod.iceandshadow3.lib.spatial.IPosColumn;
 import mod.iceandshadow3.lib.util.Color;
+import mod.iceandshadow3.lib.world.BHandlerFog;
+import mod.iceandshadow3.lib.world.BHandlerSky;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +24,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
 
@@ -57,7 +60,7 @@ public class AModDimension extends ModDimension {
 			dimtype = DimensionManager.registerDimension(
 				name, this,
 				null, //TODO: Can be null, but probably shouldn't.
-				dimlogic.getSkyBrightness(-1f) >= 0f
+				dimlogic.handlerSky().hasLuma()
 			);
 		} else IaS3.logger().debug("Dimension "+name+" is already enabled. Using registry value.");
 		dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
@@ -73,13 +76,27 @@ public class AModDimension extends ModDimension {
 		return ADimension::new;
 	}
 
+
+	private static Vec3d fromColor(Color color, Vec3d ifNull) {
+		return color != null ? new Vec3d(color.red(), color.green(), color.blue()) : ifNull;
+	}
+
 	class ADimension extends Dimension {
 		private final WWorld worldWrapped;
 		private final DimensionType type;
+		private final BHandlerFog fog;
+		private final BHandlerSky sky;
+		private final Vec3d fogColor;
+		private final Vec3d skyColor;
+
 		ADimension(World w, DimensionType type) {
 			super(w, type);
 			this.type = type;
 			worldWrapped = new WWorld(w);
+			this.fog = dimlogic.handlerFog();
+			this.sky = dimlogic.handlerSky();
+			fogColor = fromColor(fog.colorDefault(), new Vec3d(0, 0, 0));
+			skyColor = fromColor(sky.colorDefault(), new Vec3d(0, 0, 0));
 		}
 
 		@Override
@@ -89,7 +106,13 @@ public class AModDimension extends ModDimension {
 
 		@Override
 		public boolean hasSkyLight() {
-			return dimlogic.getSkyBrightness(-1f) >= 0f;
+			return sky.hasLuma();
+		}
+
+		@OnlyIn(Dist.CLIENT)
+		@Override
+		public float getStarBrightness(float partialTicks) {
+			return sky.stars(worldWrapped, partialTicks);
 		}
 
 		@Nonnull
@@ -128,6 +151,16 @@ public class AModDimension extends ModDimension {
 			} else return null;
 		}
 
+		@Override
+		public int getMoonPhase(long worldTime) {
+			return sky.moon(worldWrapped, worldTime).id;
+		}
+
+		@Override
+		public boolean isDaytime() {
+			return sky.isDay(worldWrapped);
+		}
+
 		@Nullable
 		@Override
 		public BlockPos findSpawn(@Nonnull ChunkPos cp, boolean checkValid) {
@@ -152,19 +185,27 @@ public class AModDimension extends ModDimension {
 
 		@Override
 		public float calculateCelestialAngle(long worldTime, float partialTicks) {
-			return dimlogic.skyAngle(worldTime, partialTicks);
+			return sky.angle(worldWrapped, worldTime, partialTicks);
 		}
 
 		@Override
 		public boolean isSurfaceWorld() {
-			return false; //Setting this true exposes us to a LOT of default behaviors.
+			return dimlogic.isSurface();
 		}
 
 		@Nonnull
 		@Override
 		public Vec3d getFogColor(float skyAngle, float partialTicks) {
-			final Color color = dimlogic.fogColor(skyAngle, partialTicks);
-			return new Vec3d(color.red(), color.green(), color.blue());
+			return fromColor(fog.colorDynamic(worldWrapped, skyAngle, partialTicks), fogColor);
+		}
+
+		@Override
+		public Vec3d getSkyColor(BlockPos cameraPos, float partialTicks) {
+			return fromColor(sky.colorDynamic(
+				worldWrapped,
+				cameraPos.getX(), cameraPos.getY(), cameraPos.getZ(),
+				partialTicks
+			), skyColor);
 		}
 
 		@Override
@@ -174,12 +215,12 @@ public class AModDimension extends ModDimension {
 
 		@Override
 		public boolean doesXZShowFog(int x, int z) {
-			return dimlogic.hasFogAt(IPosColumn.wrap(x, z));
+			return fog.hasFogAt(worldWrapped, x, z);
 		}
 
 		@Override
 		public float getSunBrightness(float partialTicks) {
-			return dimlogic.getSkyBrightness(partialTicks);
+			return sky.luma(worldWrapped, partialTicks);
 		}
 
 		@Override

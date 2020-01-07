@@ -14,12 +14,13 @@
 -9206176570556238316 assets/iceandshadow3/blockstates/nyx_exousia.json
 -5962325467403101326 assets/iceandshadow3/blockstates/nyx_icicles.json
 7760992804041744225 assets/iceandshadow3/blockstates/nyx_nifelhium_crystal.json
--5700086599558353690 assets/iceandshadow3/blockstates/polis_bin_storage.json
 -8477084445249447246 assets/iceandshadow3/blockstates/polis_moonstone_dust.json
+-1834589776473893087 assets/iceandshadow3/blockstates/polis_petrified_bin.json
 2477333173254090244 assets/iceandshadow3/blockstates/polis_petrified_bricks.json
 3637753902300957944 assets/iceandshadow3/blockstates/polis_petrified_bricks_slab.json
 682241452346041695 assets/iceandshadow3/blockstates/polis_petrified_bricks_stairs.json
 -4448706201904146233 assets/iceandshadow3/blockstates/polis_petrified_bricks_wall.json
+3723524323895185519 assets/iceandshadow3/blockstates/polis_petrified_crafting.json
 -5846195911897368065 assets/iceandshadow3/blockstates/polis_stone_blue.json
 -692698298775601058 assets/iceandshadow3/blockstates/polis_stone_blue_slab.json
 5133937132643048599 assets/iceandshadow3/blockstates/polis_stone_blue_stairs.json
@@ -56,7 +57,6 @@
 -519466984073163616 assets/iceandshadow3/blockstates/polis_stone_white_slab.json
 5118217396260624093 assets/iceandshadow3/blockstates/polis_stone_white_stairs.json
 4927400962762094345 assets/iceandshadow3/blockstates/polis_stone_white_wall.json
-957735696077521336 assets/iceandshadow3/blockstates/polis_table_crafting.json
 4911243713282461 assets/iceandshadow3/models/block/gaia_livingstone_blue.json
 -5636840405558250361 assets/iceandshadow3/models/block/gaia_livingstone_brown.json
 -8285978452936603501 assets/iceandshadow3/models/block/gaia_livingstone_cyan.json
@@ -72,7 +72,6 @@
 -4564613038780386646 assets/iceandshadow3/models/block/nyx_exousia.json
 -3900447584793267888 assets/iceandshadow3/models/block/nyx_icicles.json
 -220917703263421667 assets/iceandshadow3/models/block/nyx_nifelhium_crystal.json
-1369973442049102660 assets/iceandshadow3/models/block/polis_bin_storage.json
 -2773148950979484904 assets/iceandshadow3/models/block/polis_petrified_bricks_slab.double.json
 4048549954162212625 assets/iceandshadow3/models/block/polis_petrified_bricks_slab.json
 6852269827914826325 assets/iceandshadow3/models/block/polis_petrified_bricks_slab.top.json
@@ -214,12 +213,13 @@
 5192823226288030181 assets/iceandshadow3/models/item/nyx_nifelhium.json
 -3814448892786433652 assets/iceandshadow3/models/item/nyx_nifelhium_crystal.json
 2792983081600893010 assets/iceandshadow3/models/item/nyx_nifelhium_small.json
--3031411105666240008 assets/iceandshadow3/models/item/polis_bin_storage.json
+6829576686016976126 assets/iceandshadow3/models/item/polis_petrified_bin.json
 8112288737322239492 assets/iceandshadow3/models/item/polis_petrified_brick.json
 7717131237372534781 assets/iceandshadow3/models/item/polis_petrified_bricks.json
 -2681127622651805805 assets/iceandshadow3/models/item/polis_petrified_bricks_slab.json
 -4280406838265451345 assets/iceandshadow3/models/item/polis_petrified_bricks_stairs.json
 -2951694837770196269 assets/iceandshadow3/models/item/polis_petrified_bricks_wall.json
+7056973437421013788 assets/iceandshadow3/models/item/polis_petrified_crafting.json
 -8124044083285785306 assets/iceandshadow3/models/item/polis_stone_blue.json
 -5452161038920543210 assets/iceandshadow3/models/item/polis_stone_blue_slab.json
 846257427559907013 assets/iceandshadow3/models/item/polis_stone_blue_stairs.json
@@ -256,7 +256,6 @@
 -3340849410635555726 assets/iceandshadow3/models/item/polis_stone_white_slab.json
 -8858641852723203044 assets/iceandshadow3/models/item/polis_stone_white_stairs.json
 4615613537351917799 assets/iceandshadow3/models/item/polis_stone_white_wall.json
--9079548828437901482 assets/iceandshadow3/models/item/polis_table_crafting.json
 1096992841298525344 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.gaia_cortra_dust.crush.json
 -8421447471440699177 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.gaia_devora_small.ab_from.iceandshadow3.gaia_devora.json
 7693662227942764341 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.gaia_livingstone_blue.mineralize.json
@@ -268,6 +267,7 @@
 6409935607556583207 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.gaia_livingstone_purple.mineralize.json
 7690361155908521093 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.gaia_livingstone_red.mineralize.json
 -3872231340296673014 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.gaia_livingstone_white.mineralize.json
+7211851108413045940 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.gaia_moonstone.ab_from.iceandshadow3.gaia_moonstone_block.json
 6935954489435802671 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.nyx_bone.mineralize.json
 -5494797146368236921 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.nyx_nifelhium_small.ab_from.iceandshadow3.nyx_nifelhium.json
 -9133265718682034180 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.polis_moonstone_dust.crush.json
@@ -277,6 +277,7 @@
 4383840387399988867 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.polis_petrified_brick.ab_from.iceandshadow3.polis_petrified_bricks_wall.json
 -7757032603985170518 data/iceandshadow3/advancements/recipes/combine.iceandshadow3.polis_petrified_brick.from_wood.json
 -3954499056499526133 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.gaia_devora.ab_from.iceandshadow3.gaia_devora_small.json
+-2621001558698650233 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.gaia_moonstone_block.ab_from.iceandshadow3.gaia_moonstone.json
 8219717089732963523 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.nyx_nifelhium.ab_from.iceandshadow3.nyx_nifelhium_small.json
 7488791841815945456 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.polis_petrified_bricks.ab_from.iceandshadow3.polis_petrified_brick.json
 8398422787702636974 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.polis_petrified_bricks_slab.ab_from.iceandshadow3.polis_petrified_brick.json
@@ -309,6 +310,8 @@
 6925975794040424520 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.polis_stone_white_slab.json
 9162178421773965543 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.polis_stone_white_stairs.json
 1245627280912846394 data/iceandshadow3/advancements/recipes/craft.iceandshadow3.polis_stone_white_wall.json
+8207236193765498437 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_petrified_bin.json
+-509638544519433919 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_petrified_crafting.json
 -5402395809753244051 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_stone_blue_slab.json
 -353636983461818729 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_stone_blue_stairs.json
 4326986400967331234 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_stone_blue_wall.json
@@ -336,7 +339,6 @@
 1761089918336278258 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_stone_white_slab.json
 -8169987778114056346 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_stone_white_stairs.json
 -3604163689688873934 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_stone_white_wall.json
--1491800705311344090 data/iceandshadow3/advancements/recipes/cut.iceandshadow3.polis_table_crafting.json
 -2637862283187510874 data/iceandshadow3/advancements/recipes/destroy_wayfinder.json
 -1460005738944027421 data/iceandshadow3/advancements/recipes/smelt.iceandshadow3.gaia_cortra.json
 -6464538338084584665 data/iceandshadow3/advancements/recipes/smelt.iceandshadow3.polis_stone_blue.json
@@ -368,6 +370,7 @@
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.gaia_livingstone_purple.mineralize.json
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.gaia_livingstone_red.mineralize.json
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.gaia_livingstone_white.mineralize.json
+-2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.gaia_moonstone.ab_from.iceandshadow3.gaia_moonstone_block.json
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.nyx_bone.mineralize.json
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.nyx_nifelhium_small.ab_from.iceandshadow3.nyx_nifelhium.json
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.polis_moonstone_dust.crush.json
@@ -377,6 +380,7 @@
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.polis_petrified_brick.ab_from.iceandshadow3.polis_petrified_bricks_wall.json
 -2523618108417878080 data/iceandshadow3/recipes/combine.iceandshadow3.polis_petrified_brick.from_wood.json
 -2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.gaia_devora.ab_from.iceandshadow3.gaia_devora_small.json
+-2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.gaia_moonstone_block.ab_from.iceandshadow3.gaia_moonstone.json
 -2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.nyx_nifelhium.ab_from.iceandshadow3.nyx_nifelhium_small.json
 -2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.polis_petrified_bricks.ab_from.iceandshadow3.polis_petrified_brick.json
 -2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.polis_petrified_bricks_slab.ab_from.iceandshadow3.polis_petrified_brick.json
@@ -409,6 +413,8 @@
 -2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.polis_stone_white_slab.json
 -2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.polis_stone_white_stairs.json
 -2523618108417878080 data/iceandshadow3/recipes/craft.iceandshadow3.polis_stone_white_wall.json
+-2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_petrified_bin.json
+-2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_petrified_crafting.json
 -2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_stone_blue_slab.json
 -2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_stone_blue_stairs.json
 -2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_stone_blue_wall.json
@@ -436,7 +442,6 @@
 -2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_stone_white_slab.json
 -2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_stone_white_stairs.json
 -2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_stone_white_wall.json
--2523618108417878080 data/iceandshadow3/recipes/cut.iceandshadow3.polis_table_crafting.json
 -2523618108417878080 data/iceandshadow3/recipes/destroy_wayfinder.json
 -2523618108417878080 data/iceandshadow3/recipes/dynamic.grow_with_minerals.json
 -2523618108417878080 data/iceandshadow3/recipes/smelt.iceandshadow3.gaia_cortra.json

@@ -52,8 +52,8 @@
 	"block.iceandshadow3.polis_petrified_bricks_slab": "Petrified Wood Slab",
 	"block.iceandshadow3.polis_petrified_bricks_stairs": "Petrified Wood Stairs",
 	"block.iceandshadow3.polis_petrified_bricks_wall": "Petrified Wood Wall",
-	"block.iceandshadow3.polis_table_crafting": "Petrified Crafting Table",
-	"block.iceandshadow3.polis_bin_storage": "Petrified Storage Bin",
+	"block.iceandshadow3.polis_petrified_crafting": "Petrified Crafting Table",
+	"block.iceandshadow3.polis_petrified_bin": "Petrified Bin",
 
 	"block.iceandshadow3.polis_stone_gray": "Dead Sagalith",
 	"block.iceandshadow3.polis_stone_brown": "Dead Kapelith",

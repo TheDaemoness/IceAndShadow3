@@ -24,10 +24,11 @@ class NyxWorldGenLayerSurface(seed: Long, icicleInfrequency: Int) extends BWorld
 
 	def apply(in: WorldGenColumn): Unit = {
 		val hasIcicles = in.rng.nextInt(icicleInfrequency) == 0
-		var snows = 2 // DO NOT INCREASE. ALGORITHM DOES NOT SUPPORT DEEPER SNOW.
 		var doIcicles = hasIcicles
 		val height = in(BWorldGenLayerTerrain.varHeight)+1
-		var y = 255
+		var y = yBald+1
+		// DO NOT INCREASE. ALGORITHM DOES NOT SUPPORT DEEPER SNOW.
+		var snows = 2
 		while(y > 32) {
 			y -= 1
 			if(snows > 0) {
@@ -36,9 +37,11 @@ class NyxWorldGenLayerSurface(seed: Long, icicleInfrequency: Int) extends BWorld
 				if (support != CommonBlockTypes.AIR) {
 					snows -= 1
 					val canSnow = if(snows > 0 && BlockQueries.solid(support)) {
-						in.update(y, thickSnow(height, y))
 						snows -= 1
-						y += 1
+						if(in(y) == CommonBlockTypes.AIR) {
+							in.update(y, thickSnow(height, y))
+							y += 1
+						}
 						true
 					} else in(y) == CommonBlockTypes.AIR
 					if(canSnow) {
@@ -53,8 +56,7 @@ class NyxWorldGenLayerSurface(seed: Long, icicleInfrequency: Int) extends BWorld
 			} else if(doIcicles) {
 				if(in(y) == CommonBlockTypes.AIR) {
 					doIcicles = false
-					//TODO: Check if it can stay here.
-					in.update(y, WorldGenNyx.icicles)
+					if(BlockQueries.solid(in(y+1))) in.update(y, WorldGenNyx.icicles)
 				}
 			} else return
 		}

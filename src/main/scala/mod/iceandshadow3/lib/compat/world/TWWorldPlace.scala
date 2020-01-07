@@ -1,6 +1,7 @@
 package mod.iceandshadow3.lib.compat.world
 
 import mod.iceandshadow3.lib.compat.block.WBlockRef
+import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.spatial.IPositionalCoarse
 import net.minecraft.world.LightType

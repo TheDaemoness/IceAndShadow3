@@ -4,13 +4,15 @@ import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.WId;
-import net.minecraft.block.Block;
+import mod.iceandshadow3.lib.util.E3vl;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.api.distmarker.Dist;
@@ -60,6 +62,12 @@ final public class ABlockWall extends WallBlock implements IABlock {
 
 	@Override
 	public boolean isToolEffective(BlockState state, ToolType tool) {
-		return logic.isToolClassEffective(HarvestMethod$.MODULE$.get(tool));
+		return logic.canDigFast(HarvestMethod$.MODULE$.get(tool));
+	}
+
+	@Override
+	public boolean canHarvestBlock(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
+		final E3vl result = ABlockUtils.canHarvestBlock(logic, state, world, pos, player);
+		return result.isNeutral() ? super.canHarvestBlock(state, world, pos, player) : result.isTrue();
 	}
 }

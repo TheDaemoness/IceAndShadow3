@@ -14,8 +14,8 @@ object DomainPolis extends BDomain("polis") {
 		)
 		val petrified_bricks = PetrifiedBricksUtils.build
 		val moonstone_dust = new LBMoonstoneDust
-		val table_crafting = new LBTableCrafting
-		val bin_storage = new LBBinStorage("bin_storage", Materias.petrified_brick)
+		val petrified_crafting = new LBTableCrafting("petrified_crafting", Materias.petrified_brick)
+		val petrified_bin = new LBBinStorage("petrified_bin", Materias.petrified_brick)
 	}
 	val Items = new {
 		val petrified_brick = new LogicItemMulti(DomainPolis, "petrified_brick")

@@ -6,6 +6,6 @@ import mod.iceandshadow3.multiverse.DomainGaia
 
 class LBMoonstone(id: String) extends LogicBlock(DomainGaia, id, Materias.moonstone) {
 	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = {
-		what.addOne(BLoot.silktouch(this).orElse(BLoot.of(DomainGaia.Items.moonstone.toWItemType, 8.75f)))
+		what.addOne(BLoot.silktouch(this).orElse(BLoot.of(DomainGaia.Items.moonstone.toWItemType, 8.5f)))
 	}
 }

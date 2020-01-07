@@ -17,7 +17,7 @@ object DomainGaia extends BDomain("gaia") {
 		val navistra_stone = new LogicBlock(DomainGaia, "navistra_stone", Materias.navistra_stone)
 		val petrified_log = new LBLog("petrified_log", Materias.petrified_wood, 3)
 		val petrified_leaves = new LBLeaves("petrified_leaves", Materias.petrified_leaves, petrified_log)
-		val moonstone_block = new LogicBlock(DomainGaia, "moonstone_block", Materias.moonstone)
+		val moonstone_block = new LBMoonstone("moonstone_block")
 	}
 	val Items = new {
 		val minerals = new LIMinerals

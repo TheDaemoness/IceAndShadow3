@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib
 
 import java.util.Random
-import java.util.function.{BiConsumer, Consumer}
+import java.util.function.{BiConsumer, BiFunction, Consumer}
 
 import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem, TNamed}
@@ -13,8 +13,9 @@ import mod.iceandshadow3.lib.compat.inventory.WContainerSource
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.file.{BJsonGen, BJsonGenAssetsBlock, BJsonGenModelItem}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WItemType}
-import mod.iceandshadow3.lib.compat.loot.{LootBuilder, WLootContextBlock}
+import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
+import mod.iceandshadow3.lib.util.E3vl
 
 sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: Materia)
 	extends BLogic(dom, baseName)
@@ -30,7 +31,7 @@ sealed abstract class BLogicBlock(dom: BDomain, baseName: String, val materia: M
 	override def itemLogic: Option[LogicBlock]
 	def canStayAt(block: WBlockView, preexisting: Boolean) = true
 	def harvestXP(what: WBlockView, silktouch: Boolean): Int = 0
-	def isToolClassEffective(m: HarvestMethod) = materia.isEffective(m)
+	def canDigFast(m: HarvestMethod) = materia.isEffective(m)
 
 	override def tier: Int = 1
 	//TODO: Separate collision shape from selection shape.
@@ -74,7 +75,7 @@ class LogicBlock(dom: BDomain, name: String, mat: Materia)
 	override def itemLogic: Option[LogicBlock] = Some(this)
 	final override def toWItemType = WItemType.make(this)
 	final def toWItemStack = WItemStack.make(this)
-	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = what.addOne(this)
+	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = what.addOne(BLoot(this).blastDecay)
 
 	def getGenModelItem = {
 		def default = Some(BJsonGen.modelItemBlockDefault(this))

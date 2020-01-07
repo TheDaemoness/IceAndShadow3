@@ -10,10 +10,9 @@ import mod.iceandshadow3.lib.compat.block.*;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.entity.WEntity;
-import mod.iceandshadow3.lib.compat.entity.WEntityPlayer;
+import mod.iceandshadow3.lib.compat.entity.WEntityLiving;
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned;
 import mod.iceandshadow3.lib.util.E3vl;
-import mod.iceandshadow3.lib.util.collect.Binder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -37,6 +36,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,6 +48,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 //NOTE: The deprecation suppression is here because the methods are supposed to be called indirectly via IBlockState.
 //Overriding them is fine.
@@ -51,7 +56,6 @@ import java.util.function.BiConsumer;
 @SuppressWarnings("deprecation")
 final public class ABlock extends Block
 implements IABlock, IShearable {
-	
 	private final BLogicBlock logic;
 	private final BlockRenderLayer layer;
 	private final BHandlerComparator handlerComparator;
@@ -145,8 +149,14 @@ implements IABlock, IShearable {
 	}
 
 	@Override
+	public boolean canHarvestBlock(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
+		final E3vl result = ABlockUtils.canHarvestBlock(logic, state, world, pos, player);
+		return result.isNeutral() ? super.canHarvestBlock(state, world, pos, player) : result.isTrue();
+	}
+
+	@Override
 	public boolean isToolEffective(BlockState state, ToolType tool) {
-		return logic.isToolClassEffective(HarvestMethod$.MODULE$.get(tool));
+		return logic.canDigFast(HarvestMethod$.MODULE$.get(tool));
 	}
 
 	@Override
@@ -157,7 +167,7 @@ implements IABlock, IShearable {
 	@Nonnull
 	@Override
 	public List<ItemStack> onSheared(@Nonnull ItemStack item, IWorld world, BlockPos pos, int fortune) {
-		logic.isToolClassEffective(HarvestMethod$.MODULE$.SHEAR()); //TODO: Drops.
+		logic.canDigFast(HarvestMethod$.MODULE$.SHEAR()); //TODO: Drops.
 		return Collections.emptyList();
 	}
 
@@ -184,7 +194,6 @@ implements IABlock, IShearable {
 	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
 		return defaultShape;
 	}
-
 
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {

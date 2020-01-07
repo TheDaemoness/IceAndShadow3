@@ -5,37 +5,44 @@ import mod.iceandshadow3.lib.BDimension
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
 import mod.iceandshadow3.lib.item.ItemSeq
-import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, UnitVec3s}
+import mod.iceandshadow3.lib.spatial.{IPosBlock, UnitVec3s}
 import mod.iceandshadow3.lib.util.{Color, MathUtils}
+import mod.iceandshadow3.lib.world.{BHandlerFog, BHandlerSky}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
 import mod.iceandshadow3.multiverse.misc.StatusEffects
 
 object DimensionNyx extends BDimension("nyx") {
-	override def getSkyBrightness(partialTicks: Float) = 1f/15
-
 	override def getRespawnDim = coord
 	override def getWorldSpawn(world: TWWorld) = new IPosBlock {
 		override def yBlock = 1 + world.heightAt(this)
 		override def xBlock = 0
 		override def zBlock = 0
 	}
+	override def isSurface = true
 	override def cloudLevel = 192f
 	override def seaLevel = 8
 
-	override def hasFogAt(where: IPosColumn) = true
-	override def skyAngle(worldTime: Long, partialTicks: Float) = 0
-	override def fogColor(skyAngle: Float, partialTicks: Float) = Color.BLACK
+
+	override val handlerFog = BHandlerFog.black
+	override val handlerSky = new BHandlerSky {
+		override def hasLuma = true
+		override def isDay(world: WWorld) = false
+		override def luma(world: WWorld, partialTicks: Float) = 1f/15
+		override def angle(world: WWorld, worldTime: Long, partialTicks: Float) = 0.5f
+		override def colorDefault = Color(0x000408)
+		override def stars(world: WWorld, partialTicks: Float) = 0.5f
+	}
 
 	override def baseDownfall = 0f
 	override def baseTemperature = 0f
 
-	override def defaultPlacer(where: WWorld) = {
+	override def defaultPlace(where: WWorld) = {
 		val topopt = where.topSolid(UnitVec3s.ZERO)
 		if(topopt.isEmpty) UnitVec3s.ZERO else topopt.get.asMutable.add(0.0, 1.4, 0.0)
 	}
 
 	override def onArrivalPost(player: WEntityPlayer): Unit = {
-		val where = defaultPlacer(player.world())
+		val where = defaultPlace(player.world())
 		player.teleport(where)
 		player.setSpawnPoint(where)
 		freezeItems(player.inventory(), player)

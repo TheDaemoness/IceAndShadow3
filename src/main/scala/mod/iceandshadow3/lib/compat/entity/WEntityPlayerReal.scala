@@ -35,5 +35,5 @@ class WEntityPlayerReal protected[entity](protected[compat] val spe: ServerPlaye
 		}
 	}
 
-	def teleport(dim: BDimension): Unit = teleport(dim.coord, dim.defaultPlacer)
+	def teleport(dim: BDimension): Unit = teleport(dim.coord, dim.defaultPlace)
 }

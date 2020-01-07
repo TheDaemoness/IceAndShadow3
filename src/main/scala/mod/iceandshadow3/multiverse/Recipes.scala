@@ -56,6 +56,7 @@ object Recipes { private[iceandshadow3] def apply(): Unit = {
 	PetrifiedBricksUtils.recipes()
 
 	ECraftingType.registerAB(DomainNyx.Items.nifelhium_small, DomainNyx.Items.nifelhium)
+	ECraftingType.registerAB(DomainGaia.Items.moonstone, DomainGaia.Blocks.moonstone_block)
 	ECraftingType.registerAB(DomainGaia.Items.devora_small, DomainGaia.Items.devora)
 	ECraftingType.CRAFT_SHAPELESS(DomainGaia.Items.cortra_dust, DomainGaia.Items.cortra).suffix("crush").register()
 	ECraftingType.COOK_SMELT(DomainGaia.Items.cortra, DomainGaia.Items.cortra_dust).register()
