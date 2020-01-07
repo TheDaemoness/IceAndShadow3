@@ -5,7 +5,7 @@ Package for the parts of IaS3 that deal more with Forge than vanilla Minecraft o
 
 Files in this package (including subpackages EXCEPT `fish`) may use any otherwise restricted type,
 though there is a ban on inheriting from anything in `net.minecraft` and `com.mojang`.
-To clarify, `mod.iceandshadow3.lib.forge.fish` still falls under the full restrictions.
+To clarify, `mod.iceandshadow3.lib.compat.forge.fish` still falls under the full restrictions.
 
 ## Fishing
 

@@ -1,9 +1,9 @@
-package mod.iceandshadow3.lib.forge.bait
+package mod.iceandshadow3.lib.compat.forge.bait
 
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
-import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
+import mod.iceandshadow3.lib.compat.forge.fish.TEventFishOwner
 import net.minecraftforge.event.entity.living.LivingEvent
 
 import scala.reflect.ClassTag

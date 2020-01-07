@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer, WEntit
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WUsageItem}
 import mod.iceandshadow3.lib.compat.nbt.{VarNbtBool, VarNbtObj}
 import mod.iceandshadow3.lib.compat.world.{WDimensionCoord, WSound}
-import mod.iceandshadow3.lib.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
+import mod.iceandshadow3.lib.compat.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
 import mod.iceandshadow3.lib.item.BItemModelProperty
 import mod.iceandshadow3.lib.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.lib.util.E3vl

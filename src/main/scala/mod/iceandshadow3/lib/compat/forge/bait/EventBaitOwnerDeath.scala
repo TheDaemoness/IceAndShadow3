@@ -1,9 +1,9 @@
-package mod.iceandshadow3.lib.forge.bait
+package mod.iceandshadow3.lib.compat.forge.bait
 
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned}
-import mod.iceandshadow3.lib.forge.fish.TEventFishOwnerDeath
+import mod.iceandshadow3.lib.compat.forge.fish.TEventFishOwnerDeath
 import net.minecraft.util.DamageSource
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 

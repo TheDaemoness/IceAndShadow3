@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.forge
+package mod.iceandshadow3.lib.compat.forge
 
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.entity.state.WDamage

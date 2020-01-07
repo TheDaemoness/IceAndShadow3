@@ -18,6 +18,7 @@ class LBBinStorage(name: String, mat: Materia) extends LogicBlock(DomainPolis, n
 		us.container().openAs(item.owner)
 		true
 	}
+
 	override def container(us: WBlockRef) = WContainerSource.chestlike(us, this.id.translationKey)
 
 	override val handlerComparator = BHandlerComparator(_.inventory().fold(0)(inv => {

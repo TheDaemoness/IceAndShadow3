@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.util.CNVCompat._
 import mod.iceandshadow3.lib.compat.world.WDimensionCoord
-import mod.iceandshadow3.lib.forge.BEventHandler
+import mod.iceandshadow3.lib.compat.forge.BEventHandler
 import mod.iceandshadow3.multiverse.{DimensionNyx, DomainNyx}
 import net.minecraft.block.Blocks
 import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent

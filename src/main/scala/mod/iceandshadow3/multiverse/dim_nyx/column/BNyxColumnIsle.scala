@@ -12,7 +12,6 @@ extends BNyxColumn(cell, true) {
 	override val height = genHeight()
 
 	protected def caves(): Seq[Boolean]
-	protected def surface(y: Int): WBlockState
 
 	protected def stoneLower: WBlockState
 	protected def stoneUpper: WBlockState
@@ -37,6 +36,5 @@ extends BNyxColumn(cell, true) {
 		for(y <- baseNavistra+2 until stoneChange) change(out, y, lowerstone)
 		val finalheightInt = height.toInt
 		for(y <- stoneChange until finalheightInt) change(out, y, upperstone)
-		change(out, finalheightInt, surface(finalheightInt))
 	}
 }

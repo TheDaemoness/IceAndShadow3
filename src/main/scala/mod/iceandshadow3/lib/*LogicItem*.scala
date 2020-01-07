@@ -10,7 +10,7 @@ import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.file.BJsonGen
 import mod.iceandshadow3.lib.compat.item._
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
-import mod.iceandshadow3.lib.forge.fish.TEventFishOwner
+import mod.iceandshadow3.lib.compat.forge.fish.TEventFishOwner
 import mod.iceandshadow3.lib.item.BItemModelProperty
 import mod.iceandshadow3.lib.util.E3vl
 

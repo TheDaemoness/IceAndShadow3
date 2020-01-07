@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.forge
+package mod.iceandshadow3.lib.compat.forge
 
 import java.lang.reflect.InvocationTargetException
 
@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException
 
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.forge._
-import mod.iceandshadow3.lib.forge.bait._
+import mod.iceandshadow3.lib.compat.forge.bait._
 import net.minecraftforge.common.MinecraftForge
 
 object EventFisherman {

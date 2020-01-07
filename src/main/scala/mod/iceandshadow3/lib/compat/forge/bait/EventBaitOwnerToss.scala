@@ -1,9 +1,9 @@
-package mod.iceandshadow3.lib.forge.bait
+package mod.iceandshadow3.lib.compat.forge.bait
 
 import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
-import mod.iceandshadow3.lib.forge.fish.TEventFishOwnerToss
+import mod.iceandshadow3.lib.compat.forge.fish.TEventFishOwnerToss
 import net.minecraftforge.event.entity.item.ItemTossEvent
 
 //WARNING: Despite the name, this event needs to be handled very differently from the other Owner events.

@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.forge.fish
+package mod.iceandshadow3.lib.compat.forge.fish
 
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.lib.util.E3vl

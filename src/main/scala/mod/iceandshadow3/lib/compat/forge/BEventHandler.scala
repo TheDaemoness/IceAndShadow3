@@ -1,4 +1,4 @@
-package mod.iceandshadow3.lib.forge
+package mod.iceandshadow3.lib.compat.forge
 
 import net.minecraftforge.eventbus.api.IEventBus
 

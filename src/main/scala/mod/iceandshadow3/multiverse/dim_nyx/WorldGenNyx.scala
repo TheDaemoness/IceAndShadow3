@@ -52,6 +52,6 @@ final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultB
 		new NyxLayerCrystals(seed, terrain),
 		new NyxLayerTreesForest(seed, terrain, noises.getIsleInfo),
 		new NyxLayerTreesScattered(seed, terrain, noises.getIsleInfo),
-		new NyxWorldGenLayerSnowAndIce(seed, 24)
+		new NyxWorldGenLayerSurface(seed, 24)
 	)
 }

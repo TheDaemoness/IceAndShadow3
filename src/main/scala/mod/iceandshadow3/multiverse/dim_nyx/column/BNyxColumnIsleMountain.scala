@@ -24,15 +24,4 @@ extends BNyxColumnIsle(chunk.isle(x, z)) {
 		if(islevalue <= 0.2) base*MathUtils.sinelike((islevalue-0.15)*20)
 		else base
 	}.toFloat*32
-
-	override protected def surface(y: Int): WBlockState = {
-		if (y > yBald) null
-		else {
-			if (height <= yThinning) BlockTypeSnow.SNOWS.last.asWBlockState
-			else {
-				val snowmod = MathUtils.ratioBelow(yThinning, y, yBald)
-				if (snowmod != 0) BlockTypeSnow.fromFloat(snowmod).asWBlockState else null
-			}
-		}
-	}
 }

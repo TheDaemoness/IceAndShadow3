@@ -3,7 +3,7 @@ package mod.iceandshadow3
 import mod.iceandshadow3.damage.impl.HandlerADS
 import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import mod.iceandshadow3.lib.compat.{Binders, Registrar}
-import mod.iceandshadow3.lib.forge.{EventFisherman, Teleporter}
+import mod.iceandshadow3.lib.compat.forge.{EventFisherman, Teleporter}
 import mod.iceandshadow3.multiverse._
 import mod.iceandshadow3.multiverse.misc.StatusEffects
 import net.minecraft.world.biome.Biome
