@@ -5,6 +5,7 @@ import mod.iceandshadow3.lib.base.TNamed
 import mod.iceandshadow3.lib.compat.WId
 import mod.iceandshadow3.lib.compat.block.impl.BinderTileEntity
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
+import mod.iceandshadow3.lib.compat.forge.cap.{InventoryAccess, TSideMap}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.nbt.{NbtVarMap, TVarNbt}
 import mod.iceandshadow3.lib.data.{BVar, VarSet}
@@ -19,6 +20,7 @@ extends TNamed[WId] with BinderTileEntity.TKey {
 	def isUsableBy(who: WEntityPlayer) = true
 	def canStore(slot: Int, stack: WItemStack) = true
 	def syncInventoryOnLoad = false
+	def handlerItem: InventoryAccess.SidedFactory = TSideMap.all(InventoryAccess.raw)
 }
 object LogicTileEntity {
 	def apply(name: String, vars: (BVar[_] with TVarNbt[_])*) = new LogicTileEntity(name, VarSet(vars:_*))

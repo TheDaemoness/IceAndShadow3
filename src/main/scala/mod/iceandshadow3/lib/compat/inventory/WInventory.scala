@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.inventory
 
 import mod.iceandshadow3.lib.compat.block.impl.ATileEntity
-import mod.iceandshadow3.lib.compat.item.WItemStack
+import mod.iceandshadow3.lib.compat.item.{ItemUtils, WItemStack}
 import mod.iceandshadow3.lib.item.ItemSeq
 import mod.iceandshadow3.lib.util.E3vl
 import net.minecraft.inventory.IInventory
@@ -23,18 +23,9 @@ class WInventory(private[compat] val expose: IInventory) extends ItemSeq {
 					return true
 				}
 			} else { //Not an empty slot, try to stack.
-				val canstack = if (current.isStackable) {
-					//TODO: More involved checks.
-					current.isItemEqual(whatexposed)
-				} else false
-				if (canstack) { //May be able to stack. Do it.
-					val adjustment = Math.min(current.getMaxStackSize - current.getCount, whatexposed.getCount)
-					current.grow(adjustment)
-					whatexposed.shrink(adjustment)
-					if (adjustment != 0) {
-						expose.markDirty()
-						if (what.isEmpty) return true
-					}
+				if (ItemUtils.stackInto(current, what.asItemStack()) != 0) {
+					expose.markDirty()
+					if (what.isEmpty) return true
 				}
 			}
 		}

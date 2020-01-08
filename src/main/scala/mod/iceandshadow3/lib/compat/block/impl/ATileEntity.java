@@ -2,6 +2,7 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.lib.LogicTileEntity;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
+import mod.iceandshadow3.lib.compat.forge.cap.TSideMap;
 import mod.iceandshadow3.lib.compat.inventory.InventoryImpl;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
 import mod.iceandshadow3.lib.compat.nbt.NbtVarMap;
@@ -13,8 +14,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 final public class ATileEntity extends TileEntity implements IInventory {
 	private final InventoryImpl inventory;
@@ -23,12 +30,28 @@ final public class ATileEntity extends TileEntity implements IInventory {
 
 	public static String inventoryKey = "items";
 
+	@CapabilityInject(IItemHandler.class)
+	private static Capability<IItemHandler> capItems;
+	private final TSideMap<LazyOptional<IItemHandler>> handlersItems;
+
 	ATileEntity(LogicTileEntity logic, NbtVarMap vars) {
 		super((ATileEntityType)BinderTileEntity.apply(logic));
 		this.logic = logic;
 		this.vars = vars;
 		this.inventory = new InventoryImpl(logic.itemCapacity(), inventoryKey);
+		this.handlersItems = logic.handlerItem().apply(this);
 	}
+
+	@Nonnull
+	@Override
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+		if(cap == capItems) {
+			return (LazyOptional<T>) (side == null ? handlersItems.center() : handlersItems.apply(side));
+		}
+		return super.getCapability(cap, side);
+	}
+
+
 
 	private void triggerUpdate() {
 		//TODO: Delta updates using Forge-based netcode.
