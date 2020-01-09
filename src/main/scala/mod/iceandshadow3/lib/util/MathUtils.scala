@@ -3,6 +3,7 @@ package mod.iceandshadow3.lib.util
 import scala.util.Random
 
 object MathUtils {
+  def fastMag(xAbs: Int, zAbs: Int) = Math.max(xAbs, zAbs)+(Math.min(xAbs,zAbs)>>1)
   def bound(min: Int, what: Int, max: Int) = Math.min(max, Math.max(min, what))
   def bound(min: Long, what: Long, max: Long) = Math.min(max, Math.max(min, what))
   def sinelike(input: Double): Double = (1d-Math.cos(input*Math.PI))/2

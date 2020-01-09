@@ -6,7 +6,7 @@ import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.recipe.{ECraftingType, ERecipeSize, IngredientFactory}
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting
-import mod.iceandshadow3.multiverse.gaia.{ELivingstoneTypes, LIMinerals}
+import mod.iceandshadow3.multiverse.gaia.{ELivingstoneType, LIMinerals}
 import mod.iceandshadow3.multiverse.polis.{LIMoonstoneDust, PetrifiedBricksUtils}
 
 object Recipes { private[iceandshadow3] def apply(): Unit = {
@@ -14,7 +14,7 @@ object Recipes { private[iceandshadow3] def apply(): Unit = {
 	import ERecipeSize._
 
 	val minerals = DomainGaia.Items.minerals
-	for(variant <- ELivingstoneTypes.values()) {
+	for(variant <- ELivingstoneType.values()) {
 		val id = variant.ordinal()
 		ECraftingType.COOK_SMELT(WIdItem(s"minecraft:${variant.name}_dye"), DomainGaia.Items.shales(id)).register()
 		ECraftingType.COOK_SMELT(DomainPolis.Blocks.stones(id).block, DomainGaia.Blocks.livingstones(id)).register()

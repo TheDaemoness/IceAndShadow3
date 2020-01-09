@@ -172,6 +172,11 @@ public class AModDimension extends ModDimension {
 			}), checkValid);
 		}
 
+		@Override
+		public double getHorizon() {
+			return dimlogic.peakLevel();
+		}
+
 		@Nullable
 		@Override
 		public BlockPos findSpawn(int x, int z, boolean checkValid) {

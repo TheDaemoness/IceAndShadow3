@@ -8,8 +8,15 @@ import mod.iceandshadow3.multiverse.dim_nyx.{NyxTerrainMaps, WorldGenNyx}
 class NyxColumnIsleMountainUsual(x: Int, z: Int, chunk: NyxTerrainMaps)
 extends BNyxColumnIsleMountain(x, z, chunk) {
 
-	override protected def stoneLower: WBlockState =
-		WorldGenNyx.stoneCommon(chunk.stoneLower(x, z).makeRandomXZ(chunk.noises.seed, 40201))
+	override protected def stoneLower: WBlockState = if(islevalue > 0.25) {
+		val source = chunk.stoneLower(x, z)
+		val distance = MathUtils.fastMag(cell.cellClosest.xAbs, cell.cellClosest.zAbs)
+		WorldGenNyx.stones({
+			if(distance < 2) source.common
+			else if(distance == 2) source.uncommon
+			else source.rare
+		}.ordinal())
+	} else WorldGenNyx.stones(0)
 
 	val caveLimitReal = Math.min(yCaveMax, genHeight - 4).toInt
 	val fissureStrength = 0.3 - islevalue/10

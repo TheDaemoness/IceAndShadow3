@@ -33,6 +33,6 @@ class NoisesNyx(val seed: Long) {
 	val cavemakerA = new Cellmaker3d(seed, 2928, 30, 60)
 	val cavemakerB = new Cellmaker3d(seed, 9478, 50, 75)
 
-	val stonemakerUpper = new Cellmaker2d(seed, 72346, 300)
-	val stonemakerLower = new Cellmaker2d(seed, 19203, 150)
+	//val stonemakerUpper = new Cellmaker2d(seed, 72346, 300)
+	val stonemakerLower = new Cellmaker2d(seed, 19203, 120)
 }

@@ -9,4 +9,6 @@ trait ITupleXZ extends Iterable[Int] {
 		x = b.x
 		z = b.z
 	}
+	def xAbs = Math.abs(x)
+	def zAbs = Math.abs(z)
 }

@@ -10,7 +10,7 @@ abstract class BNyxColumnIsleMountain(x: Int, z: Int, val chunk: NyxTerrainMaps)
 extends BNyxColumnIsle(chunk.isle(x, z)) {
 	override protected def stoneUpper: WBlockState = WorldGenNyx.stones(0)
 
-	override protected def genHeight() = {
+	override protected def genHeight() = Math.min(253f, {
 		val scale = Math.sqrt(chunk.scale(x, z))
 		var cratervalue = chunk.crater(x, z).toDouble
 		cratervalue *= Math.cbrt(cratervalue)/(4-scale)
@@ -23,5 +23,5 @@ extends BNyxColumnIsle(chunk.isle(x, z)) {
 		val base = 1.5+MathUtils.sinelike(islevalue)+totalmountainvalue+cratervalue
 		if(islevalue <= 0.2) base*MathUtils.sinelike((islevalue-0.15)*20)
 		else base
-	}.toFloat*32
+	}.toFloat*32)
 }

@@ -8,7 +8,7 @@ class FixedMap3d[@specialized(Float) T: ClassTag](
 	val xFrom: Int, val yFrom: Int, val zFrom: Int,
 	val xWidth: Int, val yWidth: Int, val zWidth: Int,
 	compute: (Int, Int, Int) => T
-) {
+) extends Iterable[T] {
 	def this(xWidth: Int, yWidth: Int, zWidth: Int, compute: (Int, Int, Int) => T) =
 		this(0, 0, 0, xWidth, yWidth, zWidth, compute)
 	val values: Array[Array[T]] = {
@@ -31,4 +31,5 @@ class FixedMap3d[@specialized(Float) T: ClassTag](
 		retval
 	}
 	def apply(x: Int, y: Int, z: Int): T = values((x-xFrom)+(z-zFrom)*xWidth)(y-yFrom)
+	override def iterator = values.iterator.flatMap(_.iterator)
 }

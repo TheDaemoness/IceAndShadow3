@@ -12,7 +12,7 @@ import mod.iceandshadow3.multiverse.DomainGaia
 object LBStoneLiving {
 	val varGrowing = new VarBlockBool("growing")
 }
-class LBStoneLiving(variant: ELivingstoneTypes)
+class LBStoneLiving(variant: ELivingstoneType)
 extends LogicBlock(DomainGaia, "livingstone_"+variant.name, Materias.livingstone) {
 	override def tier = variant.rarity-1
 	override val variables = VarSet(LBStoneLiving.varGrowing)

@@ -4,12 +4,12 @@ import mod.iceandshadow3.lib.common.LogicBlockMateria
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.util.Color
 import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
-import mod.iceandshadow3.multiverse.gaia.ELivingstoneTypes
+import mod.iceandshadow3.multiverse.gaia.ELivingstoneType
 import mod.iceandshadow3.multiverse.polis._
 
 object DomainPolis extends BDomain("polis") {
 	val Blocks = new {
-		val stones = ELivingstoneTypes.values().map(
+		val stones = ELivingstoneType.values().map(
 			variant => LogicBlockMateria(DomainPolis, Materias.stone, variant.name).stoneVariants()
 		)
 		val petrified_bricks = PetrifiedBricksUtils.build

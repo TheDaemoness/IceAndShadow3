@@ -10,7 +10,7 @@ class FixedMap2d[@specialized(Float) T: ClassTag](
 	val xFrom: Int, val zFrom: Int,
 	val xWidth: Int, val zWidth: Int,
 	compute: (Int,Int) => T
-) extends IMap2d[T] with IRegion2d {
+) extends IMap2d[T] with IRegion2d with Iterable[T] {
 	override def xMax = xFrom+xWidth-1
 	override def zMax = zFrom+zWidth-1
 	def this(xWidth: Int, zWidth: Int, compute: (Int,Int) => T) = this(0, 0, xWidth, zWidth, compute)
@@ -29,4 +29,5 @@ class FixedMap2d[@specialized(Float) T: ClassTag](
 		retval
 	}
 	override def apply(x:Int, z:Int): T = values((x-xFrom)+(z-zFrom)*xWidth)
+	override def iterator = values.iterator
 }

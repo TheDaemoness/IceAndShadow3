@@ -1,8 +1,10 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.lib.gen.Cellmaker3d
-import mod.iceandshadow3.lib.spatial.Cells
+import mod.iceandshadow3.lib.spatial.{Cells, TupleXYZ}
 import mod.iceandshadow3.multiverse.dim_nyx.column.{BNyxColumn, NyxColumnDivide, NyxColumnIsleCentral, NyxColumnIsleMountainUsual}
+
+import scala.collection.mutable
 
 class NyxTerrainMaps(val noises: NoisesNyx, xFrom: Int, zFrom: Int, width: Int)
 extends ((Int, Int) => BNyxColumn) {
@@ -24,8 +26,16 @@ extends ((Int, Int) => BNyxColumn) {
 		val hill = noises.noisemakerHills.apply(xFrom, zFrom, width, width)
 		val mountain = noises.noisemakerMountain.apply(xFrom, zFrom, width, width)
 	}
-	//lazy val stoneMapUpper = noises.stonemakerUpper.apply(xFrom, zFrom, width, width)
-	private lazy val stoneMapLower = noises.stonemakerLower.apply(xFrom, zFrom, width, width)
+	private lazy val stoneMaker = noises.stonemakerLower.apply(xFrom, zFrom, width, width,
+		new (Cells.Result => LivingstoneTypeSource.Sources) {
+			private val map = new mutable.HashMap[TupleXYZ, LivingstoneTypeSource.Sources]
+			override def apply(key: Cells.Result) = {
+				map.getOrElseUpdate(key.cellClosest,
+					new LivingstoneTypeSource.Sources(key.makeRandomXYZ(noises.seed, 41889))
+				)
+			}
+		}
+	)
 
 	def isle(x: Int, z: Int) = islemap(x, z)
 
@@ -36,7 +46,7 @@ extends ((Int, Int) => BNyxColumn) {
 
 	def cave(x: Int, y: Int, z: Int) = cavemapA(x, y, z) * cavemapB(x, y, z)
 
-	def stoneLower(x: Int, z: Int) = stoneMapLower(x, z)
+	def stoneLower(x: Int, z: Int) = stoneMaker(x, z)
 
 	def scale(x: Int, z: Int) = 1-heightmaps.scale(x,z)
 	def crater(x: Int, z: Int) = heightmaps.crater(x,z)

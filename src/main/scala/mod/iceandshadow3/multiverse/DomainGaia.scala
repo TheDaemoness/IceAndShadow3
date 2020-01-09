@@ -9,7 +9,7 @@ import mod.iceandshadow3.multiverse.gaia._
 
 object DomainGaia extends BDomain("gaia") {
 	val Blocks = new {
-		val livingstones = ELivingstoneTypes.values().map(new LBStoneLiving(_))
+		val livingstones = ELivingstoneType.values().map(new LBStoneLiving(_))
 		val navistra_bedrock = new LogicBlock(DomainGaia, "navistra_bedrock", Materias.navistra_bedrock) {
 			override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = ()
 			override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.customSingleModel(this))
@@ -26,7 +26,7 @@ object DomainGaia extends BDomain("gaia") {
 		val cortra_dust = new LICortra(true)
 		val devora = new LIDevora(false)
 		val devora_small = new LIDevora(true)
-		val shales = ELivingstoneTypes.values().map(new LIShale(_))
+		val shales = ELivingstoneType.values().map(new LIShale(_))
 		val jades = LIJade.variants.map(new LIJade(_))
 		val moonstone = new LogicItemMulti(DomainGaia, "moonstone", 2)
 	}
