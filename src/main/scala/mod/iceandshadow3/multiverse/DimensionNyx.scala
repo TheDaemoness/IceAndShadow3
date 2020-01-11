@@ -1,7 +1,7 @@
 package mod.iceandshadow3.multiverse
 
 import mod.iceandshadow3.damage._
-import mod.iceandshadow3.lib.BDimension
+import mod.iceandshadow3.lib.LogicDimension
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving, WEntityPlayer}
 import mod.iceandshadow3.lib.compat.world.{TWWorld, WDimensionCoord, WWorld}
 import mod.iceandshadow3.lib.item.ItemSeq
@@ -11,7 +11,7 @@ import mod.iceandshadow3.lib.world.{BHandlerFog, BHandlerSky}
 import mod.iceandshadow3.multiverse.dim_nyx.{LIFrozen, WorldGenNyx}
 import mod.iceandshadow3.multiverse.misc.StatusEffects
 
-object DimensionNyx extends BDimension("nyx") {
+object DimensionNyx extends LogicDimension("nyx") {
 	override def getRespawnDim = coord
 	override def getWorldSpawn(world: TWWorld) = new IPosBlock {
 		override def yBlock = 1 + world.heightAt(this)

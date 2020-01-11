@@ -3,11 +3,11 @@ package mod.iceandshadow3.lib.common
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.misc.TextUtils
 import mod.iceandshadow3.lib.compat.nbt.{VarNbtItemStack, VarNbtString}
-import mod.iceandshadow3.lib.{BDomain, BLogicItem}
+import mod.iceandshadow3.lib.{Domain, LogicItem}
 
 /** An item that pretends to be whole stacks of other items.
 	*/
-class LogicItemChameleon(domain: BDomain, name: String) extends BLogicItem(domain, name) {
+class LogicItemChameleon(domain: Domain, name: String) extends LogicItem(domain, name) {
 	override def tier = 1
 	override def isTechnical = true
 

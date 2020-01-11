@@ -1,16 +1,16 @@
 package mod.iceandshadow3.multiverse.dim_nyx
 
-import mod.iceandshadow3.lib.compat.WIdTagItem
 import mod.iceandshadow3.lib.compat.block.BlockQueries
-import mod.iceandshadow3.lib.compat.item.{BWItem, ItemQueries, WItemType}
+import mod.iceandshadow3.lib.compat.id.WIdTagItem
+import mod.iceandshadow3.lib.compat.item.{ItemQueries, WItem, WItemType}
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzerDerived
-import mod.iceandshadow3.lib.compat.recipe.{BCraftGraphAnalysis, CraftingSummary, ECraftingType, ServerAnalysisGraphCraft}
+import mod.iceandshadow3.lib.compat.recipe.{CraftGraphAnalysis, CraftingSummary, ECraftingType, ServerAnalysisGraphCraft}
 import mod.iceandshadow3.lib.util.Is
 
 object ItemFreezability
 extends ServerAnalyzerDerived[WItemType, java.util.Set[CraftingSummary], ItemFreezability](
 	ServerAnalysisGraphCraft,
-	new BCraftGraphAnalysis[ItemFreezability, BWItem => Boolean](_, Is.any[BWItem](
+	new CraftGraphAnalysis[ItemFreezability, WItem => Boolean](_, Is.any[WItem](
 		//Begin conditions for natural freezing.
 		ItemQueries.ingestable,
 		ItemQueries.compostable,
@@ -21,7 +21,7 @@ extends ServerAnalyzerDerived[WItemType, java.util.Set[CraftingSummary], ItemFre
 		import LIFrozen.tagAntifreeze
 		import LIFrozen.tagFreezes
 
-		override protected def defaultValue(input: BWItem) = {
+		override protected def defaultValue(input: WItem) = {
 			val hasTagAntifreeze = tagAntifreeze.unapply(input)
 			val hasTagFreezes = tagFreezes.unapply(input)
 			val freezes = !input.getDomain.resistsFreezing && (

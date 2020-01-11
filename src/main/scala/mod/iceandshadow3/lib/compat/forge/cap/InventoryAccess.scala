@@ -8,7 +8,7 @@ object InventoryAccess {
 	type SidedFactory = TSideMap.Factory[IInventory, IItemHandler]
 	type Factory = IInventory => IItemHandler
 
-	def raw = (inv: IInventory) => new BAForgeItemHandler(inv) {
+	def raw = (inv: IInventory) => new AForgeItemHandler(inv) {
 		override def remap(slot: Int) = slot
 		override def getSlots = underlying.getSizeInventory
 	}
@@ -20,7 +20,7 @@ object InventoryAccess {
 		override def getSlotLimit(slot: Int) = 0
 		override def isItemValid(slot: Int, stack: ItemStack) = false
 	}
-	def slot(slotId: Int) = (inv: IInventory) => new BAForgeItemHandler(inv) {
+	def slot(slotId: Int) = (inv: IInventory) => new AForgeItemHandler(inv) {
 		override def remap(slot: Int) = slotId
 		override def getSlots = 1
 	}

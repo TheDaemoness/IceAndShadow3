@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.recipe
 
-import mod.iceandshadow3.lib.compat.WId
+import mod.iceandshadow3.lib.compat.id.WId
 
 class AddedRecipesInfo(factories: scala.collection.mutable.HashMap[WId, RecipeFactory]) {
 	def size = factories.size

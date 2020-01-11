@@ -3,13 +3,13 @@ package mod.iceandshadow3.lib.common.model
 import com.google.gson.JsonObject
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.compat.file.{BJsonGenAssetsBlock, BJsonGenModelBlock}
+import mod.iceandshadow3.lib.compat.file.{JsonGenAssetsBlock, JsonGenModelBlock}
 import mod.iceandshadow3.lib.misc.Column3Values
 
 class JsonGenAssetsBlockStairs(
 	logic: BLogicBlock,
-	normal: BJsonGenModelBlock, outer: BJsonGenModelBlock, inner: BJsonGenModelBlock,
-) extends BJsonGenAssetsBlock(logic) {
+	normal: JsonGenModelBlock, outer: JsonGenModelBlock, inner: JsonGenModelBlock,
+) extends JsonGenAssetsBlock(logic) {
 	def this(logic: BLogicBlock, textures: Column3Values[String]) = this(logic,
 		JsonGenAssetsBlockStairs.defaultNormal(logic.name, textures),
 		JsonGenAssetsBlockStairs.defaultOuter(logic.name, textures),
@@ -49,10 +49,10 @@ class JsonGenAssetsBlockStairs(
 	}
 }
 object JsonGenAssetsBlockStairs {
-	private def defaultUsing(name: String, parent: String, textures: Column3Values[String]) = new BJsonGenModelBlock(
+	private def defaultUsing(name: String, parent: String, textures: Column3Values[String]) = new JsonGenModelBlock(
 		name
 	) {
-		override def apply = BJsonGenModelBlock.simpleModel(parent, Map(
+		override def apply = JsonGenModelBlock.simpleModel(parent, Map(
 			("bottom", textures.bottom),
 			("top", textures.side),
 			("side", textures.side)

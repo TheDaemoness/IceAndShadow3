@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.{BlockShape, BlockSubCuboid}
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, Materia, WBlockRef, WBlockState, WBlockView}
 import mod.iceandshadow3.lib.compat.entity.WEntity
-import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
+import mod.iceandshadow3.lib.compat.file.JsonGenAssetsBlock
 import mod.iceandshadow3.lib.compat.loot.{LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.multiverse.DomainNyx
 
@@ -29,5 +29,5 @@ class LBNifelhiumCrystal extends LogicBlock(DomainNyx, "nifelhium_crystal", LBNi
 	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit =
 		what.addOne(DomainNyx.Items.nifelhium.toWItemStack)
 
-	override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.deco(this))
+	override def getGenAssetsBlock = Some(JsonGenAssetsBlock.deco(this))
 }

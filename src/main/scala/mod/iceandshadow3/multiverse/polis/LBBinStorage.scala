@@ -1,11 +1,11 @@
 package mod.iceandshadow3.multiverse.polis
 
-import mod.iceandshadow3.lib.block.{BHandlerComparator, BlockShape, BlockSubCuboid}
+import mod.iceandshadow3.lib.block.{HandlerComparator, BlockShape, BlockSubCuboid}
 import mod.iceandshadow3.lib.{LogicBlock, LogicTileEntity}
 import mod.iceandshadow3.lib.compat.block.{Materia, WBlockRef}
 import mod.iceandshadow3.lib.compat.inventory.WContainerSource
 import mod.iceandshadow3.lib.compat.entity.{WEntityItem, WEntityPlayer}
-import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
+import mod.iceandshadow3.lib.compat.file.JsonGenAssetsBlock
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.lib.compat.loot.{LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
@@ -16,7 +16,7 @@ class LBBinStorage(name: String, mat: Materia) extends LogicBlock(DomainPolis, n
 		override val itemCapacity = 27
 	})
 	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(15))
-	override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.customSingleModel(this))
+	override def getGenAssetsBlock = Some(JsonGenAssetsBlock.customSingleModel(this))
 
 	override def container(us: WBlockRef) = WContainerSource.chestlike(us, this.id.translationKey)
 	override def onUsed(us: WBlockRef, item: WItemStackOwned[WEntityPlayer]) = {
@@ -28,7 +28,7 @@ class LBBinStorage(name: String, mat: Materia) extends LogicBlock(DomainPolis, n
 		what.context.inventory.foreach(_.foreach(stack => what.addOne(stack)))
 	}
 
-	override val handlerComparator = BHandlerComparator(_.inventory().fold(0)(inv => {
+	override val handlerComparator = HandlerComparator(_.inventory().fold(0)(inv => {
 		val count = inv.countFilled
 		if(count <= 0) 0 else 1+(count*14/inv.size)
 	}))

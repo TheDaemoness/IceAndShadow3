@@ -1,11 +1,11 @@
 package mod.iceandshadow3.lib.compat.nbt
 
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.lib.data.BVar
+import mod.iceandshadow3.lib.data.Var
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
 
-class VarNbtItemStack(name: String) extends BVar[WItemStack](name) with TVarNbtCompound[WItemStack] {
+class VarNbtItemStack(name: String) extends Var[WItemStack](name) with TVarNbtCompound[WItemStack] {
 	override def defaultVal = WItemStack.empty
 	override def isDefaultValue(value: WItemStack) = value.isEmpty
 	override protected def fromCompound(what: CompoundNBT) = Some(new WItemStack(ItemStack.read(what)))

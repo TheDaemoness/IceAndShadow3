@@ -2,12 +2,12 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import mod.iceandshadow3.lib.gen.Cellmaker3d
 import mod.iceandshadow3.lib.spatial.{Cells, TupleXYZ}
-import mod.iceandshadow3.multiverse.dim_nyx.column.{BNyxColumn, NyxColumnDivide, NyxColumnIsleCentral, NyxColumnIsleMountainUsual}
+import mod.iceandshadow3.multiverse.dim_nyx.column.{ColumnFnNyx, ColumnFnNyxDivide, ColumnFnNyxIsleCentral, ColumnFnNyxIsleMountainUsual}
 
 import scala.collection.mutable
 
 class NyxTerrainMaps(val noises: NoisesNyx, xFrom: Int, zFrom: Int, width: Int)
-extends ((Int, Int) => BNyxColumn) {
+extends ((Int, Int) => ColumnFnNyx) {
 	private val islemap = noises.isleMaker.apply(xFrom, zFrom, width, width)
 
 	private def map3d(in: Cellmaker3d, limit: Int) = {
@@ -54,14 +54,14 @@ extends ((Int, Int) => BNyxColumn) {
 	def hill(x: Int, z: Int) = heightmaps.hill(x, z)
 	def mountain(x: Int, z: Int) = heightmaps.mountain(x, z)
 
-	def apply(xBlock: Int, zBlock: Int): BNyxColumn = {
-		new NyxColumnIsleCentral(xBlock, zBlock, this)
+	def apply(xBlock: Int, zBlock: Int): ColumnFnNyx = {
+		new ColumnFnNyxIsleCentral(xBlock, zBlock, this)
 		val cellres = isle(xBlock, zBlock)
-		if(1-Cells.distance(cellres) <= 0.15) new NyxColumnDivide(cellres)
+		if(1-Cells.distance(cellres) <= 0.15) new ColumnFnNyxDivide(cellres)
 		else {
 			val cell = cellres.cellClosest
-			if (cell.x == 0 && cell.z == 0) new NyxColumnIsleCentral(xBlock, zBlock, this)
-			else new NyxColumnIsleMountainUsual(xBlock, zBlock, this)
+			if (cell.x == 0 && cell.z == 0) new ColumnFnNyxIsleCentral(xBlock, zBlock, this)
+			else new ColumnFnNyxIsleMountainUsual(xBlock, zBlock, this)
 		}
 	}
 }

@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.compat.recipe
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.Registrar
 import mod.iceandshadow3.lib.compat.inventory.WInventoryCrafting
-import mod.iceandshadow3.lib.compat.file.BRecipeUnlockGen
+import mod.iceandshadow3.lib.compat.file.RecipeUnlockGen
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.compat.world.WWorld
 import mod.iceandshadow3.lib.item.LogicCrafting
@@ -15,9 +15,9 @@ import net.minecraft.world.World
 sealed abstract class ECraftingType(val name: String)
 sealed abstract class ECraftingTypeCooking(name: String) extends ECraftingType(name) {
 	val defaultTicks: Int
-	protected val constructor: BRecipeBuilderCooking.RecipeMaker
-	def apply(output: => CraftResult, input: IngredientFactory): BRecipeBuilderCooking =
-		new BRecipeBuilderCooking(this, output, defaultTicks, input, constructor)
+	protected val constructor: RecipeBuilderCooking.RecipeMaker
+	def apply(output: => BCraftResult, input: IngredientFactory): RecipeBuilderCooking =
+		new RecipeBuilderCooking(this, output, defaultTicks, input, constructor)
 }
 
 object ECraftingType {
@@ -35,13 +35,13 @@ object ECraftingType {
 					CNVCompat.toNonNullList(logic.leftovers(new WInventoryCrafting(inv)))
 				override def getSerializer = Registrar.RecipeHandler
 			},
-			BRecipeUnlockGen.none(),
+			RecipeUnlockGen.none(),
 			Seq.empty
 		))
 	} 
 	case object CRAFT_SHAPELESS extends ECraftingType("combine") {
-		def apply(output: => CraftResult, inputs: IngredientFactory*) =
-			new BRecipeBuilder(this, output) {
+		def apply(output: => BCraftResult, inputs: IngredientFactory*) =
+			new RecipeBuilder(this, output) {
 				override protected def factory(nrm: NewRecipeMetadata) = new RecipeFactory(
 					nrm,
 					ingrs => new ShapelessRecipe(
@@ -54,8 +54,8 @@ object ECraftingType {
 			}
 	}
 	case object CRAFT_SHAPED extends ECraftingType("craft") {
-		def apply(output: => CraftResult, size: ERecipeSize, inputs: IngredientFactory*): BRecipeBuilder =
-			new BRecipeBuilder(this, output) {
+		def apply(output: => BCraftResult, size: ERecipeSize, inputs: IngredientFactory*): RecipeBuilder =
+			new RecipeBuilder(this, output) {
 				override protected def factory(nrm: NewRecipeMetadata) = new RecipeFactory(
 					nrm,
 					ingrs => new ShapedRecipe(
@@ -68,7 +68,7 @@ object ECraftingType {
 				)
 			}
 		/** Create a builder for a recipe that uses n items of the same type in a certain basic shape. */
-		def apply(output: CraftResult, input: IngredientFactory, size: ERecipeSize): BRecipeBuilder =
+		def apply(output: BCraftResult, input: IngredientFactory, size: ERecipeSize): RecipeBuilder =
 			apply(output, size, Seq.fill(size.size)(input):_*)
 	}
 	case object COOK_SMELT extends ECraftingTypeCooking("smelt") {
@@ -84,8 +84,8 @@ object ECraftingType {
 		override protected val constructor = new BlastingRecipe(_, _, _, _, _, _)
 	}
 	case object STONECUT extends ECraftingType("cut") {
-		def apply(output: => CraftResult, input: IngredientFactory): BRecipeBuilder =
-			new BRecipeBuilder(this, output) {
+		def apply(output: => BCraftResult, input: IngredientFactory): RecipeBuilder =
+			new RecipeBuilder(this, output) {
 				override protected def factory(nrm: NewRecipeMetadata) = new RecipeFactory(
 					nrm,
 					ins => new StonecuttingRecipe(

@@ -1,10 +1,10 @@
 package mod.iceandshadow3.lib.compat.client.impl
 
 import mod.iceandshadow3.lib.util.collect.BinderLazy
-import mod.iceandshadow3.lib.{BParticleType, ParticleType}
+import mod.iceandshadow3.lib.{ParticleType, BParticleType}
 import net.minecraft.particles.{IParticleData, ParticleTypes}
 
-object BinderParticle extends BinderLazy[ParticleType, BParticleType, IParticleData]({
+object BinderParticle extends BinderLazy[BParticleType, ParticleType, IParticleData]({
 	new AParticleType(_)
 }) {
 	def populate(): Unit = {

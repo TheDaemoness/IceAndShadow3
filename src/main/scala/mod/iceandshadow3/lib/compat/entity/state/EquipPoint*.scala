@@ -6,28 +6,28 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.inventory.EquipmentSlotType._
 
-sealed abstract class EquipPoint {
+sealed abstract class BEquipPoint {
 	protected[entity] def getItem(who: LivingEntity): WItemStackOwned[WEntityLiving]
 }
-case class EquipPointVanilla(where: EquipmentSlotType) extends EquipPoint {
+case class EquipPointVanilla(where: EquipmentSlotType) extends BEquipPoint {
 	override protected[entity] def getItem(who: LivingEntity): WItemStackOwned[WEntityLiving] =
 		new WItemStackOwned(who.getItemStackFromSlot(where), CNVEntity.wrap(who))
 }
-class EquipPointVirtual(val getItem: WEntityLiving => WItemStackOwned[WEntityLiving]) extends EquipPoint {
+class EquipPointVirtual(val getItem: WEntityLiving => WItemStackOwned[WEntityLiving]) extends BEquipPoint {
 	override protected[entity] def getItem(who: LivingEntity) = getItem(CNVEntity.wrap(who))
 }
-object EquipPoint {
+object BEquipPoint {
 	val HAND_MAIN = EquipPointVanilla(MAINHAND)
 	val HAND_OFF = EquipPointVanilla(OFFHAND)
 	val BODY_HEAD = EquipPointVanilla(HEAD)
 	val BODY_CHEST = EquipPointVanilla(CHEST)
 	val BODY_LEGS = EquipPointVanilla(LEGS)
 	val BODY_FEET = EquipPointVanilla(FEET)
-	val USING = new EquipPoint {
+	val USING = new BEquipPoint {
 		override protected[entity] def getItem(who: LivingEntity) =
 			new WItemStackOwned(who.getActiveItemStack, CNVEntity.wrap(who))
 	}
-	val USING_SHIELD = new EquipPoint {
+	val USING_SHIELD = new BEquipPoint {
 		override protected[entity] def getItem(who: LivingEntity) = {
 			val is = who.getActiveItemStack
 			if(is.isShield(who)) new WItemStackOwned(is, CNVEntity.wrap(who))

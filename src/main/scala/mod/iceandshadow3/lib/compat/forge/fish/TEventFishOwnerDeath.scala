@@ -2,11 +2,11 @@ package mod.iceandshadow3.lib.compat.forge.fish
 
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned}
 import mod.iceandshadow3.lib.util.E3vl
-import mod.iceandshadow3.lib.BLogicItem
+import mod.iceandshadow3.lib.LogicItem
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving
 
 trait TEventFishOwnerDeath extends TEventFishOwner {
-  this: BLogicItem =>
+  this: LogicItem =>
   /** Called before an owner of a certain item dies.
     * The attached item is guaranteed to have an owner.
     * @return FALSE if the owner does NOT die.

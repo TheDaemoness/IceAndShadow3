@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.world
 
 import javax.annotation.Nullable
-import mod.iceandshadow3.lib.BDomain
+import mod.iceandshadow3.lib.Domain
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
 import mod.iceandshadow3.lib.compat.util.CNVCompat
 import mod.iceandshadow3.lib.spatial.IPosBlock
@@ -28,7 +28,7 @@ case class WSound protected(@Nullable private val soundevent: SoundEvent) {
 object WSound {
 	private var newsounds = new ListBuffer[SoundEvent]
 	private var newnames = new ListBuffer[ResourceLocation]
-	def addSound(domain: BDomain, name: String): WSound = {
+	def addSound(domain: Domain, name: String): WSound = {
 		val fullname = s"${domain.name}_$name"
 		val location = new ResourceLocation(IaS3.MODID, fullname)
 		val soundevent = new SoundEvent(location)

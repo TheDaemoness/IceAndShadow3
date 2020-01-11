@@ -1,10 +1,10 @@
 package mod.iceandshadow3.multiverse.dim_nyx.feature
 
 import mod.iceandshadow3.lib.compat.block.{BlockQueries, WBlockState}
-import mod.iceandshadow3.lib.gen.{BWorldGenFeatureTypeSimple, BWorldGenLayerFeaturesSparse, TWorldGenColumnFn, TWorldGenLayer, WorldGenColumn}
+import mod.iceandshadow3.lib.gen.{WorldGenFeatureTypeSimple, WorldGenLayerFeaturesSparse, TWorldGenColumnFn, TWorldGenLayer, WorldGenColumn}
 import mod.iceandshadow3.multiverse.{DomainGaia, DomainNyx}
 import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx
-import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
+import mod.iceandshadow3.multiverse.dim_nyx.column.ColumnFnNyx
 
 object NyxLayerCrystals {
 	val moonstone = DomainGaia.Blocks.moonstone_block.toWBlockState
@@ -25,12 +25,12 @@ object NyxLayerCrystals {
 			}
 		}
 	}
-	class FeatureType extends BWorldGenFeatureTypeSimple[TWorldGenColumnFn, BNyxColumn](1, 1) {
-		override def columnAt(xRela: Int, zRela: Int, parent: BNyxColumn) = new Column(Math.min(254, parent.height.toInt))
+	class FeatureType extends WorldGenFeatureTypeSimple[TWorldGenColumnFn, ColumnFnNyx](1, 1) {
+		override def columnAt(xRela: Int, zRela: Int, parent: ColumnFnNyx) = new Column(Math.min(254, parent.height.toInt))
 	}
 }
-class NyxLayerCrystals(seed: Long, parent: TWorldGenLayer[BNyxColumn])
-extends BWorldGenLayerFeaturesSparse[TWorldGenColumnFn, BNyxColumn](
+class NyxLayerCrystals(seed: Long, parent: TWorldGenLayer[ColumnFnNyx])
+extends WorldGenLayerFeaturesSparse[TWorldGenColumnFn, ColumnFnNyx](
 	seed, 47199, parent, new NyxLayerCrystals.FeatureType(), NyxLayerCrystals.variance, NyxLayerCrystals.margin
 ) {
 	override protected def defaultColumn(xBlock: Int, zBlock: Int) = NyxLayerCrystals.noOp

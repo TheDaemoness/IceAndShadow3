@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.world.impl.AModDimension
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
-class EventHandlerDimension extends BEventHandler {
+class EventHandlerDimension extends EventHandler {
 	@SubscribeEvent
 	def onPoorInnocentSoulUpdate(victim: LivingUpdateEvent): Unit = {
 		val dim = AModDimension.lookup(victim.getEntityLiving.dimension.getModType)

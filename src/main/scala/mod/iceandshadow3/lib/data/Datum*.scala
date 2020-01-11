@@ -20,7 +20,7 @@ sealed trait TFloatBounded extends TBounded[Double] {
 	def getMax: Double = Double.MaxValue
 }
 
-class DatumBool(bool: Boolean) extends BDataTreeLeaf(bool) {
+class DatumBool(bool: Boolean) extends DataTreeLeaf(bool) {
 	def isTrue: Boolean = get
 	override protected def readNBT(tag: INBT) =
 		tag.asInstanceOf[NumberNBT].getByte != 0
@@ -29,7 +29,7 @@ class DatumBool(bool: Boolean) extends BDataTreeLeaf(bool) {
 	override protected def parseLine(line: String) = java.lang.Boolean.valueOf(line)
 }
 
-abstract class DatumInt(int: Long) extends BDataTreeLeaf(int) with TIntBounded {
+abstract class DatumInt(int: Long) extends DataTreeLeaf(int) with TIntBounded {
 	override def set(newval: Long) = {
 		if(newval < getMin || newval > getMax) false
 		super.set(newval)
@@ -44,7 +44,7 @@ abstract class DatumInt(int: Long) extends BDataTreeLeaf(int) with TIntBounded {
 	override protected def parseLine(line: String) = java.lang.Long.valueOf(line)
 }
 
-class DatumString(string: String) extends BDataTreeLeaf(string) {
+class DatumString(string: String) extends DataTreeLeaf(string) {
 	override protected def readNBT(tag: INBT) =
 		tag.asInstanceOf[StringNBT].getString
 	override protected def writeNBT(value: String) =
@@ -55,7 +55,7 @@ class DatumString(string: String) extends BDataTreeLeaf(string) {
 class DatumFloat(
 	double: Double, 
 	protected val emitFloat: Boolean = false
-) extends BDataTreeLeaf(double) with TFloatBounded {
+) extends DataTreeLeaf(double) with TFloatBounded {
 	override def set(newval: Double) = {
 		if(newval < getMin || newval > getMax) false
 		super.set(newval)
@@ -67,7 +67,7 @@ class DatumFloat(
 	override protected def parseLine(line: String) = java.lang.Double.valueOf(line)
 }
 
-abstract class DatumIntArray(size: Int = 0) extends BDataTreeLeaf(new Array[Long](size)) with TIntBounded {
+abstract class DatumIntArray(size: Int = 0) extends DataTreeLeaf(new Array[Long](size)) with TIntBounded {
 	override def set(newarray: Array[Long]) = {
 		for(newval <- newarray) if(newval < getMin || newval > getMax) throw new IllegalArgumentException
 		super.set(newarray)

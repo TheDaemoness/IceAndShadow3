@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.item
 
 import mod.iceandshadow3.lib.compat.block.impl.BinderBlock
-import mod.iceandshadow3.lib.{BLogicBlock, BLogicItem}
+import mod.iceandshadow3.lib.{BLogicBlock, LogicItem}
 import mod.iceandshadow3.lib.compat.entity.state.{AttributeModTotal, EquipPointVanilla, WAttribute}
 import mod.iceandshadow3.lib.compat.entity.WEntity
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
@@ -16,8 +16,8 @@ import net.minecraftforge.common.ForgeHooks
 /** Null-safe item stack.
 	*/
 class WItemStack(inputstack: ItemStack)
-	extends BWItem
-	with TWLogical[BLogicItem]
+	extends WItem
+	with TWLogical[LogicItem]
 	with TLocalized
 	with TNbtSource
 {
@@ -101,7 +101,7 @@ object WItemStack {
 	}
 	def make(id: String): WItemStack =
 		new WItemStack(CNVItem.newItemStack(id))
-	private[lib] def make(logic: BLogicItem): WItemStack = {
+	private[lib] def make(logic: LogicItem): WItemStack = {
 		val item = BinderItem(logic)
 		if(item == null) new WItemStack() else new WItemStack(item)
 	}

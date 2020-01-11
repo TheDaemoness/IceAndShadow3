@@ -1,6 +1,6 @@
 package mod.iceandshadow3.damage
 
-import mod.iceandshadow3.lib.compat.entity.state.{EquipPoint, EquipPointVanilla, WAttribute}
+import mod.iceandshadow3.lib.compat.entity.state.{BEquipPoint, EquipPointVanilla, WAttribute}
 import mod.iceandshadow3.lib.compat.item.WItemStack
 
 case class AdsArmorValue(hard: Float, soft: Float) {
@@ -21,7 +21,7 @@ object AdsArmorValue {
 		(classOf[TDmgTypePhysical], AdsArmorValue(2, 0)),
 		(classOf[TDmgTypeSharp], AdsArmorValue(2, 0))
 	)
-	def getFrom(what: WItemStack, where: EquipPoint): Values = {
+	def getFrom(what: WItemStack, where: BEquipPoint): Values = {
 		val innate = where match {
 			case vanilla: EquipPointVanilla => fromVanilla(what, vanilla)
 			case _ => List()
@@ -32,7 +32,7 @@ object AdsArmorValue {
 		if(!what.isEmpty) List()
 		else SHIELD_DEFAULT ++ what.facet[IAdsArmor].fold(ARMOR_DEFAULT)(_.getAdsArmors)
 	}
-	def apply(what: BDamage, armors: Values): AdsArmorValue = {
+	def apply(what: Damage, armors: Values): AdsArmorValue = {
 		var soft = 0f
 		var hard = 0f
 		for(armor <- armors) {
@@ -44,7 +44,7 @@ object AdsArmorValue {
 		AdsArmorValue(hard, soft)
 	}
 	private def fromVanilla(what: WItemStack, where: EquipPointVanilla): Values = {
-		val factor = if(where == EquipPoint.BODY_CHEST || where == EquipPoint.BODY_LEGS) 1 else 2
+		val factor = if(where == BEquipPoint.BODY_CHEST || where == BEquipPoint.BODY_LEGS) 1 else 2
 		val armor = what.apply(WAttribute.ARMOR_VANILLA, where).apply(0d)*factor
 		val toughness = what.apply(WAttribute.ARMOR_VANILLA_TOUGHNESS, where).apply(0f)
 		val hard = Math.floor(armor/4).toFloat

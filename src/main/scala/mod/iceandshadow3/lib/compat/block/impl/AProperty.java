@@ -8,10 +8,10 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class AProperty implements IProperty<Integer> {
-	private final BVarBlockNew logic;
+	private final VarBlockNew logic;
 	private final Collection<Integer> values;
 
-	AProperty(BVarBlockNew<?> bbv) {
+	AProperty(VarBlockNew<?> bbv) {
 		logic = bbv;
 		values = new OrdSet(logic.size()).toJava();
 	}

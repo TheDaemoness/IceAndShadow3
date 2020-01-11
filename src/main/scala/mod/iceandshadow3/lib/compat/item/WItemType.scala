@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.compat.item
 
-import mod.iceandshadow3.lib.compat.WIdItem
-import mod.iceandshadow3.lib.{BLogicBlock, BLogicItem}
+import mod.iceandshadow3.lib.{BLogicBlock, LogicItem}
 import mod.iceandshadow3.lib.compat.block.impl.BinderBlock
+import mod.iceandshadow3.lib.compat.id.WIdItem
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import net.minecraft.item.Item
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.ForgeRegistries
 
-case class WItemType(final override val asItem: Item) extends BWItem with Comparable[WItemType] {
+case class WItemType(final override val asItem: Item) extends WItem with Comparable[WItemType] {
 	def this(id: String) = this(ForgeRegistries.ITEMS.getValue(new ResourceLocation(id)))
 	override def asWItem(): WItemType = this
 
@@ -23,6 +23,6 @@ case class WItemType(final override val asItem: Item) extends BWItem with Compar
 object WItemType {
 	@throws[NoSuchElementException]
 	def apply(name: String): WItemType = WIdItem(name).getOrThrow
-	private[lib] def make(what: BLogicItem): WItemType = new WItemType(BinderItem.apply(what))
+	private[lib] def make(what: LogicItem): WItemType = new WItemType(BinderItem.apply(what))
 	private[lib] def make(what: BLogicBlock): WItemType = new WItemType(BinderBlock.apply(what)._2)
 }

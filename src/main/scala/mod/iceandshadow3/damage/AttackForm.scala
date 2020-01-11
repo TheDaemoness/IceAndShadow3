@@ -1,10 +1,10 @@
 package mod.iceandshadow3.damage
 
-import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
-import mod.iceandshadow3.lib.compat.entity.state.EquipPoint._
+import mod.iceandshadow3.lib.compat.entity.state.BEquipPoint
+import mod.iceandshadow3.lib.compat.entity.state.BEquipPoint._
 
 case class AttackForm (
-	relevantArmor:Array[Set[EquipPoint]] = Array(Set(BODY_HEAD), Set(BODY_CHEST), Set(BODY_LEGS), Set(BODY_CHEST)),
+	relevantArmor:Array[Set[BEquipPoint]] = Array(Set(BODY_HEAD), Set(BODY_CHEST), Set(BODY_LEGS), Set(BODY_CHEST)),
 	ranged:Boolean = true,
 	blockable:Boolean = true,
 	projectile:Boolean = false,
@@ -12,7 +12,7 @@ case class AttackForm (
 	volumetric:Boolean = false //Damages shields regardless of whether their armor contributes to DR or not.
 )
 object AttackForm {
-	private val ARMORLESS = Array(Set[EquipPoint]())
+	private val ARMORLESS = Array(Set[BEquipPoint]())
 	val SWING = AttackForm(
 		ranged = false
 	)

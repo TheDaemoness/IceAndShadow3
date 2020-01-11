@@ -2,15 +2,14 @@ package mod.iceandshadow3.lib.compat.block.impl;
 
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.block.BHandlerComparator;
+import mod.iceandshadow3.lib.block.HandlerComparator;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
-import mod.iceandshadow3.lib.compat.WId;
+import mod.iceandshadow3.lib.compat.id.WId;
 import mod.iceandshadow3.lib.compat.block.*;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity$;
 import mod.iceandshadow3.lib.compat.entity.WEntity;
-import mod.iceandshadow3.lib.compat.entity.WEntityLiving;
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned;
 import mod.iceandshadow3.lib.util.E3vl;
 import net.minecraft.block.Block;
@@ -36,11 +35,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,7 +42,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 
 //NOTE: The deprecation suppression is here because the methods are supposed to be called indirectly via IBlockState.
 //Overriding them is fine.
@@ -58,7 +51,7 @@ final public class ABlock extends Block
 implements IABlock, IShearable {
 	private final BLogicBlock logic;
 	private final BlockRenderLayer layer;
-	private final BHandlerComparator handlerComparator;
+	private final HandlerComparator handlerComparator;
 	private final VoxelShape defaultShape;
 	private final ResourceLocation lootTable;
 	private final StateContainer<net.minecraft.block.Block, BlockState> realContainer;
@@ -77,12 +70,12 @@ implements IABlock, IShearable {
 		final StateContainer.Builder<net.minecraft.block.Block, BlockState> builder =
 			new StateContainer.Builder<>(this);
 		final BinderBlockVar$ binder = BinderBlockVar$.MODULE$;
-		for(BVarBlock<?> bbv : logic.variables().asJava()) {
+		for(VarBlock<?> bbv : logic.variables().asJava()) {
 			builder.add(binder.apply(bbv).expose());
 		}
 		realContainer = builder.create(BlockState::new);
 		BlockState bbs = this.getStateContainer().getBaseState();
-		for(BVarBlock bbv : logic.variables().asJava()) {
+		for(VarBlock bbv : logic.variables().asJava()) {
 			bbs = binder.get(bbv).addTo(bbs, bbv.defaultVal());
 		}
 		setDefaultState(bbs);

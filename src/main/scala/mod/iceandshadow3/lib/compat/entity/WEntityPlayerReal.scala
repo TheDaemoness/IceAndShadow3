@@ -2,7 +2,7 @@ package mod.iceandshadow3.lib.compat.entity
 
 import javax.annotation.Nullable
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.BDimension
+import mod.iceandshadow3.lib.LogicDimension
 import mod.iceandshadow3.lib.compat.world.{WDimensionCoord, WWorld}
 import mod.iceandshadow3.lib.spatial.IVec3
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -35,5 +35,5 @@ class WEntityPlayerReal protected[entity](protected[compat] val spe: ServerPlaye
 		}
 	}
 
-	def teleport(dim: BDimension): Unit = teleport(dim.coord, dim.defaultPlace)
+	def teleport(dim: LogicDimension): Unit = teleport(dim.coord, dim.defaultPlace)
 }

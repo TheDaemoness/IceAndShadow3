@@ -5,12 +5,12 @@ import net.minecraft.nbt._
 
 import scala.jdk.CollectionConverters._
 
-class DataTreeMap extends BDataTreeBranch[
-	java.util.Map[String, IDataTreeRW[_ <: BDataTree[_]]],
+class DataTreeMap extends DataTreeBranch[
+	java.util.Map[String, IDataTreeRW[_ <: DataTree[_]]],
 	String
 ](new java.util.HashMap) {
 
-	def this(existing: Iterable[(String, IDataTreeRW[_ <: BDataTree[_]])]) = {
+	def this(existing: Iterable[(String, IDataTreeRW[_ <: DataTree[_]])]) = {
 		this()
 		for((key, value) <- existing) add(key, value)
 	}
@@ -40,19 +40,19 @@ class DataTreeMap extends BDataTreeBranch[
 		}
 		greatSuccess
 	}
-	override protected def writeNBT(map: java.util.Map[String,IDataTreeRW[_ <: BDataTree[_]]]) = {
+	override protected def writeNBT(map: java.util.Map[String,IDataTreeRW[_ <: DataTree[_]]]) = {
 		val retval = new CompoundNBT()
 		for((key, value) <- map.asScala) retval.put(key, value.exposeDataTree().toNBT)
 		retval
 	}
 
-	override protected def copyFrom(map: java.util.Map[String,IDataTreeRW[_ <: BDataTree[_]]]): Unit =
+	override protected def copyFrom(map: java.util.Map[String,IDataTreeRW[_ <: DataTree[_]]]): Unit =
 		datum = new java.util.HashMap(map)
 
 	override def get(key: String) =
 		Option(datum.get(key))
 
-	def add(key: String, value: IDataTreeRW[_ <: BDataTree[_]]) = {
+	def add(key: String, value: IDataTreeRW[_ <: DataTree[_]]) = {
 		if(value == null) this
 		else {datum.put(key, value); this}
 	}

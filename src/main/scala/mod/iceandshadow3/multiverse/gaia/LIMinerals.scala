@@ -1,8 +1,8 @@
 package mod.iceandshadow3.multiverse.gaia
 
 import mod.iceandshadow3.lib.LogicItemMulti
-import mod.iceandshadow3.lib.compat.WIdTagBlock
 import mod.iceandshadow3.lib.compat.block.{BlockQueries, WBlockState}
+import mod.iceandshadow3.lib.compat.id.WIdTagBlock
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.lib.util.{E3vl, Is}

@@ -3,12 +3,12 @@ package mod.iceandshadow3.lib.common.model
 import com.google.gson.{JsonArray, JsonObject}
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.compat.file.{BJsonGenAssetsBlock, BJsonGenModelBlock}
+import mod.iceandshadow3.lib.compat.file.{JsonGenAssetsBlock, JsonGenModelBlock}
 
 class JsonGenAssetsBlockWall(
 	logic: BLogicBlock,
-	inventory: BJsonGenModelBlock, post: BJsonGenModelBlock, side: BJsonGenModelBlock
-) extends BJsonGenAssetsBlock(logic){
+	inventory: JsonGenModelBlock, post: JsonGenModelBlock, side: JsonGenModelBlock
+) extends JsonGenAssetsBlock(logic){
 	def this(logic: BLogicBlock, texture: String) = this(logic,
 		JsonGenAssetsBlockWall.defaultInventory(logic.name, texture),
 		JsonGenAssetsBlockWall.defaultPost(logic.name, texture),
@@ -51,10 +51,10 @@ class JsonGenAssetsBlockWall(
 }
 
 object JsonGenAssetsBlockWall {
-	private def defaultUsing(name: String, parent: String, texture: String) = new BJsonGenModelBlock(
+	private def defaultUsing(name: String, parent: String, texture: String) = new JsonGenModelBlock(
 		name
 	) {
-		override def apply = BJsonGenModelBlock.simpleModel(parent, Map(
+		override def apply = JsonGenModelBlock.simpleModel(parent, Map(
 			("wall", texture)
 		))
 	}

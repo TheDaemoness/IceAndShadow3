@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.block.VarBlockOrd
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.item.WItemType
-import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
+import mod.iceandshadow3.lib.compat.loot.{Loot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
 import mod.iceandshadow3.multiverse.DomainGaia
 
@@ -47,6 +47,6 @@ extends LogicBlock(DomainGaia, name, materia) {
 
 	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = what.addOne(
 		//TODO: Fortune.
-		BLoot.silktouch(this).orElse(BLoot(WItemType("minecraft:flint")).chance(0.125f))
+		Loot.silktouch(this).orElse(Loot(WItemType("minecraft:flint")).chance(0.125f))
 	)
 }

@@ -1,5 +1,5 @@
 package mod.iceandshadow3.lib.compat.block.impl;
 
-import mod.iceandshadow3.lib.base.LogicProvider;
+import mod.iceandshadow3.lib.base.ProviderLogic;
 
-public interface IABlock extends LogicProvider.Block {}
+public interface IABlock extends ProviderLogic.Block {}

@@ -1,8 +1,8 @@
 package mod.iceandshadow3.multiverse.polis
 
 import mod.iceandshadow3.lib.common.LogicBlockMateria
-import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
-import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
+import mod.iceandshadow3.lib.compat.file.JsonGenAssetsBlock
+import mod.iceandshadow3.lib.compat.loot.{Loot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.compat.recipe.ERecipeSize.{ONE_X_TWO, TWO_X_ONE, TWO_X_TWO}
 import mod.iceandshadow3.lib.compat.recipe.{ECraftingType, IngredientFactory}
 import mod.iceandshadow3.lib.misc.CubeValues
@@ -14,7 +14,7 @@ object PetrifiedBricksUtils {
 		builder.useTextures(CubeValues.builder(builder.coreName+".y").result)
 		new Object {
 			val block = builder.useLootGen(lootGen(4)).blockCustom(
-				"", logic => Some(BJsonGenAssetsBlock.customSingleModel(logic))
+				"", logic => Some(JsonGenAssetsBlock.customSingleModel(logic))
 			)
 			val slab = builder.useLootGen(lootGen(2)).slab()
 			val stairs = builder.useLootGen(lootGen(3)).stairs()
@@ -23,7 +23,7 @@ object PetrifiedBricksUtils {
 	}
 	private def lootGen(bricks: Int) = {
 		_: LogicBlockMateria => Some((lb: LootBuilder[WLootContextBlock]) => {
-			lb.addOne(BLoot.of(DomainPolis.Items.petrified_brick.toWItemType, bricks))
+			lb.addOne(Loot.of(DomainPolis.Items.petrified_brick.toWItemType, bricks))
 			()
 		})
 	}

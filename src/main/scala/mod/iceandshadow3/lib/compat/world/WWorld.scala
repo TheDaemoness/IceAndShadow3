@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{Difficulty, IWorld}
 
 class WWorld(private[compat] val worldobj: IWorld)
-extends BWorldRegionRef(Int.MinValue, Int.MinValue, Int.MaxValue, Int.MaxValue)
+extends WorldRegionRef(Int.MinValue, Int.MinValue, Int.MaxValue, Int.MaxValue)
 with TWWorld {
 	override def exposeWorld(): IWorld = worldobj
   override def world() = this

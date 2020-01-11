@@ -1,19 +1,19 @@
 package mod.iceandshadow3.lib.compat.nbt
 
 import mod.iceandshadow3.lib.compat.nbt.NbtVarMap.ValueType
-import mod.iceandshadow3.lib.data.{BVar, VarSet}
+import mod.iceandshadow3.lib.data.{Var, VarSet}
 import net.minecraft.nbt.CompoundNBT
 
 import scala.collection.mutable
 
 object NbtVarMap {
-	val orderingKeys = BVar.ordering
+	val orderingKeys = Var.ordering
 	val ordering = new Ordering[ValueType[_]] {
 		override def compare(x: ValueType[_], y: ValueType[_]) = orderingKeys.compare(x.key, y.key)
 	}
 
 	@specialized final class ValueType[T](
-		val key: BVar[T] with TVarNbt[T],
+		val key: Var[T] with TVarNbt[T],
 		private var value: T
 	) {
 		def get = value
@@ -32,7 +32,7 @@ object NbtVarMap {
 		//Originally there was a delta optimization here, but I'm pretty sure MC netcode won't trivially allow it.
 		//Further R&D necessary.
 	}
-	def newValue[T](key: BVar[T] with TVarNbt[T]) = new ValueType[T](key, key.defaultVal)
+	def newValue[T](key: Var[T] with TVarNbt[T]) = new ValueType[T](key, key.defaultVal)
 }
 
 /** Java-friendly Nbt-ready variable map. */
@@ -49,7 +49,7 @@ final class NbtVarMap(keys: VarSet.WithNbt[_]) {
 			arrayseq.sortInPlace()(NbtVarMap.ordering)
 			arrayseq
 		}
-		def apply[T](key: BVar[T]): ValueType[T] = {
+		def apply[T](key: Var[T]): ValueType[T] = {
 			var left =  0
 			var right = underlying.size - 1
 			while(left <= right) {
@@ -67,8 +67,8 @@ final class NbtVarMap(keys: VarSet.WithNbt[_]) {
 		override def knownSize = size
 	}
 
-	def apply[T](what: BVar[T]): T = map.apply(what).get
-	def update[T](what: BVar[T], valueNew: T): this.type = {
+	def apply[T](what: Var[T]): T = map.apply(what).get
+	def update[T](what: Var[T], valueNew: T): this.type = {
 		map(what).update(valueNew)
 		this
 	}

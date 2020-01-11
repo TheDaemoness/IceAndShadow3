@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.block
 
 import mod.iceandshadow3.lib.BLogicBlock
-import mod.iceandshadow3.lib.compat.block.impl.BVarBlock
+import mod.iceandshadow3.lib.compat.block.impl.VarBlock
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.material.Material
 
@@ -29,7 +29,7 @@ object BlockQueries {
 	def notSofter(hardness: Float): WBlockView => Boolean = _.hardness >= hardness
 	def crushableBy(what: WBlockView): WBlockView => Boolean = v => { v.hardness < what.hardness }
 	def hasLogic(bl: BLogicBlock): WBlockView => Boolean = bv => bl == bv.getLogic
-	def varMatches[T](variable: BVarBlock[T], pred: T => Boolean): WBlockView => Boolean = {
+	def varMatches[T](variable: VarBlock[T], pred: T => Boolean): WBlockView => Boolean = {
 		wbv => wbv ? (variable, pred)
 	}
 }

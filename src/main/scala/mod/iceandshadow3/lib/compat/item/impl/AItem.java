@@ -1,10 +1,10 @@
 package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.lib.BLogicItem;
-import mod.iceandshadow3.lib.base.LogicProvider;
+import mod.iceandshadow3.lib.LogicItem;
+import mod.iceandshadow3.lib.base.ProviderLogic;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
-import mod.iceandshadow3.lib.compat.WId;
+import mod.iceandshadow3.lib.compat.id.WId;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
 import mod.iceandshadow3.lib.compat.entity.WEntity;
 import mod.iceandshadow3.lib.compat.item.WItemStack;
@@ -12,7 +12,7 @@ import mod.iceandshadow3.lib.compat.item.WItemStackOwned;
 import mod.iceandshadow3.lib.compat.item.WUsageItem;
 import mod.iceandshadow3.lib.compat.item.WUsageItemOnBlock;
 import mod.iceandshadow3.lib.compat.world.WWorld;
-import mod.iceandshadow3.lib.item.BItemModelProperty;
+import mod.iceandshadow3.lib.item.ItemModelProperty;
 import mod.iceandshadow3.lib.util.E3vl;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class AItem extends Item implements LogicProvider.Item {
+public class AItem extends Item implements ProviderLogic.Item {
 
 	private ActionResultType toEActionResult(E3vl in) {
 		return in.remap(ActionResultType.SUCCESS, ActionResultType.PASS, ActionResultType.FAIL);
@@ -50,13 +50,13 @@ public class AItem extends Item implements LogicProvider.Item {
 		} else return true;
 	}
 
-	private final BLogicItem logic;
-	public AItem(BLogicItem itemlogic) {
+	private final LogicItem logic;
+	public AItem(LogicItem itemlogic) {
 		super(LogicToProperties$.MODULE$.toProperties(itemlogic));
 		logic = itemlogic;
-		for(BItemModelProperty bpo : logic.propertyOverrides()) {
+		for(ItemModelProperty bpo : logic.propertyOverrides()) {
 			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
-				final BItemModelProperty impl = bpo;
+				final ItemModelProperty impl = bpo;
 
 				@OnlyIn(Dist.CLIENT)
 				@Override
@@ -74,7 +74,7 @@ public class AItem extends Item implements LogicProvider.Item {
 
 	@Nonnull
 	@Override
-	public BLogicItem getLogic() {
+	public LogicItem getLogic() {
 		return logic;
 	}
 

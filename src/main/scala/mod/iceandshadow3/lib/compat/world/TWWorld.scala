@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.world
 
-import mod.iceandshadow3.lib.ParticleType
+import mod.iceandshadow3.lib.BParticleType
 import mod.iceandshadow3.lib.compat.client.impl.BinderParticle
 import mod.iceandshadow3.lib.spatial.{IPosColumn, IVec3}
 import net.minecraft.world.IWorld
@@ -21,7 +21,7 @@ trait TWWorld {
   def dimension = new WDimension(exposeWorld().getDimension)
   def dimensionCoord = WDimensionCoord(exposeWorld().getDimension.getType)
   def gameTime: Long = exposeWorld().getWorldInfo.getGameTime
-  def particle(what: ParticleType, where: IVec3, vel: IVec3): Unit = exposeWorld().addParticle(
+  def particle(what: BParticleType, where: IVec3, vel: IVec3): Unit = exposeWorld().addParticle(
     BinderParticle(what),
     where.xDouble, where.yDouble, where.zDouble,
     vel.xDouble, vel.yDouble, vel.zDouble

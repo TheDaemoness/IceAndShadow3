@@ -49,35 +49,31 @@ If necessary, abbreviations that would otherwise be capitalized will be camelcas
 
 Note that these are more guidelines than hard rules.
 
-### "A" - Adapter
+### A*
 Always written in Java.
 Takes IaS3 objects (or their data) and exposes a Minecraft-compatible (or Forge-compatible) interface to them.
 
 Used for Blocks, Items, Entities, and virtually everything that needs to go in a Registry.
 
-### "B" - Base
-A class intended to be subtyped. Usually abstract, *never* a leaf in the inheritance tree
-(`sealed` without any other classes in the same file extending it, or `final`).
+### B*
+A class that cannot be instantiated via `new` (including via the creation of an anonymous class) AND has subtypes.
+Almost always implies a `sealed` class.
 
-### "CNV" - Conversions
+### CNV*
 Always written in Scala.
-A non-package object that contains implicit conversions.
+A non-package non-companion object that contains implicit conversions.
 
-### 'E' - Enumeration
-Java: a `public enum`. Woop.
+### E*
+A class with a definite number of instances (and cannot be subtyped).
+Can be an enum, a sealed case class with a companion object, 
 
-Scala: a sealed class with a companion object that contains `case object`s that subtype the sealed class.
+### I*
+A Java 8 interface, or a trait that can be sensibly mixed into a Java 8 class.
 
-### 'I' - Interface
-Java: an `interface`. Note that IaS3's Java portions are in Java 8.
-
-Scala: an unsealed `trait` that could be losslessly translated to a Java 8 interface.
-
-### "T" - Trait
+### T*
 Always written in Scala. A trait that does NOT fit the criteria for the `I` prefix. Often a mixin.
 
-### "W" - Wrapper
-Formerly prefixed with "C".
+### W*
 Takes Minecraft objects (or their data) and exposes an IaS3-controlled interface to them.
 
 Usually exposes the objects it's hiding with `protected[compat]` or `private[compat]` visibility, sometimes narrower.

@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.gen
 
-import mod.iceandshadow3.lib.BDomain
+import mod.iceandshadow3.lib.Domain
 
 /** Data holder and modifier of WorldGenColumns. */
 trait TWorldGenColumnFn {
-	def domain: BDomain
+	def domain: Domain
 	def apply(to: WorldGenColumn): Unit
 }
 object TWorldGenColumnFn {
-	def noOp(dom: BDomain) = new TWorldGenColumnFn {
+	def noOp(dom: Domain) = new TWorldGenColumnFn {
 		override def domain = dom
 		override def apply(v1: WorldGenColumn): Unit = ()
 	}

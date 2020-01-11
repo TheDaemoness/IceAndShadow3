@@ -1,14 +1,13 @@
 package mod.iceandshadow3.lib.compat.entity.state.impl;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.lib.BStatusEffect;
+import mod.iceandshadow3.lib.StatusEffect;
 import mod.iceandshadow3.lib.compat.entity.CNVEntity;
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving;
 import mod.iceandshadow3.lib.compat.entity.state.WDamage;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -17,9 +16,9 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 
 public class AStatusEffect extends Effect {
-	private final BStatusEffect fxlogic;
+	private final StatusEffect fxlogic;
 	private final String mcname;
-	public AStatusEffect(BStatusEffect fx) {
+	public AStatusEffect(StatusEffect fx) {
 		super(
 			fx.isBeneficial().isTrue() ? EffectType.BENEFICIAL : (
 				fx.isBeneficial().isFalse() ? EffectType.HARMFUL : EffectType.NEUTRAL

@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 
 import scala.jdk.CollectionConverters._
 
-class EventHandlerStatus extends BEventHandler {
+class EventHandlerStatus extends EventHandler {
 	@SubscribeEvent
 	def onHarm(lde: LivingDamageEvent): Unit = {
 		val who = CNVEntity.wrap(lde.getEntityLiving)

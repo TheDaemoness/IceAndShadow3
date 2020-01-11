@@ -3,12 +3,12 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.compat.block.{BlockQueries, WBlockState}
 import mod.iceandshadow3.lib.compat.block.`type`.{BlockTypeSnow, CommonBlockTypes}
-import mod.iceandshadow3.lib.gen.{BWorldGenLayerDecoration, BWorldGenLayerTerrain, WorldGenColumn}
+import mod.iceandshadow3.lib.gen.{WorldGenLayerDecoration, WorldGenLayerTerrain, WorldGenColumn}
 import mod.iceandshadow3.lib.util.MathUtils
 import mod.iceandshadow3.multiverse.DomainNyx
 import mod.iceandshadow3.multiverse.dim_nyx.WorldGenNyx.{yBald, yThinning}
 
-class NyxWorldGenLayerSurface(seed: Long, icicleInfrequency: Int) extends BWorldGenLayerDecoration(DomainNyx) {
+class NyxWorldGenLayerSurface(seed: Long, icicleInfrequency: Int) extends WorldGenLayerDecoration(DomainNyx) {
 	val smoothsnow = IaS3.getCfgServer.smooth_snow.get
 
 	protected def thickSnow(height: Float, y: Int): WBlockState = {
@@ -25,7 +25,7 @@ class NyxWorldGenLayerSurface(seed: Long, icicleInfrequency: Int) extends BWorld
 	def apply(in: WorldGenColumn): Unit = {
 		val hasIcicles = in.rng.nextInt(icicleInfrequency) == 0
 		var doIcicles = hasIcicles
-		val height = in(BWorldGenLayerTerrain.varHeight)+1
+		val height = in(WorldGenLayerTerrain.varHeight)+1
 		var y = yBald+1
 		// DO NOT INCREASE. ALGORITHM DOES NOT SUPPORT DEEPER SNOW.
 		var snows = 2

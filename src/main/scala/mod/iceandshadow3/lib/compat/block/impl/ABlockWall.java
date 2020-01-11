@@ -3,7 +3,7 @@ package mod.iceandshadow3.lib.compat.block.impl;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
-import mod.iceandshadow3.lib.compat.WId;
+import mod.iceandshadow3.lib.compat.id.WId;
 import mod.iceandshadow3.lib.util.E3vl;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallBlock;

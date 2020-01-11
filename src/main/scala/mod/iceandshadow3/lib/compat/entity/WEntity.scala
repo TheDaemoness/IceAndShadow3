@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.util.{CNVCompat, TLocalized}
 import mod.iceandshadow3.lib.compat.world.TWWorldPlace
 import mod.iceandshadow3.lib.spatial.{IPositionalFine, IVec3}
 import mod.iceandshadow3.lib.util.collect.IteratorEmpty
-import mod.iceandshadow3.lib.ParticleType
+import mod.iceandshadow3.lib.BParticleType
 import net.minecraft.entity.Entity
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.world.LightType
@@ -46,6 +46,6 @@ class WEntity protected[entity](protected[compat] val entity: Entity)
 
 	def remove(): Unit = entity.remove()
 
-	def particle(what: ParticleType, vel: IVec3): Unit = super.particle(what, posFine, vel)
+	def particle(what: BParticleType, vel: IVec3): Unit = super.particle(what, posFine, vel)
 }
 

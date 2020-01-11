@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse
 
-import mod.iceandshadow3.lib.compat.WIdItem
+import mod.iceandshadow3.lib.compat.id.WIdItem
 import mod.iceandshadow3.lib.compat.inventory.WInventoryCrafting
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.recipe.{ECraftingType, ERecipeSize, IngredientFactory}
@@ -10,7 +10,7 @@ import mod.iceandshadow3.multiverse.gaia.{ELivingstoneType, LIMinerals}
 import mod.iceandshadow3.multiverse.polis.{LIMoonstoneDust, PetrifiedBricksUtils}
 
 object Recipes { private[iceandshadow3] def apply(): Unit = {
-	import mod.iceandshadow3.lib.compat.recipe.CraftResult.apply
+	import mod.iceandshadow3.lib.compat.recipe.BCraftResult.apply
 	import ERecipeSize._
 
 	val minerals = DomainGaia.Items.minerals

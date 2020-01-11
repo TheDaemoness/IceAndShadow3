@@ -2,7 +2,7 @@ package mod.iceandshadow3.damage.impl
 
 import mod.iceandshadow3.damage.{AdsArmorValue, TDmgTypeNatural}
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
-import mod.iceandshadow3.lib.compat.entity.state.EquipPoint
+import mod.iceandshadow3.lib.compat.entity.state.BEquipPoint
 import mod.iceandshadow3.lib.util.GeneralUtils
 import mod.iceandshadow3.multiverse.misc.StatusEffects
 import net.minecraftforge.common.MinecraftForge
@@ -28,7 +28,7 @@ object HandlerADS {
 					damage.applyPre(victim, mult)
 					val baseDmg = ads.getAmount(idx) * mult
 					//Compute contributions from a shield/auras.
-					val shield = victim.equipment(EquipPoint.USING_SHIELD)
+					val shield = victim.equipment(BEquipPoint.USING_SHIELD)
 					val totalShieldValue = if(attack.form.blockable) {
 						AdsArmorValue(damage, AdsArmorValue.getFromShield(shield))
 					} else AdsArmorValue.NONE

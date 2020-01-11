@@ -3,11 +3,11 @@ package mod.iceandshadow3.multiverse.dim_nyx.feature
 import java.util.Random
 
 import mod.iceandshadow3.lib.compat.block.BlockQueries
-import mod.iceandshadow3.lib.gen.{BWorldGenFeatureTypeBuilt, CanvasFeature}
+import mod.iceandshadow3.lib.gen.{WorldGenFeatureTypeBuilt, CanvasFeature}
 import mod.iceandshadow3.lib.spatial.{IMap2d, IPosColumn, RandomXZ, TupleXZ}
 import mod.iceandshadow3.lib.util.MathUtils
 import mod.iceandshadow3.multiverse.DomainGaia
-import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
+import mod.iceandshadow3.multiverse.dim_nyx.column.ColumnFnNyx
 
 object NyxFeatureTree {
 	//Annoying hard-coded array of 9-long arrays of integers that get mapped to leaf block states.
@@ -30,7 +30,7 @@ object NyxFeatureTree {
 	val leaves_3 = leaves.+(DomainGaia.Blocks.petrified_leaves.varSupport, 0).asBlockFn
 }
 class NyxFeatureTree(seed: Long, shouldTree: IPosColumn => Boolean)
-extends BWorldGenFeatureTypeBuilt[BNyxColumn](
+extends WorldGenFeatureTypeBuilt[ColumnFnNyx](
 	new CanvasFeature(DomainGaia, 5, 256, 5, (col,b,y) => {
 		val existing = col.apply(y)
 		if(BlockQueries.notTougher(existing)(b)) col.update(y, b)
@@ -43,7 +43,7 @@ extends BWorldGenFeatureTypeBuilt[BNyxColumn](
 	import NyxFeatureTree.center
 
 	/** Called to check if this feature instance differs from the base. */
-	override def analyze(existing: IMap2d[BNyxColumn], origin: IPosColumn) = {
+	override def analyze(existing: IMap2d[ColumnFnNyx], origin: IPosColumn) = {
 		val col = IPosColumn.lookupFrom(existing, origin, center.x, center.z)
 		val height = col.height.toInt
 		if(

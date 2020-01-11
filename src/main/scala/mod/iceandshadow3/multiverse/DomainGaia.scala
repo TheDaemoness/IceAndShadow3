@@ -1,18 +1,18 @@
 package mod.iceandshadow3.multiverse
 
-import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
+import mod.iceandshadow3.lib.compat.file.JsonGenAssetsBlock
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.compat.loot.{LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.util.{Color, E3vl}
-import mod.iceandshadow3.lib.{BDomain, LogicBlock, LogicItemMulti}
+import mod.iceandshadow3.lib.{Domain, LogicBlock, LogicItemMulti}
 import mod.iceandshadow3.multiverse.gaia._
 
-object DomainGaia extends BDomain("gaia") {
+object DomainGaia extends Domain("gaia") {
 	val Blocks = new {
 		val livingstones = ELivingstoneType.values().map(new LBStoneLiving(_))
 		val navistra_bedrock = new LogicBlock(DomainGaia, "navistra_bedrock", Materias.navistra_bedrock) {
 			override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = ()
-			override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.customSingleModel(this))
+			override def getGenAssetsBlock = Some(JsonGenAssetsBlock.customSingleModel(this))
 		}
 		val navistra_stone = new LogicBlock(DomainGaia, "navistra_stone", Materias.navistra_stone)
 		val petrified_log = new LBLog("petrified_log", Materias.petrified_wood, 3)
@@ -31,7 +31,7 @@ object DomainGaia extends BDomain("gaia") {
 		val moonstone = new LogicItemMulti(DomainGaia, "moonstone", 2)
 	}
 
-	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx
+	override def isHostileTo(other: Domain): Boolean = other == DomainNyx
 	override def tierToRarity(tier: Int): WRarity = WRarity.COMMON
 
 	override def color = Color.GREEN

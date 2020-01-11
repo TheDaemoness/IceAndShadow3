@@ -1,10 +1,10 @@
 package mod.iceandshadow3.lib.block
 
-import mod.iceandshadow3.lib.compat.block.impl.BVarBlockNew
+import mod.iceandshadow3.lib.compat.block.impl.VarBlockNew
 
 import scala.collection.immutable
 
-class VarBlock[T](name: String, values: T*) extends BVarBlockNew[T](name, values(0)) {
+class VarBlock[T](name: String, values: T*) extends VarBlockNew[T](name, values.head) {
 	private val to = immutable.Map.newBuilder[String, Int].addAll(values.map((_: T).toString).zipWithIndex).result()
 	private val from = immutable.Map.newBuilder[T, Int].addAll(values.zipWithIndex).result()
 	override def size = values.size

@@ -1,8 +1,8 @@
 package mod.iceandshadow3.lib.compat.recipe
 
 import com.google.gson.JsonObject
-import mod.iceandshadow3.lib.base.{BLogic, TLogicWithItem}
-import mod.iceandshadow3.lib.compat.WIdItem
+import mod.iceandshadow3.lib.base.{LogicCommon, TLogicWithItem}
+import mod.iceandshadow3.lib.compat.id.WIdItem
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import net.minecraft.item.crafting.Ingredient
 
@@ -16,7 +16,7 @@ sealed abstract class IngredientFactory { //No relation to BuildCraft.
 		override def conditionJson = None
 		override def toResult = IngredientFactory.this.toResult
 	}
-	def toResult: CraftResult
+	def toResult: BCraftResult
 }
 object IngredientFactory {
 	import scala.util.chaining._
@@ -27,7 +27,7 @@ object IngredientFactory {
 		override def toResult =
 			throw new IllegalStateException("Attempted to get crafting result from empty IngredientFactory")
 	}
-	implicit def apply(what: BLogic with TLogicWithItem): IngredientFactory = new IngredientFactory {
+	implicit def apply(what: LogicCommon with TLogicWithItem): IngredientFactory = new IngredientFactory {
 		override protected[compat] def build = Ingredient.fromItems(what.toWItemType.asItem)
 		override def conditionJson =
 			Some(new JsonObject().tap(_.addProperty("item", what.id.nameFull)))

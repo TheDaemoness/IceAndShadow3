@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.forge.bait
 
-import mod.iceandshadow3.lib.BLogicItem
+import mod.iceandshadow3.lib.LogicItem
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.lib.compat.forge.fish.TEventFishOwnerToss
@@ -9,12 +9,12 @@ import net.minecraftforge.event.entity.item.ItemTossEvent
 //WARNING: Despite the name, this event needs to be handled very differently from the other Owner events.
 //DO NOT SUBTYPE BEventBaitOwner HERE!
 
-class EventBaitOwnerToss extends BEventBait[ItemTossEvent] {
+class EventBaitOwnerToss extends EventBait[ItemTossEvent] {
 	override def receiveCancelled = false
 
 	override protected def handle(event: ItemTossEvent): Unit = {
 		val item = new WItemStackOwned(event.getEntityItem.getItem, CNVEntity.wrap(event.getPlayer))
-		forEventFish[TEventFishOwnerToss, BLogicItem, Unit](item, (pair, feesh) => {
+		forEventFish[TEventFishOwnerToss, LogicItem, Unit](item, (pair, feesh) => {
 			feesh.onOwnerToss(item).forBoolean(uncancel => {event.setCanceled(!uncancel)})
 		})
 	}

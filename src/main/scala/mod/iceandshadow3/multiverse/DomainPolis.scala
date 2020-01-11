@@ -3,11 +3,11 @@ package mod.iceandshadow3.multiverse
 import mod.iceandshadow3.lib.common.LogicBlockMateria
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.util.Color
-import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
+import mod.iceandshadow3.lib.{Domain, LogicItemMulti}
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneType
 import mod.iceandshadow3.multiverse.polis._
 
-object DomainPolis extends BDomain("polis") {
+object DomainPolis extends Domain("polis") {
 	val Blocks = new {
 		val stones = ELivingstoneType.values().map(
 			variant => LogicBlockMateria(DomainPolis, Materias.stone, variant.name).stoneVariants()
@@ -22,7 +22,7 @@ object DomainPolis extends BDomain("polis") {
 		val moonstone_dust = new LIMoonstoneDust
 	}
 
-	override def isHostileTo(other: BDomain): Boolean = other == DomainNyx || other == DomainGaia
+	override def isHostileTo(other: Domain): Boolean = other == DomainNyx || other == DomainGaia
 	override def tierToRarity(tier: Int): WRarity = WRarity.COMMON
 
 	override def color = Color.CYAN

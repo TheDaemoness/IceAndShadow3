@@ -12,6 +12,7 @@ import mod.iceandshadow3.lib.compat.block.impl.{BinderBlock, BinderBlockVar, Til
 import mod.iceandshadow3.lib.compat.client.impl.{AParticleType, BinderParticle}
 import mod.iceandshadow3.lib.compat.entity.impl.{BinderEntity, BinderEntityMob}
 import mod.iceandshadow3.lib.compat.entity.state.impl.{AStatusEffect, BinderStatusEffect}
+import mod.iceandshadow3.lib.compat.id.WId
 import mod.iceandshadow3.lib.compat.item.impl.BinderItem
 import mod.iceandshadow3.lib.compat.recipe.{AddedRecipesInfo, RecipeFactory}
 import mod.iceandshadow3.lib.compat.world.WSound
@@ -30,11 +31,11 @@ object Registrar {
 	private[compat] object RecipeHandler
 	extends net.minecraftforge.registries.ForgeRegistryEntry[IRecipeSerializer[_]]
 	with IRecipeSerializer[IRecipe[_]] {
-		final val fileGen: BFileGen = new BFileGen("ias3_builtin_recipes") {
+		final val fileGen: FileGen = new FileGen("ias3_builtin_recipes") {
 			final private val recipeStub = ("{\"type\":\""+IaS3.MODID+":builtin\"}").getBytes(Charsets.US_ASCII)
 			final protected def getData(root: Path) = {
 				val retval = new java.util.HashMap[Path, Array[Byte]]()
-				val subroot = BFileGen.getDataPath(root)
+				val subroot = FileGen.getDataPath(root)
 				for((id, factory) <- factories) {
 					retval.put(subroot.resolve(s"recipes/${id.name}.json"), recipeStub)
 					for(advancement <- factory.advancement; json <- advancement._2) retval.putIfAbsent(

@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.compat.inventory.WContainer
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.WItemStack
 import mod.iceandshadow3.lib.compat.world.WWorld
-import mod.iceandshadow3.lib.compat.forge.BEventHandler
+import mod.iceandshadow3.lib.compat.forge.EventHandler
 import mod.iceandshadow3.multiverse.DimensionNyx
 import mod.iceandshadow3.multiverse.dim_nyx.LIFrozen
 import net.minecraft.entity.item.ItemEntity
@@ -13,7 +13,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.player.{PlayerContainerEvent, PlayerInteractEvent}
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
-class EventHandlerNyx extends BEventHandler {
+class EventHandlerNyx extends EventHandler {
 	//TODO: Many of these could be implemented as BDimension calls and generalized.
 
 	@SubscribeEvent

@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.gen
 
 import mod.iceandshadow3.lib.compat.block.{BlockQueries, WBlockState}
-import mod.iceandshadow3.lib.data.BVar
+import mod.iceandshadow3.lib.data.Var
 import mod.iceandshadow3.lib.spatial.IPosColumn
 
 import scala.collection.mutable
@@ -26,11 +26,11 @@ final class WorldGenColumn private[gen](
 	def highest: (WBlockState, Int) = highest(BlockQueries.notReplaceable)
 	override def length = 256
 	private var array: Array[WBlockState] = _
-	private var metadata: mutable.HashMap[BVar[_], Any] = _
+	private var metadata: mutable.HashMap[Var[_], Any] = _
 	/** Call before initial use, lest you suffer NPEs. */
 	private[gen] def reset(): Unit = {
 		array = Array.tabulate(length)(defaultBlock)
-		metadata = new mutable.HashMap[BVar[_], Any]
+		metadata = new mutable.HashMap[Var[_], Any]
 	}
 
 	override def xBlock = x
@@ -41,6 +41,6 @@ final class WorldGenColumn private[gen](
 	def reset(y: Int): Unit = array.update(y, defaultBlock(y))
 	override def iterator = array.iterator
 
-	def apply[T](what: BVar[T]): T = metadata.getOrElseUpdate(what, what.defaultVal).asInstanceOf[T]
-	def update[T](what: BVar[T], value: T): Unit = metadata.update(what, value)
+	def apply[T](what: Var[T]): T = metadata.getOrElseUpdate(what, what.defaultVal).asInstanceOf[T]
+	def update[T](what: Var[T], value: T): Unit = metadata.update(what, value)
 }

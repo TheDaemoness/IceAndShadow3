@@ -1,14 +1,14 @@
 package mod.iceandshadow3.lib.compat.nbt
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.data.BVar
+import mod.iceandshadow3.lib.data.Var
 import net.minecraft.nbt.{CompoundNBT, INBT}
 
 object TVarNbt {
 	val defaultPath = List(IaS3.MODID)
 }
 trait TVarNbt[T] {
-	this: BVar[T] =>
+	this: Var[T] =>
 	private[compat] final def readNbt(what: CompoundNBT): Option[T] = {
 		val nullabletag = what.get(name)
 		if(nullabletag == null) None

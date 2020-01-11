@@ -5,10 +5,10 @@ import java.util.Random
 import mod.iceandshadow3.damage.{Attack, AttackForm, DamageWithStatus, TDmgTypeExousic}
 import mod.iceandshadow3.lib.LogicBlockTechnical
 import mod.iceandshadow3.lib.block.BlockShape
-import mod.iceandshadow3.lib.compat.{WIdTagBlock, WIdTagItem}
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, Materia, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WProjectile}
+import mod.iceandshadow3.lib.compat.id.{WIdTagBlock, WIdTagItem}
 import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
 import mod.iceandshadow3.lib.spatial.{IPositionalFine, UnitVec3s}
 import mod.iceandshadow3.multiverse.DomainNyx

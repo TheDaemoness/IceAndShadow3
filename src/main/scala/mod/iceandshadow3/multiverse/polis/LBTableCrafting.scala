@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.compat.block.{Materia, WBlockRef}
 import mod.iceandshadow3.lib.compat.inventory.WContainerSource
 import mod.iceandshadow3.lib.compat.entity.WEntityPlayer
-import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock
+import mod.iceandshadow3.lib.compat.file.JsonGenAssetsBlock
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.multiverse.DomainPolis
 
@@ -16,5 +16,5 @@ class LBTableCrafting(name: String, mat: Materia) extends LogicBlock(DomainPolis
 		true
 	}
 
-	override def getGenAssetsBlock = Some(BJsonGenAssetsBlock.customSingleModel(this))
+	override def getGenAssetsBlock = Some(JsonGenAssetsBlock.customSingleModel(this))
 }

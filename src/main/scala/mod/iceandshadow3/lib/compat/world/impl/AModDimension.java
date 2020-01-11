@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.world.impl;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.lib.BDimension;
+import mod.iceandshadow3.lib.LogicDimension;
 import mod.iceandshadow3.lib.compat.block.WBlockView;
 import mod.iceandshadow3.lib.compat.util.CNVCompat$;
 import mod.iceandshadow3.lib.compat.world.WDimensionCoord;
@@ -24,7 +24,6 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
 
@@ -35,15 +34,15 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 public class AModDimension extends ModDimension {
-	private static final Map<AModDimension, BDimension> reverseMap = new HashMap<>();
-	public static BDimension lookup(final ModDimension dim) {
+	private static final Map<AModDimension, LogicDimension> reverseMap = new HashMap<>();
+	public static LogicDimension lookup(final ModDimension dim) {
 		if(dim instanceof AModDimension) return reverseMap.getOrDefault(dim, null);
 		else return null;
 	}
-	private final BDimension dimlogic; //Couldn't resist.
+	private final LogicDimension dimlogic; //Couldn't resist.
 	private final ResourceLocation name;
 	public final ABiome dimbiome;
-	public AModDimension(BDimension what) {
+	public AModDimension(LogicDimension what) {
 		dimlogic = what;
 		name = new ResourceLocation(IaS3.MODID, what.name());
 		this.setRegistryName(name);
@@ -67,7 +66,7 @@ public class AModDimension extends ModDimension {
 	}
 
 	//TODO: We probably need a disable function for server unload.
-	public BDimension getIaSDimension() {
+	public LogicDimension getIaSDimension() {
 		return dimlogic;
 	}
 

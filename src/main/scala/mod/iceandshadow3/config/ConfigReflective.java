@@ -14,7 +14,7 @@ import java.util.Set;
  * These fields, despite not being final, should not be modified directly.
  * This class uses Java reflection, and subtypes of it should ONLY be written in Java.
  */
-public abstract class ConfigReflective extends BConfig {
+public abstract class ConfigReflective extends Config {
 	@Retention(RetentionPolicy.RUNTIME)
 	protected static @interface Entry {
 		boolean needsRestart() default false;

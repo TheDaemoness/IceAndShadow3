@@ -1,9 +1,9 @@
 package mod.iceandshadow3.lib.compat.world.impl;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.lib.BDimension;
+import mod.iceandshadow3.lib.LogicDimension;
 import mod.iceandshadow3.lib.compat.world.WChunk;
-import mod.iceandshadow3.lib.gen.BWorldGen;
+import mod.iceandshadow3.lib.gen.WorldGen;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -22,10 +22,10 @@ import java.util.List;
 
 public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 	private final long seed;
-	private final BDimension dim;
-	private final BWorldGen realworldgen;
+	private final LogicDimension dim;
+	private final WorldGen realworldgen;
 
-	AChunkGenerator(World w, BDimension dim, ABiome dimbiome) {
+	AChunkGenerator(World w, LogicDimension dim, ABiome dimbiome) {
 		super(w, new ABiomeProvider(dimbiome), AGenerationSettings.instance);
 		this.seed = w.getSeed();
 		this.dim = dim;

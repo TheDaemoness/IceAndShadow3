@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.entity
 
-import mod.iceandshadow3.lib.StatusEffect
-import mod.iceandshadow3.lib.compat.entity.state.{BStatus, EquipPoint, WAttribute}
+import mod.iceandshadow3.lib.BStatusEffect
+import mod.iceandshadow3.lib.compat.entity.state.{Status, BEquipPoint, WAttribute}
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned}
 import mod.iceandshadow3.lib.compat.world.WDimension
@@ -47,7 +47,7 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 	def saveItem(what: WItemStack): Boolean = false
 
 	def visibleTo(who: WEntity): Boolean = living.canEntityBeSeen(who.entity)
-	def equipment(where: EquipPoint): WItemStackOwned[WEntityLiving] = where.getItem(living)
+	def equipment(where: BEquipPoint): WItemStackOwned[WEntityLiving] = where.getItem(living)
 
 	def findItem(itemid: String, restrictToHands: Boolean): WItemStackOwned[this.type] =
 		findItem(WItemStack.make(itemid), restrictToHands)
@@ -69,15 +69,15 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 	def baseValue(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getBaseValue
 	def apply(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getValue
 
-	def apply(statusType: StatusEffect): BStatus = {
+	def apply(statusType: BStatusEffect): Status = {
 		val fx = living.getActivePotionEffect(BinderStatusEffect(statusType))
-		if(fx == null) statusType.inactive else new BStatus {
+		if(fx == null) statusType.inactive else new Status {
 			override def getEffect = statusType
 			override def getTicks = fx.getDuration
 			override def getAmp = fx.getAmplifier+1
 			override def isAmbient = fx.isAmbient
 		}
 	}
-	def remove(status: StatusEffect): Unit =
+	def remove(status: BStatusEffect): Unit =
 		if(isServerSide) living.removePotionEffect(BinderStatusEffect(status))
 }

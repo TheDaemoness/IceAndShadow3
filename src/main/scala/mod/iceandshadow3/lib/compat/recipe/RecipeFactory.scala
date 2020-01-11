@@ -3,14 +3,14 @@ package mod.iceandshadow3.lib.compat.recipe
 import com.google.gson.JsonObject
 import mod.iceandshadow3.IaS3
 import mod.iceandshadow3.lib.base.TNamed
-import mod.iceandshadow3.lib.compat.WId
-import mod.iceandshadow3.lib.compat.file.BRecipeUnlockGen
+import mod.iceandshadow3.lib.compat.file.RecipeUnlockGen
+import mod.iceandshadow3.lib.compat.id.WId
 import net.minecraft.item.crafting.{IRecipe, Ingredient}
 
 final class RecipeFactory(
 	protected val metadata: NewRecipeMetadata,
 	builder: Seq[Ingredient] => IRecipe[_],
-	recipeUnlockGen: BRecipeUnlockGen = BRecipeUnlockGen.standard(),
+	recipeUnlockGen: RecipeUnlockGen = RecipeUnlockGen.standard(),
 	inputs: Seq[IngredientFactory]
 ) extends TNamed[WId] {
 	final override val id = new WId(IaS3.MODID, metadata.name)

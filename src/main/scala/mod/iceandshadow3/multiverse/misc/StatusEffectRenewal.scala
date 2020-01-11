@@ -1,11 +1,11 @@
 package mod.iceandshadow3.multiverse.misc
 
-import mod.iceandshadow3.lib.BStatusEffectIntervaled
+import mod.iceandshadow3.lib.StatusEffectIntervaled
 import mod.iceandshadow3.lib.compat.entity.WEntityLiving
 import mod.iceandshadow3.lib.compat.entity.state.WDamage
 import mod.iceandshadow3.lib.util.{Color, E3vl}
 
-class StatusEffectRenewal extends BStatusEffectIntervaled("renewal", E3vl.TRUE, new Color(0x78c266)) {
+class StatusEffectRenewal extends StatusEffectIntervaled("renewal", E3vl.TRUE, new Color(0x78c266)) {
 	override def intervalTicks(amp: Int) = 24
 	override def doTick(who: WEntityLiving, amp: Int): Unit = {
 		if(who.hp >= who.hpMax) who.remove(this)

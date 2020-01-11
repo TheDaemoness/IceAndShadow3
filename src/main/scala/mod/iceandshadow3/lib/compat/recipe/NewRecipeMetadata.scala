@@ -1,10 +1,10 @@
 package mod.iceandshadow3.lib.compat.recipe
 
-import mod.iceandshadow3.lib.compat.WId
+import mod.iceandshadow3.lib.compat.id.WId
 import mod.iceandshadow3.lib.compat.item.WItemStack
 
 private[compat] final class NewRecipeMetadata(
-	what: CraftResult,
+	what: BCraftResult,
 	method: ECraftingType,
 	customName: String, customNameIsSuffix: Boolean,
 	groupOverride: Option[String],

@@ -3,10 +3,10 @@ package mod.iceandshadow3.multiverse
 import mod.iceandshadow3.lib.compat.item.WRarity
 import mod.iceandshadow3.lib.compat.world.WSound
 import mod.iceandshadow3.lib.util.Color
-import mod.iceandshadow3.lib.{BDomain, LogicItemMulti}
+import mod.iceandshadow3.lib.{Domain, LogicItemMulti}
 import mod.iceandshadow3.multiverse.nyx.{LINifelhium, _}
 
-object DomainNyx extends BDomain("nyx") {
+object DomainNyx extends Domain("nyx") {
 	val Blocks = new {
 		val icicles = new LBIcicles
 		val exousia = new LBExousia
@@ -24,7 +24,7 @@ object DomainNyx extends BDomain("nyx") {
 		val arrival = WSound.addSound(DomainNyx, "arrival")
 	}
 
-	override def isHostileTo(other: BDomain): Boolean = other != this
+	override def isHostileTo(other: Domain): Boolean = other != this
 	override def tierToRarity(tier: Int): WRarity = WRarity.COMMON
 
 	override def color = Color.CYAN

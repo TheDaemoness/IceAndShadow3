@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.client.impl;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.lib.BParticleType;
+import mod.iceandshadow3.lib.ParticleType;
 import mod.iceandshadow3.lib.compat.client.IParticle;
 import mod.iceandshadow3.lib.spatial.IVec3;
 import mod.iceandshadow3.lib.util.Color;
@@ -19,17 +19,17 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class AParticleFactory implements IParticleFactory<BasicParticleType> {
-	private final BParticleType type;
-	AParticleFactory(BParticleType bpt) {
+	private final ParticleType type;
+	AParticleFactory(ParticleType bpt) {
 		this.type = bpt;
 	}
 	@OnlyIn(Dist.CLIENT)
 	class AParticle extends Particle implements IParticle {
-		private final BParticleType type;
+		private final ParticleType type;
 		private AParticle(
-			BParticleType bpt, World worldIn,
-			double posXIn, double posYIn, double posZIn,
-			double xSpeed, double ySpeed, double zSpeed
+				ParticleType bpt, World worldIn,
+				double posXIn, double posYIn, double posZIn,
+				double xSpeed, double ySpeed, double zSpeed
 		) {
 			super(worldIn, posXIn, posYIn, posZIn, xSpeed, ySpeed, zSpeed);
 			type = bpt;

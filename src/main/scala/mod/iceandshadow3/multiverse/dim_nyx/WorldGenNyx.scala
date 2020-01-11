@@ -3,10 +3,10 @@ package mod.iceandshadow3.multiverse.dim_nyx
 import com.google.common.cache.CacheLoader
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
-import mod.iceandshadow3.lib.gen.{BWorldGen, BWorldGenLayerTerrain}
+import mod.iceandshadow3.lib.gen.{WorldGen, WorldGenLayerTerrain}
 import mod.iceandshadow3.lib.spatial.TupleXZ
 import mod.iceandshadow3.multiverse.DomainNyx
-import mod.iceandshadow3.multiverse.dim_nyx.column.BNyxColumn
+import mod.iceandshadow3.multiverse.dim_nyx.column.ColumnFnNyx
 import mod.iceandshadow3.multiverse.dim_nyx.feature._
 
 object WorldGenNyx {
@@ -30,7 +30,7 @@ object WorldGenNyx {
 	def defaultBlock(y: Int): WBlockState =
 		if(y == 0) WorldGenNyx.bedrock else if(y <= yExousia) WorldGenNyx.exousia else CommonBlockTypes.AIR
 }
-final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultBlock) {
+final class WorldGenNyx(seed: Long) extends WorldGen(seed, WorldGenNyx.defaultBlock) {
 	private val noises = new NoisesNyx(seed)
 	import com.google.common.cache.CacheBuilder
 	val islesinfo = CacheBuilder.newBuilder().weakValues().concurrencyLevel(
@@ -38,7 +38,7 @@ final class WorldGenNyx(seed: Long) extends BWorldGen(seed, WorldGenNyx.defaultB
 	).build[TupleXZ, NyxIsleProperties](new CacheLoader[TupleXZ, NyxIsleProperties]{
 		override def load(key: TupleXZ) = NyxIsleProperties(seed, key)
 	})
-	private val terrain: BWorldGenLayerTerrain[BNyxColumn] = new BWorldGenLayerTerrain[BNyxColumn] {
+	private val terrain: WorldGenLayerTerrain[ColumnFnNyx] = new WorldGenLayerTerrain[ColumnFnNyx] {
 		override protected def newGenerator(xFrom: Int, zFrom: Int, width: Int) =
 			new NyxTerrainMaps(noises, xFrom, zFrom, width)
 	}

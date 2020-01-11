@@ -10,7 +10,7 @@ import mod.iceandshadow3.lib.compat.forge.bait._
 import net.minecraftforge.common.MinecraftForge
 
 object EventFisherman {
-  private val eventClasses: Set[Class[_ <: BEventHandler]] = Set(
+  private val eventClasses: Set[Class[_ <: EventHandler]] = Set(
     classOf[EventBaitOwnerDeath],
     classOf[EventBaitOwnerToss],
     classOf[EventHandlerEnderChest],

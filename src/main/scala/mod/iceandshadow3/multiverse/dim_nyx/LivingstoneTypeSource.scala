@@ -2,7 +2,7 @@ package mod.iceandshadow3.multiverse.dim_nyx
 
 import java.util.Random
 
-import mod.iceandshadow3.lib.util.BFunctionOptions
+import mod.iceandshadow3.lib.util.FnOptions
 import mod.iceandshadow3.multiverse.gaia.ELivingstoneType
 
 object LivingstoneTypeSource {
@@ -22,7 +22,7 @@ object LivingstoneTypeSource {
 		case _ => null
 	}
 	private class StoneGen(override protected val default: ELivingstoneType, fns: (Random => ELivingstoneType)*)
-	extends BFunctionOptions[Random, ELivingstoneType, ELivingstoneType](fns:_*) {
+	extends FnOptions[Random, ELivingstoneType, ELivingstoneType](fns:_*) {
 		override protected def discard(what: ELivingstoneType) = what == null
 		override protected def transform(what: ELivingstoneType) = what
 	}

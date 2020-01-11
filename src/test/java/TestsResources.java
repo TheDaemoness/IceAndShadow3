@@ -2,10 +2,10 @@ import mod.iceandshadow3.ContentLists;
 import mod.iceandshadow3.ExtensionToolMode;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.BLogicItem;
-import mod.iceandshadow3.lib.BStatusEffect;
-import mod.iceandshadow3.lib.base.BLogic;
-import mod.iceandshadow3.lib.compat.file.BJsonGenAssetsBlock;
+import mod.iceandshadow3.lib.LogicItem;
+import mod.iceandshadow3.lib.StatusEffect;
+import mod.iceandshadow3.lib.base.LogicCommon;
+import mod.iceandshadow3.lib.compat.file.JsonGenAssetsBlock;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,10 +78,10 @@ class TestsResources {
 	static Stream<BLogicBlock> streamLogicBlock() {
 		return ContentLists.block.stream();
 	}
-	static Stream<BLogicItem> streamLogicItem() {
+	static Stream<LogicItem> streamLogicItem() {
 		return ContentLists.item.stream();
 	}
-	static Stream<BStatusEffect> streamStatus() {
+	static Stream<StatusEffect> streamStatus() {
 		return ContentLists.status.stream();
 	}
 	static Iterator<String> iteratorRecipeNameFromCode() {
@@ -118,7 +118,7 @@ class TestsResources {
 
 	@ParameterizedTest(name = "{0} should have localized names.")
 	@MethodSource({"streamLogicBlock", "streamLogicItem"})
-	void logicHasNames(BLogic base) {
+	void logicHasNames(LogicCommon base) {
 		final String prefix = base.pathPrefix()+'.'+IaS3.MODID;
 		for(Map.Entry<String, JSONObject> lang : langfiles.entrySet()) {
 			final String name = prefix+'.'+base.name();
@@ -132,7 +132,7 @@ class TestsResources {
 
 	@ParameterizedTest(name = "{0} should have a short localized name.")
 	@MethodSource({"streamStatus"})
-	void statusHasName(BStatusEffect base) {
+	void statusHasName(StatusEffect base) {
 		final String name = "effect."+IaS3.MODID+'.'+base.name();
 		for(Map.Entry<String, JSONObject> lang : langfiles.entrySet()) {
 			try {
@@ -148,7 +148,7 @@ class TestsResources {
 
 	@ParameterizedTest(name = "{0} should have an icon.")
 	@MethodSource("streamStatus")
-	void statusHasIcon(BStatusEffect what) {
+	void statusHasIcon(StatusEffect what) {
 		final String path = "./main/assets/" + MODID + "/textures/mob_effect/"+what.name()+".png";
 		if(!new File(path).exists()) fail(what + " is missing an icon");
 	}
@@ -160,15 +160,15 @@ class TestsResources {
 	void assetExistenceTest(String name, String where, String comment) {
 		resourceExistenceTest(name, "./main/assets/", where, true, comment);
 	}
-	void assetExistenceTest(BLogic what, String where, String comment) {
+	void assetExistenceTest(LogicCommon what, String where, String comment) {
 		assetExistenceTest(what.name(), where, comment);
 	}
 
 
 	@ParameterizedTest(name = "{0} should have item models or the correct overrides.")
 	@MethodSource({"streamLogicBlock", "streamLogicItem"})
-	void logicHasItemModels(BLogic base) {
-		((BLogic) base).itemLogic().foreach(logic -> {
+	void logicHasItemModels(LogicCommon base) {
+		((LogicCommon) base).itemLogic().foreach(logic -> {
 			assetExistenceTest(logic, "/models/item/", " is missing an item model");
 			return null;
 		});
@@ -178,7 +178,7 @@ class TestsResources {
 	@MethodSource("streamLogicBlock")
 	void logicHasBlockModels(BLogicBlock block) {
 		//TODO: This test could actually read the blockstates file and try to extract model names from it.
-		block.getGenAssetsBlock().foreach((BJsonGenAssetsBlock bjgab) -> {
+		block.getGenAssetsBlock().foreach((JsonGenAssetsBlock bjgab) -> {
 			bjgab.modelNames().foreach(naem -> {
 				assetExistenceTest(naem, "/models/block/", " is missing a model: "+naem+".json");
 				return BoxedUnit.UNIT;

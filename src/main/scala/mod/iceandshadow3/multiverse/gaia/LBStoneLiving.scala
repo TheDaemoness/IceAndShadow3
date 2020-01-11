@@ -5,7 +5,7 @@ import java.util.Random
 import mod.iceandshadow3.lib.LogicBlock
 import mod.iceandshadow3.lib.block.VarBlockBool
 import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockQueries, WBlockRef, WBlockState}
-import mod.iceandshadow3.lib.compat.loot.{BLoot, LootBuilder, WLootContextBlock}
+import mod.iceandshadow3.lib.compat.loot.{Loot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
 import mod.iceandshadow3.multiverse.DomainGaia
 
@@ -43,10 +43,10 @@ extends LogicBlock(DomainGaia, "livingstone_"+variant.name, Materias.livingstone
 	}
 
 	override def addDrops(what: LootBuilder[WLootContextBlock]): Unit = what.addOne(
-		BLoot.silktouch(this).orElse(
-			BLoot(DomainGaia.Items.minerals).chance(0.5f)
+		Loot.silktouch(this).orElse(
+			Loot(DomainGaia.Items.minerals).chance(0.5f)
 		).orElse(
-			BLoot(DomainGaia.Items.shales(variant.ordinal())).chance(0.125f) //TODO: Fortune.
+			Loot(DomainGaia.Items.shales(variant.ordinal())).chance(0.125f) //TODO: Fortune.
 		)
 	)
 }

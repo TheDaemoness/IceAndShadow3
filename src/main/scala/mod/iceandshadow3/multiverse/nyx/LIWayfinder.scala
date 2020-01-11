@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WUsageIte
 import mod.iceandshadow3.lib.compat.nbt.{VarNbtBool, VarNbtObj}
 import mod.iceandshadow3.lib.compat.world.{WDimensionCoord, WSound}
 import mod.iceandshadow3.lib.compat.forge.fish.{TEventFishOwnerDeath, TEventFishOwnerToss}
-import mod.iceandshadow3.lib.item.BItemModelProperty
+import mod.iceandshadow3.lib.item.ItemModelProperty
 import mod.iceandshadow3.lib.spatial.{IVec3, PerDimensionVec3}
 import mod.iceandshadow3.lib.util.E3vl
 import mod.iceandshadow3.lib.LogicItemSingle
@@ -16,7 +16,7 @@ object LIWayfinder {
 	val varCharged = new VarNbtBool("charged", false)
 	val varPos = new VarNbtObj("positions", new PerDimensionVec3)
 
-	sealed abstract class BItemModelPropertyDelta(logic: LogicItemSingle) extends BItemModelProperty(logic) {
+	sealed abstract class ItemModelPropertyDelta(logic: LogicItemSingle) extends ItemModelProperty(logic) {
 		def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float
 		override def valueOwned(item: WItemStackOwned[WEntityLiving]) =
 			evaluate(item.owner, item(LIWayfinder.varPos).get(item.dimensionCoord))
@@ -106,18 +106,18 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 	}
 
 	override def propertyOverrides = Array(
-		new BItemModelProperty(this) {
+		new ItemModelProperty(this) {
 			override def name = "charged"
 			override def valueUnowned(item: WItemStack) = if(item(LIWayfinder.varCharged)) 1f else 0f
 		},
-		new LIWayfinder.BItemModelPropertyDelta(this) {
+		new LIWayfinder.ItemModelPropertyDelta(this) {
 			override def name = "blink"
 			override def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) (1+(owner.gameTime & 31))/32f
 				else 0f
 			}
 		},
-		new LIWayfinder.BItemModelPropertyDelta(this) {
+		new LIWayfinder.ItemModelPropertyDelta(this) {
 			override def name = "hotness"
 			override def evaluate(owner: WEntityLiving, point: Option[IVec3]): Float = {
 				if(point.isEmpty) 0f

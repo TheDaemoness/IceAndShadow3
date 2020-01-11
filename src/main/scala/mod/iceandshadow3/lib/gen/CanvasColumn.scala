@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.gen
 
-import mod.iceandshadow3.lib.BDomain
+import mod.iceandshadow3.lib.Domain
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.block.`type`.{CommonBlockTypes, TBlockStateSource}
 
@@ -11,7 +11,7 @@ import scala.collection.mutable
 	* The column is initialized to all structure voids.
 	*/
 class CanvasColumn(
-	val domain: BDomain,
+	val domain: Domain,
 	/** Function called to update each block state in the worldgen column.
 		* Handles the actual update (or not, if desired).
 		*/
@@ -20,7 +20,7 @@ class CanvasColumn(
 )
 extends TWorldGenColumnFn with mutable.Seq[TBlockStateSource] {
 	def this(
-		domain: BDomain, length: Int,
+		domain: Domain, length: Int,
 		applier: (WorldGenColumn, WBlockState, Int) => Unit = (col,b,y) => col.update(y,b)
 	) = this(
 		domain,

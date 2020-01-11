@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.base
 
 import javax.annotation.Nonnull
-import mod.iceandshadow3.lib.compat.WId
+import mod.iceandshadow3.lib.compat.id.WId
 
 trait TNamed[+Id <: WId] {
 	@Nonnull def id: Id

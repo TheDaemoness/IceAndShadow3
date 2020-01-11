@@ -4,13 +4,13 @@ import java.io.{Closeable, File, FileNotFoundException, PrintWriter}
 import java.util.Scanner
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.config.BConfig.BadConfigException
+import mod.iceandshadow3.config.Config.BadConfigException
 
 import scala.jdk.CollectionConverters._
 
 /** A re-solving of a long-solved problem. Well, depending on who you ask.
 */
-class ConfigManager[ConfigType <: BConfig](private val config: ConfigType) extends Closeable {
+class ConfigManager[ConfigType <: Config](private val config: ConfigType) extends Closeable {
 	private val magic = "config"
 	private val cache = new java.util.HashMap[String, String]
 	private val configFile = new File("config/"+IaS3.MODID+'.'+config.name+".cfg")

@@ -4,20 +4,20 @@ import java.nio.file.Path
 import java.util
 
 import com.google.common.base.Charsets
-import mod.iceandshadow3.lib.compat.file.BJsonGen
-import mod.iceandshadow3.lib.compat.{BFileGen, Registrar}
+import mod.iceandshadow3.lib.compat.file.JsonGen
+import mod.iceandshadow3.lib.compat.{FileGen, Registrar}
 import net.minecraft.data.DataGenerator
 
 object FileGenerators {
-	private val logicFilesGen: BFileGen = new BFileGen("ias3_logic_json") {
-		def addTo(map: util.Map[Path, Array[Byte]], root: Path, assetGen: BJsonGen): Unit = map.put(
+	private val logicFilesGen: FileGen = new FileGen("ias3_logic_json") {
+		def addTo(map: util.Map[Path, Array[Byte]], root: Path, assetGen: JsonGen): Unit = map.put(
 			root.resolve(assetGen.basePath).resolve(s"${assetGen.name}.json"),
 			assetGen.apply.getBytes(Charsets.US_ASCII)
 		)
 		override protected def getData(root: Path) = {
 			import scala.jdk.CollectionConverters._
 			val retval = new util.HashMap[Path, Array[Byte]]
-			val assetRoot = BFileGen.getAssetsPath(root)
+			val assetRoot = FileGen.getAssetsPath(root)
 			for(
 				item <- ContentLists.item.asScala;
 				model <- item.getItemModelGen

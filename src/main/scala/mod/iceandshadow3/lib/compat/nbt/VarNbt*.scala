@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.nbt
 
 import mod.iceandshadow3.IaS3
-import mod.iceandshadow3.lib.data.BVar
+import mod.iceandshadow3.lib.data.Var
 import net.minecraft.nbt._
 
 sealed class VarNbtNumeric[T](
@@ -10,7 +10,7 @@ sealed class VarNbtNumeric[T](
 	validId: Int => Boolean,
 	fromNumberTag: NumberNBT => T,
 	makeTag: T => INBT
-) extends BVar[T](name) with TVarNbt[T] {
+) extends Var[T](name) with TVarNbt[T] {
 	override protected[compat] def fromTag(what: INBT): Option[T] = if(validId(what.getId)) {
 		val cnvd = try {
 			what.asInstanceOf[NumberNBT]
@@ -48,7 +48,7 @@ class VarNbtDouble(name: String, default: Double)
 extends VarNbtNumeric(name, default, NbtTagUtils.canReadToDouble, _.getDouble, new DoubleNBT(_: Double))
 
 class VarNbtString(name: String, override val defaultVal: String)
-extends BVar[String](name) with TVarNbt[String] {
+extends Var[String](name) with TVarNbt[String] {
 	override def isDefaultValue(value: String) = defaultVal.contentEquals(value)
 	override protected def fromTag(what: INBT) = Some(what.getString)
 	override protected def toTag(value: String) = new StringNBT(value)

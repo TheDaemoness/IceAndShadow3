@@ -1,9 +1,9 @@
 package mod.iceandshadow3.damage
 
-import mod.iceandshadow3.lib.compat.entity.state.BStatus
+import mod.iceandshadow3.lib.compat.entity.state.Status
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityLiving}
 
-abstract class BDamage {
+abstract class Damage {
 	def amount(target: WEntity): Float
 	def name: String
 	def applyPre(target: WEntityLiving, multiplier: Float): Unit = ()
@@ -11,11 +11,11 @@ abstract class BDamage {
 }
 
 //Minor departure from the IaS3 naming scheme.
-abstract class Damage(damage: Float) extends BDamage {
+abstract class DamageSimple(damage: Float) extends Damage {
 	final override def amount(target: WEntity) = damage
 	def name: String
 }
 
-abstract class DamageWithStatus(damage: Float, val statuses: BStatus*) extends Damage(damage) {
+abstract class DamageWithStatus(damage: Float, val statuses: Status*) extends DamageSimple(damage) {
 	override def applyPost(target: WEntityLiving, multiplier: Float): Unit = for(status <- statuses) status(target)
 }

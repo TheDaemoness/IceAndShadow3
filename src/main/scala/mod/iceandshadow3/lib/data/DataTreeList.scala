@@ -5,7 +5,7 @@ import net.minecraft.nbt._
 
 import scala.jdk.CollectionConverters._
 
-class DataTreeList[Element <: IDataTreeRW[_ <: BDataTree[_]]] extends BDataTreeBranch[java.util.List[Element], Int](new java.util.ArrayList) {
+class DataTreeList[Element <: IDataTreeRW[_ <: DataTree[_]]] extends DataTreeBranch[java.util.List[Element], Int](new java.util.ArrayList) {
 	override def fromNBT(tag: INBT): Boolean = {
 		val list = tag.asInstanceOf[ListNBT]
 		for (i <- 0 until list.size) try {
