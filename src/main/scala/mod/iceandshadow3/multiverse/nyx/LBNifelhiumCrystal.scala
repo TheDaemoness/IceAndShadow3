@@ -18,8 +18,8 @@ class LBNifelhiumCrystal extends LogicBlock(DomainNyx, "nifelhium_crystal", LBNi
 	override def canStayAt(block: WBlockView, preexisting: Boolean) =
 		AdjacentBlocks.Below(block).forall(BlockQueries.solid)
 	override def isDiscrete = true
-	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(10, 0, 13)) //Slightly inside the texture bounds.
-	final override val handlerEntityInside = (us: WBlockRef, who: WEntity) => {
+	override def shape = BlockShape(BlockSubCuboid(10, 0, 13)) //Slightly inside the texture bounds.
+	final override val handlerEntityInside = (us: WBlockRef, _: WEntity) => {
 		us.break(true)
 	}
 	override def onReplaced(us: WBlockState, them: WBlockRef, moved: Boolean): Unit = {

@@ -6,7 +6,7 @@ import mod.iceandshadow3.damage.{Attack, AttackForm, DamageWithStatus, TDmgTypeE
 import mod.iceandshadow3.lib.LogicBlockTechnical
 import mod.iceandshadow3.lib.block.BlockShape
 import mod.iceandshadow3.lib.compat.block.`type`.CommonBlockTypes
-import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, Materia, WBlockRef, WBlockState}
+import mod.iceandshadow3.lib.compat.block.{AdjacentBlocks, BlockShapes, Materia, WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.entity.{WEntity, WEntityItem, WProjectile}
 import mod.iceandshadow3.lib.compat.id.{WIdTagBlock, WIdTagItem}
 import mod.iceandshadow3.lib.compat.world.{TWWorldPlace, WSound}
@@ -26,7 +26,7 @@ class LBExousia extends LogicBlockTechnical(DomainNyx, "exousia", LBExousia.mate
 		new DamageWithStatus(6f, StatusEffects.exousia.forTicks(119)) with TDmgTypeExousic
 	)
 
-	override val shape: BlockShape = BlockShape.EMPTY
+	override def shape = BlockShapes.empty
 
 	final override val handlerEntityInside = (us: WBlockRef, who: WEntity) => {
 		import LBExousia._

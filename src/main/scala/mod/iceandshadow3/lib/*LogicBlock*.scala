@@ -1,11 +1,11 @@
 package mod.iceandshadow3.lib
 
 import java.util.Random
-import java.util.function.{BiConsumer, BiFunction, Consumer}
+import java.util.function.{BiConsumer, Consumer}
 
 import mod.iceandshadow3.{ContentLists, IaS3}
 import mod.iceandshadow3.lib.base.{LogicCommon, TLogicWithItem, TNamed}
-import mod.iceandshadow3.lib.block.{BlockShape, HandlerComparator, HarvestMethod}
+import mod.iceandshadow3.lib.block.{HandlerComparator, HarvestMethod}
 import mod.iceandshadow3.lib.compat.block.impl.{BinderBlock, VarBlock}
 import mod.iceandshadow3.lib.compat.block._
 import mod.iceandshadow3.lib.compat.inventory.WContainerSource
@@ -15,7 +15,6 @@ import mod.iceandshadow3.lib.compat.id.WIdBlock
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WItemType}
 import mod.iceandshadow3.lib.compat.loot.{Loot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
-import mod.iceandshadow3.lib.util.E3vl
 
 sealed abstract class BLogicBlock(dom: Domain, baseName: String, val materia: Materia)
 	extends LogicCommon(dom, baseName)
@@ -35,7 +34,7 @@ sealed abstract class BLogicBlock(dom: Domain, baseName: String, val materia: Ma
 
 	override def tier: Int = 1
 	//TODO: Separate collision shape from selection shape.
-	def shape: BlockShape = BlockShape.FULL_CUBE
+	def shape: BlockShapes = BlockShapes.full
 	def isDiscrete = false
 	def multipleOpacities = false
 	def getGenAssetsBlock: Option[JsonGenAssetsBlock] = Some(JsonGenAssetsBlock.cube(this))

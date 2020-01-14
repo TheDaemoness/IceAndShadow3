@@ -71,7 +71,7 @@ object LogicBlockMateria {
 					(lootbuild: LootBuilder[WLootContextBlock]) => lootbuild.addOne(Loot(logic))
 				)
 				// If the mined block is a double, call it twice.
-				if(lb.context.state(CommonBlockVars.slab).get.ab) lootgen(lb)
+				if(lb.context.block(CommonBlockVars.slab).get.ab) lootgen(lb)
 				lootgen(lb)
 			}), modelgenGen))
 		}

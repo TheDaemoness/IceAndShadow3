@@ -24,7 +24,7 @@ class LBIcicles extends LogicBlock(DomainNyx, "icicles", LBIcicles.materia) {
 
 	override def isDiscrete = true
 
-	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(11, 3, 14))
+	override def shape = BlockShape(BlockSubCuboid(11, 3, 14))
 
 	final override val handlerEntityInside = (us: WBlockRef, who: WEntity) => {
 		LBIcicles.damage(who)

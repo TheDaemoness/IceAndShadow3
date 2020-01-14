@@ -15,7 +15,7 @@ class LBBinStorage(name: String, mat: Materia) extends LogicBlock(DomainPolis, n
 	override val tileEntity = Some(new LogicTileEntity(this.name, VarSet.empty) {
 		override val itemCapacity = 27
 	})
-	override val shape: BlockShape = BlockShape(true, BlockSubCuboid(15))
+	override def shape = BlockShape(BlockSubCuboid(15))
 	override def getGenAssetsBlock = Some(JsonGenAssetsBlock.customSingleModel(this))
 
 	override def container(us: WBlockRef) = WContainerSource.chestlike(us, this.id.translationKey)

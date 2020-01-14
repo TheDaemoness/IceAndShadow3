@@ -3,8 +3,10 @@ package mod.iceandshadow3.lib.spatial;
 //NOTE: There are general algorithms for most of the things that are hard-coded with if/else statements.
 //They're not worth it in this narrow implementation.
 
+import net.minecraft.util.Direction;
+
 public enum EAxis {
-	DOWN_UP( "y") {
+	DOWN_UP( "y", Direction.Axis.Y) {
 		@Override
 		protected EAxis getRotated(EAxis b) {
 			return (b == EAxis.WEST_EAST) ? NORTH_SOUTH : WEST_EAST;
@@ -18,7 +20,7 @@ public enum EAxis {
 			return positive ? EFacing.UP : EFacing.DOWN;
 		}
 	},
-	WEST_EAST("x") {
+	WEST_EAST("x", Direction.Axis.X) {
 		@Override
 		protected EAxis getRotated(EAxis b) {
 			return (b == EAxis.DOWN_UP) ? NORTH_SOUTH : DOWN_UP;
@@ -32,7 +34,7 @@ public enum EAxis {
 			return positive ? EFacing.EAST : EFacing.WEST;
 		}
 	},
-	NORTH_SOUTH("z") {
+	NORTH_SOUTH("z", Direction.Axis.Z) {
 		@Override
 		protected EAxis getRotated(EAxis b) {
 			return (b == EAxis.DOWN_UP) ? WEST_EAST : DOWN_UP;
@@ -48,8 +50,22 @@ public enum EAxis {
 	};
 
 	private final String name;
-	EAxis(String name) {
+	private final Direction.Axis vanilla;
+	EAxis(String name, Direction.Axis axis) {
 		this.name = name;
+		this.vanilla = axis;
+	}
+
+	public static EAxis fromVanilla(Direction.Axis axis) {
+		switch(axis) {
+			case X: return WEST_EAST;
+			case Y: return DOWN_UP;
+			case Z: return NORTH_SOUTH;
+			default: return null;
+		}
+	}
+	public Direction.Axis toVanilla() {
+		return vanilla;
 	}
 
 	@Override

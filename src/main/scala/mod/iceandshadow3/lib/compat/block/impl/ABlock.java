@@ -52,7 +52,7 @@ implements IABlock, IShearable {
 	private final BLogicBlock logic;
 	private final BlockRenderLayer layer;
 	private final HandlerComparator handlerComparator;
-	private final VoxelShape defaultShape;
+	private final BlockShapes shapes;
 	private final ResourceLocation lootTable;
 	private final StateContainer<net.minecraft.block.Block, BlockState> realContainer;
 	@SuppressWarnings("unchecked")
@@ -63,7 +63,7 @@ implements IABlock, IShearable {
 		else if(!logic.areSurfacesFull()) layer = BlockRenderLayer.CUTOUT_MIPPED;
 		else layer = BlockRenderLayer.SOLID;
 
-		defaultShape = CNVBlockShape$.MODULE$.toVoxelShape(logic);
+		shapes = logic.shape();
 		lootTable = new ResourceLocation(IaS3.MODID,"blocks/"+logic.name());
 
 		//State container init happens too early for IaS3. We need to make our own.
@@ -184,8 +184,8 @@ implements IABlock, IShearable {
 
 	@Nonnull
 	@Override
-	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
-		return defaultShape;
+	public VoxelShape getShape(BlockState state, IBlockReader view, BlockPos pos, ISelectionContext context) {
+		return shapes.apply(new WBlockView(view, pos, state));
 	}
 
 	@Override

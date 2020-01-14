@@ -1,19 +1,38 @@
 package mod.iceandshadow3.lib.spatial;
 
+import net.minecraft.util.Direction;
+
 public enum EFacing {
-	DOWN(EAxis.DOWN_UP, false),
-	UP(EAxis.DOWN_UP, true),
-	WEST(EAxis.WEST_EAST, false),
-	EAST(EAxis.WEST_EAST, true),
-	NORTH(EAxis.NORTH_SOUTH, false),
-	SOUTH(EAxis.NORTH_SOUTH, true);
+	DOWN(EAxis.DOWN_UP, false, Direction.DOWN),
+	UP(EAxis.DOWN_UP, true, Direction.UP),
+	WEST(EAxis.WEST_EAST, false, Direction.WEST),
+	EAST(EAxis.WEST_EAST, true, Direction.EAST),
+	NORTH(EAxis.NORTH_SOUTH, false, Direction.NORTH),
+	SOUTH(EAxis.NORTH_SOUTH, true, Direction.SOUTH);
 
 	public final EAxis axis;
 	public final boolean positive;
+	private final Direction vanilla;
 
-	EFacing(EAxis axis, boolean positive) {
+	EFacing(EAxis axis, boolean positive, Direction direction) {
 		this.axis = axis;
 		this.positive = positive;
+		this.vanilla = direction;
+	}
+
+	public static EFacing fromVanilla(Direction facing) {
+		switch(facing) {
+			case DOWN: return DOWN;
+			case UP: return UP;
+			case WEST: return WEST;
+			case EAST: return EAST;
+			case NORTH: return NORTH;
+			case SOUTH: return SOUTH;
+			default: return null;
+		}
+	}
+	public Direction toVanilla() {
+		return vanilla;
 	}
 
 	public EFacing mirrored() {
