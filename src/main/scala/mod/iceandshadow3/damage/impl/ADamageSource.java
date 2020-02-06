@@ -73,13 +73,13 @@ public class ADamageSource extends DamageSource {
 	@Override
 	public Entity getImmediateSource() {
 		if(attack.sourceImmediate().isEmpty()) return null;
-		else return attack.sourceImmediate().get().entity();
+		else return attack.sourceImmediate().get().expose();
 	}
 
 	@Nullable
 	@Override
 	public Entity getTrueSource() {
 		if(attack.sourceTrue().isEmpty()) return null;
-		else return attack.sourceTrue().get().entity();
+		else return attack.sourceTrue().get().expose();
 	}
 }

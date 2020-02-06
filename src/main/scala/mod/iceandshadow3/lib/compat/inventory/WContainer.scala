@@ -14,7 +14,7 @@ class WContainer(inv: Container) extends ItemSeq {
 
 	override def update(idx: Int, elem: WItemStack): Unit = {
 		val slot = slots.get(idx)
-		val stack = elem.asItemStack()
+		val stack = elem.expose()
 		if(slot.isItemValid(stack)) slot.putStack(stack)
 		else slot.decrStackSize(slot.getSlotStackLimit)
 	}

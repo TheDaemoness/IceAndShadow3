@@ -3,7 +3,7 @@ package mod.iceandshadow3;
 //Keep this in Java for convenience. This is used by tests written in Java.
 
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.LogicItem;
+import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.StatusEffect;
 import mod.iceandshadow3.lib.base.LogicCommon;
 import mod.iceandshadow3.lib.compat.Registrar;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * Purged at the end of normal init, or kept indefinitely in tool mode.
  */
 public class ContentLists {
-	public static final List<LogicItem> item = new ArrayList<>();
+	public static final List<BLogicItem> item = new ArrayList<>();
 	public static final List<BLogicBlock> block = new ArrayList<>();
 	public static final List<StatusEffect> status = new ArrayList<>();
 	public static final List<String> namesSound = new ArrayList<>();

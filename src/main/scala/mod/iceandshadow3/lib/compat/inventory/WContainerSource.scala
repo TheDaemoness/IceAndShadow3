@@ -12,7 +12,7 @@ import net.minecraft.util.text.TranslationTextComponent
 class WContainerSource(@Nullable private[compat] val expose: INamedContainerProvider) {
 	def isEmpty = expose == null
 	def isDefined = expose != null
-	def openAs(whom: WEntityPlayer): OptionalInt = whom.player.openContainer(expose)
+	def openAs(whom: WEntityPlayer): OptionalInt = whom.expose.openContainer(expose)
 }
 object WContainerSource {
 	val none = new WContainerSource(null)

@@ -23,5 +23,5 @@ object CNVEntity {
 		case player: ServerPlayerEntity => wrap(player)
 		case _ => new WEntityPlayer(ent)
 	}
-	implicit def wrap(ent: ServerPlayerEntity): WEntityPlayerReal = new WEntityPlayerReal(ent)
+	implicit def wrap(ent: ServerPlayerEntity): WEntityPlayerFull = new WEntityPlayerFull(ent)
 }

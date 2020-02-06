@@ -9,5 +9,5 @@ class VarNbtItemStack(name: String) extends Var[WItemStack](name) with TVarNbtCo
 	override def defaultVal = WItemStack.empty
 	override def isDefaultValue(value: WItemStack) = value.isEmpty
 	override protected def fromCompound(what: CompoundNBT) = Some(new WItemStack(ItemStack.read(what)))
-	override protected def toTag(value: WItemStack) = value.asItemStack().serializeNBT()
+	override protected def toTag(value: WItemStack) = value.expose().serializeNBT()
 }

@@ -21,7 +21,7 @@ case class WSound protected(@Nullable private val soundevent: SoundEvent) {
 		)
 	}
 	def play(who: WEntityPlayer, volume: Float, freqshift: Float): Unit = {
-		who.player.playSound(soundevent, volume, freqshift)
+		who.expose.playSound(soundevent, volume, freqshift)
 	}
 }
 

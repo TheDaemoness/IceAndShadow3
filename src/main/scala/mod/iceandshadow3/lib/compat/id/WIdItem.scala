@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries
 import scala.language.implicitConversions
 
 final class WIdItem(vanilla: ResourceLocation) extends WRegistryId[WItemType](vanilla) with TNamed[WIdItem] {
-	override def translationKeyPrefix = "item"
+	override protected def translationKeyPrefix = "item"
 	def this(namespace: String, name: String) = this(new ResourceLocation(namespace, name))
 	override def id = this
 	override def get = {

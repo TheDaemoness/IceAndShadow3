@@ -18,7 +18,7 @@ class EventHandlerNyx extends EventHandler {
 
 	@SubscribeEvent
 	def onPlayerExposesContainerToTheElements(oops: PlayerContainerEvent.Open): Unit =
-		if (DimensionNyx.coord.worldIs(oops.getEntity)) {
+		if (DimensionNyx.coord.unapply(oops.getEntity)) {
 			val container = new WContainer(oops.getContainer)
 			val player = CNVEntity.wrap(oops.getPlayer)
 			DimensionNyx.freezeItems(container, player)
@@ -27,11 +27,11 @@ class EventHandlerNyx extends EventHandler {
 	@SubscribeEvent
 	def onInteract(event: PlayerInteractEvent): Unit = {
 		val player = CNVEntity.wrap(event.getPlayer)
-		if (DimensionNyx.coord.worldIs(event.getWorld) && !player.isCreative) {
+		if (DimensionNyx.coord.unapply(event.getWorld) && !player.isCreative) {
 			val what = new WItemStack(event.getItemStack)
 			val frozen = LIFrozen.freeze(what, new WWorld(event.getWorld), Some(player))
 			if(frozen.isDefined) {
-				event.getPlayer.setHeldItem(event.getHand, frozen.get.asItemStack())
+				event.getPlayer.setHeldItem(event.getHand, frozen.get.expose())
 				event.setCancellationResult(ActionResultType.FAIL)
 				event.setCanceled(true)
 			}
@@ -40,14 +40,14 @@ class EventHandlerNyx extends EventHandler {
 
 	@SubscribeEvent
 	def onEntityItemJoin(event: EntityJoinWorldEvent): Unit =
-		if (DimensionNyx.coord.worldIs(event.getWorld)) {
+		if (DimensionNyx.coord.unapply(event.getWorld)) {
 			event.getEntity match {
 				case ei: ItemEntity =>
 					val initial = new WItemStack(ei.getItem)
 					val frozen = LIFrozen.freeze(initial, new WWorld(event.getWorld), None)
 					frozen.foreach(newitems => {
 						if(newitems.isEmpty) event.setCanceled(true)
-						else ei.setItem(newitems.asItemStack())
+						else ei.setItem(newitems.expose())
 					})
 				case _ =>
 			}

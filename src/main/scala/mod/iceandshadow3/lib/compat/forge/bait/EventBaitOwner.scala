@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.forge.bait
 
-import mod.iceandshadow3.lib.LogicItem
+import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.entity.{CNVEntity, WEntityLiving}
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.lib.compat.forge.fish.TEventFishOwner
@@ -12,9 +12,9 @@ abstract class EventBaitOwner[Event <: LivingEvent: ClassTag]
   extends EventBait[Event]
 {
   type FishType <: TEventFishOwner
-  protected def catchFish(item: LogicItem): Option[FishType]
+  protected def catchFish(item: BLogicItem): Option[FishType]
   protected def handleFish(
-    event: Event, item: WItemStackOwned[WEntityLiving], logic: LogicItem, fish: FishType
+    event: Event, item: WItemStackOwned[WEntityLiving], logic: BLogicItem, fish: FishType
   ): Unit
 
   override protected def handle(event: Event): Unit = {

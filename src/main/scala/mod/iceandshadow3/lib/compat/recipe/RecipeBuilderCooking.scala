@@ -26,7 +26,7 @@ class RecipeBuilderCooking(
 	final override protected def factory(nrm: NewRecipeMetadata) = new RecipeFactory(
 		nrm,
 		inputs => recipeFn(
-			IaS3.rloc(nrm.name), nrm.group, inputs.head, nrm.result.asItemStack(), experience, cookticks
+			IaS3.rloc(nrm.name), nrm.group, inputs.head, nrm.result.expose(), experience, cookticks
 		),
 		unlock,
 		Seq(input)

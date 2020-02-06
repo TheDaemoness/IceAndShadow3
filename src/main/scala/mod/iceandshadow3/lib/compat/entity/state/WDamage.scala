@@ -6,7 +6,7 @@ import net.minecraft.util.DamageSource
 
 case class WDamage(private[compat] val damage: DamageSource, severity: Float) {
 	def apply(who: WEntity): Boolean =
-		if(who.isServerSide) who.entity.attackEntityFrom(damage, severity) else false
+		if(who.isServerSide) who.expose.attackEntityFrom(damage, severity) else false
 	def getCause: Option[WEntity] = {
 		val source = damage.getImmediateSource
 		if(source == null) None else Some(CNVEntity.wrap(source))

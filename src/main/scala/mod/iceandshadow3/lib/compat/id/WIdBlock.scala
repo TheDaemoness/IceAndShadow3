@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries
 import scala.language.implicitConversions
 
 final class WIdBlock(vanilla: ResourceLocation) extends WRegistryId[WBlockType](vanilla) with TNamed[WIdBlock] {
-	override def translationKeyPrefix = "block"
+	override protected def translationKeyPrefix = "block"
 	def this(namespace: String, fullname: String) = this(new ResourceLocation(namespace, fullname))
 	override def id = this
 	override def get = {

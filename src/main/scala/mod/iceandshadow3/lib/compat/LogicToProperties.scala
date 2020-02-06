@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat
 
-import mod.iceandshadow3.lib.{BLogicBlock, LogicItem}
+import mod.iceandshadow3.lib.{BLogicBlock, BLogicItem}
 import mod.iceandshadow3.lib.base.{LogicCommon, TLogicWithItem}
 import mod.iceandshadow3.lib.compat.item.impl.CreativeTab
 import net.minecraft.block.Block
@@ -16,7 +16,7 @@ private[compat] object LogicToProperties {
 		retval
 	}
 
-	def toProperties(item: LogicItem): Item.Properties = {
+	def toProperties(item: BLogicItem): Item.Properties = {
 		val retval = toPropertiesPartial(item)
 		val damageLimit = item.damageLimit
 		if (item.stackLimit == 1 && damageLimit > 0) retval.defaultMaxDamage(damageLimit)

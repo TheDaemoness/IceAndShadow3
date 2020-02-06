@@ -14,7 +14,7 @@ import mod.iceandshadow3.lib.compat.id.WIdItem
 import mod.iceandshadow3.lib.item.ItemModelProperty
 import mod.iceandshadow3.lib.util.E3vl
 
-abstract class LogicItem(dom: Domain, baseName: String)
+abstract class BLogicItem(dom: Domain, baseName: String)
 	extends LogicCommon(dom, baseName)
 	with TLogicWithItem
 	with TEventFishOwner
@@ -44,18 +44,15 @@ abstract class LogicItem(dom: Domain, baseName: String)
 	@Nullable def handlerShine: Predicate[WItemStack] = null
 }
 
-sealed abstract class BLogicItemSimple(dom: Domain, name: String, override val tier: Int)
-	extends LogicItem(dom, name)
-
-class LogicItemMulti(dom: Domain, name: String, tier: Int = 1, stacklimit: Int = 64)
-	extends BLogicItemSimple(dom, name, tier)
+class LogicItemMulti(dom: Domain, name: String, override val tier: Int = 1, stacklimit: Int = 64)
+	extends BLogicItem(dom, name)
 {
 	override def stackLimit = stacklimit
 	override final def damageLimit = 0
 }
 
-class LogicItemSingle(dom: Domain, name: String, tier: Int = 1, dmglimit: Int = 0)
-	extends BLogicItemSimple(dom, name, tier)
+class LogicItemSingle(dom: Domain, name: String, override val tier: Int = 1, dmglimit: Int = 0)
+	extends BLogicItem(dom, name)
 {
 	override final def stackLimit = 1
 	override def damageLimit = dmglimit

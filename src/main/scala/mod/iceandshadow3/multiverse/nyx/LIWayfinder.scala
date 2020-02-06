@@ -1,6 +1,6 @@
 package mod.iceandshadow3.multiverse.nyx
 
-import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer, WEntityPlayerReal}
+import mod.iceandshadow3.lib.compat.entity.{WEntityLiving, WEntityPlayer, WEntityPlayerFull}
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WUsageItem}
 import mod.iceandshadow3.lib.compat.nbt.{VarNbtBool, VarNbtObj}
 import mod.iceandshadow3.lib.compat.world.{WDimensionCoord, WSound}
@@ -88,7 +88,7 @@ class LIWayfinder extends LogicItemSingle(DomainNyx, "wayfinder", 2)
 			LIWayfinder.teleportProtection(owner)
 			item.update(LIWayfinder.varCharged, false)
 			owner match {
-				case player: WEntityPlayerReal =>
+				case player: WEntityPlayerFull =>
 					player.advancement("vanilla_outworlder")
 					if(areweinnyx) player.teleport(WDimensionCoord.END, null)
 					else player.teleport(DimensionNyx)

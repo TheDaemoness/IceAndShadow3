@@ -15,7 +15,7 @@ abstract class Status {
 		val amp = getAmp
 		val effect = getEffect
 		if(amp <= 0) who.remove(effect)
-		else if(ticks > 0) who.living.addPotionEffect(new EffectInstance(
+		else if(ticks > 0) who.expose.addPotionEffect(new EffectInstance(
 			BinderStatusEffect(effect),
 			ticks,
 			amp-1,

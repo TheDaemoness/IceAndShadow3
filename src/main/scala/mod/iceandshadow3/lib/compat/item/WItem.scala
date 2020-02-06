@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.item
 
-import mod.iceandshadow3.lib.LogicItem
+import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.base.{ProviderLogic, TNamed}
 import mod.iceandshadow3.lib.compat.block.WBlockState
 import mod.iceandshadow3.lib.compat.entity.WEntity
@@ -29,7 +29,7 @@ abstract class WItem extends ProviderLogic.Item with IItemProvider with TNamed[W
 		case _ => None
 	}
 
-	override def getLogic: LogicItem =
+	override def getLogic: BLogicItem =
 		asItem() match {
 			case lp: ProviderLogic.Item => lp.getLogic
 			case _ => null
@@ -47,7 +47,7 @@ abstract class WItem extends ProviderLogic.Item with IItemProvider with TNamed[W
 	}
 	def matches(what: WItem) =
 		asItem() == what.asItem()
-	def matches(what: LogicItem) = {
+	def matches(what: BLogicItem) = {
 		val lp = getLogic
 		lp != null && lp == what
 	}

@@ -14,16 +14,16 @@ class WInventory(private[compat] val expose: IInventory) extends ItemSeq {
 
 	def add(what: WItemStack): Boolean = {
 		if (what.isEmpty) return true
-		val whatexposed = what.asItemStack()
+		val whatexposed = what.expose()
 		for (i <- 0 until expose.getSizeInventory) {
 			val current = expose.getStackInSlot(i)
 			if (current == null || current.isEmpty) { //Empty slot.
 				if (expose.isItemValidForSlot(i, whatexposed)) {
-					expose.setInventorySlotContents(i, what.move())
+					expose.setInventorySlotContents(i, what.copyAndDestroy())
 					return true
 				}
 			} else { //Not an empty slot, try to stack.
-				if (ItemUtils.stackInto(current, what.asItemStack()) != 0) {
+				if (ItemUtils.stackInto(current, what.expose()) != 0) {
 					expose.markDirty()
 					if (what.isEmpty) return true
 				}
@@ -39,15 +39,15 @@ class WInventory(private[compat] val expose: IInventory) extends ItemSeq {
 		var slot = -1
 		for(i <- 0 until expose.getSizeInventory) {
 			val stack = expose.getStackInSlot(i)
-			if(slot == -1 && (stack == null || stack.isEmpty) && expose.isItemValidForSlot(i, item.asItemStack())) slot = i
+			if(slot == -1 && (stack == null || stack.isEmpty) && expose.isItemValidForSlot(i, item.expose())) slot = i
 			if(item.matches(stack)) return E3vl.NEUTRAL
 		}
 		if(slot == -1) E3vl.FALSE
-		else {expose.setInventorySlotContents(slot, item.move()); E3vl.TRUE}
+		else {expose.setInventorySlotContents(slot, item.copyAndDestroy()); E3vl.TRUE}
 	}
 
 	override def update(idx: Int, elem: WItemStack): Unit = {
-		val stack = elem.asItemStack()
+		val stack = elem.expose()
 		if(expose.isItemValidForSlot(idx, stack)) expose.setInventorySlotContents(idx, stack)
 		else expose.removeStackFromSlot(idx)
 	}

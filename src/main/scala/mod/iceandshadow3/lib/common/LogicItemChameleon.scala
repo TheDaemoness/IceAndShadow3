@@ -1,21 +1,18 @@
 package mod.iceandshadow3.lib.common
 
+import mod.iceandshadow3.lib.compat.id.WIdItem
 import mod.iceandshadow3.lib.compat.item.WItemStack
-import mod.iceandshadow3.lib.compat.misc.TextUtils
 import mod.iceandshadow3.lib.compat.nbt.{VarNbtItemStack, VarNbtString}
-import mod.iceandshadow3.lib.{Domain, LogicItem}
+import mod.iceandshadow3.lib.{Domain, LogicItemSingle}
 
-/** An item that pretends to be whole stacks of other items.
-	*/
-class LogicItemChameleon(domain: Domain, name: String) extends LogicItem(domain, name) {
-	override def tier = 1
+/** An item that "wraps" entire item stacks. */
+class LogicItemChameleon(domain: Domain, name: String) extends LogicItemSingle(domain, name, 1) {
 	override def isTechnical = true
 
-	override def nameOverride(what: WItemStack) = TextUtils.itemIdToUnlocalized(
+	//TODO: Once we have our own formatted text class, get an instance from what(LogicItemChameleon.varItemWrapped)
+	override def nameOverride(what: WItemStack) = WIdItem(
 		what(LogicItemChameleon.varItemWrappedName)
-	)
-
-	override def stackLimit = 1
+	).translationKey
 }
 object LogicItemChameleon {
 	val varItemWrappedName: VarNbtString = new VarNbtString("id", "minecraft:snowball") {

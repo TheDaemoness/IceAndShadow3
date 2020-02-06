@@ -40,7 +40,7 @@ object IngredientFactory {
 		override def toResult = what
 	}
 	implicit def apply(what: => WItemStack): IngredientFactory = new IngredientFactory {
-		override protected[compat] def build = Ingredient.fromStacks(what.asItemStack())
+		override protected[compat] def build = Ingredient.fromStacks(what.expose())
 		//TODO: Consider NBT and all that.
 		override def conditionJson =
 			Some(new JsonObject().tap(_.addProperty("item", what.asItem().getRegistryName.toString)))

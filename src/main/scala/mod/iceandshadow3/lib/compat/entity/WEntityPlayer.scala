@@ -13,11 +13,12 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.text.TranslationTextComponent
 
-class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity) extends WEntityLiving(player) {
-	def isOnCooldown = player.getCooledAttackStrength(0f) < 1.0f
-	def deshield(force: Boolean = true): Unit = player.disableShield(force)
-	def bed: IVec3 = player.getBedLocation(this.dimensionCoord.dimtype)
-	def message(msg: String, actionBar: Boolean, names: TLocalized*): Unit = player.sendStatusMessage(
+class WEntityPlayer protected[entity](override protected[compat] val expose: PlayerEntity)
+extends WEntityLiving(expose) {
+	def isOnCooldown = expose.getCooledAttackStrength(0f) < 1.0f
+	def deshield(force: Boolean = true): Unit = expose.disableShield(force)
+	def bed: IVec3 = expose.getBedLocation(this.dimensionCoord.dimtype)
+	def message(msg: String, actionBar: Boolean, names: TLocalized*): Unit = expose.sendStatusMessage(
 		new TranslationTextComponent(
 			s"${IaS3.MODID}.message.$msg",
 			names.map(_.getLocalizedName):_*
@@ -26,15 +27,15 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 	def message(msg: String): Unit = message(msg, actionBar = true)
 
 	override def home(where: WDimension): Option[IVec3] =
-		Option(player.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
+		Option(expose.getBedLocation(where.dimensionCoord.dimtype)).fold(super.home(where)){pos => Option(fromBlockPos(pos))}
 
-	final override def isCreative = player.isCreative
+	final override def isCreative = expose.isCreative
 
-	def inventory() = new WInventoryOwned(player.inventory, this)
-	def inventoryEnder() = new WInventoryOwned[this.type](player.getInventoryEnderChest, this)
+	def inventory() = new WInventoryOwned(expose.inventory, this)
+	def inventoryEnder() = new WInventoryOwned[this.type](expose.getInventoryEnderChest, this)
 
 	override def items(): Iterator[WItemStackOwned[this.type]] = {
-		val inv = player.inventory
+		val inv = expose.inventory
 		new IteratorConcat[ItemStack, WItemStackOwned[this.type]](
 			(is: ItemStack) => {new WItemStackOwned(is, this)},
 			inv.offHandInventory.iterator,
@@ -45,7 +46,7 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 	override def itemsStashed(): Iterator[WItemStackOwned[this.type]] = inventoryEnder().iterator
 
 	override def saveItem(what: WItemStack): Boolean =
-		new WInventory(player.getInventoryEnderChest).add(what)
+		new WInventory(expose.getInventoryEnderChest).add(what)
 
 	def donateToEnderChest(what: WItemStack): E3vl = {
 		if(findItem(what, restrictToHands = false).isEmpty) {
@@ -53,10 +54,10 @@ class WEntityPlayer protected[entity](protected[compat] val player: PlayerEntity
 		} else E3vl.NEUTRAL
 	}
 
-	def give(what: WItemStack) = player.inventory.addItemStackToInventory(what.asItemStack())
+	def give(what: WItemStack) = expose.inventory.addItemStackToInventory(what.expose())
 
 	def setSpawnPoint(where: IPosBlock, dim: WDimensionCoord): Unit =
-		player.setSpawnPoint(where.toBlockPos, true, dim.dimtype)
+		expose.setSpawnPoint(where.toBlockPos, true, dim.dimtype)
 	def setSpawnPoint(where: IPosBlock): Unit =
 		setSpawnPoint(where, dimensionCoord)
 

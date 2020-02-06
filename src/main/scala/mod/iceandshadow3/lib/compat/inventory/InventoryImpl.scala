@@ -27,7 +27,8 @@ private[compat] class InventoryImpl(val size: Int, val nbtKey: String = Inventor
 		if (nbt.contains(nbtKey, NbtTagUtils.ID_LIST)) {
 			val inv = nbt.getList(nbtKey, NbtTagUtils.ID_COMPOUND)
 			var i = 0
-			while (i < inv.size && i < inventory.length) {
+			val end = Math.min(inv.size(), inventory.length)
+			while (i < end) {
 				val is = ItemStack.read(inv.getCompound(i))
 				if (!is.isEmpty) {
 					inventory(i) = is
@@ -67,8 +68,7 @@ private[compat] class InventoryImpl(val size: Int, val nbtKey: String = Inventor
 			if (count >= is.getCount && !is.isEmpty) {
 				inventory(index) = ItemStack.EMPTY
 				filled -= 1
-			}
-			else {
+			} else {
 				val r = is.copy
 				r.setCount(is.getCount - count)
 				inventory(index) = r

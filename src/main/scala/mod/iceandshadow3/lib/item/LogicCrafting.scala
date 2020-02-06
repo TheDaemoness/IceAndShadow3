@@ -9,5 +9,5 @@ abstract class LogicCrafting(val name: String) {
 	def matches(what: WInventoryCrafting, world: WWorld) = !apply(what).isEmpty
 	def apply(what: WInventoryCrafting): WItemStack
 	def leftovers(what: WInventoryCrafting): ItemSeq =
-		what.copy.mapInPlace(_.container.getOrElse(WItemStack.empty))
+		what.copy.mapInPlace(_.getContainerStack.getOrElse(WItemStack.empty))
 }

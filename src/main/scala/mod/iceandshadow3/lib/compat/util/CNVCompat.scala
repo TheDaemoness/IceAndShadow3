@@ -34,7 +34,7 @@ object CNVCompat {
 
 	def toNonNullList(what: ItemSeq): NonNullList[ItemStack] = {
 		val list = NonNullList.create[ItemStack]
-		for(wrapped <- what) list.add(wrapped.asItemStack())
+		for(wrapped <- what) list.add(wrapped.expose())
 		list
 	}
 }

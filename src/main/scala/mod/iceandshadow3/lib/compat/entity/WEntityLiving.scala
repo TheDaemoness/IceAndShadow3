@@ -10,21 +10,22 @@ import mod.iceandshadow3.lib.util.collect.{IteratorConcat, IteratorEmpty}
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 
-class WEntityLiving protected[entity](protected[compat] val living: LivingEntity) extends WEntity(living) {
-	def sneaking = living.isSneaking
-	def sprinting = living.isSprinting
-	def hp: Float = living.getHealth
-	def hpTemp: Float = living.getAbsorptionAmount
+class WEntityLiving protected[entity](override protected[compat] val expose: LivingEntity)
+extends WEntity(expose) {
+	def sneaking = expose.isSneaking
+	def sprinting = expose.isSprinting
+	def hp: Float = expose.getHealth
+	def hpTemp: Float = expose.getAbsorptionAmount
 	def hpReal: Float = hp - hpTemp
-	def hpMax: Float = living.getMaxHealth
-	def undead: Boolean = living.isEntityUndead
-	def heal(amount: Float = hpMax): Unit = living.heal(amount)
-	def setHp(amount: Float = hpMax): Unit = living.setHealth(amount)
+	def hpMax: Float = expose.getMaxHealth
+	def undead: Boolean = expose.isEntityUndead
+	def heal(amount: Float = hpMax): Unit = expose.heal(amount)
+	def setHp(amount: Float = hpMax): Unit = expose.setHealth(amount)
 
 	def home(where: WDimension): Option[IVec3] = Option(where.getWorldSpawn)
 
 	def facing: IVec3 = {
-		val where = living.getForward
+		val where = expose.getForward
 		new Vec3Mutable(
 			IVec3.fromDouble(where.x),
 			IVec3.fromDouble(where.y).toInt,
@@ -32,7 +33,7 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 		)
 	}
 	def facingH: IVec3 = {
-		val where = living.getForward
+		val where = expose.getForward
 		new Vec3Mutable(
 			IVec3.fromDouble(where.x),
 			0,
@@ -46,8 +47,8 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 		*/
 	def saveItem(what: WItemStack): Boolean = false
 
-	def visibleTo(who: WEntity): Boolean = living.canEntityBeSeen(who.entity)
-	def equipment(where: BEquipPoint): WItemStackOwned[WEntityLiving] = where.getItem(living)
+	def visibleTo(who: WEntity): Boolean = expose.canEntityBeSeen(who.expose)
+	def equipment(where: BEquipPoint): WItemStackOwned[WEntityLiving] = where.getItem(expose)
 
 	def findItem(itemid: String, restrictToHands: Boolean): WItemStackOwned[this.type] =
 		findItem(WItemStack.make(itemid), restrictToHands)
@@ -57,20 +58,20 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 	}
 
 	def itemsWorn(): Iterator[WItemStackOwned[this.type]] =
-		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, living.getArmorInventoryList.iterator)
+		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, expose.getArmorInventoryList.iterator)
 	def itemsHeld(): Iterator[WItemStackOwned[this.type]] =
-		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, living.getHeldEquipment.iterator)
+		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, expose.getHeldEquipment.iterator)
 	def itemsEquipped(): Iterator[WItemStackOwned[this.type]] =
-		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, living.getEquipmentAndArmor.iterator)
+		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, expose.getEquipmentAndArmor.iterator)
 	def itemsStashed(): Iterator[WItemStackOwned[this.type]] =
 		new IteratorConcat((is: ItemStack) => {new WItemStackOwned(is, this)}, new IteratorEmpty[ItemStack])
 	override def items(): Iterator[WItemStackOwned[this.type]] = itemsEquipped()
 
-	def baseValue(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getBaseValue
-	def apply(attribute: WAttribute[this.type]): Double = living.getAttribute(attribute.attribute).getValue
+	def baseValue(attribute: WAttribute[this.type]): Double = expose.getAttribute(attribute.attribute).getBaseValue
+	def apply(attribute: WAttribute[this.type]): Double = expose.getAttribute(attribute.attribute).getValue
 
 	def apply(statusType: BStatusEffect): Status = {
-		val fx = living.getActivePotionEffect(BinderStatusEffect(statusType))
+		val fx = expose.getActivePotionEffect(BinderStatusEffect(statusType))
 		if(fx == null) statusType.inactive else new Status {
 			override def getEffect = statusType
 			override def getTicks = fx.getDuration
@@ -79,5 +80,10 @@ class WEntityLiving protected[entity](protected[compat] val living: LivingEntity
 		}
 	}
 	def remove(status: BStatusEffect): Unit =
-		if(isServerSide) living.removePotionEffect(BinderStatusEffect(status))
+		if(isServerSide) expose.removePotionEffect(BinderStatusEffect(status))
+
+
+	override protected[compat] def damageItem(is: ItemStack, amount: Int): Unit = {
+		is.damageItem(amount, expose, (_: LivingEntity) => ())
+	}
 }

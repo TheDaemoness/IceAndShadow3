@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.item.impl;
 
 import mod.iceandshadow3.IaS3;
-import mod.iceandshadow3.lib.LogicItem;
+import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.base.ProviderLogic;
 import mod.iceandshadow3.lib.compat.LogicToProperties$;
 import mod.iceandshadow3.lib.compat.id.WId;
@@ -21,12 +21,9 @@ import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,15 +47,14 @@ public class AItem extends Item implements ProviderLogic.Item {
 		} else return true;
 	}
 
-	private final LogicItem logic;
-	public AItem(LogicItem itemlogic) {
+	private final BLogicItem logic;
+	public AItem(BLogicItem itemlogic) {
 		super(LogicToProperties$.MODULE$.toProperties(itemlogic));
 		logic = itemlogic;
 		for(ItemModelProperty bpo : logic.propertyOverrides()) {
-			this.addPropertyOverride(new ResourceLocation(IaS3.MODID, bpo.name()), new IItemPropertyGetter() {
+			this.addPropertyOverride(IaS3.rloc(bpo.name()), new IItemPropertyGetter() {
 				final ItemModelProperty impl = bpo;
 
-				@OnlyIn(Dist.CLIENT)
 				@Override
 				public float call(@Nonnull ItemStack is, @Nullable World world, @Nullable LivingEntity owner) {
 					if(owner != null) return impl.valueOwned(new WItemStackOwned<>(is, CNVEntity.wrap(owner)));
@@ -74,7 +70,7 @@ public class AItem extends Item implements ProviderLogic.Item {
 
 	@Nonnull
 	@Override
-	public LogicItem getLogic() {
+	public BLogicItem getLogic() {
 		return logic;
 	}
 
@@ -85,7 +81,7 @@ public class AItem extends Item implements ProviderLogic.Item {
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
 		final WUsageItem context = new WUsageItem(getLogic(), is, playerIn, handIn, playerIn.isSneaking());
 		final E3vl result = logic.onUseGeneral(context);
-		return new ActionResult<>(toEActionResult(result), context.stack().asItemStack());
+		return new ActionResult<>(toEActionResult(result), context.stack().expose());
 	}
 
 	@Override

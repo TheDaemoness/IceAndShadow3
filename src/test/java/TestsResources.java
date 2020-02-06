@@ -2,7 +2,7 @@ import mod.iceandshadow3.ContentLists;
 import mod.iceandshadow3.ExtensionToolMode;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
-import mod.iceandshadow3.lib.LogicItem;
+import mod.iceandshadow3.lib.BLogicItem;
 import mod.iceandshadow3.lib.StatusEffect;
 import mod.iceandshadow3.lib.base.LogicCommon;
 import mod.iceandshadow3.lib.compat.file.JsonGenAssetsBlock;
@@ -78,7 +78,7 @@ class TestsResources {
 	static Stream<BLogicBlock> streamLogicBlock() {
 		return ContentLists.block.stream();
 	}
-	static Stream<LogicItem> streamLogicItem() {
+	static Stream<BLogicItem> streamLogicItem() {
 		return ContentLists.item.stream();
 	}
 	static Stream<StatusEffect> streamStatus() {

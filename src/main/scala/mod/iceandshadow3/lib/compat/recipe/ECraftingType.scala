@@ -29,7 +29,7 @@ object ECraftingType {
 				override def matches(inv: CraftingInventory, worldIn: World) =
 					logic.matches(new WInventoryCrafting(inv), new WWorld(worldIn))
 				override def getCraftingResult(inv: CraftingInventory) =
-					logic(new WInventoryCrafting(inv)).asItemStack()
+					logic(new WInventoryCrafting(inv)).expose()
 				override def canFit(width: Int, height: Int) = logic.fitsIn(width, height)
 				override def getRemainingItems(inv: CraftingInventory) =
 					CNVCompat.toNonNullList(logic.leftovers(new WInventoryCrafting(inv)))
@@ -45,7 +45,7 @@ object ECraftingType {
 				override protected def factory(nrm: NewRecipeMetadata) = new RecipeFactory(
 					nrm,
 					ingrs => new ShapelessRecipe(
-						IaS3.rloc(nrm.name), nrm.group, nrm.result.asItemStack(),
+						IaS3.rloc(nrm.name), nrm.group, nrm.result.expose(),
 						NonNullList.from(Ingredient.EMPTY, ingrs:_*)
 					),
 					unlock,
@@ -61,7 +61,7 @@ object ECraftingType {
 					ingrs => new ShapedRecipe(
 						IaS3.rloc(nrm.name), nrm.group, size.width, size.height,
 						NonNullList.from(Ingredient.EMPTY, ingrs:_*),
-						nrm.result.asItemStack()
+						nrm.result.expose()
 					),
 					unlock,
 					inputs
@@ -89,7 +89,7 @@ object ECraftingType {
 				override protected def factory(nrm: NewRecipeMetadata) = new RecipeFactory(
 					nrm,
 					ins => new StonecuttingRecipe(
-						IaS3.rloc(nrm.name), nrm.group, ins.head, nrm.result.asItemStack()
+						IaS3.rloc(nrm.name), nrm.group, ins.head, nrm.result.expose()
 					),
 					unlock,
 					Seq(input)

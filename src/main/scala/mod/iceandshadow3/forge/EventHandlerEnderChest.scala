@@ -21,7 +21,7 @@ class EventHandlerEnderChest extends EventHandler {
 				case player: WEntityPlayer =>
 					val dim = player.dimensionCoord
 					val mayGiveEarly = IaS3.getCfgServer.early_wayfinder.get && !player.dimension.canRespawnHere
-					if(dim == WDimensionCoord.END || DimensionNyx.coord.worldIs(placeevent.getEntity) || mayGiveEarly) {
+					if(dim == WDimensionCoord.END || DimensionNyx.coord.unapply(placeevent.getEntity) || mayGiveEarly) {
 						if(player.donateToEnderChest(DomainNyx.Items.wayfinder.toWItemStack).isTrue) {
 							DomainNyx.Sounds.portal_subtle.play(player, placeevent.getBlockSnapshot.getPos, 0.4f, 1f)
 							player.advancement("vanilla_wayfinder")

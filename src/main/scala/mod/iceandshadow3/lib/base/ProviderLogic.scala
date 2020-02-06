@@ -27,7 +27,7 @@ sealed trait ProviderLogic[LogicType <: LogicCommon] extends TFaceted[Object] wi
 }
 object ProviderLogic {
 	trait Block extends ProviderLogic[BLogicBlock]
-	trait Item extends ProviderLogic[LogicItem]
+	trait Item extends ProviderLogic[BLogicItem]
 	trait Entity extends ProviderLogic[LogicEntity]
 	trait Mob extends ProviderLogic[LogicEntityMob]
 }

@@ -1,6 +1,6 @@
 package mod.iceandshadow3.lib.compat.forge.bait
 
-import mod.iceandshadow3.lib.LogicItem
+import mod.iceandshadow3.lib.BLogicItem
 import mod.iceandshadow3.lib.compat.entity.CNVEntity
 import mod.iceandshadow3.lib.compat.item.WItemStackOwned
 import mod.iceandshadow3.lib.compat.forge.fish.TEventFishOwnerToss
@@ -14,7 +14,7 @@ class EventBaitOwnerToss extends EventBait[ItemTossEvent] {
 
 	override protected def handle(event: ItemTossEvent): Unit = {
 		val item = new WItemStackOwned(event.getEntityItem.getItem, CNVEntity.wrap(event.getPlayer))
-		forEventFish[TEventFishOwnerToss, LogicItem, Unit](item, (pair, feesh) => {
+		forEventFish[TEventFishOwnerToss, BLogicItem, Unit](item, (pair, feesh) => {
 			feesh.onOwnerToss(item).forBoolean(uncancel => {event.setCanceled(!uncancel)})
 		})
 	}
