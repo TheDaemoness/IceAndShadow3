@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "iceandshadow3",
+	"version": "@version@",
+
+	"name": "Ice and Shadow III",
+	"description": "A brutal post-endgame dimension mod. WIP!",
+	"authors": ["TheDaemoness"],
+	"contact": {
+		"homepage": "https://github.com/TheDaemoness/IceAndShadow3/wiki",
+		"sources": "https://github.com/TheDaemoness/IceAndShadow3"
+	},
+
+	"license": "MPL-2",
+	"icon": "assets/ias3logo.png",
+
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"mod.iceandshadow3.IaS3"
+		]
+	},
+	"mixins": [
+	],
+
+	"depends": {
+		"fabricloader": ">=@loader@",
+		"fabric": "*",
+		"minecraft": "@minecraft@"
+	}
+}

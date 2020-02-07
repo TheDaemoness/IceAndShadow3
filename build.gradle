@@ -2,100 +2,81 @@
 //If you're looking for compile-time configuration options (such as version info), see config.gradle.
 
 buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-        classpath 'org.scala-lang:scala-library:2.12.9'
-        classpath 'ch.epfl.scala:gradlebloop212_2.12:1.3.4'
-    }
+	repositories {
+		jcenter()
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'org.scala-lang:scala-library:2.12.9'
+		classpath 'ch.epfl.scala:gradlebloop212_2.12:1.3.4'
+	}
 }
 plugins {
-    id "scala"
-    id "idea"
-    id "eclipse"
-    //id "de.undercouch.download" version "3.4.3"
-    //id "com.github.bhuemer.gbt" //Consider replacing "scala" with this once it gets incremental compilation.
+	id 'fabric-loom' version '0.2.6-SNAPSHOT'
+	id 'scala'
+	id 'idea'
+	id 'eclipse'
+	id 'org.ajoberstar.grgit' version '3.0.0'
+	//id "maven-publish"
+	//id "de.undercouch.download" version "3.4.3"
 }
-apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'bloop'
-
 apply from: 'config.gradle'
 
-def version_forge_req="${version_forge_maj}.${version_forge_min}"
-def version_forge="${version_forge_req}.${version_forge_patch}"
-def version_spec = "${version_major}.${version_world}.${version_minor}"
-version = "${version_spec}.${version_patch}"
+def version_fabric_api="$version_fabric_api_maj.$version_fabric_api_min.+"
+def module_fabric_api="net.fabricmc.fabric-api:fabric-api"
+// ^ This isn't final. We reject versions that don't end in "-$version_minecraft_class" in dependency resolution.
+version = calcVersion()
 group = 'mod.iceandshadow3'
-archivesBaseName = "iceandshadow3-${version_minecraft}-${version}"
+archivesBaseName = "iceandshadow3-${version_minecraft}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = compileScala.targetCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-minecraft {
-    mappings channel: "$mappings_channel", version: "$mappings_id"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
-
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                iceandshadow3 {
-                    source sourceSets.main
-                }
-            }
-        }
-        server {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                iceandshadow3 {
-                    source sourceSets.main
-                }
-            }
-        }
-        data {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-            args '--mod', 'iceandshadow3', '--all', '--output', file('src/generated/resources/')
-            mods {
-                iceandshadow3 {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
+def calcVersion() {
+	def raw = grgit.describe(longDescr: true, tags: true)
+	if(raw == null) {return "unknown"}
+	def split = (raw.split('-')) as List
+	split.pop()
+	def offset = split.pop()
+	def tag = split.pop()
+	def branch = grgit.branch.current().name
+	if(offset == '0' && branch == 'master') {
+		return "$tag"
+	} else {
+		return "$tag-dev.$branch.$offset"
+	}
 }
+
+configurations.all { resolutionStrategy { componentSelection {
+	withModule(module_fabric_api) { ComponentSelection selection ->
+		if(!selection.candidate.version.matches("\\d+\\.\\d+\\.\\d+\\+build\\.\\d+-$version_minecraft_class.*")) {
+			selection.reject("wrong minecraft version")
+		} else {
+			println "Using Fabric API version '${selection.candidate.version}'. If this is wrong, stop now!"
+		}
+	}
+}}}
+
+minecraft {}
 repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-}
-configurations {
-    shade
-    compile.extendsFrom shade
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 dependencies {
-    zinc 'com.typesafe.zinc:zinc:0.3.15'
-    // About the minecraft dependency: If this has any group other then 'net.minecraft',
-    // it is assumed that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
-    shade "org.scala-lang:scala-library:${version_scala}"
+	minecraft "com.mojang:minecraft:$version_minecraft"
+	mappings "net.fabricmc:yarn:${version_minecraft}+build.$version_fabric_mappings"
+	modCompile "net.fabricmc:fabric-loader:${version_fabric_loader}+build.+"
+	modCompile "$module_fabric_api:$version_fabric_api"
+	modCompile "org.scala-lang:scala-library:$version_scala"
+	//^ TODO: should we actually shade the above?
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 
-    testCompile 'org.junit.jupiter:junit-jupiter-params:5.1.0'
-    testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.11.1'
+	testCompile 'org.junit.jupiter:junit-jupiter-params:5.1.0'
+	testCompile 'com.github.everit-org.json-schema:org.everit.json.schema:1.11.1'
 }
-
 
 import groovy.json.JsonOutput
 import groovy.json.JsonParserType
@@ -103,52 +84,62 @@ import groovy.json.JsonSlurper
 import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
-   from 'src/generated/resources' into 'build/resources/main'
-   inputs.property "version", project.version
-   filesMatching('**/mods.toml') {
-      filter(ReplaceTokens, tokens: [
-         'version':version.toString(),
-         'minecraft':version_minecraft.toString(),
-         'forgerange':"[$version_forge_req,${version_forge_maj+1})".toString()
-      ])
-   }
-   doLast {
-       JsonOutput output = new JsonOutput()
-       JsonSlurper input = new JsonSlurper(type: JsonParserType.LAX)
-       fileTree(include: "**/*.json", dir: outputs.files.asPath).each {
-           File json -> json.text = output.toJson(input.parse(json))
-       }
-       fileTree(include: "**/*.mcmeta", dir: outputs.files.asPath).each {
-           File json -> json.text = output.toJson(input.parse(json))
-       }
-   }
+	from 'src/generated/resources' into 'build/resources/main'
+	inputs.property "version", project.version
+	inputs.property "minecraft", version_minecraft
+	inputs.property "loader", version_fabric_loader
+	from(sourceSets.main.resources.srcDirs) {
+		include "fabric.mod.json"
+		filter(ReplaceTokens, tokens: [
+			'version':version.toString(),
+			'minecraft':version_minecraft.toString(),
+			'loader':version_fabric_loader.toString()
+		])
+	}
+	doLast {
+		JsonOutput output = new JsonOutput()
+		JsonSlurper input = new JsonSlurper(type: JsonParserType.LAX)
+		fileTree(
+			include: "**/*.json",
+			dir: outputs.files.asPath,
+			exclude: "**/fabric.mod.json"
+		).each {
+			File json -> json.text = output.toJson(input.parse(json))
+		}
+		fileTree(
+			include: "**/*.mcmeta",
+			dir: outputs.files.asPath
+		).each {
+			File json -> json.text = output.toJson(input.parse(json))
+		}
+	}
 }
+
 jar {
-    manifest {
-        attributes([
-            "Specification-Title": "iceandshadow3",
-            "Specification-Vendor": "TheDaemoness",
-            "Specification-Version": "${version_spec}",
-            "Implementation-Title": "iceandshadow3",
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" : "TheDaemoness",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-    /*configurations.shade.each { dep ->
-        from(project.zipTree(dep)){
-            exclude 'META-INF', 'META-INF/**'
-        }
-    }*/
+	from "LICENSE.txt"
+	manifest {
+		attributes([
+			"Specification-Title": "iceandshadow3",
+			"Specification-Vendor": "TheDaemoness",
+			"Specification-Version": "${version}",
+			"Implementation-Title": "iceandshadow3",
+			"Implementation-Version": "${version}",
+			"Implementation-Vendor" : "TheDaemoness",
+			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+		])
+	}
+	/*configurations.shade.each { dep ->
+				from(project.zipTree(dep)){
+						exclude 'META-INF', 'META-INF/**'
+				}
+		}*/
 }
 
 test {
-    useJUnitPlatform()
-    workingDir = new File('./build/resources')
-    testLogging {
-        events 'standard_error'
-        exceptionFormat 'full'
-    }
+		useJUnitPlatform()
+		workingDir = new File('./build/resources')
+		testLogging {
+				events 'standard_error'
+				exceptionFormat 'full'
+		}
 }
-//TODO: Release configuration which tests, generates a shaded reobfuscated jar, and signs it.
-def reobfFile = file("$buildDir/reobfJar/output.jar")

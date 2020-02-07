@@ -1,20 +1,20 @@
 ext {
-	version_major = 0
-	version_world = 0
-	version_minor = 31
-	version_patch = 0
+	// Minecraft version selection.
+	// Class is the major version of MC that the specific version falls under (snapshots fall under the next major release).
+	version_minecraft_class='1.15'
+	version_minecraft='1.15.2'
 
-    // Minecraft and Forge version selection.
-	version_minecraft = '1.15.2'
-	version_forge_maj=31
-	version_forge_min=1
-	version_forge_patch=0
+	// Fabric version selection.
+	// https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api
+	version_fabric_api_maj='0'
+	version_fabric_api_min='4'
+	// The fragment that comes after `+build.` in the mapping version string.
+	version_fabric_mappings='12'
+	// The loader version excluding everything including and after `+build`.
+	version_fabric_loader='0.7.5'
 
-	// MCP Deobfuscation Mappings.
-	// These should match the version that the selected version of Forge uses in its mdk.
-	mappings_channel='snapshot'
-	mappings_id='20190719-1.14.3'
-
-    // Other version selections.
+	// Other versions.
 	version_scala = '2.13.1'
+
+	// Mod version info is inferred from git tags.
 }

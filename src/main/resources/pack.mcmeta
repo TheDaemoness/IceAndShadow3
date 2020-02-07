@@ -1,7 +1,6 @@
 {
 	"pack": {
 		"description": "Ice and Shadow III Resources",
-		"pack_format": 4,
-		"_comment": "Resources for IaS3."
+		"pack_format": 5
 	}
 }
