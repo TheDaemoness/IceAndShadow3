@@ -4,7 +4,7 @@ import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn}
 import net.minecraft.util.math.BlockPos
 
 class WMutableBlockPos extends IPosBlock {
-	private val mbp = new BlockPos.MutableBlockPos()
+	private val mbp = new BlockPos.Mutable()
 	def set(x: Int, y: Int, z: Int) = mbp.setPos(x, y, z)
 	def set(col: IPosColumn, y: Int) = mbp.setPos(col.xBlock, y, col.zBlock)
 	def set(block: IPosBlock) = mbp.setPos(block.xBlock, block.yBlock, block.zBlock)

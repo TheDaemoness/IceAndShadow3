@@ -19,7 +19,10 @@ object CNVCompat {
 		override def yBlock = bp.getY
 		override def zBlock = bp.getZ
 	}
-	implicit def fromEntity(ent: Entity): IVec3 = CNVSpatial.fromDoubles(ent.posX, ent.posY, ent.posZ)
+	implicit def fromEntity(ent: Entity): IVec3 = {
+		val entpos = ent.getPositionVector
+		CNVSpatial.fromDoubles(entpos.x, entpos.y, entpos.z)
+	}
 	implicit def fromVec3d(v3f: Vec3d): IVec3 = new Vec3Mutable (
 		IVec3.fromDouble(v3f.x),
 		IVec3.fromDouble(v3f.y).toInt,

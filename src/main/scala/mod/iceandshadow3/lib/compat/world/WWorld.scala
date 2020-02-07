@@ -5,7 +5,7 @@ import mod.iceandshadow3.lib.compat.block.{WBlockRef, WBlockState}
 import mod.iceandshadow3.lib.compat.block.`type`.TBlockStateSource
 import mod.iceandshadow3.lib.compat.misc.ServerAnalyzer
 import mod.iceandshadow3.lib.compat.util.CNVCompat
-import mod.iceandshadow3.lib.spatial.{CNVSpatial, IPosBlock, IPosColumn, IVec3}
+import mod.iceandshadow3.lib.spatial.{IPosBlock, IPosColumn, IVec3}
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.{Difficulty, IWorld}
 
@@ -17,11 +17,11 @@ with TWWorld {
 
 	def topSolid(where: IPosColumn): Option[IVec3] = {
 		val chunk = worldobj.getChunk(where.xChunk, where.zChunk)
-		val mbp = new BlockPos.MutableBlockPos
+		val mbp = new BlockPos.Mutable
 		for(yit <- 0 to 255) {
-			val x = where.xBlock.toInt
+			val x = where.xBlock
 			val y = 255-yit
-			val z = where.zBlock.toInt
+			val z = where.zBlock
 			mbp.setPos(x, y, z)
 			if(chunk.getBlockState(mbp).isSolid) return Some(CNVCompat.fromBlockPos(new BlockPos(x, y, z)))
 		}

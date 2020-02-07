@@ -1,7 +1,7 @@
 package mod.iceandshadow3.lib.compat.entity
 
 import mod.iceandshadow3.lib.BStatusEffect
-import mod.iceandshadow3.lib.compat.entity.state.{Status, BEquipPoint, WAttribute}
+import mod.iceandshadow3.lib.compat.entity.state.{BEquipPoint, Status, WAttribute}
 import mod.iceandshadow3.lib.compat.entity.state.impl.BinderStatusEffect
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned}
 import mod.iceandshadow3.lib.compat.world.WDimension
@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack
 
 class WEntityLiving protected[entity](override protected[compat] val expose: LivingEntity)
 extends WEntity(expose) {
-	def sneaking = expose.isSneaking
+	def sneaking = expose.func_225608_bj_
 	def sprinting = expose.isSprinting
 	def hp: Float = expose.getHealth
 	def hpTemp: Float = expose.getAbsorptionAmount

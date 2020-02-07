@@ -35,17 +35,17 @@ public class AChunkGenerator extends ChunkGenerator<AGenerationSettings> {
 	// WORLDGENERATION LOGIC HERE!
 
 	@Override
-	public void makeBase(@Nonnull IWorld iWorld, @Nonnull IChunk chunk) {
+	public void makeBase(@Nonnull IWorld world, @Nonnull IChunk chunk) {
+		//No-op. Funny thing too, really, since the world parameter is a WorldGenRegion.
+	}
+
+	@Override
+	public void func_225551_a_(@Nonnull WorldGenRegion wgr, @Nonnull IChunk chunk) {
 		try {
 			realworldgen.write(new WChunk(chunk));
 		} catch(Exception e) {
 			IaS3.bug(e, "Worldgen failure on "+dim.name());
 		}
-	}
-
-	@Override
-	public void generateSurface(@Nonnull IChunk chunk) {
-		//No-op.
 	}
 
 	@Override

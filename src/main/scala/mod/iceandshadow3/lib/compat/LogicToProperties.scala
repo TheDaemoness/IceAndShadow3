@@ -29,9 +29,10 @@ private[compat] object LogicToProperties {
 		retval.hardnessAndResistance(materia.hardness, materia.resistance)
 		retval.lightValue(materia.luma)
 		retval.slipperiness(materia.slipperiness)
-		if (block.multipleOpacities) retval.variableOpacity
-		if (block.randomlyUpdates.isDefined) retval.tickRandomly
-		if (!materia.solid) retval.doesNotBlockMovement
+		if(block.materia.transparent || !block.areSurfacesFull) retval.func_226896_b_()
+		if(block.multipleOpacities) retval.variableOpacity
+		if(block.randomlyUpdates.isDefined) retval.tickRandomly
+		if(!materia.solid) retval.doesNotBlockMovement
 		retval.sound(materia.secrets.soundType)
 		//TODO: There's more.
 		retval

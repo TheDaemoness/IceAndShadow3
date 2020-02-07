@@ -1,5 +1,6 @@
 package mod.iceandshadow3.lib.compat.client.impl;
 
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.ParticleType;
 import mod.iceandshadow3.lib.compat.client.IParticle;
@@ -44,13 +45,11 @@ public class AParticleFactory implements IParticleFactory<BasicParticleType> {
 		}
 
 		@Override
-		public void renderParticle(
-			@Nonnull BufferBuilder buffer, @Nonnull ActiveRenderInfo entityIn, float partialTicks,
-			float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ
-		) {
+		public void func_225606_a_(IVertexBuilder scene, ActiveRenderInfo entityIn, float partialTicks) {
 			//TODO: Implement.
 		}
 
+		@Nonnull
 		@Override
 		public IParticleRenderType getRenderType() {
 			//TODO: The below is a lie. Return something useful later.

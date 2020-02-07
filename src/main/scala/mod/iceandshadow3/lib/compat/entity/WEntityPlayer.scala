@@ -57,7 +57,7 @@ extends WEntityLiving(expose) {
 	def give(what: WItemStack) = expose.inventory.addItemStackToInventory(what.expose())
 
 	def setSpawnPoint(where: IPosBlock, dim: WDimensionCoord): Unit =
-		expose.setSpawnPoint(where.toBlockPos, true, dim.dimtype)
+		expose.setSpawnPoint(where.toBlockPos, true, true, dim.dimtype)
 	def setSpawnPoint(where: IPosBlock): Unit =
 		setSpawnPoint(where, dimensionCoord)
 

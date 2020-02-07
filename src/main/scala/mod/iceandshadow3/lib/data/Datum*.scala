@@ -24,23 +24,22 @@ class DatumBool(bool: Boolean) extends DataTreeLeaf(bool) {
 	def isTrue: Boolean = get
 	override protected def readNBT(tag: INBT) =
 		tag.asInstanceOf[NumberNBT].getByte != 0
-	override protected def writeNBT(value: Boolean) =
-		new ByteNBT(if(value) 1 else 0)
+	override protected def writeNBT(value: Boolean) = ByteNBT.func_229672_a_(value)
 	override protected def parseLine(line: String) = java.lang.Boolean.valueOf(line)
 }
 
 abstract class DatumInt(int: Long) extends DataTreeLeaf(int) with TIntBounded {
 	override def set(newval: Long) = {
 		if(newval < getMin || newval > getMax) false
-		super.set(newval)
+		else super.set(newval)
 	}
 	override protected def readNBT(tag: INBT) =
 		tag.asInstanceOf[NumberNBT].getLong
 	override protected def writeNBT(value: Long) =
-		if(testLimits {_.isValidByte}) new ByteNBT(value.toByte)
-		else if(testLimits {_.isValidShort}) new ShortNBT(value.toShort)
-		else if(testLimits {_.isValidInt}) new IntNBT(value.toInt)
-		else new LongNBT(value)
+		if(testLimits {_.isValidByte}) ByteNBT.func_229671_a_(value.toByte)
+		else if(testLimits {_.isValidShort}) ShortNBT.func_229701_a_(value.toShort)
+		else if(testLimits {_.isValidInt}) IntNBT.func_229692_a_(value.toInt)
+		else LongNBT.func_229698_a_(value)
 	override protected def parseLine(line: String) = java.lang.Long.valueOf(line)
 }
 
@@ -48,7 +47,7 @@ class DatumString(string: String) extends DataTreeLeaf(string) {
 	override protected def readNBT(tag: INBT) =
 		tag.asInstanceOf[StringNBT].getString
 	override protected def writeNBT(value: String) =
-		new StringNBT(value)
+		StringNBT.func_229705_a_(value)
 	override protected def parseLine(line: String) = line //TODO: Decide if we need quotes.
 }
 
@@ -58,12 +57,12 @@ class DatumFloat(
 ) extends DataTreeLeaf(double) with TFloatBounded {
 	override def set(newval: Double) = {
 		if(newval < getMin || newval > getMax) false
-		super.set(newval)
+		else super.set(newval)
 	}
 	override protected def readNBT(tag: INBT) =
 		tag.asInstanceOf[NumberNBT].getDouble
 	override protected def writeNBT(value: Double) =
-		if(emitFloat) new FloatNBT(value.toFloat) else new DoubleNBT(value)
+		if(emitFloat) FloatNBT.func_229689_a_(value.toFloat) else DoubleNBT.func_229684_a_(value)
 	override protected def parseLine(line: String) = java.lang.Double.valueOf(line)
 }
 

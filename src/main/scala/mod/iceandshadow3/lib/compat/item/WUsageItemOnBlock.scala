@@ -10,7 +10,7 @@ class WUsageItemOnBlock(
 	final override protected[compat] val expose: BlockItemUseContext,
 	final override protected val posOn: BlockPos
 )
-extends WUsageItem(logic, expose.getItem, expose.getPlayer, expose.getHand, expose.isPlacerSneaking)
+extends WUsageItem(logic, expose.getItem, expose.getPlayer, expose.getHand, expose.func_225518_g_())
 with TWUsageOnBlock {
 	def this(logic: BLogicItem, c: ItemUseContext) = this(logic, new BlockItemUseContext(c), c.getPos)
 }

@@ -15,6 +15,7 @@ import mod.iceandshadow3.lib.compat.id.WIdBlock
 import mod.iceandshadow3.lib.compat.item.{WItemStack, WItemStackOwned, WItemType}
 import mod.iceandshadow3.lib.compat.loot.{Loot, LootBuilder, WLootContextBlock}
 import mod.iceandshadow3.lib.data.VarSet
+import mod.iceandshadow3.lib.util.E3vl
 
 sealed abstract class BLogicBlock(dom: Domain, baseName: String, val materia: Materia)
 	extends LogicCommon(dom, baseName)
@@ -51,7 +52,7 @@ sealed abstract class BLogicBlock(dom: Domain, baseName: String, val materia: Ma
 	/** Called on scheduled update ticks or after onRandomTick. */
 	def onUpdateTick(us: WBlockRef, rng: Random): Unit = {}
 	//TODO: Expose the BlockRayTraceResult to logics.
-	def onUsed(us: WBlockRef, item: WItemStackOwned[WEntityPlayer]): Boolean = false
+	def onUsed(us: WBlockRef, item: WItemStackOwned[WEntityPlayer]): E3vl = E3vl.NEUTRAL
 
 	/** Whether or not the surfaces of the blocks have any visible holes in them.
 		* Controls the rendering layer in conjunction with the materia.

@@ -27,10 +27,10 @@ object DimensionNyx extends LogicDimension("nyx") {
 	override val handlerSky = new BHandlerSky {
 		override def hasLuma = true
 		override def isDay(world: WWorld) = false
-		override def luma(world: WWorld, partialTicks: Float) = 1f/15
+		//override def luma(world: WWorld, partialTicks: Float) = 1f/15
 		override def angle(world: WWorld, worldTime: Long, partialTicks: Float) = 0.5f
-		override def colorDefault = Color(0x000408)
-		override def stars(world: WWorld, partialTicks: Float) = 0.5f
+		//override def colorDefault = Color(0x000408)
+		//override def stars(world: WWorld, partialTicks: Float) = 0.5f
 	}
 
 	override def baseDownfall = 0f
@@ -64,16 +64,15 @@ object DimensionNyx extends LogicDimension("nyx") {
 
 	override def brightnessTable(lightBrightnessTable: Array[Float]): Unit = {
 		for(i <- lightBrightnessTable.indices) {
-			val light = i / 15.0F
+			val light = i / 16.0F
 			lightBrightnessTable(i) = (light*light)/(1+light)
 		}
 	}
 
 	override def modifyLightmap(lightSky: Float, lightBlock: Float, colorIn: Color): Color = {
-		if(lightSky > 0.001f) colorIn
+		if(lightSky > 0.001f) colorIn.multiply(0.75f)
 		else {
-			val lightness = lightSky/0.001f
-			val multiplier = lightness+(1-lightness)*Math.cbrt(lightBlock).toFloat
+			val multiplier = Math.cbrt(lightBlock).toFloat
 			colorIn.multiply(multiplier)
 		}
 	}

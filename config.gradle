@@ -1,20 +1,20 @@
 ext {
-    version_major = 0
-    version_world = 0
-    version_minor = 30
-    version_patch = 0
+	version_major = 0
+	version_world = 0
+	version_minor = 31
+	version_patch = 0
 
     // Minecraft and Forge version selection.
-    version_minecraft = '1.14.4'
-    version_forge_maj=28
-    version_forge_min=1
-    version_forge_patch=109
+	version_minecraft = '1.15.2'
+	version_forge_maj=31
+	version_forge_min=1
+	version_forge_patch=0
 
-    // MCP Deobfuscation Mappings.
-    // These should match the version that the selected version of Forge uses in its mdk.
-    mappings_channel='snapshot'
-    mappings_id='20190719-1.14.3'
+	// MCP Deobfuscation Mappings.
+	// These should match the version that the selected version of Forge uses in its mdk.
+	mappings_channel='snapshot'
+	mappings_id='20190719-1.14.3'
 
     // Other version selections.
-    version_scala = '2.13.1'
+	version_scala = '2.13.1'
 }

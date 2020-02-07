@@ -79,7 +79,7 @@ public class AItem extends Item implements ProviderLogic.Item {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, @Nonnull Hand handIn) {
 		final boolean mainhand = handIn == Hand.MAIN_HAND;
 		final ItemStack is = mainhand?playerIn.getHeldItemMainhand():playerIn.getHeldItemOffhand();
-		final WUsageItem context = new WUsageItem(getLogic(), is, playerIn, handIn, playerIn.isSneaking());
+		final WUsageItem context = new WUsageItem(getLogic(), is, playerIn, handIn, playerIn.func_226563_dT_());
 		final E3vl result = logic.onUseGeneral(context);
 		return new ActionResult<>(toEActionResult(result), context.stack().expose());
 	}

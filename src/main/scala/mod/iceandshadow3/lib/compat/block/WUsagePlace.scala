@@ -4,5 +4,5 @@ import mod.iceandshadow3.lib.compat.misc.{TWUsageOnBlock, WUsage}
 import net.minecraft.item.BlockItemUseContext
 
 class WUsagePlace(final override protected[compat] val expose: BlockItemUseContext)
-extends WUsage(expose.getItem, expose.getPlayer, expose.getHand, expose.isPlacerSneaking)
+extends WUsage(expose.getItem, expose.getPlayer, expose.getHand, expose.func_225518_g_())
 with TWUsageOnBlock

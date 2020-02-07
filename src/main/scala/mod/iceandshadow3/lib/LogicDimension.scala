@@ -41,7 +41,7 @@ abstract class LogicDimension(val name: String) extends LogicBiome {
 
 	def getWorldGen(seed: Long): WorldGen
 
-	def brightnessTable(lightBrightnessTable: Array[Float]): Unit
+	def brightnessTable(lightBrightnessTable: Array[Float]): Unit = ()
   def modifyLightmap(lightSky: Float, lightBlock: Float, color: Color): Color = color
 
 	def onEntityLivingUpdate(who: WEntityLiving): Unit = {}

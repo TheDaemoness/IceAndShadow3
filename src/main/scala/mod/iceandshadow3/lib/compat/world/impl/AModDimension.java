@@ -12,6 +12,7 @@ import mod.iceandshadow3.lib.spatial.IPosColumn;
 import mod.iceandshadow3.lib.util.Color;
 import mod.iceandshadow3.lib.world.BHandlerFog;
 import mod.iceandshadow3.lib.world.BHandlerSky;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -65,7 +66,6 @@ public class AModDimension extends ModDimension {
 		dimlogic.coord_$eq(WDimensionCoord.apply(dimtype));
 	}
 
-	//TODO: We probably need a disable function for server unload.
 	public LogicDimension getIaSDimension() {
 		return dimlogic;
 	}
@@ -74,7 +74,6 @@ public class AModDimension extends ModDimension {
 	public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
 		return ADimension::new;
 	}
-
 
 	private static Vec3d fromColor(Color color, Vec3d ifNull) {
 		return color != null ? new Vec3d(color.red(), color.green(), color.blue()) : ifNull;
@@ -86,16 +85,15 @@ public class AModDimension extends ModDimension {
 		private final BHandlerFog fog;
 		private final BHandlerSky sky;
 		private final Vec3d fogColor;
-		private final Vec3d skyColor;
 
 		ADimension(World w, DimensionType type) {
-			super(w, type);
+			super(w, type, 0f);
 			this.type = type;
 			worldWrapped = new WWorld(w);
 			this.fog = dimlogic.handlerFog();
 			this.sky = dimlogic.handlerSky();
 			fogColor = fromColor(fog.colorDefault(), new Vec3d(0, 0, 0));
-			skyColor = fromColor(sky.colorDefault(), new Vec3d(0, 0, 0));
+			dimlogic.brightnessTable(lightBrightnessTable);
 		}
 
 		@Override
@@ -106,12 +104,6 @@ public class AModDimension extends ModDimension {
 		@Override
 		public boolean hasSkyLight() {
 			return sky.hasLuma();
-		}
-
-		@OnlyIn(Dist.CLIENT)
-		@Override
-		public float getStarBrightness(float partialTicks) {
-			return sky.stars(worldWrapped, partialTicks);
 		}
 
 		@Nonnull
@@ -171,11 +163,6 @@ public class AModDimension extends ModDimension {
 			}), checkValid);
 		}
 
-		@Override
-		public double getHorizon() {
-			return dimlogic.peakLevel();
-		}
-
 		@Nullable
 		@Override
 		public BlockPos findSpawn(int x, int z, boolean checkValid) {
@@ -204,15 +191,6 @@ public class AModDimension extends ModDimension {
 		}
 
 		@Override
-		public Vec3d getSkyColor(BlockPos cameraPos, float partialTicks) {
-			return fromColor(sky.colorDynamic(
-				worldWrapped,
-				cameraPos.getX(), cameraPos.getY(), cameraPos.getZ(),
-				partialTicks
-			), skyColor);
-		}
-
-		@Override
 		public boolean canRespawnHere() {
 			return dimlogic.getRespawnDim() == dimlogic.coord();
 		}
@@ -223,21 +201,23 @@ public class AModDimension extends ModDimension {
 		}
 
 		@Override
-		public float getSunBrightness(float partialTicks) {
-			return sky.luma(worldWrapped, partialTicks);
+		public boolean isSkyColored() {
+			return true;
 		}
 
 		@Override
-		protected void generateLightBrightnessTable() {
-			dimlogic.brightnessTable(lightBrightnessTable);
-		}
-
-		@Override
-		public void getLightmapColors(float partTicks, float sunLuma, float skyLight, float blockLight, float[] colors) {
-			final Color result = dimlogic.modifyLightmap(skyLight, blockLight, new Color(colors[0], colors[1], colors[2]));
-			colors[0] = result.red();
-			colors[1] = result.green();
-			colors[2] = result.blue();
+		public void getLightmapColors(
+				float partialTicks, float sunBrightness, float flickerLight, float skyLight, Vector3f colors
+		) {
+			System.out.println(""+partialTicks+" "+sunBrightness+" "+flickerLight+" "+skyLight+" "+colors);
+			//FIXME: There might be a way to get block light. Pass that instead of skyLight again.
+			final Color result = dimlogic.modifyLightmap(
+				skyLight, skyLight,
+				new Color(colors.getX(), colors.getY(), colors.getZ())
+			);
+			colors.setX(result.red());
+			colors.setY(result.green());
+			colors.setZ(result.blue());
 		}
 
 		@Nonnull

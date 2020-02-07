@@ -20,7 +20,7 @@ class WEntity protected[entity](protected[compat] val expose: Entity)
 	override def getLocalizedName: ITextComponent = expose.getDisplayName
 	override protected[compat] def exposeWorld(): net.minecraft.world.World = expose.world
 
-	override def sunlight: Int = exposeWorld().getLightFor(
+	override def sunlight: Int = exposeWorld().func_226658_a_(
 		LightType.SKY, CNVCompat.toBlockPos(posFine).add(0,1,0)
 	)
 	def isCreative = false
@@ -30,7 +30,6 @@ class WEntity protected[entity](protected[compat] val expose: Entity)
 
 	def teleport(newpos: IVec3): Unit = {
 		//TODO: For very long teleports, do we still need to do chunk loading shenanigans ala gatestones?
-		val pitchyaw = expose.getPitchYaw
 		expose.setPositionAndUpdate(newpos.xDouble, newpos.yDouble, newpos.zDouble)
 	}
 

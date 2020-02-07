@@ -1,6 +1,5 @@
 package mod.iceandshadow3.lib.compat.block.impl;
 
-import mod.iceandshadow3.IaS3;
 import mod.iceandshadow3.lib.BLogicBlock;
 import mod.iceandshadow3.lib.block.HandlerComparator;
 import mod.iceandshadow3.lib.block.HarvestMethod$;
@@ -30,6 +29,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -50,22 +50,14 @@ import java.util.function.BiConsumer;
 final public class ABlock extends Block
 implements IABlock, IShearable {
 	private final BLogicBlock logic;
-	private final BlockRenderLayer layer;
 	private final HandlerComparator handlerComparator;
 	private final BlockShapes shapes;
-	private final ResourceLocation lootTable;
 	private final StateContainer<net.minecraft.block.Block, BlockState> realContainer;
 	@SuppressWarnings("unchecked")
 	public ABlock(BLogicBlock blocklogic) {
 		super(LogicToProperties$.MODULE$.toProperties(blocklogic));
 		logic = blocklogic;
-		if(logic.materia().transparent()) layer = BlockRenderLayer.TRANSLUCENT;
-		else if(!logic.areSurfacesFull()) layer = BlockRenderLayer.CUTOUT_MIPPED;
-		else layer = BlockRenderLayer.SOLID;
-
 		shapes = logic.shape();
-		lootTable = new ResourceLocation(IaS3.MODID,"blocks/"+logic.name());
-
 		//State container init happens too early for IaS3. We need to make our own.
 		final StateContainer.Builder<net.minecraft.block.Block, BlockState> builder =
 			new StateContainer.Builder<>(this);
@@ -112,15 +104,16 @@ implements IABlock, IShearable {
 		//No-op. DON'T PUT STUFF HERE!
 	}
 
+	@Nonnull
 	@Override
-	public boolean onBlockActivated(
-		BlockState state, World worldIn, BlockPos pos,
-		PlayerEntity player, Hand handIn, BlockRayTraceResult rt
+	public ActionResultType func_225533_a_(
+			BlockState state, World worldIn, BlockPos pos,
+			PlayerEntity player, Hand handIn, BlockRayTraceResult rt
 	) {
 		return logic.onUsed(
 			new WBlockRef(worldIn, pos, state),
 			new WItemStackOwned<>(player.getHeldItem(handIn), CNVEntity.wrap(player))
-		);
+		).remap(ActionResultType.SUCCESS, ActionResultType.PASS, ActionResultType.FAIL);
 	}
 
 	@Nullable
@@ -135,10 +128,9 @@ implements IABlock, IShearable {
 		return ABlockUtils.getDrops(logic, state, cb);
 	}
 
-	@Nonnull
 	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return layer;
+	public OffsetType getOffsetType() {
+		return super.getOffsetType();
 	}
 
 	@Override
@@ -246,9 +238,9 @@ implements IABlock, IShearable {
 	}
 
 	@Override
-	public void randomTick(
+	public void func_225542_b_(
 			@Nonnull BlockState state,
-			@Nonnull World worldIn,
+			@Nonnull ServerWorld worldIn,
 			@Nonnull BlockPos pos,
 			@Nonnull Random random
 	) {
@@ -267,7 +259,7 @@ implements IABlock, IShearable {
 	}
 
 	@Override
-	public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+	public void func_225534_a_(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		logic.onUpdateTick(new WBlockRef(worldIn,pos, state), random);
 	}
 

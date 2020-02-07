@@ -1,3 +1,5 @@
+_The dust is still settling from the 1.14 -> 1.15 migration. Things are more likely to be broken than usual._
+
 _Here be Navistra-scaled dragons.
 This mod is heavily WIP and should be considered entirely unfit for purpose until version 0.1.0.0,
 and incomplete until version 1.0.0.0_
@@ -7,7 +9,7 @@ every 0.0.x version should be considered backward-incompatible,
 and every 0.0.0.x version forwards-incompatible._
 
 # Ice and Shadow III
-__A brutal post-endgame dimension mod for Minecraft 1.14.4 + Forge__
+__A brutal post-endgame dimension mod for Minecraft 1.15.2 + Forge__
 
 [![Gitter Link](https://badges.gitter.im/IceAndShadow3/community.svg)](https://gitter.im/IceAndShadow3/community)
 
